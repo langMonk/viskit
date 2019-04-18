@@ -3,3 +3,8 @@
 ################################################################################
 
 /.vs/ivhd/v16
+/ivhd/.vs/ivhd/v16
+/ivhd/libivhd/Intermediate
+/ivhd/output/x64/Release
+/ivhd/QtEditor/Intermediate/x64/Release
+/ivhd/QtEditor/GeneratedFiles
