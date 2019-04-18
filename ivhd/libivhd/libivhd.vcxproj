@@ -19,10 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\framework.h" />
+    <ClInclude Include="include\core\Core.h" />
+    <ClInclude Include="include\core\Logger.h" />
+    <ClInclude Include="include\core\ParticleSystem.h" />
+    <ClInclude Include="include\facade\FacadeCaster.h" />
+    <ClInclude Include="include\facade\FacadeCasterMds.h" />
+    <ClInclude Include="include\facade\FacadeInteractiveVizualization.h" />
+    <ClInclude Include="include\ivhd\ICaster.h" />
+    <ClInclude Include="include\ivhd\ICasterDpd.h" />
+    <ClInclude Include="include\ivhd\IInteractiveVizualization.h" />
+    <ClInclude Include="include\ivhd\ISetting.h" />
+    <ClInclude Include="include\ivhd\ITransformer.h" />
+    <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h" />
+    <ClInclude Include="include\ivhd\SettingType.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\libivhd.cpp" />
+    <ClCompile Include="source\core\Core.cpp" />
+    <ClCompile Include="source\core\Logger.cpp" />
+    <ClCompile Include="source\core\ParticleSystem.cpp" />
+    <ClCompile Include="source\facade\FacadeCaster.cpp" />
+    <ClCompile Include="source\facade\FacadeCasterMds.cpp" />
+    <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp" />
+    <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -83,6 +101,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -120,6 +139,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,6 +178,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
