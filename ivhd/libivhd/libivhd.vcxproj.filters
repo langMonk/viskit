@@ -13,15 +13,105 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{d1147b69-bdf2-4424-a2f2-04cc97dee84a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{f1d34cf1-e3c9-419c-a8e2-caf0e046e3c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cast">
+      <UniqueIdentifier>{55abea08-08ed-476a-b54d-13732141cd10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\reduce">
+      <UniqueIdentifier>{4276be6d-f508-40dc-8578-0c934d0b65a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cast">
+      <UniqueIdentifier>{b99bf17b-517d-4954-b78a-e0daffa019ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cluster">
+      <UniqueIdentifier>{a4f17771-1312-4380-a4a5-d5f6e24e03a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\reduce">
+      <UniqueIdentifier>{25dc239a-eb5f-403d-b155-8ee810ff3e7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ivhd">
+      <UniqueIdentifier>{de2a87c4-afb1-4ab6-bc27-8e5dd3566b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\facade">
+      <UniqueIdentifier>{8302e218-19af-4c98-aed4-5b9acdd98dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\facade">
+      <UniqueIdentifier>{9f7461c8-acf1-4945-94fc-8a23f12599b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cluster">
+      <UniqueIdentifier>{8708c839-2fe1-4836-bf33-a2cd76567a2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ivhd">
+      <UniqueIdentifier>{f683165e-d67b-4c8b-883a-896cbc868244}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\framework.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\ivhd\ITransformer.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\ISetting.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\SettingType.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\ICaster.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\ICasterDpd.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCaster.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterMds.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Logger.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Core.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\ParticleSystem.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IInteractiveVizualization.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeInteractiveVizualization.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h">
+      <Filter>Header Files\ivhd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\libivhd.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="source\facade\FacadeCasterMds.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCaster.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\Logger.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\Core.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\ParticleSystem.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp">
+      <Filter>Source Files\ivhd</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
