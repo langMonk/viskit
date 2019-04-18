@@ -19,7 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\cast\Caster.h" />
+    <ClInclude Include="include\cast\CasterMds.h" />
     <ClInclude Include="include\core\Core.h" />
+    <ClInclude Include="include\core\Structures.h" />
     <ClInclude Include="include\core\Logger.h" />
     <ClInclude Include="include\core\ParticleSystem.h" />
     <ClInclude Include="include\facade\FacadeCaster.h" />
@@ -32,8 +35,11 @@
     <ClInclude Include="include\ivhd\ITransformer.h" />
     <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h" />
     <ClInclude Include="include\ivhd\SettingType.h" />
+    <ClInclude Include="include\math\GlmAdapter.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\cast\Caster.cpp" />
+    <ClCompile Include="source\cast\CasterMds.cpp" />
     <ClCompile Include="source\core\Core.cpp" />
     <ClCompile Include="source\core\Logger.cpp" />
     <ClCompile Include="source\core\ParticleSystem.cpp" />
@@ -101,7 +107,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)libraries\glm;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -111,7 +117,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)libraries\glm;$(ProjectDir)include;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
