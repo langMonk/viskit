@@ -49,6 +49,9 @@
     <Filter Include="Source Files\ivhd">
       <UniqueIdentifier>{f683165e-d67b-4c8b-883a-896cbc868244}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{c6a7f6c5-0042-474e-9898-f64eeb2bd614}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ivhd\ITransformer.h">
@@ -90,6 +93,18 @@
     <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h">
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
+    <ClInclude Include="include\cast\CasterMds.h">
+      <Filter>Header Files\cast</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cast\Caster.h">
+      <Filter>Header Files\cast</Filter>
+    </ClInclude>
+    <ClInclude Include="include\math\GlmAdapter.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Structures.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\facade\FacadeCasterMds.cpp">
@@ -112,6 +127,12 @@
     </ClCompile>
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp">
       <Filter>Source Files\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cast\CasterMds.cpp">
+      <Filter>Source Files\cast</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cast\Caster.cpp">
+      <Filter>Source Files\cast</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
