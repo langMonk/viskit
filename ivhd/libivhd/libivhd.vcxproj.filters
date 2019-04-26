@@ -102,8 +102,20 @@
     <ClInclude Include="include\math\GlmAdapter.h">
       <Filter>Header Files\math</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\Structures.h">
-      <Filter>Header Files\core</Filter>
+    <ClInclude Include="include\ivhd\Structures.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\LogLevel.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IParser.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeKnnGraph.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IKnnGraph.h">
+      <Filter>Header Files\ivhd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="source\cast\Caster.cpp">
       <Filter>Source Files\cast</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeKnnGraph.cpp">
+      <Filter>Source Files\facade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
