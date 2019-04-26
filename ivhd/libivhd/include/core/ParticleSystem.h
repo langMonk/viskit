@@ -5,6 +5,9 @@
 
 #pragma once
 
+#include <memory>
+#include "ivhd/IDistanceMatrix.h"
+
 namespace ivhd::core
 {
 	class ParticleSystem
@@ -12,6 +15,10 @@ namespace ivhd::core
 		// public construction and destruction methods
 	public:
 		ParticleSystem();
+
+	private:
+		std::shared_ptr<IDistanceMatrix> m_distanceMatrix;
+
 
 	};
 }
