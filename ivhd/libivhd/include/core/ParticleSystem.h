@@ -6,7 +6,7 @@
 #pragma once
 
 #include <memory>
-#include "ivhd/IDistanceMatrix.h"
+#include "ivhd/IKnnGraph.h"
 
 namespace ivhd::core
 {
@@ -17,7 +17,7 @@ namespace ivhd::core
 		ParticleSystem();
 
 	private:
-		std::shared_ptr<IDistanceMatrix> m_distanceMatrix;
+		std::shared_ptr<IKnnGraph> m_distanceMatrix;
 
 
 	};
