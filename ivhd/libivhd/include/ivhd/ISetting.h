@@ -16,7 +16,7 @@ namespace ivhd
 	/// </summary>
 	class ISetting 
 	{
-		// public sub-types
+		// public metods
 	public:
 		/// <summary>
 		/// Name associated with this setting

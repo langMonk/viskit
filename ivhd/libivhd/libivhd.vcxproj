@@ -22,19 +22,23 @@
     <ClInclude Include="include\cast\Caster.h" />
     <ClInclude Include="include\cast\CasterMds.h" />
     <ClInclude Include="include\core\Core.h" />
-    <ClInclude Include="include\core\Structures.h" />
     <ClInclude Include="include\core\Logger.h" />
     <ClInclude Include="include\core\ParticleSystem.h" />
     <ClInclude Include="include\facade\FacadeCaster.h" />
     <ClInclude Include="include\facade\FacadeCasterMds.h" />
     <ClInclude Include="include\facade\FacadeInteractiveVizualization.h" />
+    <ClInclude Include="include\facade\FacadeKnnGraph.h" />
     <ClInclude Include="include\ivhd\ICaster.h" />
     <ClInclude Include="include\ivhd\ICasterDpd.h" />
+    <ClInclude Include="include\ivhd\IKnnGraph.h" />
     <ClInclude Include="include\ivhd\IInteractiveVizualization.h" />
+    <ClInclude Include="include\ivhd\IParser.h" />
     <ClInclude Include="include\ivhd\ISetting.h" />
     <ClInclude Include="include\ivhd\ITransformer.h" />
     <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h" />
+    <ClInclude Include="include\ivhd\LogLevel.h" />
     <ClInclude Include="include\ivhd\SettingType.h" />
+    <ClInclude Include="include\ivhd\Structures.h" />
     <ClInclude Include="include\math\GlmAdapter.h" />
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +50,7 @@
     <ClCompile Include="source\facade\FacadeCaster.cpp" />
     <ClCompile Include="source\facade\FacadeCasterMds.cpp" />
     <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp" />
+    <ClCompile Include="source\facade\FacadeKnnGraph.cpp" />
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
