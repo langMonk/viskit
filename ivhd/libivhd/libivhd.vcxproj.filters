@@ -75,12 +75,6 @@
     <ClInclude Include="include\ivhd\ICasterDpd.h">
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
-    <ClInclude Include="include\facade\FacadeCaster.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facade\FacadeCasterMds.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
     <ClInclude Include="include\core\Logger.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
@@ -126,14 +120,20 @@
     <ClInclude Include="include\parse\ParserCSV.h">
       <Filter>Header Files\parse</Filter>
     </ClInclude>
+    <ClInclude Include="include\facade\FacadeResourceFactory.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IResourceFactory.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeParserCSV.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterMDS.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\facade\FacadeCasterMds.cpp">
-      <Filter>Source Files\facade</Filter>
-    </ClCompile>
-    <ClCompile Include="source\facade\FacadeCaster.cpp">
-      <Filter>Source Files\facade</Filter>
-    </ClCompile>
     <ClCompile Include="source\core\Logger.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
@@ -160,6 +160,15 @@
     </ClCompile>
     <ClCompile Include="source\parse\ParserCSV.cpp">
       <Filter>Source Files\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeResourceFactory.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeParserCSV.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterMDS.cpp">
+      <Filter>Source Files\facade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

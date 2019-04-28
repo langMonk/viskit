@@ -40,6 +40,16 @@ namespace ivhd
 		etReversed 
 	};
 
+	enum class ParserType
+	{
+		Csv
+	};
+
+	enum class CasterType
+	{
+		MDS
+	};
+
 	struct DistElem
 	{
 		DistElem() : i(0), j(0), r(0), type(DistElemType::etNear) {};

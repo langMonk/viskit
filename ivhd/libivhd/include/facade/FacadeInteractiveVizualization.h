@@ -7,7 +7,7 @@
 
 #include "core/Core.h"
 #include "ivhd/IInteractiveVizualization.h"
-#include <memory>
+#include "facade/FacadeResourceFactory.h"
 
 namespace ivhd::facade
 {
@@ -19,12 +19,14 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 		FacadeInteractiveVizualization();
-		~FacadeInteractiveVizualization() = default;
-
 
 		// public methods
 	public:
 		bool loadDataFile(std::string dataFilePath, IParser& parser) override;
+
+		void castData(ICaster& caster) override;
+
+		IResourceFactory& resourceFactory() override;
 
 		std::shared_ptr<core::Core> core()
 		{
@@ -39,5 +41,6 @@ namespace ivhd::facade
 		//private properties
 	private:
 		std::shared_ptr<core::Core> m_core;
+		facade::FacadeResourceFactory m_resourceFactory {*this};
 	};
 }
