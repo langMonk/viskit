@@ -6,26 +6,39 @@
 #pragma once
 
 #include "ivhd/ICaster.h"
+#include "core/ParticleSystem.h"
 
-namespace ivhd::cast
+namespace ivhd::facade
 {
-
+	/// <summary>
+	/// Implementation of ICaster interface.
+	/// </summary>
 	class FacadeCasterMDS : public ICaster
 	{
 		// public construction and destruction methods
 	public:
-		FacadeCasterMDS();
 
-		// ICaster implementation
+		explicit FacadeCasterMDS(core::ParticleSystem& system);
+		~FacadeCasterMDS() = default;
+
+		FacadeCasterMDS(const FacadeCasterMDS&) = delete;
+		FacadeCasterMDS(FacadeCasterMDS&&) = delete;
+
+		FacadeCasterMDS& operator=(const FacadeCasterMDS&) = delete;
+		FacadeCasterMDS& operator=(FacadeCasterMDS&&) = delete;
+
+		// public methods
 	public:
 		void cast() override;
+
 		void initialize() override;
+
 		void finalize() override;
+
 		void resetSettings() override;
-		void saveSettings(std::ostream& out) override;
+
 		void loadSettings(std::istream& in) override;
 
-	private:
-
+		void saveSettings(std::ostream& out) override;
 	};
 }

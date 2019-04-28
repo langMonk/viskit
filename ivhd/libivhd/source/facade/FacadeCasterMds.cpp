@@ -3,15 +3,15 @@
 /// \date 18.04.2019
 ///
 
-#include "facade/FacadeCasterMds.h"
+#include "facade/FacadeCasterMDS.h"
 
-namespace ivhd::cast
+namespace ivhd::facade
 { 
-	FacadeCasterMDS::FacadeCasterMDS()
+	FacadeCasterMDS::FacadeCasterMDS(core::ParticleSystem& system)
 	{
 	}
 
-	void FacadeCasterMDS::cast() 
+	void FacadeCasterMDS::cast()
 	{
 	}
 
@@ -27,11 +27,11 @@ namespace ivhd::cast
 	{
 	}
 
-	void FacadeCasterMDS::saveSettings(std::ostream& out)
+	void FacadeCasterMDS::loadSettings(std::istream& in)
 	{
 	}
 
-	void FacadeCasterMDS::loadSettings(std::istream& in)
+	void FacadeCasterMDS::saveSettings(std::ostream& out)
 	{
 	}
 }

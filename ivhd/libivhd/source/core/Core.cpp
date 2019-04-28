@@ -1,11 +1,10 @@
-#include "core/Core.h"
-
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
 /// \date 18.04.2019
 ///
 
 #include <filesystem>
+#include "core/Core.h"
 
 namespace ivhd::core
 {
