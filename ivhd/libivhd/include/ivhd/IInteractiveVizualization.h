@@ -15,10 +15,6 @@ namespace ivhd
 	/// </summary>
 	class IInteractiveVizualization
 	{
-		// public construction and destruction methods
-	public:
-		IInteractiveVizualization();
-
 		// public methods
 	public:
 		/// <summary>
