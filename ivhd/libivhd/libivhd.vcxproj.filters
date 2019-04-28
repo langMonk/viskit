@@ -52,6 +52,12 @@
     <Filter Include="Header Files\math">
       <UniqueIdentifier>{c6a7f6c5-0042-474e-9898-f64eeb2bd614}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\parse">
+      <UniqueIdentifier>{160bf278-97d0-47f6-9209-9f8b025840b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\parse">
+      <UniqueIdentifier>{a6f7411e-c466-4fd9-8dde-c565bc4114ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ivhd\ITransformer.h">
@@ -111,11 +117,14 @@
     <ClInclude Include="include\ivhd\IParser.h">
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
-    <ClInclude Include="include\facade\FacadeKnnGraph.h">
+    <ClInclude Include="include\facade\FacadeParticleSystem.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
-    <ClInclude Include="include\ivhd\IKnnGraph.h">
+    <ClInclude Include="include\ivhd\IParticleSystem.h">
       <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parse\ParserCSV.h">
+      <Filter>Header Files\parse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,8 +155,11 @@
     <ClCompile Include="source\cast\Caster.cpp">
       <Filter>Source Files\cast</Filter>
     </ClCompile>
-    <ClCompile Include="source\facade\FacadeKnnGraph.cpp">
+    <ClCompile Include="source\facade\FacadeParticleSystem.cpp">
       <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\parse\ParserCSV.cpp">
+      <Filter>Source Files\parse</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

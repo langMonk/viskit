@@ -8,7 +8,6 @@
 #include <iostream>
 #include <functional>
 
-#include "ParticleSystem.h"
 #include "ivhd/LogLevel.h"
 
 namespace ivhd::core
