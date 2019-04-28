@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -27,10 +27,10 @@
     <ClInclude Include="include\facade\FacadeCaster.h" />
     <ClInclude Include="include\facade\FacadeCasterMds.h" />
     <ClInclude Include="include\facade\FacadeInteractiveVizualization.h" />
-    <ClInclude Include="include\facade\FacadeKnnGraph.h" />
+    <ClInclude Include="include\facade\FacadeParticleSystem.h" />
     <ClInclude Include="include\ivhd\ICaster.h" />
     <ClInclude Include="include\ivhd\ICasterDpd.h" />
-    <ClInclude Include="include\ivhd\IKnnGraph.h" />
+    <ClInclude Include="include\ivhd\IParticleSystem.h" />
     <ClInclude Include="include\ivhd\IInteractiveVizualization.h" />
     <ClInclude Include="include\ivhd\IParser.h" />
     <ClInclude Include="include\ivhd\ISetting.h" />
@@ -40,6 +40,7 @@
     <ClInclude Include="include\ivhd\SettingType.h" />
     <ClInclude Include="include\ivhd\Structures.h" />
     <ClInclude Include="include\math\GlmAdapter.h" />
+    <ClInclude Include="include\parse\ParserCSV.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\cast\Caster.cpp" />
@@ -50,8 +51,9 @@
     <ClCompile Include="source\facade\FacadeCaster.cpp" />
     <ClCompile Include="source\facade\FacadeCasterMds.cpp" />
     <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp" />
-    <ClCompile Include="source\facade\FacadeKnnGraph.cpp" />
+    <ClCompile Include="source\facade\FacadeParticleSystem.cpp" />
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
+    <ClCompile Include="source\parse\ParserCSV.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
