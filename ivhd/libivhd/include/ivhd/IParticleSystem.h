@@ -9,25 +9,14 @@
 
 namespace ivhd
 {
-	class IKnnGraph
+	class IParticleSystem
 	{
 	public:
 		/// <summary>
 		/// Creates distance matrix.
 		/// </summary>
 		/// <returns> 1 if matrix was generated properly </returns>
-		virtual bool create() = 0;
-
-		/// <summary>
-		/// Creates distance matrix from cache.
-		/// </summary>
-		/// <returns>  
-		///		0 - ok, matrix read and ready to use
-		///		1 - cache must be generated
-		///		2 - cache cant be used, but regeneration won't help
-		///		3 - user break
-		///</returns>
-		virtual int createFromCache() = 0;
+		virtual bool loadFromFile() = 0;
 
 		/// <summary>
 		/// Resets all parameters involved in matrix generation
