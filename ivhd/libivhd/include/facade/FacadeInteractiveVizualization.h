@@ -14,17 +14,19 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 		FacadeInteractiveVizualization();
-		~FacadeInteractiveVizualization();
+		~FacadeInteractiveVizualization() = default;
 
 
 		// public methods
 	public:
+		bool loadDataFile(std::string dataFilePath, IParser& parser) override;
+
 		std::shared_ptr<core::Core> core()
 		{
 			return m_core;
 		}
 
-		core::ParticleSystem& system()
+		core::ParticleSystem& particleSystem()
 		{
 			return m_core->particleSystem();
 		}

@@ -5,6 +5,9 @@
 
 #pragma once
 
+#include "ivhd/IParticleSystem.h"
+#include "ivhd/IParser.h"
+
 namespace ivhd
 {
 	/// <summary>
@@ -12,8 +15,16 @@ namespace ivhd
 	/// </summary>
 	class IInteractiveVizualization
 	{
+		// public construction and destruction methods
 	public:
 		IInteractiveVizualization();
+
+		// public methods
+	public:
+		/// <summary>
+		/// Load data from specified file into ivhd particle system.
+		/// </summary>
+		virtual bool loadDataFile(std::string dataFilePath, IParser& parser) = 0;
 
 		// protected construction and destruction methods
 	protected:
