@@ -5,11 +5,12 @@
 
 #pragma once
 
-#include "ivhd/IParticleSystem.h"
-#include "ivhd/IParser.h"
-
 namespace ivhd
 {
+	class IResourceFactory;
+	class ICaster;
+	class IParser;
+
 	/// <summary>
 	/// The main interface for controlling IVHD.
 	/// </summary>
@@ -21,6 +22,21 @@ namespace ivhd
 		/// Load data from specified file into ivhd particle system.
 		/// </summary>
 		virtual bool loadDataFile(std::string dataFilePath, IParser& parser) = 0;
+
+		/// <summary>
+		/// Cast data between two spaces. 
+		/// </summary>
+		virtual void castData(ICaster& caster) = 0;
+
+		/// <summary>
+		/// Reduce data dimensionality. 
+		/// </summary>
+		//virtual void reduceData(IReducer& caster) = 0;
+
+		/// <summary>
+		/// Obtains resource factory, that enables creation of IVHD objects.
+		/// </summary>
+		virtual IResourceFactory& resourceFactory() = 0;
 
 		// protected construction and destruction methods
 	protected:
