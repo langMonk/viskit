@@ -11,3 +11,6 @@
 /ivhd/libivhd_unit_tests/x64/Release
 /ivhd/packages/Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1
 /ivhd/x64/Release
+/ivhd/output/x64/Debug
+/ivhd/x64/Debug
+/ivhd/QtEditor/Intermediate/x64/Debug

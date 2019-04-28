@@ -20,7 +20,7 @@ namespace ivhd::core
 	bool Core::load(std::string dataFilePath, IParser& parser)
 	{
 		parser.loadFile(dataFilePath);
-
+		return true;
 	}
 
 	void Core::clusterParticles()

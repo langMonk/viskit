@@ -19,10 +19,10 @@ namespace ivhd::core
 		if(m_parser != nullptr)
 		{ 
 			m_parser->loadFile(dataFilePath);
+			return true;
 		}
-		else
-		{
-			m_logger.logError("Cannot load file, when no parser is attached to system.");
-		}
+		
+		m_logger.logError("Cannot load file, when no parser is attached to system.");
+		return false;
 	}
 }

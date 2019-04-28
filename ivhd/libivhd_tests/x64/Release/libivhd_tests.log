@@ -1,0 +1,5 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(411,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (libivhd_unit_tests.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  libivhd.lib(Logger.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+  Generating code
+  Finished generating code
+  libivhd_tests.vcxproj -> D:\Repositories\ivhd\ivhd\x64\Release\libivhd_tests.exe
