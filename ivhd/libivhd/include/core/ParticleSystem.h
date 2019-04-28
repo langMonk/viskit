@@ -6,19 +6,42 @@
 #pragma once
 
 #include <memory>
-#include "ivhd/IKnnGraph.h"
+#include <vector>
+#include <map>
+
+#include "ivhd/IParser.h"
+#include "core/Logger.h"
+#include "ivhd/Structures.h"
 
 namespace ivhd::core
 {
+	// public sub-types
+	using OriginalDataContainer = std::vector<Particle>;
+	using ReducedDataContainer = std::vector<DistElem>;
+
 	class ParticleSystem
 	{
 		// public construction and destruction methods
 	public:
-		ParticleSystem();
+		ParticleSystem(Logger& logger);
 
+		// public methods
+	public:
+		bool loadDataFile(std::string dataFilePath);
+
+		void setParser(std::shared_ptr<IParser> parser) { m_parser = parser; };
+
+		std::shared_ptr<IParser> parser() { return m_parser; };
+
+		Logger& logger() { return m_logger; }
+
+		// private members
 	private:
-		std::shared_ptr<IKnnGraph> m_distanceMatrix;
 
+		std::shared_ptr<IParser> m_parser;
+		Logger& m_logger;
 
+		OriginalDataContainer m_originalData;
+		ReducedDataContainer m_data;
 	};
 }

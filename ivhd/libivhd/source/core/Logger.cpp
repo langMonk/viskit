@@ -1,8 +1,9 @@
-#include "core\Logger.h"
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
 /// \date 18.04.2019
 ///
+
+#include "core\Logger.h"
 
 namespace ivhd::core
 {

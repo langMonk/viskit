@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "Structures.h"
+
 namespace ivhd
 {
 	class IParser
@@ -12,19 +14,9 @@ namespace ivhd
 		// public methods
 	public:
 		/// <summary>
-		/// Called, when parser is being created.
-		/// </summary>
-		virtual void initialize() = 0;
-
-		/// <summary>
 		/// Load specified file into kNN structure
 		/// </summary>
 		virtual void loadFile(std::string filePath) = 0;
-
-		/// <summary>
-		/// Called, when parser is finishing the load method.
-		/// </summary>
-		virtual void finalize() = 0;
 
 	};
 }

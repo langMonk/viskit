@@ -10,8 +10,8 @@
 namespace ivhd::core
 {
 	Core::Core(OnLogAdded handler)
-		: m_system()
-		, m_logger(handler)
+		: m_logger(handler)
+		, m_system(ParticleSystem(m_logger))
 	{
 
 

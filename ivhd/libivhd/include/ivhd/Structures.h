@@ -11,15 +11,14 @@ namespace ivhd
 { 
 	struct Connection
 	{
-		long pi, pj;
+		size_t pi, pj;
 	};
 
 
 	struct Particle
 	{
-		std::string name;
+		size_t parent_id;
 
-		long parent_id;
 		float size;
 		bool frozen;
 		bool removed;
