@@ -30,9 +30,11 @@
     <ClInclude Include="include\facade\FacadeParticleSystem.h" />
     <ClInclude Include="include\facade\FacadeResourceFactory.h" />
     <ClInclude Include="include\ivhd\ICaster.h" />
+    <ClInclude Include="include\ivhd\IClusterer.h" />
     <ClInclude Include="include\ivhd\IParticleSystem.h" />
     <ClInclude Include="include\ivhd\IInteractiveVizualization.h" />
     <ClInclude Include="include\ivhd\IParser.h" />
+    <ClInclude Include="include\ivhd\IReducer.h" />
     <ClInclude Include="include\ivhd\IResourceFactory.h" />
     <ClInclude Include="include\ivhd\ISetting.h" />
     <ClInclude Include="include\ivhd\ITransformer.h" />
