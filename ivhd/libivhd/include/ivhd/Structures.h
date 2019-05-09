@@ -47,7 +47,7 @@ namespace ivhd
 
 	enum class CasterType
 	{
-		MDS
+		Mds
 	};
 
 	struct DistElem

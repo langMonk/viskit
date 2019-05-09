@@ -1,6 +1,11 @@
+///
+/// \author Bartosz Minch <minch@agh.edu.pl>
+/// \date 30.04.2019
+///
+
 #pragma once
 
-#include <glm/glm.hpp>
+#include <glm/glm/glm.hpp>
 #include <iostream>
 #include <string>
 

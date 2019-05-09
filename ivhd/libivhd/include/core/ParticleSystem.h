@@ -23,7 +23,7 @@ namespace ivhd::core
 	{
 		// public construction and destruction methods
 	public:
-		ParticleSystem(Logger& logger);
+		ParticleSystem(OnLogAdded handler);
 
 		// public methods
 	public:
@@ -33,13 +33,13 @@ namespace ivhd::core
 
 		std::shared_ptr<IParser> parser() { return m_parser; };
 
+		const Logger& logger() const { return m_logger; }
 		Logger& logger() { return m_logger; }
 
 		// private members
 	private:
-
+		Logger m_logger;
 		std::shared_ptr<IParser> m_parser;
-		Logger& m_logger;
 
 		OriginalDataContainer m_originalData;
 		ReducedDataContainer m_data;

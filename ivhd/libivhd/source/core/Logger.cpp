@@ -8,39 +8,39 @@
 namespace ivhd::core
 {
 	Logger::Logger(OnLogAdded handler)
-		: m_handler(handler)
+		: m_onLogAddedHandler(handler)
 	{
 	}
 
 	void Logger::logInfo(std::string message)
 	{
-		if (m_handler)
+		if (m_onLogAddedHandler)
 		{
-			m_handler(LogLevel::Info, message);
+			m_onLogAddedHandler(LogLevel::Info, message);
 		}
 	}
 
 	void Logger::logWarning(std::string message)
 	{
-		if (m_handler)
+		if (m_onLogAddedHandler)
 		{
-			m_handler(LogLevel::Warning, message);
+			m_onLogAddedHandler(LogLevel::Warning, message);
 		}
 	}
 
 	void Logger::logError(std::string message)
 	{
-		if (m_handler)
+		if (m_onLogAddedHandler)
 		{
-			m_handler(LogLevel::Error, message);
+			m_onLogAddedHandler(LogLevel::Error, message);
 		}
 	}
 
 	void Logger::logDebug(std::string message)
 	{
-		if (m_handler)
+		if (m_onLogAddedHandler)
 		{
-			m_handler(LogLevel::Debug, message);
+			m_onLogAddedHandler(LogLevel::Debug, message);
 		}
 	}
 }

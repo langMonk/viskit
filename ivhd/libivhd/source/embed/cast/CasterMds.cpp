@@ -3,9 +3,9 @@
 /// \date 18.04.2019
 ///
 
-#include "cast/CasterMds.h"
+#include "embed/cast/CasterMds.h"
 
-namespace ivhd::cast
+namespace ivhd::embed::cast
 {
 	CasterMds::CasterMds()
 	{

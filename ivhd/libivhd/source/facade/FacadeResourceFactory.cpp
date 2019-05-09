@@ -15,13 +15,27 @@ namespace ivhd::facade
 	{
 	}
 
-	std::shared_ptr<IParser> FacadeResourceFactory::createParser(ParserType& type)
+	std::shared_ptr<IParser> FacadeResourceFactory::createParser(ParserType type)
 	{
-		return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.particleSystem());
+		if (type == ParserType::Csv)
+		{
+			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.particleSystem());
+		}
+		else
+		{
+			return nullptr;
+		}
 	}
 
 	std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(CasterType& type)
 	{
-		return std::make_shared<facade::FacadeCasterMDS>(m_ext_ivhd.particleSystem());
+		if (type == CasterType::Mds)
+		{
+			return std::make_shared<facade::FacadeCasterMDS>(m_ext_ivhd.particleSystem());
+		}
+		else
+		{
+			return nullptr;
+		}
 	}
 }

@@ -23,7 +23,7 @@ namespace ivhd::facade
 		// public methods
 	public:
 
-		std::shared_ptr<IParser> createParser(ParserType& type) override;
+		std::shared_ptr<IParser> createParser(ParserType type) override;
 
 		std::shared_ptr<ICaster> createCaster(CasterType& type) override;
 

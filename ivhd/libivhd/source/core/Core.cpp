@@ -3,14 +3,12 @@
 /// \date 18.04.2019
 ///
 
-#include <filesystem>
 #include "core/Core.h"
 
 namespace ivhd::core
 {
 	Core::Core(OnLogAdded handler)
-		: m_logger(handler)
-		, m_system(ParticleSystem(m_logger))
+		: m_particleSystem(ParticleSystem(handler))
 	{
 
 
@@ -22,28 +20,4 @@ namespace ivhd::core
 		return true;
 	}
 
-	void Core::clusterParticles()
-	{
-
-	}
-
-	void Core::reduceParticles()
-	{
-
-	}
-
-	void Core::castParticles()
-	{
-
-	}
-
-	void Core::freezeParticle(Particle particle)
-	{
-
-	}
-
-	void Core::defrostParticle(Particle particle)
-	{
-
-	}
 }

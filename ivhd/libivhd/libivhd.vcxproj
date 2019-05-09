@@ -19,18 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\cast\Caster.h" />
-    <ClInclude Include="include\cast\CasterMds.h" />
     <ClInclude Include="include\core\Core.h" />
     <ClInclude Include="include\core\Logger.h" />
     <ClInclude Include="include\core\ParticleSystem.h" />
+    <ClInclude Include="include\embed\cast\Caster.h" />
+    <ClInclude Include="include\embed\cast\CasterMds.h" />
     <ClInclude Include="include\facade\FacadeCasterMDS.h" />
     <ClInclude Include="include\facade\FacadeParserCSV.h" />
     <ClInclude Include="include\facade\FacadeInteractiveVizualization.h" />
     <ClInclude Include="include\facade\FacadeParticleSystem.h" />
     <ClInclude Include="include\facade\FacadeResourceFactory.h" />
     <ClInclude Include="include\ivhd\ICaster.h" />
-    <ClInclude Include="include\ivhd\ICasterDpd.h" />
     <ClInclude Include="include\ivhd\IParticleSystem.h" />
     <ClInclude Include="include\ivhd\IInteractiveVizualization.h" />
     <ClInclude Include="include\ivhd\IParser.h" />
@@ -45,11 +44,11 @@
     <ClInclude Include="include\parse\ParserCSV.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\cast\Caster.cpp" />
-    <ClCompile Include="source\cast\CasterMds.cpp" />
     <ClCompile Include="source\core\Core.cpp" />
     <ClCompile Include="source\core\Logger.cpp" />
     <ClCompile Include="source\core\ParticleSystem.cpp" />
+    <ClCompile Include="source\embed\cast\Caster.cpp" />
+    <ClCompile Include="source\embed\cast\CasterMds.cpp" />
     <ClCompile Include="source\facade\FacadeCasterMDS.cpp" />
     <ClCompile Include="source\facade\FacadeParserCSV.cpp" />
     <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp" />
@@ -112,22 +111,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)libraries\glm;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)libraries\glm;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>

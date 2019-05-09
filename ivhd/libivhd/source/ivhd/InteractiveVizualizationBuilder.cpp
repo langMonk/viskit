@@ -12,11 +12,12 @@ namespace ivhd
 	{
 		try
 		{
-			return std::make_shared<facade::FacadeInteractiveVizualization>();
+			return std::make_shared<facade::FacadeInteractiveVizualization>(logHandler);
 		}
 		catch(std::exception& e)
 		{
 			logHandler(LogLevel::Error, e.what());
+			return nullptr;
 		}
 	}
 }

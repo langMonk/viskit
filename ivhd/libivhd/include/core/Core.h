@@ -7,8 +7,6 @@
 
 #include "ParticleSystem.h"
 #include "Logger.h"
-#include "ivhd/Structures.h"
-#include "ivhd/IParser.h"
 
 namespace ivhd::core
 {
@@ -23,23 +21,12 @@ namespace ivhd::core
 
 		bool load(std::string dataFilePath, IParser& parser);
 
-		void clusterParticles();
+		Logger& logger() { return m_particleSystem.logger(); }
 
-		void reduceParticles();
-
-		void castParticles();
-
-		void freezeParticle(Particle particle);
-
-		void defrostParticle(Particle particle);
-
-		const Logger& logger() const { return m_logger; }
-		Logger& logger() { return m_logger; }
-
-		ParticleSystem& particleSystem() { return m_system; }
+		ParticleSystem& particleSystem() { return m_particleSystem; }
 
 	private:
-		ParticleSystem m_system;
-		Logger m_logger;
+		ParticleSystem m_particleSystem;
+		
 	};
 }
