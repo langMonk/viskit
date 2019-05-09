@@ -7,6 +7,7 @@
 
 #include "core/Core.h"
 #include "ivhd/IInteractiveVizualization.h"
+#include "ivhd/InteractiveVizualizationBuilder.h"
 #include "facade/FacadeResourceFactory.h"
 
 namespace ivhd::facade
@@ -18,11 +19,11 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		FacadeInteractiveVizualization();
+		FacadeInteractiveVizualization(LogHandler logHandler);
 
 		// public methods
 	public:
-		bool loadDataFile(std::string dataFilePath, IParser& parser) override;
+		void loadDataFile(std::string dataFilePath, IParser& parser) override;
 
 		void castData(ICaster& caster) override;
 

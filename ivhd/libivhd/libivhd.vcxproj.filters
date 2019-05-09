@@ -19,21 +19,6 @@
     <Filter Include="Source Files\core">
       <UniqueIdentifier>{f1d34cf1-e3c9-419c-a8e2-caf0e046e3c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\cast">
-      <UniqueIdentifier>{55abea08-08ed-476a-b54d-13732141cd10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\reduce">
-      <UniqueIdentifier>{4276be6d-f508-40dc-8578-0c934d0b65a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\cast">
-      <UniqueIdentifier>{b99bf17b-517d-4954-b78a-e0daffa019ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\cluster">
-      <UniqueIdentifier>{a4f17771-1312-4380-a4a5-d5f6e24e03a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\reduce">
-      <UniqueIdentifier>{25dc239a-eb5f-403d-b155-8ee810ff3e7a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\ivhd">
       <UniqueIdentifier>{de2a87c4-afb1-4ab6-bc27-8e5dd3566b9a}</UniqueIdentifier>
     </Filter>
@@ -42,9 +27,6 @@
     </Filter>
     <Filter Include="Source Files\facade">
       <UniqueIdentifier>{9f7461c8-acf1-4945-94fc-8a23f12599b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\cluster">
-      <UniqueIdentifier>{8708c839-2fe1-4836-bf33-a2cd76567a2a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\ivhd">
       <UniqueIdentifier>{f683165e-d67b-4c8b-883a-896cbc868244}</UniqueIdentifier>
@@ -58,6 +40,30 @@
     <Filter Include="Header Files\parse">
       <UniqueIdentifier>{a6f7411e-c466-4fd9-8dde-c565bc4114ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\embed">
+      <UniqueIdentifier>{648b1383-2530-4496-add2-28ad65d84bfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\embed\reduce">
+      <UniqueIdentifier>{25dc239a-eb5f-403d-b155-8ee810ff3e7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\embed\cluster">
+      <UniqueIdentifier>{a4f17771-1312-4380-a4a5-d5f6e24e03a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\embed\cast">
+      <UniqueIdentifier>{b99bf17b-517d-4954-b78a-e0daffa019ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\embed">
+      <UniqueIdentifier>{bbc0d0e0-6d00-4501-9e35-3d5f41dbe821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\embed\reduce">
+      <UniqueIdentifier>{4276be6d-f508-40dc-8578-0c934d0b65a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\embed\cluster">
+      <UniqueIdentifier>{8708c839-2fe1-4836-bf33-a2cd76567a2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\embed\cast">
+      <UniqueIdentifier>{55abea08-08ed-476a-b54d-13732141cd10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ivhd\ITransformer.h">
@@ -70,9 +76,6 @@
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
     <ClInclude Include="include\ivhd\ICaster.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\ICasterDpd.h">
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
     <ClInclude Include="include\core\Logger.h">
@@ -92,12 +95,6 @@
     </ClInclude>
     <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h">
       <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\cast\CasterMds.h">
-      <Filter>Header Files\cast</Filter>
-    </ClInclude>
-    <ClInclude Include="include\cast\Caster.h">
-      <Filter>Header Files\cast</Filter>
     </ClInclude>
     <ClInclude Include="include\math\GlmAdapter.h">
       <Filter>Header Files\math</Filter>
@@ -132,6 +129,12 @@
     <ClInclude Include="include\facade\FacadeCasterMDS.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
+    <ClInclude Include="include\embed\cast\Caster.h">
+      <Filter>Header Files\embed\cast</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\CasterMds.h">
+      <Filter>Header Files\embed\cast</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
@@ -149,12 +152,6 @@
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp">
       <Filter>Source Files\ivhd</Filter>
     </ClCompile>
-    <ClCompile Include="source\cast\CasterMds.cpp">
-      <Filter>Source Files\cast</Filter>
-    </ClCompile>
-    <ClCompile Include="source\cast\Caster.cpp">
-      <Filter>Source Files\cast</Filter>
-    </ClCompile>
     <ClCompile Include="source\facade\FacadeParticleSystem.cpp">
       <Filter>Source Files\facade</Filter>
     </ClCompile>
@@ -169,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="source\facade\FacadeCasterMDS.cpp">
       <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\Caster.cpp">
+      <Filter>Source Files\embed\cast</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\CasterMds.cpp">
+      <Filter>Source Files\embed\cast</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

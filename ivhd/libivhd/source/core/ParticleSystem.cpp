@@ -7,8 +7,8 @@
 
 namespace ivhd::core
 {
-	ParticleSystem::ParticleSystem(Logger& logger)
-		: m_logger(logger)
+	ParticleSystem::ParticleSystem(OnLogAdded handler)
+		: m_logger(handler)
 		, m_parser(nullptr)
 	{
 		

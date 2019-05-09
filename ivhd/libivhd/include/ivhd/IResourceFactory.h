@@ -20,7 +20,7 @@ namespace ivhd
 		/// Creates a new parser used for loading data into ivhd
 		/// </summary>
 		/// <returns>The created parser.</returns>
-		virtual std::shared_ptr<IParser> createParser(ParserType& type) = 0;
+		virtual std::shared_ptr<IParser> createParser(ParserType type) = 0;
 
 		/// <summary>
 		/// Creates a new caster, that might be used for data embedding.

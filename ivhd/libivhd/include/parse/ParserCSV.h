@@ -9,19 +9,20 @@
 #include <vector>
 #include <fstream>
 
-#include "core/ParticleSystem.h"
-#include "core/Logger.h"
-
+#include "core/Core.h"
 #include "ivhd/IParser.h"
 
 namespace ivhd::parse
 {
 	class ParserCSV : public ivhd::IParser
 	{
+		// public sub-types
+		using CoordinatesContainer = std::vector<std::vector<std::string>>;
+
 		// public construction and destruction methods
 	public:
 
-		ParserCSV(core::ParticleSystem& system, core::Logger& logger);
+		ParserCSV(core::ParticleSystem& system);
 
 		// public methods
 	public:
@@ -37,12 +38,11 @@ namespace ivhd::parse
 
 		// private members
 	private:
-		core::ParticleSystem& m_system;
-
-		core::Logger& m_logger;
 
 		std::ifstream m_input;
+		CoordinatesContainer m_coordinates;
 
-		int m_coordsToRead;
+		core::ParticleSystem& m_ext_system;
+
 	};
 }

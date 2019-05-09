@@ -1,10 +1,16 @@
-#include "parse\ParserCSV.h"
+///
+/// \author Bartosz Minch <minch@agh.edu.pl>
+/// \date 30.04.2019
+///
+
+#include <boost/algorithm/string.hpp>
+
+#include "parse/ParserCSV.h"
 
 namespace ivhd::parse
 { 
-	ParserCSV::ParserCSV(core::ParticleSystem& system, core::Logger& logger)
-		: m_system(system)
-		, m_logger(logger)
+	ParserCSV::ParserCSV(core::ParticleSystem& system)
+		: m_ext_system(system)
 	{
 
 	}
@@ -15,12 +21,16 @@ namespace ivhd::parse
 
 		if (!m_input.good())
 		{
-			m_system.logger().logError("Problems while opening the file : " + filePath);
+			m_ext_system.logger().logError("Problems while opening the file : " + filePath);
 		}
 
-		std::string str;
-		std::getline(m_input, str, ',');
+		std::string line = "";
+		std::getline(m_input, line);
+		
+		std::vector<std::string> vec;
+		boost::algorithm::split(vec, line, boost::is_any_of(","));
 
+		m_ext_system.logger().logInfo("Loading data from file: " + filePath + ". Data dimensionality: " + std::to_string(vec.size() - 1));
 		m_input.close();
 	}
 
@@ -31,10 +41,26 @@ namespace ivhd::parse
 		auto input = std::ifstream(filePath.c_str());
 
 		size_t idx = 0;
-		std::string str;
-		while (std::getline(m_input, str, ','))
+		std::string line = "";
+
+		// Iterate through each line and split the content using delimeter
+		while (std::getline(input, line))
 		{
-			std::cout << str << std::endl;
+			std::vector<std::string> vec;
+			boost::algorithm::split(vec, line, boost::is_any_of(","));
+			m_coordinates.push_back(vec);
+		}
+
+
+		std::ofstream myfile;
+		myfile.open("coords.txt");
+		for (auto vec : m_coordinates)
+		{
+			for (std::string data : vec)
+			{
+				myfile << data << " , ";
+			}
+			myfile << std::endl;
 		}
 
 		finalize(input);
@@ -43,9 +69,9 @@ namespace ivhd::parse
 	void ParserCSV::finalize(std::ifstream& input)
 	{
 		input.close();
-		if (input.good())
+		/*if (!input.good())
 		{
-			m_system.logger().logError("Cannot close the File");
-		}
+			m_logger.logError("Cannot close the File");
+		}*/
 	}
 }
