@@ -21,7 +21,8 @@ namespace ivhd::core
 	{
 		// public construction and destruction methods
 	public:
-		Logger(OnLogAdded handler);
+		explicit Logger(OnLogAdded handler);
+		~Logger() = default;
 
 		Logger(const Logger&) = delete;
 		Logger(Logger&&) = default;
@@ -41,6 +42,6 @@ namespace ivhd::core
 
 	private:
 
-		OnLogAdded m_handler;
+		OnLogAdded m_onLogAddedHandler;
 	};
 }

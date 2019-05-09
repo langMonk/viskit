@@ -2,13 +2,14 @@
 
 namespace ivhd::facade
 {
-	FacadeInteractiveVizualization::FacadeInteractiveVizualization()
+	FacadeInteractiveVizualization::FacadeInteractiveVizualization(LogHandler logHandler)
+		: m_core(std::make_shared<core::Core>(logHandler))
 	{
 	}
 
-	bool FacadeInteractiveVizualization::loadDataFile(std::string dataFilePath, IParser& parser)
+	void FacadeInteractiveVizualization::loadDataFile(std::string dataFilePath, IParser& parser)
 	{
-		return true;
+		return parser.loadFile(dataFilePath);
 	}
 
 	void FacadeInteractiveVizualization::castData(ICaster& caster)

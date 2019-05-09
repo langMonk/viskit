@@ -5,25 +5,29 @@
 
 #pragma once
 
-#include <memory>
 #include <map>
 #include <iostream>
 
+#include "core/ParticleSystem.h"
 #include "ivhd/SettingType.h"
 #include "Caster.h"
 
-namespace ivhd::cast
-{ 
-	class CasterMds 
+namespace ivhd::embed::cast
+{
+	class Caster
 	{
 		// public construction and destruction methods
 	public:
-		CasterMds();
+		Caster(core::ParticleSystem& system);
+		
+		virtual ~Caster();
 
-		~CasterMds();
-
+		// public methods
+	public:
 
 	private:
 		std::map<std::string, std::unique_ptr<SettingType>> m_parameters;
+
+		core::ParticleSystem& m_ext_system;
 	};
 }

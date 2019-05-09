@@ -3,9 +3,9 @@
 /// \date 18.04.2019
 ///
 
-#include "cast/Caster.h"
+#include "embed/cast/Caster.h"
 
-namespace ivhd::cast
+namespace ivhd::embed::cast
 {
 	Caster::Caster(core::ParticleSystem& system)
 		: m_ext_system(system)
