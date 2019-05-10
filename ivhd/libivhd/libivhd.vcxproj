@@ -114,6 +114,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -124,7 +125,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)output\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
