@@ -1,4 +1,4 @@
-#include "QtEditor.h"
+#include "MainWindow.h"
 #include <QtWidgets/QApplication>
 
 #include <ivhd/InteractiveVizualizationBuilder.h>
@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	ivhd->loadDataFile("D:/Datasets/mnist_7k_pca30.csv", *parser);
 
 	QApplication a(argc, argv);
-	QtEditor w;
+	MainWindow w;
 	w.show();
 	return a.exec();
 }
