@@ -10,6 +10,10 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow(QWidget *parent = Q_NULLPTR);
 
+private slots:
+	void on_pushButton_Open_clicked();
+	void on_pushButton_Exit_clicked();
+
 private:
 	Ui::MainWindow ui;
 };
