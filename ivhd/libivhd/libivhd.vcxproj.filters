@@ -135,6 +135,12 @@
     <ClInclude Include="include\embed\cast\CasterMds.h">
       <Filter>Header Files\embed\cast</Filter>
     </ClInclude>
+    <ClInclude Include="include\ivhd\IClusterer.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IReducer.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
