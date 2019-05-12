@@ -30,9 +30,11 @@
     <ClInclude Include="include\facade\FacadeParticleSystem.h" />
     <ClInclude Include="include\facade\FacadeResourceFactory.h" />
     <ClInclude Include="include\ivhd\ICaster.h" />
+    <ClInclude Include="include\ivhd\IClusterer.h" />
     <ClInclude Include="include\ivhd\IParticleSystem.h" />
     <ClInclude Include="include\ivhd\IInteractiveVizualization.h" />
     <ClInclude Include="include\ivhd\IParser.h" />
+    <ClInclude Include="include\ivhd\IReducer.h" />
     <ClInclude Include="include\ivhd\IResourceFactory.h" />
     <ClInclude Include="include\ivhd\ISetting.h" />
     <ClInclude Include="include\ivhd\ITransformer.h" />
@@ -112,6 +114,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -122,8 +126,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)output\$(Configuration)\</OutDir>
-    <IntDir>Intermediate\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -141,6 +145,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -176,6 +181,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
