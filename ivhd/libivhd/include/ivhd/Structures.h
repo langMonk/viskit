@@ -15,7 +15,7 @@ namespace ivhd
 	};
 
 
-	struct Particle
+	struct DataPoint
 	{
 		size_t parent_id;
 
@@ -47,7 +47,10 @@ namespace ivhd
 
 	enum class CasterType
 	{
-		Mds
+		Mds,
+		DpdMds,
+		LargeVis,
+		tSNE,
 	};
 
 	struct DistElem
