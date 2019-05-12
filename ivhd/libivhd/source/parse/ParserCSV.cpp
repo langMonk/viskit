@@ -16,9 +16,7 @@ namespace ivhd::parse
 	}
 
 	void ParserCSV::loadFile(std::string filePath)
-	{
-		auto start = std::clock();
-		
+	{	
 		auto input = std::ifstream(filePath.c_str());
 
 		if (!input.good())
@@ -50,7 +48,5 @@ namespace ivhd::parse
 		}
 
 		input.close();
-
-		m_ext_system.logger().logInfo("Time: " + std::to_string((std::clock()-start) / (double)CLOCKS_PER_SEC));
 	}
 }
