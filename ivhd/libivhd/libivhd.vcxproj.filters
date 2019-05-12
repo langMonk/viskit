@@ -64,6 +64,12 @@
     <Filter Include="Source Files\embed\cast">
       <UniqueIdentifier>{55abea08-08ed-476a-b54d-13732141cd10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\graph">
+      <UniqueIdentifier>{ad0bcb6b-709b-4dea-bbff-a6cac8d023a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graph">
+      <UniqueIdentifier>{d93ea77d-8e84-4b62-b107-4aa674d0d588}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ivhd\ITransformer.h">
