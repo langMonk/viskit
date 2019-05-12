@@ -1,6 +1,9 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
+#include <ivhd/InteractiveVizualizationBuilder.h>
+#include <ivhd/IResourceFactory.h>
+
 #include "ui_MainWindow.h"
 
 class MainWindow : public QMainWindow
@@ -16,4 +19,5 @@ private slots:
 
 private:
 	Ui::MainWindow ui;
+	std::shared_ptr<ivhd::IInteractiveVizualization> m_ext_ivhd;
 };
