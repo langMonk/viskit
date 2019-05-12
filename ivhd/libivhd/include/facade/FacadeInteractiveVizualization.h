@@ -9,6 +9,7 @@
 #include "ivhd/IInteractiveVizualization.h"
 #include "ivhd/InteractiveVizualizationBuilder.h"
 #include "facade/FacadeResourceFactory.h"
+#include "facade/FacadeParticleSystem.h"
 
 namespace ivhd::facade
 {
@@ -25,23 +26,19 @@ namespace ivhd::facade
 	public:
 		void loadDataFile(std::string dataFilePath, IParser& parser) override;
 
-		void castData(ICaster& caster) override;
-
 		IResourceFactory& resourceFactory() override;
+
+		IParticleSystem& particleSystem() override;
 
 		std::shared_ptr<core::Core> core()
 		{
 			return m_core;
 		}
 
-		core::ParticleSystem& particleSystem()
-		{
-			return m_core->particleSystem();
-		}
-
 		//private properties
 	private:
 		std::shared_ptr<core::Core> m_core;
 		facade::FacadeResourceFactory m_resourceFactory {*this};
+		facade::FacadeParticleSystem m_particleSystem {*this};
 	};
 }
