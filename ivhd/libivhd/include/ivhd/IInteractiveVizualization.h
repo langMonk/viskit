@@ -8,8 +8,8 @@
 namespace ivhd
 {
 	class IResourceFactory;
-	class ICaster;
 	class IParser;
+	class IParticleSystem;
 
 	/// <summary>
 	/// The main interface for controlling IVHD.
@@ -24,14 +24,9 @@ namespace ivhd
 		virtual void loadDataFile(std::string dataFilePath, IParser& parser) = 0;
 
 		/// <summary>
-		/// Cast data between two spaces. 
+		/// Obtains particle system, that manages all tasks concerning data.
 		/// </summary>
-		virtual void castData(ICaster& caster) = 0;
-
-		/// <summary>
-		/// Reduce data dimensionality. 
-		/// </summary>
-		//virtual void reduceData(IReducer& caster) = 0;
+		virtual IParticleSystem& particleSystem() = 0;
 
 		/// <summary>
 		/// Obtains resource factory, that enables creation of IVHD objects.

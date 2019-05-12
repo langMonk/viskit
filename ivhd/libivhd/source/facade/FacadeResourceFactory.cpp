@@ -19,7 +19,7 @@ namespace ivhd::facade
 	{
 		if (type == ParserType::Csv)
 		{
-			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.particleSystem());
+			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.core()->particleSystem());
 		}
 		else
 		{
@@ -31,7 +31,7 @@ namespace ivhd::facade
 	{
 		if (type == CasterType::Mds)
 		{
-			return std::make_shared<facade::FacadeCasterMDS>(m_ext_ivhd.particleSystem());
+			return std::make_shared<facade::FacadeCasterMDS>(m_ext_ivhd.core()->particleSystem());
 		}
 		else
 		{
