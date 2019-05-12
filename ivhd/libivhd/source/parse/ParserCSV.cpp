@@ -15,63 +15,38 @@ namespace ivhd::parse
 
 	}
 
-	void ParserCSV::initialize(std::string filePath)
-	{
-		m_input = std::ifstream(filePath.c_str());
+	void ParserCSV::loadFile(std::string filePath)
+	{	
+		auto input = std::ifstream(filePath.c_str());
 
-		if (!m_input.good())
+		if (!input.good())
 		{
 			m_ext_system.logger().logError("Problems while opening the file : " + filePath);
 		}
 
-		std::string line = "";
-		std::getline(m_input, line);
-		
-		std::vector<std::string> vec;
-		boost::algorithm::split(vec, line, boost::is_any_of(","));
-
-		m_ext_system.logger().logInfo("Loading data from file: " + filePath + ". Data dimensionality: " + std::to_string(vec.size() - 1));
-		m_input.close();
-	}
-
-	void ParserCSV::loadFile(std::string filePath)
-	{
-		initialize(filePath);
-		
-		auto input = std::ifstream(filePath.c_str());
-
-		size_t idx = 0;
+		bool firstLine = true;
 		std::string line = "";
 
-		// Iterate through each line and split the content using delimeter
 		while (std::getline(input, line))
 		{
-			std::vector<std::string> vec;
-			boost::algorithm::split(vec, line, boost::is_any_of(","));
-			m_coordinates.push_back(vec);
-		}
+			std::vector<std::string> stringVector;
+			boost::algorithm::split(stringVector, line, boost::is_any_of(","));
 
-
-		std::ofstream myfile;
-		myfile.open("coords.txt");
-		for (auto vec : m_coordinates)
-		{
-			for (std::string data : vec)
+			if (firstLine) 
 			{
-				myfile << data << " , ";
+				m_ext_system.logger().logInfo("Loading data from file: " + filePath + ". Data dimensionality: " + std::to_string(stringVector.size() - 1));
+				firstLine = false;
 			}
-			myfile << std::endl;
+
+			std::vector<float> floatVector(stringVector.size());
+			std::transform(stringVector.begin(), stringVector.end(), floatVector.begin(), [](const std::string& val)
+			{
+				return std::stof(val);
+			});
+
+			m_ext_system.originalCoordinates().push_back(floatVector);
 		}
 
-		finalize(input);
-	}
-
-	void ParserCSV::finalize(std::ifstream& input)
-	{
 		input.close();
-		/*if (!input.good())
-		{
-			m_logger.logError("Cannot close the File");
-		}*/
 	}
 }

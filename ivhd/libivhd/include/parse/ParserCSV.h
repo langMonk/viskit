@@ -16,9 +16,6 @@ namespace ivhd::parse
 {
 	class ParserCSV : public ivhd::IParser
 	{
-		// public sub-types
-		using CoordinatesContainer = std::vector<std::vector<std::string>>;
-
 		// public construction and destruction methods
 	public:
 
@@ -28,20 +25,9 @@ namespace ivhd::parse
 	public:
 
 		void loadFile(std::string filePath) override;
-		
-		// private methods
-	private:
-
-		void initialize(std::string filePath);
-
-		void finalize(std::ifstream& input);
 
 		// private members
 	private:
-
-		std::ifstream m_input;
-		CoordinatesContainer m_coordinates;
-
 		core::ParticleSystem& m_ext_system;
 
 	};
