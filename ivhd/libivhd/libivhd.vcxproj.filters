@@ -138,14 +138,23 @@
     <ClInclude Include="include\embed\cast\Caster.h">
       <Filter>Header Files\embed\cast</Filter>
     </ClInclude>
-    <ClInclude Include="include\embed\cast\CasterMds.h">
-      <Filter>Header Files\embed\cast</Filter>
-    </ClInclude>
     <ClInclude Include="include\ivhd\IClusterer.h">
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
     <ClInclude Include="include\ivhd\IReducer.h">
       <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graph\GraphGenerator.h">
+      <Filter>Header Files\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graph\IGraph.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\CasterRandom.h">
+      <Filter>Header Files\embed\cast</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterRandom.h">
+      <Filter>Header Files\facade</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -182,8 +191,14 @@
     <ClCompile Include="source\embed\cast\Caster.cpp">
       <Filter>Source Files\embed\cast</Filter>
     </ClCompile>
-    <ClCompile Include="source\embed\cast\CasterMds.cpp">
+    <ClCompile Include="source\graph\GraphGenerator.cpp">
+      <Filter>Source Files\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\CasterRandom.cpp">
       <Filter>Source Files\embed\cast</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterRandom.cpp">
+      <Filter>Source Files\facade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

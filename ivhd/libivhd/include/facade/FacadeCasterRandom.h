@@ -1,6 +1,6 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 18.04.2019
+/// \date 12.05.2019
 ///
 
 #pragma once
@@ -14,19 +14,19 @@ namespace ivhd::facade
 	/// <summary>
 	/// Implementation of ICaster interface.
 	/// </summary>
-	class FacadeCasterMDS : public ICaster
+	class FacadeCasterRandom : public ICaster
 	{
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterMDS(core::ParticleSystem& system);
-		~FacadeCasterMDS() = default;
+		explicit FacadeCasterRandom(core::ParticleSystem& system);
+		~FacadeCasterRandom() = default;
 
-		FacadeCasterMDS(const FacadeCasterMDS&) = delete;
-		FacadeCasterMDS(FacadeCasterMDS&&) = delete;
+		FacadeCasterRandom(const FacadeCasterRandom&) = delete;
+		FacadeCasterRandom(FacadeCasterRandom&&) = delete;
 
-		FacadeCasterMDS& operator=(const FacadeCasterMDS&) = delete;
-		FacadeCasterMDS& operator=(FacadeCasterMDS&&) = delete;
+		FacadeCasterRandom& operator=(const FacadeCasterRandom&) = delete;
+		FacadeCasterRandom& operator=(FacadeCasterRandom&&) = delete;
 
 		// public methods
 	public:
@@ -42,7 +42,7 @@ namespace ivhd::facade
 
 		void saveSettings(std::ostream& out) override;
 
-	/*private:
-		ivhd::embed::cast::CasterRandom m_internalCaster;*/
+	private:
+		ivhd::embed::cast::CasterRandom m_internalCaster;
 	};
 }

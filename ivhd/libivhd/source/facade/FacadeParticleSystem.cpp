@@ -4,6 +4,7 @@
 ///
 
 #include "facade/FacadeParticleSystem.h"
+#include "ivhd/ICaster.h"
 #include "facade/FacadeInteractiveVizualization.h"
 
 namespace ivhd::facade
@@ -18,8 +19,9 @@ namespace ivhd::facade
 		return m_ext_ivhd.core()->particleSystem().originalCoordinates();
 	}
 
-	void FacadeParticleSystem::castData(ICaster& caster)
+	void FacadeParticleSystem::castData(std::shared_ptr<ICaster> caster)
 	{
+		caster->cast();
 	}
 
 	void FacadeParticleSystem::reduceData(IReducer& reducer)

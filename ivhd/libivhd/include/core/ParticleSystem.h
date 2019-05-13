@@ -16,7 +16,8 @@
 namespace ivhd::core
 {
 		// public sub-types
-	using OriginalCoordinatesContainer = std::vector<std::vector<float>>;
+	using CoordinatesContainer = std::vector<std::vector<float>>;
+	using DataPointContainer = std::vector<DataPoint>;
 
 	class ParticleSystem
 	{
@@ -26,16 +27,21 @@ namespace ivhd::core
 
 		// public methods
 	public:
-		OriginalCoordinatesContainer& originalCoordinates() { return m_originalCoordinates; }
+		CoordinatesContainer& originalCoordinates() { return m_originalCoordinates; }
+		CoordinatesContainer& reducedCoordinates() { return m_reducedCoordinates; }
+		DataPointContainer& dataPoints() { return m_dataPoints; }
 
 		const Logger& logger() const { return m_logger; }
 		Logger& logger() { return m_logger; }
 
 		// private members
 	private:
-
 		Logger m_logger;
 
-		OriginalCoordinatesContainer m_originalCoordinates;
+		CoordinatesContainer m_originalCoordinates;
+
+		CoordinatesContainer m_reducedCoordinates;
+
+		DataPointContainer m_dataPoints;
 	};
 }
