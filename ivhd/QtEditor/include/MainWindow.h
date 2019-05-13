@@ -3,6 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include <ivhd/InteractiveVizualizationBuilder.h>
 #include <ivhd/IResourceFactory.h>
+#include <ivhd/IParticleSystem.h>
 
 #include "ui_MainWindow.h"
 

@@ -8,11 +8,13 @@
 namespace ivhd::facade
 { 
 	FacadeCasterMDS::FacadeCasterMDS(core::ParticleSystem& system)
+		//: m_internalCaster(system)
 	{
 	}
 
 	void FacadeCasterMDS::cast()
 	{
+		//m_internalCaster.cast();
 	}
 
 	void FacadeCasterMDS::initialize()
