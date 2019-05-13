@@ -14,16 +14,19 @@
 
 namespace ivhd::embed::cast
 { 
-	class CasterMds 
+	class CasterRandom : public Caster
 	{
 		// public construction and destruction methods
 	public:
-		CasterMds();
+		CasterRandom(core::ParticleSystem& system);
 
-		~CasterMds();
+		// public methods
+	public:
+		void cast();
 
+		int maxEdge() { return m_maxEdge; };
 
 	private:
-		std::map<std::string, std::unique_ptr<SettingType>> m_parameters;
+		int m_maxEdge;
 	};
 }

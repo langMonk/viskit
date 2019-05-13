@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget_Main">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_Main">
        <attribute name="title">
@@ -3044,10 +3044,8 @@
     </layout>
    </widget>
   </widget>
-  <zorder>dockWidget</zorder>
   <zorder>dockWidget_Selection</zorder>
   <zorder>dockWidget_Algorithms</zorder>
-  <zorder>dockWidget_Dev</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>

@@ -31,13 +31,13 @@ namespace ivhd
 		math::float3 pos;
 	};
 
-	enum class DistElemType 
+	enum class PairDistanceType
 	{ 
-		etNear, 
-		etFar, 
-		etRandom, 
-		etToRemove, 
-		etReversed 
+		Near, 
+		Far, 
+		Random, 
+		Reverse,
+		ToRemove
 	};
 
 	enum class ParserType
@@ -51,17 +51,18 @@ namespace ivhd
 		DpdMds,
 		LargeVis,
 		tSNE,
+		Random
 	};
 
-	struct DistElem
+	struct PairDistance
 	{
-		DistElem() : i(0), j(0), r(0), type(DistElemType::etNear) {};
-		DistElem(long i, long j, float r, DistElemType type) : i(i), j(j), r(r), type(type) {};
+		PairDistance() : i(0), j(0), r(0), type(PairDistanceType::Near) {};
+		PairDistance(long i, long j, float r, PairDistanceType type) : i(i), j(j), r(r), type(type) {};
 		long i, j;
 		float r;
-		DistElemType type;
+		PairDistanceType type;
 
-		bool operator== (DistElem& rhs)
+		bool operator== (PairDistance& rhs)
 		{
 			if (i == rhs.i && j == rhs.j && r == rhs.r && type == rhs.type) { return true; }
 			else { return false; }

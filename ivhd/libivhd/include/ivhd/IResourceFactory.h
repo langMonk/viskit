@@ -26,7 +26,7 @@ namespace ivhd
 		/// Creates a new caster, that might be used for data embedding.
 		/// </summary>
 		/// <returns>The created caster.</returns>
-		virtual std::shared_ptr<ICaster> createCaster(CasterType& type) = 0;
+		virtual std::shared_ptr<ICaster> createCaster(CasterType type) = 0;
 
 	};
 }
