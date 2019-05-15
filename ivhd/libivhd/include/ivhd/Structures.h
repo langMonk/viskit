@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "math/GlmAdapter.h"
+#include <ivhd/Math.h>
 
 namespace ivhd
 { 
@@ -28,7 +28,7 @@ namespace ivhd
 		int children_cnt;
 		int aux;
 
-		math::float3 pos;
+		vec3 pos;
 	};
 
 	enum class PairDistanceType
