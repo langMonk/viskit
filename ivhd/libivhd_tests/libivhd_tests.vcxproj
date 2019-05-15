@@ -33,23 +33,23 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemGroup>
@@ -57,7 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\LoggerTest.cpp" />
+    <ClCompile Include="embed\CasterTest.cpp" />
     <ClCompile Include="ivhd\InteractiveVisualizationBuilderTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
