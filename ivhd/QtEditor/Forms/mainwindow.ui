@@ -56,7 +56,7 @@
          <number>2</number>
         </property>
         <item>
-         <widget class="QOpenGLWidget" name="openGLWidget"/>
+         <widget class="GLWidget" name="widget_opengl" native="true"/>
         </item>
         <item>
          <widget class="QFrame" name="frame">
@@ -3048,6 +3048,14 @@
   <zorder>dockWidget_Algorithms</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>GLWidget</class>
+   <extends>QWidget</extends>
+   <header>glwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>pushButton</tabstop>
   <tabstop>pushButton_ClearLog</tabstop>

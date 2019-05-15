@@ -11,8 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\color.cpp" />
+    <ClCompile Include="source\config.cpp" />
+    <ClCompile Include="source\glwidget.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MainWindow.cpp" />
+    <ClCompile Include="source\rgl.cpp" />
+    <ClCompile Include="source\tools.cpp" />
+    <ClCompile Include="source\vector3d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h" />
@@ -22,6 +28,17 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Forms\mainwindow.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\color.h" />
+    <ClInclude Include="include\consts.h" />
+    <ClInclude Include="include\glwidget.h" />
+    <ClInclude Include="include\letters.h" />
+    <ClInclude Include="include\matrix.h" />
+    <ClInclude Include="include\rgl.h" />
+    <ClInclude Include="include\tools.h" />
+    <ClInclude Include="include\transform.h" />
+    <ClInclude Include="include\vector3d.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
@@ -44,12 +61,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)libraries;$(SolutionDir)libivhd\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)libraries;$(SolutionDir)libivhd\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)libraries;$(SolutionDir)libivhd\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)libraries;$(SolutionDir)libivhd\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
