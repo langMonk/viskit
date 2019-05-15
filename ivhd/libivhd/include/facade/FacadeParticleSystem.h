@@ -22,6 +22,8 @@ namespace ivhd::facade
 
 		std::vector<std::vector<float>> originalCoordinates() override;
 
+		std::vector<DataPoint> dataPoints() override;
+
 		void castData(std::shared_ptr<ICaster> caster) override;
 
 		void reduceData(IReducer& reducer) override;

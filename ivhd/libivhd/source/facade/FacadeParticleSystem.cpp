@@ -19,6 +19,11 @@ namespace ivhd::facade
 		return m_ext_ivhd.core()->particleSystem().originalCoordinates();
 	}
 
+	std::vector<DataPoint> FacadeParticleSystem::dataPoints()
+	{
+		return m_ext_ivhd.core()->particleSystem().dataPoints();
+	}
+
 	void FacadeParticleSystem::castData(std::shared_ptr<ICaster> caster)
 	{
 		caster->cast();
