@@ -43,9 +43,10 @@
     <ClInclude Include="include\ivhd\ITransformer.h" />
     <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h" />
     <ClInclude Include="include\ivhd\LogLevel.h" />
+    <ClInclude Include="include\ivhd\Math.h" />
     <ClInclude Include="include\ivhd\SettingType.h" />
     <ClInclude Include="include\ivhd\Structures.h" />
-    <ClInclude Include="include\math\GlmAdapter.h" />
+    <ClInclude Include="include\math\glm_adapter.h" />
     <ClInclude Include="include\parse\ParserCSV.h" />
   </ItemGroup>
   <ItemGroup>
