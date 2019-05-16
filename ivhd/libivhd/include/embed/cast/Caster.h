@@ -28,6 +28,12 @@ namespace ivhd::embed::cast
 	public:
 		core::ParticleSystem& particleSystem() const;
 
+		// protected methods
+	protected:
+		virtual void initialize();
+
+		virtual void finalize();
+
 	protected:
 		std::map<std::string, std::unique_ptr<SettingType>> m_parameters;
 

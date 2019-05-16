@@ -47,6 +47,7 @@
     <ClInclude Include="include\ivhd\SettingType.h" />
     <ClInclude Include="include\ivhd\Structures.h" />
     <ClInclude Include="include\math\glm_adapter.h" />
+    <ClInclude Include="include\parse\Parser.h" />
     <ClInclude Include="include\parse\ParserCSV.h" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +64,7 @@
     <ClCompile Include="source\facade\FacadeResourceFactory.cpp" />
     <ClCompile Include="source\graph\GraphGenerator.cpp" />
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
+    <ClCompile Include="source\parse\Parser.cpp" />
     <ClCompile Include="source\parse\ParserCSV.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
