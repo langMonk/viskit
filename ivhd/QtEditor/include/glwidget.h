@@ -9,6 +9,8 @@
 #include <QWheelEvent>
 #include <QMouseEvent>
 
+#include <ivhd/IParticleSystem.h>
+
 const int DL_Sphere_max = 6;
 
 class GLWidget: public QOpenGLWidget
@@ -38,6 +40,8 @@ public:
         setFormat(sfm);
     }
 
+	void drawParticleSystem(ivhd::IParticleSystem& universe, float eye_shift, bool store_ids);
+
     QString getPixel(int x, int y);
     void idPaintGL();
     long findItem(int x, int y);
@@ -53,25 +57,10 @@ protected:
     void scene_move(QMouseEvent *event);
     void user_scene_zoom(QWheelEvent *event);
 
-    void mousePressEvent(QMouseEvent *event)
-    {
-      
-    }
-
-    void mouseReleaseEvent(QMouseEvent *event)
-    {
-        
-    }
-
-    void mouseMoveEvent(QMouseEvent *event)
-    {
-
-    }
-
-    void wheelEvent(QWheelEvent *event)
-    {
-
-    }
+	void mousePressEvent(QMouseEvent* event);
+	void mouseReleaseEvent(QMouseEvent* event);
+	void mouseMoveEvent(QMouseEvent* event);
+	void wheelEvent(QWheelEvent* event);
 };
 
 #endif // GLWIDGET_H
