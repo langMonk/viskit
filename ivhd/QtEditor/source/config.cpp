@@ -2,7 +2,6 @@
 
 anyVisualSettings VisualSettings;
 
-
 anyVisualSettings::anyVisualSettings()
 {
     background_color.set(0.0f, 0.0f, 0.0f, 1.0f);
