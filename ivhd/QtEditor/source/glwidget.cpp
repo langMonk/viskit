@@ -3,8 +3,8 @@
 #include "glwidget.h"
 #include "rgl.h"
 #include "config.h"
-#include "mainwindow.h"
 #include "tools.h"
+#include "mainwindow.h"
 
 static unsigned DL_Sphere[DL_Sphere_max];
 
@@ -16,8 +16,8 @@ void GLWidget::initializeGL()
     OpenGlVersion = (char *)glGetString(GL_VERSION);
 
     //initialization of OpenGL
-        glShadeModel(GL_SMOOTH);
-        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glShadeModel(GL_SMOOTH);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -35,7 +35,6 @@ void GLWidget::initializeGL()
     }
 }
 
-
 void GLWidget::idPaintGL()
 {
     makeCurrent();
@@ -46,19 +45,15 @@ void GLWidget::idPaintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-
 void GLWidget::paintGL()
 {
     if (block_painting) return;
-
-    // openGLErrorTest("paintGL()", __LINE__);
 
     is_painting = true;
 
     static long frame_cnt = 1;
     QTime start_time;
     start_time.start();
-
 
     GLint x;
     glGetIntegerv(GL_DRAW_BUFFER, &x);
@@ -67,6 +62,8 @@ void GLWidget::paintGL()
     glClearColor(VisualSettings.background_color.r(), VisualSettings.background_color.g(), VisualSettings.background_color.b(), VisualSettings.background_color.a());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	drawParticleSystem(MainWindow::instance()->interactiveVizualization()->particleSystem(), 0, false);
+
     is_painting = false;
 }
 
@@ -74,7 +71,6 @@ void GLWidget::openGLErrorTest(QString where, int line)
 {
    
 }
-
 
 long GLWidget::findItem(int x, int y)
 {
@@ -128,7 +124,6 @@ void GLWidget::draw_navigator()
     glPopAttrib();
 }
 
-
 void GLWidget::user_scene_zoom(QWheelEvent *event)
 {
     if (event->delta() < 0)
@@ -137,6 +132,67 @@ void GLWidget::user_scene_zoom(QWheelEvent *event)
         VisualSettings.depth -= 50;
 }
 
+void GLWidget::mousePressEvent(QMouseEvent* event)
+{
+	mouse_last_x = mouse_press_x = event->pos().x() - size().width() / 2;
+	mouse_last_y = mouse_press_y = -(event->pos().y() - size().height() / 2);
+
+	if ((event->buttons() & Qt::LeftButton) && (event->modifiers() & Qt::ShiftModifier))
+	{
+		long i = findItem(event->pos().x(), size().height() - event->pos().y());
+		marked_on_press = true;
+		draw_navi = false;
+		MainWindow::instance()->repaint3D();
+	}
+	else
+	{
+		mouse_buttons = event->buttons();
+		marked_on_press = false;
+		draw_navi = true;
+		MainWindow::instance()->repaint3D();
+	}
+}
+
+void GLWidget::mouseReleaseEvent(QMouseEvent* event)
+{
+	bool do_repaint = false;
+	if (draw_navi)
+	{
+		draw_navi = false;
+		do_repaint = true;
+	}
+	mouse_buttons = 0;
+
+	if (!marked_on_press && (mouse_press_x == event->pos().x() - size().width() / 2) && mouse_press_y == -(event->pos().y() - size().height() / 2))
+	{
+		long i = findItem(event->pos().x(), size().height() - event->pos().y());
+		do_repaint = true;
+	}
+
+	if (do_repaint)
+		MainWindow::instance()->repaint3D();
+}
+
+void GLWidget::mouseMoveEvent(QMouseEvent * event)
+{
+	int x = event->pos().x() - size().width() / 2;
+	int y = -(event->pos().y() - size().height() / 2);
+	mouse_buttons = event->buttons();
+
+	if (!(event->modifiers() & Qt::ShiftModifier))
+		scene_move(event);
+
+	mouse_last_x = x;
+	mouse_last_y = y;
+
+	MainWindow::instance()->repaint3D();
+}
+
+void GLWidget::wheelEvent(QWheelEvent * event)
+{
+	user_scene_zoom(event);
+	MainWindow::instance()->repaint3D();
+}
 
 void GLWidget::scene_move(QMouseEvent *event)
 {
@@ -181,6 +237,101 @@ void GLWidget::scene_move(QMouseEvent *event)
     mouse_last_y = y;
 }
 
+void GLWidget::drawParticleSystem(ivhd::IParticleSystem& universe, float eye_shift, bool store_ids)
+{
+	QSize qs = size();
+    glViewport(0, 0, qs.width(), qs.height());
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45,
+                   float(qs.width())/float(qs.height()),
+                   1,
+                   (VisualSettings.eye.z + 500)*1.5 + VisualSettings.depth); // http://www.opengl.org/sdk/docs/man/xhtml/gluPerspective.xml
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    gluLookAt(VisualSettings.eye.x + eye_shift, VisualSettings.eye.y, VisualSettings.eye.z + VisualSettings.depth,
+              0, 0, VisualSettings.depth,
+              0, 1, 0);  // http://www.opengl.org/sdk/docs/man/xhtml/gluLookAt.xml
+
+    // light...
+    GLfloat ambientLight[] = { 0, 0, 0, 1.0 };
+    GLfloat diffuseLight[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat position[] = { 500, 500, 1500, 1.0f };
+
+    if (!store_ids)
+    {
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+    }
+    else
+        glDisable(GL_LIGHTING);
+
+    glDisable(GL_CLIP_PLANE0);
+    glEnable(GL_CULL_FACE);
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+
+    glMultMatrixf(VisualSettings.view.matrix);
+
+    float scale;
+	auto mainWindow = MainWindow::instance();
+
+    int sphere_points = DL_Sphere[mainWindow->getSpherePrec(true)];
+    int sphere_clusters = DL_Sphere[mainWindow->getSpherePrec(false)];
+
+    int coloring = mainWindow->getItemColoring();
+
+    int step = mainWindow->get10th() ? 10 : 1;
+
+	auto dataPoints = mainWindow->interactiveVizualization()->particleSystem().dataPoints();
+
+	for (auto dataPoint : dataPoints)
+	{
+		int i = 0;
+		if (dataPoint.visible && !dataPoint.removed)
+		{
+			glPushMatrix();
+
+			// color...
+			if (store_ids)
+			{
+				GLubyte cc[4];
+				unsigned u = i + 1;
+				cc[0] = (u >> 16) & 0xff;
+				cc[1] = (u >> 8) & 0xff;
+				cc[2] = u & 0xff;
+				cc[3] = 255;
+				glColor4ubv(cc);
+			}
+			else if (dataPoint.marked)
+			{
+				glColor4fv(VisualSettings.selected_color.rgba());
+			}
+			else if (dataPoint.frozen)
+				glColor4fv(VisualSettings.frozen_color.rgba());
+			else
+				glColor4fv(VisualSettings.item_color.rgba());
+
+			glTranslatef(dataPoint.pos.x, dataPoint.pos.y, dataPoint.pos.z);
+		
+			scale = 10 * mainWindow->getViewScale() / 1000;
+			glScalef(dataPoint.size * scale, dataPoint.size * scale, dataPoint.size * scale);
+			glCallList(sphere_points);
+		
+			glPopMatrix();
+		}
+		i++;
+	}
+
+    if (!store_ids)
+    {
+        if (draw_navi) draw_navigator();
+    }
+}
 
 QString GLWidget::getPixel(int x, int y)
 {
