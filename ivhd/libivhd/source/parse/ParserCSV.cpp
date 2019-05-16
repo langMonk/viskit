@@ -9,10 +9,13 @@
 
 namespace ivhd::parse
 { 
-	ParserCSV::ParserCSV(core::ParticleSystem& system)
-		: m_ext_system(system)
+	ParserCSV::ParserCSV(core::ParticleSystem& system) : Parser(system)
 	{
 
+	}
+
+	void ParserCSV::initialize()
+	{
 	}
 
 	void ParserCSV::loadFile(std::string filePath)
@@ -54,5 +57,8 @@ namespace ivhd::parse
 		m_ext_system.reducedCoordinates() = m_ext_system.originalCoordinates();
 
 		input.close();
+	}
+	void ParserCSV::finalize()
+	{
 	}
 }

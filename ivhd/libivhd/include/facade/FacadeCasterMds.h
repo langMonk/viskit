@@ -32,10 +32,6 @@ namespace ivhd::facade
 	public:
 		void cast() override;
 
-		void initialize() override;
-
-		void finalize() override;
-
 		void resetSettings() override;
 
 		void loadSettings(std::istream& in) override;

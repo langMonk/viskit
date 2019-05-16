@@ -8,27 +8,23 @@
 namespace ivhd::facade
 {
 	FacadeCasterRandom::FacadeCasterRandom(core::ParticleSystem& system)
-		: m_internalCaster(system)
+		: m_internalCaster(std::make_shared<ivhd::embed::cast::CasterRandom>(system))
 	{
 	}
 
 	void FacadeCasterRandom::cast()
 	{
-		m_internalCaster.cast();
+		m_internalCaster->cast();
 	}
 
-	void FacadeCasterRandom::initialize()
-	{
-	}
-	void FacadeCasterRandom::finalize()
-	{
-	}
 	void FacadeCasterRandom::resetSettings()
 	{
 	}
+
 	void FacadeCasterRandom::loadSettings(std::istream& in)
 	{
 	}
+
 	void FacadeCasterRandom::saveSettings(std::ostream& out)
 	{
 	}

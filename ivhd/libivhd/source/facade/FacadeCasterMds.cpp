@@ -17,14 +17,6 @@ namespace ivhd::facade
 		//m_internalCaster.cast();
 	}
 
-	void FacadeCasterMDS::initialize()
-	{
-	}
-
-	void FacadeCasterMDS::finalize()
-	{
-	}
-
 	void FacadeCasterMDS::resetSettings()
 	{
 	}

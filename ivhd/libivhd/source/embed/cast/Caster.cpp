@@ -17,8 +17,28 @@ namespace ivhd::embed::cast
 	{
 
 	}
+
 	core::ParticleSystem& Caster::particleSystem() const
 	{
 		return m_ext_system;
+	}
+
+	void Caster::initialize()
+	{
+		auto dataPoints = m_ext_system.dataPoints();
+
+		if (dataPoints.empty())
+		{
+			dataPoints.resize(m_ext_system.originalCoordinates().size());
+
+			for (auto point : dataPoints)
+			{
+				point.pos = { 0.0f,0.0f,0.0f };
+			}
+		}
+	}
+
+	void Caster::finalize()
+	{
 	}
 }
