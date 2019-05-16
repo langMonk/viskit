@@ -159,6 +159,9 @@
     <ClInclude Include="include\ivhd\Math.h">
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
+    <ClInclude Include="include\parse\Parser.h">
+      <Filter>Header Files\parse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
@@ -202,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="source\facade\FacadeCasterRandom.cpp">
       <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\parse\Parser.cpp">
+      <Filter>Source Files\parse</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

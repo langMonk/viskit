@@ -10,7 +10,6 @@
 #include <map>
 
 #include "core/Logger.h"
-#include "ivhd/IParser.h"
 #include "ivhd/Structures.h"
 
 namespace ivhd::core

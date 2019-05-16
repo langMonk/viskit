@@ -16,6 +16,8 @@ namespace ivhd::embed::cast
 
 	void CasterRandom::cast()
 	{
+		initialize();
+
 		boost::mt19937 rng;
 		boost::uniform_real<float> u(-m_maxEdge*0.5f, m_maxEdge*0.5f);
 		boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
@@ -28,5 +30,7 @@ namespace ivhd::embed::cast
 			dataPoint.pos.z = gen();
 		}
 		m_ext_system.logger().logInfo("[CasterRandom] Finished.");
+
+		finalize();
 	}
 }

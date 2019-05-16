@@ -33,6 +33,6 @@ namespace ivhd::facade
 		void loadFile(std::string filePath) override;
 
 	private:
-		ivhd::parse::ParserCSV m_internalParser;
+		std::shared_ptr<ivhd::parse::Parser> m_internalParser;
 	};
 }
