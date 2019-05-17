@@ -33,23 +33,23 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir);$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)libraries;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir);$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)libraries;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(ProjectDir);$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)libraries;$(IncludePath)</IncludePath>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(ProjectDir);$(SolutionDir)libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)libraries;$(IncludePath)</IncludePath>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemGroup>

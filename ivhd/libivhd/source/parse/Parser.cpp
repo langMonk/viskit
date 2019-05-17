@@ -1,4 +1,5 @@
-#include "parse\Parser.h"
+#include "parse/Parser.h"
+#include "core/Particle.h"
 
 namespace ivhd::parse
 {
@@ -17,15 +18,13 @@ namespace ivhd::parse
 
 	void Parser::finalize()
 	{
-		auto dataPoints = m_ext_system.dataPoints();
+		auto& dataPoints = m_ext_system.dataParticles();
 
 		if (dataPoints.empty())
 		{
-			dataPoints.resize(m_ext_system.originalCoordinates().size());
-
-			for (auto point : dataPoints)
+			for (int i = 0; i < m_ext_system.originalCoordinates().size(); i++)
 			{
-				point.pos = { 0.0f,0.0f,0.0f };
+				dataPoints.push_back(core::Particle(math::float3(0.0f, 0.0f, 0.0f)));
 			}
 		}
 	}

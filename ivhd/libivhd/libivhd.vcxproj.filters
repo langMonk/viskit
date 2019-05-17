@@ -162,6 +162,12 @@
     <ClInclude Include="include\parse\Parser.h">
       <Filter>Header Files\parse</Filter>
     </ClInclude>
+    <ClInclude Include="include\facade\FacadeMath.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Particle.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
@@ -208,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="source\parse\Parser.cpp">
       <Filter>Source Files\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\Particle.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
