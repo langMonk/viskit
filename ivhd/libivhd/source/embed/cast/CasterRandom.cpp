@@ -23,12 +23,13 @@ namespace ivhd::embed::cast
 		boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
 
 		m_ext_system.logger().logInfo("[CasterRandom] Casting...");
-		for (auto dataPoint : m_ext_system.dataPoints())
+
+		auto& dataParticles = m_ext_system.dataParticles();
+		for (auto& particle : dataParticles)
 		{
-			dataPoint.pos.x = gen();
-			dataPoint.pos.y = gen();
-			dataPoint.pos.z = gen();
+			particle.setPosition(math::float3{ 1.0f, 1.0f, 1.0f });
 		}
+
 		m_ext_system.logger().logInfo("[CasterRandom] Finished.");
 
 		finalize();

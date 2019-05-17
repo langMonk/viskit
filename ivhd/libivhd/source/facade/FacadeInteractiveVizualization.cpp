@@ -5,6 +5,7 @@ namespace ivhd::facade
 {
 	FacadeInteractiveVizualization::FacadeInteractiveVizualization(LogHandler logHandler)
 		: m_ext_core(std::make_shared<core::Core>(logHandler))
+		, m_particleSystem(m_ext_core->particleSystem())
 	{
 
 	}
@@ -18,7 +19,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to load data file: " + dataFilePath);
+			m_ext_core->logger().logWarning("Failed to load data file: " + dataFilePath + ". Error message: "+ ex.what());
 		}
 	}
 
