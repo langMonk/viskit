@@ -14,10 +14,6 @@ namespace ivhd::parse
 
 	}
 
-	void ParserCSV::initialize()
-	{
-	}
-
 	void ParserCSV::loadFile(std::string filePath)
 	{	
 		auto input = std::ifstream(filePath.c_str());
@@ -57,8 +53,5 @@ namespace ivhd::parse
 		m_ext_system.reducedCoordinates() = m_ext_system.originalCoordinates();
 
 		input.close();
-	}
-	void ParserCSV::finalize()
-	{
 	}
 }
