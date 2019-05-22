@@ -21,7 +21,7 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		FacadeInteractiveVizualization(LogHandler logHandler);
+		FacadeInteractiveVizualization(LogHandler logHandler, size_t maxCount);
 
 		// public methods
 	public:
@@ -40,6 +40,6 @@ namespace ivhd::facade
 	private:
 		std::shared_ptr<core::Core> m_ext_core;
 		facade::FacadeResourceFactory m_resourceFactory {*this};
-		facade::FacadeParticleSystem m_particleSystem {*this};
+		facade::FacadeParticleSystem m_particleSystem;
 	};
 }

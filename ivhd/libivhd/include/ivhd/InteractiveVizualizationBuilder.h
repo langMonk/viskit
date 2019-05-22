@@ -19,5 +19,5 @@ namespace ivhd
 	/// Creates the IVHD.
 	/// </summary>
 	/// <returns>The created IVHD resource or nullptr in case of an error.</returns>
-	std::shared_ptr<IInteractiveVizualization> createIVHD(LogHandler logHandler = LogHandler{});
+	std::shared_ptr<IInteractiveVizualization> createIVHD(LogHandler logHandler = LogHandler{}, size_t maxCount = 20);
 }

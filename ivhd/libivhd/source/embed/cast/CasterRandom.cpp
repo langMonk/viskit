@@ -4,6 +4,8 @@
 ///
 
 #include <boost/random.hpp>
+#include <glm/glm/gtc/random.hpp>
+
 #include "embed/cast/CasterRandom.h"
 
 namespace ivhd::embed::cast
@@ -19,15 +21,18 @@ namespace ivhd::embed::cast
 		initialize();
 
 		boost::mt19937 rng;
-		boost::uniform_real<float> u(-m_maxEdge*0.5f, m_maxEdge*0.5f);
+		boost::uniform_real<float> u(-1.0f, 1.0f);
 		boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
 
 		m_ext_system.logger().logInfo("[CasterRandom] Casting...");
 
-		auto& dataParticles = m_ext_system.dataParticles();
-		for (auto& particle : dataParticles)
+		auto dataPoints = m_ext_system.finalData();
+
+		for (int i = 0; i < m_ext_system.numAliveParticles(); i++)
 		{
-			particle.setPosition(math::float3{ 1.0f, 1.0f, 1.0f });
+			dataPoints->m_pos[i].x = gen();
+			dataPoints->m_pos[i].y = gen();
+			dataPoints->m_pos[i].z = gen();
 		}
 
 		m_ext_system.logger().logInfo("[CasterRandom] Finished.");
