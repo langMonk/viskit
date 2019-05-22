@@ -3,8 +3,8 @@
 
 namespace ivhd::facade
 {
-	FacadeInteractiveVizualization::FacadeInteractiveVizualization(LogHandler logHandler)
-		: m_ext_core(std::make_shared<core::Core>(logHandler))
+	FacadeInteractiveVizualization::FacadeInteractiveVizualization(LogHandler logHandler, size_t maxCount)
+		: m_ext_core(std::make_shared<core::Core>(logHandler, maxCount))
 		, m_particleSystem(m_ext_core->particleSystem())
 	{
 

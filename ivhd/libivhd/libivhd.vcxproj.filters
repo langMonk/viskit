@@ -70,6 +70,30 @@
     <Filter Include="Source Files\graph">
       <UniqueIdentifier>{d93ea77d-8e84-4b62-b107-4aa674d0d588}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\particles">
+      <UniqueIdentifier>{3b5512cc-7f0e-475d-b7f8-32d044a0e43c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\particles">
+      <UniqueIdentifier>{f231fb45-90ff-4b3f-98d5-d9444b35c749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\particles\generate">
+      <UniqueIdentifier>{50e09422-207f-4b50-a453-81d7c3250b68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\particles\generate">
+      <UniqueIdentifier>{52323c71-9df7-4c87-898c-48ebff141edf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\particles\emit">
+      <UniqueIdentifier>{914dc1df-a70a-4356-8c4e-6a80f9062d05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\particles\emit">
+      <UniqueIdentifier>{d77ffd76-baf4-4378-be1c-3b963308cb54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\particles\update">
+      <UniqueIdentifier>{811d61ef-7b28-4205-9dd1-fb35f801de64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\particles\update">
+      <UniqueIdentifier>{dcc0cb5d-900d-48cd-94e4-c2dcc7973c70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ivhd\ITransformer.h">
@@ -165,8 +189,17 @@
     <ClInclude Include="include\facade\FacadeMath.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\Particle.h">
-      <Filter>Header Files\core</Filter>
+    <ClInclude Include="include\particles\ParticleData.h">
+      <Filter>Header Files\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\particles\update\ParticleUpdater.h">
+      <Filter>Header Files\particles\update</Filter>
+    </ClInclude>
+    <ClInclude Include="include\particles\generate\ParticleGenerator.h">
+      <Filter>Header Files\particles\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\particles\emit\ParticleEmitter.h">
+      <Filter>Header Files\particles\emit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,8 +248,17 @@
     <ClCompile Include="source\parse\Parser.cpp">
       <Filter>Source Files\parse</Filter>
     </ClCompile>
-    <ClCompile Include="source\core\Particle.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="source\particles\ParticleData.cpp">
+      <Filter>Source Files\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="source\particles\update\ParticleUpdater.cpp">
+      <Filter>Source Files\particles\update</Filter>
+    </ClCompile>
+    <ClCompile Include="source\particles\generate\ParticleGenerator.cpp">
+      <Filter>Source Files\particles\generate</Filter>
+    </ClCompile>
+    <ClCompile Include="source\particles\emit\ParticleEmitter.cpp">
+      <Filter>Source Files\particles\emit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

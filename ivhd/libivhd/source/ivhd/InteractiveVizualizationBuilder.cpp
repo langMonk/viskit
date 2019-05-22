@@ -8,11 +8,11 @@
 
 namespace ivhd
 { 
-	std::shared_ptr<IInteractiveVizualization> createIVHD(LogHandler logHandler)
+	std::shared_ptr<IInteractiveVizualization> createIVHD(LogHandler logHandler, size_t maxCount)
 	{
 		try
 		{
-			return std::make_shared<facade::FacadeInteractiveVizualization>(logHandler);
+			return std::make_shared<facade::FacadeInteractiveVizualization>(logHandler, maxCount);
 		}
 		catch(std::exception& e)
 		{

@@ -18,17 +18,11 @@ namespace ivhd::parse
 	{
 		// public construction and destruction methods
 	public:
-
 		ParserCSV(core::ParticleSystem& system);
 
 		// public methods
 	public:
-
-		void initialize() override;
-
 		void loadFile(std::string filePath) override;
-
-		void finalize() override;
 
 	};
 }

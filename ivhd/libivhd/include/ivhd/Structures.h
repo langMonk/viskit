@@ -15,7 +15,7 @@ namespace ivhd
 	};
 
 
-	struct DataPoint
+	struct DataParticle
 	{
 		size_t parent_id;
 
@@ -25,7 +25,6 @@ namespace ivhd
 		bool visible;
 		bool marked;
 		bool outlier;
-		int children_cnt;
 		int aux;
 
 		vec3 pos;
