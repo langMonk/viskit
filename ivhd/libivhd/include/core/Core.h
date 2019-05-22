@@ -15,7 +15,7 @@ namespace ivhd::core
 	{
 		// public construction and destruction methods
 	public:
-		Core(OnLogAdded handler);
+		Core(OnLogAdded handler, size_t maxCount);
 
 		// public methods
 	public:

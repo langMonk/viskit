@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClInclude Include="include\core\Core.h" />
     <ClInclude Include="include\core\Logger.h" />
-    <ClInclude Include="include\core\Particle.h" />
     <ClInclude Include="include\core\ParticleSystem.h" />
     <ClInclude Include="include\embed\cast\Caster.h" />
     <ClInclude Include="include\embed\cast\CasterRandom.h" />
@@ -51,11 +50,14 @@
     <ClInclude Include="include\math\glm_adapter.h" />
     <ClInclude Include="include\parse\Parser.h" />
     <ClInclude Include="include\parse\ParserCSV.h" />
+    <ClInclude Include="include\particles\emit\ParticleEmitter.h" />
+    <ClInclude Include="include\particles\generate\ParticleGenerator.h" />
+    <ClInclude Include="include\particles\ParticleData.h" />
+    <ClInclude Include="include\particles\update\ParticleUpdater.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Core.cpp" />
     <ClCompile Include="source\core\Logger.cpp" />
-    <ClCompile Include="source\core\Particle.cpp" />
     <ClCompile Include="source\core\ParticleSystem.cpp" />
     <ClCompile Include="source\embed\cast\Caster.cpp" />
     <ClCompile Include="source\embed\cast\CasterRandom.cpp" />
@@ -69,6 +71,10 @@
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
     <ClCompile Include="source\parse\Parser.cpp" />
     <ClCompile Include="source\parse\ParserCSV.cpp" />
+    <ClCompile Include="source\particles\emit\ParticleEmitter.cpp" />
+    <ClCompile Include="source\particles\generate\ParticleGenerator.cpp" />
+    <ClCompile Include="source\particles\ParticleData.cpp" />
+    <ClCompile Include="source\particles\update\ParticleUpdater.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

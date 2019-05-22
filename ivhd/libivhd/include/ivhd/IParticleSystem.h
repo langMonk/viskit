@@ -26,12 +26,6 @@ namespace ivhd
 		virtual std::vector<std::vector<float>> originalCoordinates() = 0;
 
 		/// <summary>
-		/// Returns current dataPoints obtained via cast/reduce/cluster operations
-		/// </summary>
-		/// <returns> Container with data points.</returns>
-		virtual std::vector<DataPoint> dataPoints() = 0;
-
-		/// <summary>
 		/// Cast data between two spaces (from N -> M dimensions, where M << N). 
 		/// </summary>
 		/// <params name="caster"> Caster, that will be used for casting between spaces. </params>
