@@ -36,22 +36,7 @@
     <ClCompile Include="source\MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\color.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\config.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\glwidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\rgl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\tools.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\vector3d.cpp">
+    <ClCompile Include="source\glParticleRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,32 +56,15 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\color.h">
+    <ClInclude Include="include\glParticleRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\consts.h">
+    <ClInclude Include="include\IRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\glwidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\letters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\rgl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\tools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vector3d.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\vertexShader.glsl" />
+    <None Include="shaders\fragmentShader.glsl" />
   </ItemGroup>
 </Project>

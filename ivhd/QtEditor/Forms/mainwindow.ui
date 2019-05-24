@@ -56,7 +56,7 @@
          <number>2</number>
         </property>
         <item>
-         <widget class="GLWidget" name="widget_opengl" native="true"/>
+         <widget class="GLParticleRenderer" name="opengl_widget"/>
         </item>
         <item>
          <widget class="QFrame" name="frame">
@@ -3050,10 +3050,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>GLWidget</class>
-   <extends>QWidget</extends>
-   <header>glwidget.h</header>
-   <container>1</container>
+   <class>GLParticleRenderer</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">glparticlerenderer.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

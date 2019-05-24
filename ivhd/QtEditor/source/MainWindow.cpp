@@ -21,50 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
 	m_ext_ivhd = ivhd::createIVHD(handler);
 }
 
-int MainWindow::getSpherePrec(bool points)
-{
-	if (points)
-		return ui.horizontalSlider_SpherePoints->value();
-	return ui.horizontalSlider_SphereClusters->value();
-}
-
-int MainWindow::getItemColoring()
-{
-	return ui.comboBox_Coloring->currentIndex();
-}
-
-bool MainWindow::get10th()
-{
-	return ui.checkBox_10th->isChecked();
-}
-
-float MainWindow::getViewScale()
-{
-	return ui.dial_Scale->value() / 100.0;
-}
-
-
-float MainWindow::getViewScaleCluster()
-{
-	return ui.dial_ScaleCluster->value() / 50.0;
-}
-
-void MainWindow::repaint3D()
-{
-	if (ui.widget_opengl->is_painting)
-		skipped_rapaint = true;   
-	else
-	{
-		QMetaObject::invokeMethod(this, "slot_repaint3D", Qt::QueuedConnection);
-		skipped_rapaint = false;
-	}
-}
-
-void MainWindow::slot_repaint3D()
-{
-	ui.widget_opengl->repaint();
-}
-
 void MainWindow::on_pushButton_Open_clicked()
 {
 	QString fileName = QFileDialog::getOpenFileName(this,
@@ -83,8 +39,6 @@ void MainWindow::on_pushButton_Open_clicked()
 
 	auto casterRandom = m_ext_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
 	m_ext_ivhd->particleSystem().castData(casterRandom);
-
-	repaint3D();
 }
 
 void MainWindow::on_pushButton_Exit_clicked()

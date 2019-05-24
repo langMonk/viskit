@@ -1,5 +1,5 @@
 #pragma once
-
+ 
 #include <QtWidgets/QMainWindow>
 #include <ivhd/InteractiveVizualizationBuilder.h>
 #include <ivhd/IResourceFactory.h>
@@ -23,23 +23,15 @@ public:
 
 	std::shared_ptr<ivhd::IInteractiveVizualization> interactiveVizualization() { return m_ext_ivhd; }
 
-	int getSpherePrec(bool points);
-	int getItemColoring();
-	bool get10th();
-	float getViewScale();
-	float getViewScaleCluster();
-	void repaint3D();
-
 private:
 	MainWindow(QWidget* parent = Q_NULLPTR);
 
 private slots:
 	void on_pushButton_Open_clicked();
 	void on_pushButton_Exit_clicked();
-	void slot_repaint3D();
 
 private:
 	Ui::MainWindow ui;
 	std::shared_ptr<ivhd::IInteractiveVizualization> m_ext_ivhd;
-	bool skipped_rapaint;
+  
 };
