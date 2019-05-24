@@ -34,8 +34,11 @@ void MainWindow::on_pushButton_Open_clicked()
 	else
 	{
 		auto parser = m_ext_ivhd->resourceFactory().createParser(ivhd::ParserType::Csv);
-		m_ext_ivhd->loadDataFile(fileName.toUtf8().constData(), *parser);
+		m_ext_ivhd->loadDataFile(fileName.toUtf8().constData(), parser);
 	}
+
+	auto casterRandom = m_ext_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
+	m_ext_ivhd->particleSystem().castData(casterRandom);
 }
 
 void MainWindow::on_pushButton_Exit_clicked()

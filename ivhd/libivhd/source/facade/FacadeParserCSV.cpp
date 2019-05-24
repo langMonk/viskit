@@ -8,12 +8,12 @@
 namespace ivhd::facade
 {
 	FacadeParserCSV::FacadeParserCSV(core::ParticleSystem& system)
-		: m_internalParser(system)
+		: m_internalParser(std::make_shared<ivhd::parse::Parser>(system))
 	{
 	}
 
 	void FacadeParserCSV::loadFile(std::string filePath)
 	{
-		m_internalParser.loadFile(filePath);
+		m_internalParser->loadFile(filePath);
 	}
 }

@@ -10,6 +10,9 @@
     <Filter Include="core">
       <UniqueIdentifier>{eb3f5004-2055-4b8f-af38-1fb5be76cc06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="embed">
+      <UniqueIdentifier>{7989af0c-9b30-486b-9dfa-5891b878baea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\LoggerTest.cpp">
@@ -18,5 +21,11 @@
     <ClCompile Include="ivhd\InteractiveVisualizationBuilderTest.cpp">
       <Filter>ivhd</Filter>
     </ClCompile>
+    <ClCompile Include="embed\CasterTest.cpp">
+      <Filter>embed</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="utils.h" />
   </ItemGroup>
 </Project>

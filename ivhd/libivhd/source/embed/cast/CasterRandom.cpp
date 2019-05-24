@@ -1,0 +1,42 @@
+///
+/// \author Bartosz Minch <minch@agh.edu.pl>
+/// \date 18.04.2019
+///
+
+#include <boost/random.hpp>
+#include <glm/glm/gtc/random.hpp>
+
+#include "embed/cast/CasterRandom.h"
+
+namespace ivhd::embed::cast
+{
+	CasterRandom::CasterRandom(core::ParticleSystem& system)
+		: Caster(system)
+		, m_maxEdge(1000)
+	{
+	}
+
+	void CasterRandom::cast()
+	{
+		initialize();
+
+		boost::mt19937 rng;
+		boost::uniform_real<float> u(-1.0f, 1.0f);
+		boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
+
+		m_ext_system.logger().logInfo("[CasterRandom] Casting...");
+
+		auto dataPoints = m_ext_system.finalData();
+
+		for (int i = 0; i < m_ext_system.numAliveParticles(); i++)
+		{
+			dataPoints->m_pos[i].x = gen();
+			dataPoints->m_pos[i].y = gen();
+			dataPoints->m_pos[i].z = gen();
+		}
+
+		m_ext_system.logger().logInfo("[CasterRandom] Finished.");
+
+		finalize();
+	}
+}

@@ -7,6 +7,7 @@
 
 #include "ivhd/ICaster.h"
 #include "core/ParticleSystem.h"
+#include "embed/cast/CasterRandom.h"
 
 namespace ivhd::facade
 {
@@ -31,14 +32,13 @@ namespace ivhd::facade
 	public:
 		void cast() override;
 
-		void initialize() override;
-
-		void finalize() override;
-
 		void resetSettings() override;
 
 		void loadSettings(std::istream& in) override;
 
 		void saveSettings(std::ostream& out) override;
+
+	/*private:
+		ivhd::embed::cast::CasterRandom m_internalCaster;*/
 	};
 }

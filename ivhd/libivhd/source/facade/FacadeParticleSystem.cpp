@@ -3,23 +3,26 @@
 /// \date 04.05.2019
 ///
 
+#include <exception>
+
 #include "facade/FacadeParticleSystem.h"
-#include "facade/FacadeInteractiveVizualization.h"
+#include "ivhd/ICaster.h"
 
 namespace ivhd::facade
 { 
-	FacadeParticleSystem::FacadeParticleSystem(FacadeInteractiveVizualization& ivhd)
-		: m_ext_ivhd(ivhd)
+	FacadeParticleSystem::FacadeParticleSystem(core::ParticleSystem& system)
+		: m_ext_particleSystem(system)
 	{
 	}
 
 	std::vector<std::vector<float>> FacadeParticleSystem::originalCoordinates()
 	{
-		return m_ext_ivhd.core()->particleSystem().originalCoordinates();
+		return m_ext_particleSystem.originalCoordinates();
 	}
 
-	void FacadeParticleSystem::castData(ICaster& caster)
+	void FacadeParticleSystem::castData(std::shared_ptr<ICaster> caster)
 	{
+		caster->cast();
 	}
 
 	void FacadeParticleSystem::reduceData(IReducer& reducer)

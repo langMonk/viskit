@@ -21,7 +21,7 @@ namespace ivhd
 		/// <summary>
 		/// Load data from specified file into ivhd particle system.
 		/// </summary>
-		virtual void loadDataFile(std::string dataFilePath, IParser& parser) = 0;
+		virtual void loadDataFile(std::string dataFilePath, std::shared_ptr<IParser> parser) = 0;
 
 		/// <summary>
 		/// Obtains particle system, that manages all tasks concerning data.

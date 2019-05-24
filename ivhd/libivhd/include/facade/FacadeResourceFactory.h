@@ -24,7 +24,7 @@ namespace ivhd::facade
 	public:
 		std::shared_ptr<IParser> createParser(ParserType type) override;
 
-		std::shared_ptr<ICaster> createCaster(CasterType& type) override;
+		std::shared_ptr<ICaster> createCaster(CasterType type) override;
 
 	private:
 		FacadeInteractiveVizualization& m_ext_ivhd;

@@ -9,8 +9,7 @@
 
 namespace ivhd::parse
 { 
-	ParserCSV::ParserCSV(core::ParticleSystem& system)
-		: m_ext_system(system)
+	ParserCSV::ParserCSV(core::ParticleSystem& system) : Parser(system)
 	{
 
 	}
@@ -23,7 +22,11 @@ namespace ivhd::parse
 		{
 			m_ext_system.logger().logError("Problems while opening the file : " + filePath);
 		}
-
+		else 
+		{ 
+			m_ext_system.logger().logInfo("Loading data from file: " + filePath); 
+		}
+		
 		bool firstLine = true;
 		std::string line = "";
 
@@ -34,7 +37,7 @@ namespace ivhd::parse
 
 			if (firstLine) 
 			{
-				m_ext_system.logger().logInfo("Loading data from file: " + filePath + ". Data dimensionality: " + std::to_string(stringVector.size() - 1));
+				m_ext_system.logger().logInfo("Data dimensionality: " + std::to_string(stringVector.size() - 1));
 				firstLine = false;
 			}
 
@@ -46,6 +49,8 @@ namespace ivhd::parse
 
 			m_ext_system.originalCoordinates().push_back(floatVector);
 		}
+
+		m_ext_system.reducedCoordinates() = m_ext_system.originalCoordinates();
 
 		input.close();
 	}

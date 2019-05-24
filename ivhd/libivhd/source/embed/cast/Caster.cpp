@@ -17,4 +17,18 @@ namespace ivhd::embed::cast
 	{
 
 	}
+
+	core::ParticleSystem& Caster::particleSystem() const
+	{
+		return m_ext_system;
+	}
+
+	void Caster::initialize()
+	{
+		
+	}
+
+	void Caster::finalize()
+	{
+	}
 }

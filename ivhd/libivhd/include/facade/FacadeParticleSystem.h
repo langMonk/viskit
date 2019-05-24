@@ -6,6 +6,7 @@
 #pragma once
 
 #include "ivhd/IParticleSystem.h"
+#include "core/ParticleSystem.h"
 
 namespace ivhd::facade
 {
@@ -18,17 +19,17 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		FacadeParticleSystem(FacadeInteractiveVizualization& ivhd);
+		FacadeParticleSystem(core::ParticleSystem& ivhd);
 
 		std::vector<std::vector<float>> originalCoordinates() override;
 
-		void castData(ICaster& caster) override;
+		void castData(std::shared_ptr<ICaster> caster) override;
 
 		void reduceData(IReducer& reducer) override;
 
 		void clusterData(IClusterer& clusterer) override;
 
 	private:
-		FacadeInteractiveVizualization& m_ext_ivhd;
+		core::ParticleSystem& m_ext_particleSystem;
 	};
 }

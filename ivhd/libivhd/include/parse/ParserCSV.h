@@ -10,25 +10,19 @@
 #include <fstream>
 
 #include "core/Core.h"
-#include "ivhd/IParser.h"
+#include "parse/Parser.h"
 
 namespace ivhd::parse
 {
-	class ParserCSV : public ivhd::IParser
+	class ParserCSV : public ivhd::parse::Parser
 	{
 		// public construction and destruction methods
 	public:
-
 		ParserCSV(core::ParticleSystem& system);
 
 		// public methods
 	public:
-
 		void loadFile(std::string filePath) override;
-
-		// private members
-	private:
-		core::ParticleSystem& m_ext_system;
 
 	};
 }

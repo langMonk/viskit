@@ -10,6 +10,7 @@
 #include "ivhd/InteractiveVizualizationBuilder.h"
 #include "facade/FacadeResourceFactory.h"
 #include "facade/FacadeParticleSystem.h"
+#include "facade/FacadeParserCsv.h"
 
 namespace ivhd::facade
 {
@@ -20,11 +21,11 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		FacadeInteractiveVizualization(LogHandler logHandler);
+		FacadeInteractiveVizualization(LogHandler logHandler, size_t maxCount);
 
 		// public methods
 	public:
-		void loadDataFile(std::string dataFilePath, IParser& parser) override;
+		void loadDataFile(std::string dataFilePath, std::shared_ptr<IParser> parser) override;
 
 		IResourceFactory& resourceFactory() override;
 
@@ -32,13 +33,13 @@ namespace ivhd::facade
 
 		std::shared_ptr<core::Core> core()
 		{
-			return m_core;
+			return m_ext_core;
 		}
 
 		//private properties
 	private:
-		std::shared_ptr<core::Core> m_core;
+		std::shared_ptr<core::Core> m_ext_core;
 		facade::FacadeResourceFactory m_resourceFactory {*this};
-		facade::FacadeParticleSystem m_particleSystem {*this};
+		facade::FacadeParticleSystem m_particleSystem;
 	};
 }

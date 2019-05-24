@@ -18,15 +18,5 @@ namespace ivhd
 		/// </summary>
 		virtual void cast() = 0;
 
-		/// <summary>
-		/// Called, when caster is being initialized.
-		/// </summary>
-		virtual void initialize() = 0;
-
-		/// <summary>
-		/// Called, when caster is being finalized.
-		/// </summary>
-		virtual void finalize() = 0;
-
 	};
 }
