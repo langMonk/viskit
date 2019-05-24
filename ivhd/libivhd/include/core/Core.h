@@ -7,6 +7,7 @@
 
 #include "ParticleSystem.h"
 #include "Logger.h"
+#include "parse/Parser.h"
 
 namespace ivhd::core
 {
@@ -14,13 +15,10 @@ namespace ivhd::core
 	{
 		// public construction and destruction methods
 	public:
-		Core(OnLogAdded handler);
+		Core(OnLogAdded handler, size_t maxCount);
 
 		// public methods
 	public:
-
-		bool load(std::string dataFilePath, IParser& parser);
-
 		Logger& logger() { return m_particleSystem.logger(); }
 
 		ParticleSystem& particleSystem() { return m_particleSystem; }

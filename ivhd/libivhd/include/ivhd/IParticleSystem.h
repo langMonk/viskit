@@ -6,6 +6,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include "Structures.h"
 
 namespace ivhd
@@ -28,7 +29,7 @@ namespace ivhd
 		/// Cast data between two spaces (from N -> M dimensions, where M << N). 
 		/// </summary>
 		/// <params name="caster"> Caster, that will be used for casting between spaces. </params>
-		virtual void castData(ICaster& caster) = 0;
+		virtual void castData(std::shared_ptr<ICaster> caster) = 0;
 
 		/// <summary>
 		/// Reduce data dimensionality. 

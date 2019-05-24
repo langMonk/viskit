@@ -19,13 +19,22 @@ namespace ivhd::embed::cast
 		// public construction and destruction methods
 	public:
 		Caster(core::ParticleSystem& system);
-		
 		virtual ~Caster();
+
+		Caster(const Caster&) = delete;
+		Caster& operator=(const Caster&) = delete;
 
 		// public methods
 	public:
+		core::ParticleSystem& particleSystem() const;
 
-	private:
+		// protected methods
+	protected:
+		virtual void initialize();
+
+		virtual void finalize();
+
+	protected:
 		std::map<std::string, std::unique_ptr<SettingType>> m_parameters;
 
 		core::ParticleSystem& m_ext_system;

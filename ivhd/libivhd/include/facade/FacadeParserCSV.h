@@ -6,7 +6,7 @@
 #pragma once
 
 #include "ivhd/IParser.h"
-#include "core/Core.h"
+#include "core/ParticleSystem.h"
 #include "parse/parserCSV.h"
 
 namespace ivhd::facade
@@ -30,11 +30,9 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-
 		void loadFile(std::string filePath) override;
 
 	private:
-
-		ivhd::parse::ParserCSV m_internalParser;
+		std::shared_ptr<ivhd::parse::Parser> m_internalParser;
 	};
 }

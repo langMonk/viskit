@@ -7,17 +7,10 @@
 
 namespace ivhd::core
 {
-	Core::Core(OnLogAdded handler)
-		: m_particleSystem(ParticleSystem(handler))
+	Core::Core(OnLogAdded handler, size_t maxCount)
+		: m_particleSystem(ParticleSystem(handler, maxCount))
 	{
 
 
 	}
-	
-	bool Core::load(std::string dataFilePath, IParser& parser)
-	{
-		parser.loadFile(dataFilePath);
-		return true;
-	}
-
 }
