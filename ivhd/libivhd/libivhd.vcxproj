@@ -23,12 +23,16 @@
     <ClInclude Include="include\core\Logger.h" />
     <ClInclude Include="include\core\ParticleSystem.h" />
     <ClInclude Include="include\embed\cast\Caster.h" />
-    <ClInclude Include="include\embed\cast\CasterMds.h" />
+    <ClInclude Include="include\embed\cast\CasterRandom.h" />
     <ClInclude Include="include\facade\FacadeCasterMDS.h" />
+    <ClInclude Include="include\facade\FacadeCasterRandom.h" />
+    <ClInclude Include="include\facade\FacadeMath.h" />
     <ClInclude Include="include\facade\FacadeParserCSV.h" />
     <ClInclude Include="include\facade\FacadeInteractiveVizualization.h" />
     <ClInclude Include="include\facade\FacadeParticleSystem.h" />
     <ClInclude Include="include\facade\FacadeResourceFactory.h" />
+    <ClInclude Include="include\graph\GraphGenerator.h" />
+    <ClInclude Include="include\graph\IGraph.h" />
     <ClInclude Include="include\ivhd\ICaster.h" />
     <ClInclude Include="include\ivhd\IClusterer.h" />
     <ClInclude Include="include\ivhd\IParticleSystem.h" />
@@ -40,24 +44,37 @@
     <ClInclude Include="include\ivhd\ITransformer.h" />
     <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h" />
     <ClInclude Include="include\ivhd\LogLevel.h" />
+    <ClInclude Include="include\ivhd\Math.h" />
     <ClInclude Include="include\ivhd\SettingType.h" />
     <ClInclude Include="include\ivhd\Structures.h" />
-    <ClInclude Include="include\math\GlmAdapter.h" />
+    <ClInclude Include="include\math\glm_adapter.h" />
+    <ClInclude Include="include\parse\Parser.h" />
     <ClInclude Include="include\parse\ParserCSV.h" />
+    <ClInclude Include="include\particles\emit\ParticleEmitter.h" />
+    <ClInclude Include="include\particles\generate\ParticleGenerator.h" />
+    <ClInclude Include="include\particles\ParticleData.h" />
+    <ClInclude Include="include\particles\update\ParticleUpdater.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Core.cpp" />
     <ClCompile Include="source\core\Logger.cpp" />
     <ClCompile Include="source\core\ParticleSystem.cpp" />
     <ClCompile Include="source\embed\cast\Caster.cpp" />
-    <ClCompile Include="source\embed\cast\CasterMds.cpp" />
+    <ClCompile Include="source\embed\cast\CasterRandom.cpp" />
     <ClCompile Include="source\facade\FacadeCasterMDS.cpp" />
+    <ClCompile Include="source\facade\FacadeCasterRandom.cpp" />
     <ClCompile Include="source\facade\FacadeParserCSV.cpp" />
     <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp" />
     <ClCompile Include="source\facade\FacadeParticleSystem.cpp" />
     <ClCompile Include="source\facade\FacadeResourceFactory.cpp" />
+    <ClCompile Include="source\graph\GraphGenerator.cpp" />
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
+    <ClCompile Include="source\parse\Parser.cpp" />
     <ClCompile Include="source\parse\ParserCSV.cpp" />
+    <ClCompile Include="source\particles\emit\ParticleEmitter.cpp" />
+    <ClCompile Include="source\particles\generate\ParticleGenerator.cpp" />
+    <ClCompile Include="source\particles\ParticleData.cpp" />
+    <ClCompile Include="source\particles\update\ParticleUpdater.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
