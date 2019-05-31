@@ -14,6 +14,7 @@
     <ClCompile Include="source\glParticleRenderer.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MainWindow.cpp" />
+    <ClCompile Include="source\ShaderLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h" />
@@ -27,10 +28,11 @@
   <ItemGroup>
     <ClInclude Include="include\glParticleRenderer.h" />
     <ClInclude Include="include\IRenderer.h" />
+    <ClInclude Include="include\ShaderLoader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\fragmentShader.glsl" />
-    <None Include="shaders\vertexShader.glsl" />
+    <None Include="shaders\fragmentShader.frag" />
+    <None Include="shaders\vertexShader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
@@ -94,7 +96,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)libraries\glew\lib\Release\$(Platform);$(SolutionDir)output\$(Platform)\$(Configuration);$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libivhd.lib;glew32s.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;Qt53DCored.lib;Qt53DAnimationd.lib;Qt53DExtrasd.lib;Qt53DInputd.lib;Qt53DLogicd.lib;Qt53DRenderd.lib;Qt53DQuickd.lib;Qt53DQuickAnimationd.lib;Qt53DQuickExtrasd.lib;Qt53DQuickInputd.lib;Qt53DQuickRenderd.lib;Qt53DQuickScene2Dd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libivhd.lib;glew32.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;Qt53DCored.lib;Qt53DAnimationd.lib;Qt53DExtrasd.lib;Qt53DInputd.lib;Qt53DLogicd.lib;Qt53DRenderd.lib;Qt53DQuickd.lib;Qt53DQuickAnimationd.lib;Qt53DQuickExtrasd.lib;Qt53DQuickInputd.lib;Qt53DQuickRenderd.lib;Qt53DQuickScene2Dd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>

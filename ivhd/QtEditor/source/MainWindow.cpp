@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 	};
 
 	m_ext_ivhd = ivhd::createIVHD(handler);
+	ui.opengl_widget->generate(&m_ext_ivhd->particleSystem());
 }
 
 void MainWindow::on_pushButton_Open_clicked()
