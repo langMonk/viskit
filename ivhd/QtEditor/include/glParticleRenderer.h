@@ -10,6 +10,14 @@
 #include <ivhd/IParticleSystem.h>
 #include "IRenderer.h"
 
+struct Camera
+{
+	float camDistance;
+	glm::vec3 cameraDir;
+	glm::mat4 modelviewMatrix;
+	glm::mat4 projectionMatrix;
+};
+
 class GLParticleRenderer : public IParticleRenderer
 {	
 public:
@@ -39,25 +47,16 @@ protected:
 	void mouseMoveEvent(QMouseEvent* event) override;
 
 private:
+	Camera camera;
+
 	GLuint m_bufPos{ 0 };
 	GLuint m_bufCol{ 0 };
 	GLuint m_vao{ 0 };
 	ivhd::IParticleSystem* m_system{ nullptr };
 	QOpenGLShaderProgram* m_program;
 
-	int m_projMatrixLoc;
-	int m_mvMatrixLoc;
-	int m_normalMatrixLoc;
-	int m_lightPosLoc;
-
 	int m_xRot;
 	int m_yRot;
 	int m_zRot;
 	QPoint m_lastPos;
-
-	QMatrix4x4 m_proj;
-	QMatrix4x4 m_camera;
-	QMatrix4x4 m_world;
-
-	static bool m_transparent;
 };
