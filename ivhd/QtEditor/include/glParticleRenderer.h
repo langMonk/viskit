@@ -24,7 +24,7 @@ public:
 	GLParticleRenderer(QWidget* parent = 0);
 	~GLParticleRenderer() { destroy(); }
 
-	void generate(ivhd::IParticleSystem* sys) override;
+	void attachParticleSystem(ivhd::IParticleSystem* sys) override;
 	void destroy() override;
 	void update() override;
 	void render() override;

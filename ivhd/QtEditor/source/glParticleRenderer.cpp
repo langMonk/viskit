@@ -40,7 +40,7 @@ void GLParticleRenderer::initializeGL()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_NORMALIZE);
-	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	
 	camera.cameraDir[0] = 0.0f;
 	camera.cameraDir[1] = 0.0f;
@@ -53,7 +53,7 @@ void GLParticleRenderer::initializeGL()
 		assert("Shader not created properly!");
 	}
 		
-	const size_t count = 2000;
+	const size_t count = m_system->countAlive();
 
 	glGenBuffers(1, &m_bufPos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
@@ -74,7 +74,7 @@ void GLParticleRenderer::paintGL()
 	update();
 	render();
 
-	m_program->release();
+	//m_program->release();
 }
 
 void GLParticleRenderer::resizeGL(int w, int h)
@@ -89,7 +89,7 @@ void GLParticleRenderer::mouseMoveEvent(QMouseEvent* event)
 {
 }
 
-void GLParticleRenderer::generate(ivhd::IParticleSystem* sys)
+void GLParticleRenderer::attachParticleSystem(ivhd::IParticleSystem* sys)
 {
 	assert(sys != nullptr);
 
@@ -116,7 +116,7 @@ void GLParticleRenderer::update()
 	assert(m_system != nullptr);
 	assert(m_bufPos > 0 && m_bufCol > 0);
 
-	const size_t count = 0;
+	const size_t count = m_system->countAlive();
 	if (count > 0)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
@@ -135,7 +135,7 @@ void GLParticleRenderer::render()
 {
 	camera.modelviewMatrix = glm::lookAt(camera.cameraDir * camera.camDistance, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-	const size_t count = 0;
+	const size_t count = m_system->countAlive();
 	if (count > 0)
 		glDrawArrays(GL_POINTS, 0, count);
 
