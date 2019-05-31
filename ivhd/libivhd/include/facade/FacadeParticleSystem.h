@@ -7,6 +7,7 @@
 
 #include "ivhd/IParticleSystem.h"
 #include "core/ParticleSystem.h"
+#include "particles/ParticleData.h"
 
 namespace ivhd::facade
 {
@@ -22,6 +23,8 @@ namespace ivhd::facade
 		FacadeParticleSystem(core::ParticleSystem& ivhd);
 
 		std::vector<std::vector<float>> originalCoordinates() override;
+
+		ParticleData* finalData() override;
 
 		void castData(std::shared_ptr<ICaster> caster) override;
 
