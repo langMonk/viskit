@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include "Structures.h"
+#include "particles/ParticleData.h"
 
 namespace ivhd
 {
@@ -24,6 +25,11 @@ namespace ivhd
 		/// </summary>
 		/// <returns> Container with data original coordinates.</returns>
 		virtual std::vector<std::vector<float>> originalCoordinates() = 0;
+
+		/// <summary>
+		/// Returns current final data (after transformations).
+		/// <returns> Container with current final data.</returns>
+		virtual particles::ParticleData* finalData() = 0;
 
 		/// <summary>
 		/// Cast data between two spaces (from N -> M dimensions, where M << N). 
