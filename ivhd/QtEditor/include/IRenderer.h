@@ -7,7 +7,7 @@
 class IParticleRenderer : public virtual QOpenGLWidget, protected QOpenGLFunctions
 {
 public:
-	virtual void generate(ivhd::IParticleSystem* sys) = 0;
+	virtual void attachParticleSystem(ivhd::IParticleSystem* sys) = 0;
 	virtual void destroy() = 0;
 	virtual void update() = 0;
 	virtual void render() = 0;
