@@ -4,9 +4,12 @@
 
 #include <GL/glew.h>
 
+#include <glm/glm/glm.hpp>
+#include <glm/glm/gtc/matrix_transform.hpp>
+#include <glm/glm/gtc/type_ptr.hpp>
 #include "glParticleRenderer.h"
+#include "ShaderLoader.h"
 
-bool GLParticleRenderer::m_transparent = false;
 
 GLParticleRenderer::GLParticleRenderer(QWidget* parent)
 	: QOpenGLWidget(parent)
@@ -28,25 +31,29 @@ void GLParticleRenderer::zRotationChanged(int angle)
 void GLParticleRenderer::initializeGL()
 {
 	initializeOpenGLFunctions();
-	glClearColor(0, 0, 0, m_transparent ? 0 : 1);
+
+	glShadeModel(GL_SMOOTH);
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_NORMALIZE);
+	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
+	
+	camera.cameraDir[0] = 0.0f;
+	camera.cameraDir[1] = 0.0f;
+	camera.cameraDir[2] = 1.0f;
+	camera.camDistance = 1.0f;
 
 	m_program = new QOpenGLShaderProgram;
-	m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "./vertexShader.glsl");
-	m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "./fragmentShader.glsl");
-	m_program->bindAttributeLocation("vertex", 0);
-	m_program->bindAttributeLocation("normal", 1);
-	m_program->link();
-
-	m_program->bind();
-	m_projMatrixLoc = m_program->uniformLocation("projMatrix");
-	m_mvMatrixLoc = m_program->uniformLocation("mvMatrix");
-	m_normalMatrixLoc = m_program->uniformLocation("normalMatrix");
-	m_lightPosLoc = m_program->uniformLocation("lightPos");
-
+	if (!shaderLoader::loadAndBuildShaderPairFromFile(m_program, "shaders/vertexShader.vert", "shaders/fragmentShader.frag"))
+	{
+		assert("Shader not created properly!");
+	}
+		
 	const size_t count = 2000;
-
-	glGenVertexArrays(1, &m_vao);
-	glBindVertexArray(m_vao);
 
 	glGenBuffers(1, &m_bufPos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
@@ -60,22 +67,10 @@ void GLParticleRenderer::initializeGL()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, (4) * sizeof(float), (void*)((0) * sizeof(float)));
 
-	glBindVertexArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void GLParticleRenderer::paintGL()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-
-	m_program->bind();
-	m_program->setUniformValue(m_projMatrixLoc, m_proj);
-	m_program->setUniformValue(m_mvMatrixLoc, m_camera * m_world);
-	QMatrix3x3 normalMatrix = m_world.normalMatrix();
-	m_program->setUniformValue(m_normalMatrixLoc, normalMatrix);
-
 	update();
 	render();
 
@@ -121,10 +116,10 @@ void GLParticleRenderer::update()
 	assert(m_system != nullptr);
 	assert(m_bufPos > 0 && m_bufCol > 0);
 
-	const size_t count = 2000;
+	const size_t count = 0;
 	if (count > 0)
 	{
-		/*glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
+		glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
 		float* ptr = (float*)(m_system->finalData()->m_pos.get());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
@@ -132,19 +127,18 @@ void GLParticleRenderer::update()
 		ptr = (float*)(m_system->finalData()->m_col.get());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
-		glBindBuffer(GL_ARRAY_BUFFER, 0);*/
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 }
 
 void GLParticleRenderer::render()
 {
-	glBindVertexArray(m_vao);
+	camera.modelviewMatrix = glm::lookAt(camera.cameraDir * camera.camDistance, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-	const size_t count = 2000;
+	const size_t count = 0;
 	if (count > 0)
 		glDrawArrays(GL_POINTS, 0, count);
 
-	glBindVertexArray(0);
 }
 
 void GLParticleRenderer::setYRotation(int angle)
