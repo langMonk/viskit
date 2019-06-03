@@ -55,6 +55,9 @@ void GLParticleRenderer::initializeGL()
 		
 	const size_t count = m_system->countAlive();
 
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
+
 	glGenBuffers(1, &m_bufPos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * count, nullptr, GL_STREAM_DRAW);
@@ -67,6 +70,8 @@ void GLParticleRenderer::initializeGL()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, (4) * sizeof(float), (void*)((0) * sizeof(float)));
 
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void GLParticleRenderer::paintGL()
@@ -109,6 +114,10 @@ void GLParticleRenderer::destroy()
 		glDeleteBuffers(1, &m_bufCol);
 		m_bufCol = 0;
 	}
+
+	makeCurrent();
+
+	delete m_program;
 }
 
 void GLParticleRenderer::update()
@@ -133,12 +142,13 @@ void GLParticleRenderer::update()
 
 void GLParticleRenderer::render()
 {
-	camera.modelviewMatrix = glm::lookAt(camera.cameraDir * camera.camDistance, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	glBindVertexArray(m_vao);
 
 	const size_t count = m_system->countAlive();
 	if (count > 0)
 		glDrawArrays(GL_POINTS, 0, count);
 
+	glBindVertexArray(0);
 }
 
 void GLParticleRenderer::setYRotation(int angle)

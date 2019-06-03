@@ -17,7 +17,7 @@ namespace ivhd
 		/// <summary>
 		/// Load specified file into kNN structure
 		/// </summary>
-		virtual void loadFile(std::string filePath) = 0;
+		virtual void loadFile(std::string filePath, size_t maxSize) = 0;
 
 	};
 }

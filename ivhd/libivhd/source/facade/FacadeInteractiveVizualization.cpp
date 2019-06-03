@@ -3,19 +3,19 @@
 
 namespace ivhd::facade
 {
-	FacadeInteractiveVizualization::FacadeInteractiveVizualization(LogHandler logHandler, size_t maxCount)
-		: m_ext_core(std::make_shared<core::Core>(logHandler, maxCount))
-		, m_particleSystem(m_ext_core->particleSystem())
+	FacadeInteractiveVizualization::FacadeInteractiveVizualization(LogHandler logHandler)
+		: m_ext_core(std::make_shared<core::Core>(logHandler))
+		, m_particleSystem(m_ext_core)
 	{
 
 	}
 
-	void FacadeInteractiveVizualization::loadDataFile(std::string dataFilePath, std::shared_ptr<IParser> parser)
+	void FacadeInteractiveVizualization::loadDataFile(std::string dataFilePath, size_t maxSize, std::shared_ptr<IParser> parser)
 	{
 		try
 		{
 			auto internalParser = dynamic_cast<FacadeParserCSV*>(parser.get());
-			internalParser->loadFile(dataFilePath);
+			internalParser->loadFile(dataFilePath, maxSize);
 		}
 		catch (std::exception& ex)
 		{

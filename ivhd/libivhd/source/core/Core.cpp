@@ -7,8 +7,8 @@
 
 namespace ivhd::core
 {
-	Core::Core(OnLogAdded handler, size_t maxCount)
-		: m_particleSystem(ParticleSystem(handler, maxCount))
+	Core::Core(OnLogAdded handler) : 
+		m_particleSystem(std::make_unique<ParticleSystem>(handler))
 	{
 
 

@@ -32,6 +32,11 @@ namespace ivhd
 		virtual particles::ParticleData* finalData() = 0;
 
 		/// <summary>
+		/// Counts alive particles.
+		/// <returns> Number of particles, that are currently alive.</returns>
+		virtual size_t countAlive() = 0;
+
+		/// <summary>
 		/// Cast data between two spaces (from N -> M dimensions, where M << N). 
 		/// </summary>
 		/// <params name="caster"> Caster, that will be used for casting between spaces. </params>

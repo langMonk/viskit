@@ -30,9 +30,9 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		void loadFile(std::string filePath) override;
+		void loadFile(std::string filePath, size_t maxSize) override;
 
 	private:
-		std::shared_ptr<ivhd::parse::Parser> m_internalParser;
+		std::shared_ptr<ivhd::parse::ParserCSV> m_internalParser;
 	};
 }
