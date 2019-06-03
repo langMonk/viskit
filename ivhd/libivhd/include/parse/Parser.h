@@ -23,7 +23,7 @@ namespace ivhd::parse
 	public:
 		virtual void initialize();
 
-		virtual void loadFile(std::string filePath);
+		virtual void loadFile(std::string filePath, size_t maxSize);
 
 		virtual void finalize();
 

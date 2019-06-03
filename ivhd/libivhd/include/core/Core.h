@@ -15,16 +15,16 @@ namespace ivhd::core
 	{
 		// public construction and destruction methods
 	public:
-		Core(OnLogAdded handler, size_t maxCount);
+		Core(OnLogAdded handler);
 
 		// public methods
 	public:
-		Logger& logger() { return m_particleSystem.logger(); }
+		Logger& logger() { return m_particleSystem->logger(); }
 
-		ParticleSystem& particleSystem() { return m_particleSystem; }
+		ParticleSystem* particleSystem() { return m_particleSystem.get(); }
 
 	private:
-		ParticleSystem m_particleSystem;
+		std::unique_ptr<ParticleSystem> m_particleSystem;
 		
 	};
 }

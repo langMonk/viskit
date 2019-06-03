@@ -11,7 +11,7 @@ namespace ivhd::parse
 	{
 	}
 
-	void Parser::loadFile(std::string filePath)
+	void Parser::loadFile(std::string filePath, size_t maxSize)
 	{
 	}
 

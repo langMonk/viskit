@@ -22,7 +22,7 @@ namespace ivhd::parse
 
 		// public methods
 	public:
-		void loadFile(std::string filePath) override;
+		void loadFile(std::string filePath, size_t maxSize) override;
 
 	};
 }
