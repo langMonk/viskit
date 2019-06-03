@@ -10,19 +10,24 @@
 
 namespace ivhd::facade
 { 
-	FacadeParticleSystem::FacadeParticleSystem(core::ParticleSystem& system)
-		: m_ext_particleSystem(system)
+	FacadeParticleSystem::FacadeParticleSystem(std::shared_ptr<core::Core> core)
+		: m_internalParticleSystem(core->particleSystem())
 	{
 	}
 
 	std::vector<std::vector<float>> FacadeParticleSystem::originalCoordinates()
 	{
-		return m_ext_particleSystem.originalCoordinates();
+		return m_internalParticleSystem->originalCoordinates();
+	}
+
+	size_t FacadeParticleSystem::countAlive()
+	{
+		return m_internalParticleSystem->numAliveParticles();
 	}
 
 	ParticleData* FacadeParticleSystem::finalData()
 	{
-		return m_ext_particleSystem.finalData();
+		return m_internalParticleSystem->finalData();
 	}
 
 	void FacadeParticleSystem::castData(std::shared_ptr<ICaster> caster)

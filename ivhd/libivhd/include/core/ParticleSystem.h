@@ -26,7 +26,7 @@ namespace ivhd::core
 	{
 		// public construction and destruction methods
 	public:
-		explicit ParticleSystem(OnLogAdded handler, size_t maxCount);
+		explicit ParticleSystem(OnLogAdded handler);
 		virtual ~ParticleSystem() { }
 
 		ParticleSystem(const ParticleSystem&) = delete;
@@ -56,8 +56,6 @@ namespace ivhd::core
 		CoordinatesContainer m_reducedCoordinates;
 
 		ParticleData m_particles;
-
-		size_t m_count;
 
 		std::vector<std::shared_ptr<emit::ParticleEmitter>> m_emitters;
 		std::vector<std::shared_ptr<update::ParticleUpdater>> m_updaters;

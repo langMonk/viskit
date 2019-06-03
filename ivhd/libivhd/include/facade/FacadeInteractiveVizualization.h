@@ -21,11 +21,11 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		FacadeInteractiveVizualization(LogHandler logHandler, size_t maxCount);
+		FacadeInteractiveVizualization(LogHandler logHandler);
 
 		// public methods
 	public:
-		void loadDataFile(std::string dataFilePath, std::shared_ptr<IParser> parser) override;
+		void loadDataFile(std::string dataFilePath, size_t maxSize, std::shared_ptr<IParser> parser) override;
 
 		IResourceFactory& resourceFactory() override;
 

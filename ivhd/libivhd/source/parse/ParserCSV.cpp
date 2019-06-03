@@ -14,8 +14,10 @@ namespace ivhd::parse
 
 	}
 
-	void ParserCSV::loadFile(std::string filePath)
+	void ParserCSV::loadFile(std::string filePath, size_t maxSize)
 	{	
+		m_ext_system.finalData()->generate(maxSize);
+
 		auto input = std::ifstream(filePath.c_str());
 
 		if (!input.good())
