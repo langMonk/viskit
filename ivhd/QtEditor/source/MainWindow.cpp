@@ -2,6 +2,12 @@
 #include <QDesktopServices>
 
 #include "MainWindow.h"
+#include "OpenGLRenderer.h"
+
+void MainWindow::setRenderer(IRenderer* renderer)
+{
+	ui.renderer = dynamic_cast<OpenGLRenderer*>(renderer);
+}
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -19,7 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
 	};
 
 	m_ext_ivhd = ivhd::createIVHD(handler);
-	ui.opengl_widget->attachParticleSystem(&m_ext_ivhd->particleSystem());
+
+	connect(ui.pushButton_Docking, &QPushButton::clicked, ui.renderer, &OpenGLRenderer::dockUndock);
 }
 
 void MainWindow::on_pushButton_Open_clicked()

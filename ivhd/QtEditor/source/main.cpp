@@ -1,11 +1,28 @@
 #include "MainWindow.h"
-#include <QtWidgets/QApplication>
-
+#include <QApplication>
+#include <QMainWindow>
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
+	QApplication app(argc, argv);
+
+	//QSurfaceFormat format;
+	//format.setRenderableType(QSurfaceFormat::OpenGL);
+	//format.setProfile(QSurfaceFormat::CoreProfile);
+	//format.setVersion(4, 6);
+
+	//// Set widget up
+	//OpenGLRenderer* widget = new OpenGLRenderer;
+	//widget->setFormat(format);
+
+	//// Set the window up
+	//QMainWindow window;
+	//window.setCentralWidget(widget);
+	//window.resize(QSize(800, 600));
+	//window.show();
+
 	auto w = MainWindow::instance();
 	w->show();
-	return a.exec();
+
+	return app.exec();
 }
