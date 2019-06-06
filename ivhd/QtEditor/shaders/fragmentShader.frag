@@ -1,12 +1,9 @@
 #version 450
 
-uniform sampler2D tex;
+in highp vec4 vColor;
+out highp vec4 fColor;
 
-in vec4 outColor;
-
-out vec4 vFragColor;
-
-void main() 
+void main()
 {
-	vFragColor = texture(tex, gl_PointCoord) * outColor;
+   fColor = vColor;
 }
