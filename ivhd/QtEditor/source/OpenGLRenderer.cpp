@@ -184,18 +184,17 @@ void OpenGLRenderer::dockUndock()
 		setAttribute(Qt::WA_DeleteOnClose);
 		move(QApplication::desktop()->width() / 2 - width() / 2,
 			QApplication::desktop()->height() / 2 - height() / 2);
+		mainWindow->setCentralWidget(nullptr);
 		show();
-		mainWindow->setRenderer(nullptr);
 	}
 	else 
 	{
-		if (!mainWindow->renderer()) 
+		if (!mainWindow->centralWidget())
 		{
-			if (mainWindow->isVisible()) 
+			if (mainWindow->isVisible())
 			{
-				setParent(mainWindow.get());
 				setAttribute(Qt::WA_DeleteOnClose, false);
-				mainWindow->setRenderer(this);
+				mainWindow->setCentralWidget(this);
 			}
 			else 
 			{
