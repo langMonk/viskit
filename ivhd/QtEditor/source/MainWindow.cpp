@@ -4,11 +4,6 @@
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
 
-void MainWindow::setRenderer(IRenderer* renderer)
-{
-	ui.renderer = dynamic_cast<OpenGLRenderer*>(renderer);
-}
-
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -25,8 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
 	};
 
 	m_ext_ivhd = ivhd::createIVHD(handler);
-
-	connect(ui.pushButton_Docking, &QPushButton::clicked, ui.renderer, &OpenGLRenderer::dockUndock);
 }
 
 void MainWindow::on_pushButton_Open_clicked()
@@ -52,4 +45,9 @@ void MainWindow::on_pushButton_Open_clicked()
 void MainWindow::on_pushButton_Exit_clicked()
 {
 	close();
+}
+
+void MainWindow::on_actionDock_triggered()
+{
+	ui.renderer->dockUndock();
 }
