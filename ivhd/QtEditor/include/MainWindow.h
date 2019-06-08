@@ -25,8 +25,6 @@ public:
 
 	std::shared_ptr<ivhd::IInteractiveVizualization> interactiveVizualization() { return m_ext_ivhd; }
 	Ui::MainWindow* userInterface() { return &ui; }
-	IRenderer* renderer() { return ui.renderer; }
-	void setRenderer(IRenderer* renderer);
 
 private:
 	MainWindow(QWidget* parent = Q_NULLPTR);
@@ -34,6 +32,7 @@ private:
 private slots:
 	void on_pushButton_Open_clicked();
 	void on_pushButton_Exit_clicked();
+	void on_actionDock_triggered();
 
 private:
 	Ui::MainWindow ui;
