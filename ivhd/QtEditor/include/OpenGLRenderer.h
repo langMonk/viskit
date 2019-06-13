@@ -5,7 +5,8 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 #include <QMatrix4x4>
-#include "transform3d.h"
+#include "Transform3d.h"
+#include "Camera3D.h"
 #include "IRenderer.h"
 
 class QOpenGLShaderProgram;
@@ -15,13 +16,19 @@ class OpenGLRenderer : public QOpenGLWidget ,
 {
 	Q_OBJECT
 
-		// OpenGL Events
 public:
 	explicit OpenGLRenderer(QWidget* parent = 0);
-	void initializeGL();
-	void resizeGL(int width, int height);
-	void paintGL();
 	void render() override;
+
+	// OpenGL Events
+protected:
+	void initializeGL() override;
+	void resizeGL(int width, int height) override;
+	void paintGL() override;
+	void keyPressEvent(QKeyEvent* event) override;
+	//void keyReleaseEvent(QKeyEvent* event) override;
+	//void mousePressEvent(QMouseEvent* event) override;
+	//void mouseReleaseEvent(QMouseEvent* event) override;
 
 protected slots:
 	void destroy() override;
@@ -37,9 +44,11 @@ private:
 	QOpenGLShaderProgram* m_program{ 0 };
 
 	// Shader Information
-	int u_modelToWorld{ 0 };
-	int u_worldToView{ 0 };
+	int u_modelToWorld;
+	int u_worldToCamera;
+	int u_cameraToView;
 	QMatrix4x4 m_projection;
+	Camera3D m_camera;
 	Transform3D m_transform;
 
 	// Private Helpers
