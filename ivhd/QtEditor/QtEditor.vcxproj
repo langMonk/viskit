@@ -11,11 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Camera3D.cpp" />
     <ClCompile Include="source\OpenGLRenderer.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MainWindow.cpp" />
     <ClCompile Include="source\ShaderLoader.cpp" />
-    <ClCompile Include="source\transform3d.cpp" />
+    <ClCompile Include="source\Transform3d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h" />
@@ -27,7 +28,8 @@
     <QtUic Include="Forms\mainwindow.ui" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\transform3d.h" />
+    <ClInclude Include="include\Camera3D.h" />
+    <ClInclude Include="include\Transform3d.h" />
     <ClInclude Include="include\vertex.h" />
     <QtMoc Include="include\OpenGLRenderer.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)include;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\Qt3DCore;$(QTDIR)\include\Qt3DAnimation;$(QTDIR)\include\Qt3DExtras;$(QTDIR)\include\Qt3DInput;$(QTDIR)\include\Qt3DLogic;$(QTDIR)\include\Qt3DRender;$(QTDIR)\include\Qt3DQuick;$(QTDIR)\include\Qt3DQuickAnimation;$(QTDIR)\include\Qt3DQuickExtras;$(QTDIR)\include\Qt3DQuickInput;$(QTDIR)\include\Qt3DQuickRender;$(QTDIR)\include\Qt3DQuickScene2D</IncludePath>
