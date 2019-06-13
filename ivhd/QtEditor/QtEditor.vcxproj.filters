@@ -39,10 +39,13 @@
     <ClCompile Include="source\ShaderLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\transform3d.cpp">
+    <ClCompile Include="source\OpenGLRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\OpenGLRenderer.cpp">
+    <ClCompile Include="source\Camera3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Transform3d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,7 +77,10 @@
     <ClInclude Include="include\vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\transform3d.h">
+    <ClInclude Include="include\Camera3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Transform3d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

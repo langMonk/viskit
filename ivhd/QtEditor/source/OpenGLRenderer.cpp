@@ -61,7 +61,6 @@ OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 
 void OpenGLRenderer::initializeGL()
 {
-	// Initialize OpenGL Backend
 	initializeOpenGLFunctions();
 	connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &OpenGLRenderer::destroy, Qt::DirectConnection);
 	connect(this, &QOpenGLWidget::frameSwapped, this, &OpenGLRenderer::update);
@@ -71,20 +70,20 @@ void OpenGLRenderer::initializeGL()
 	glEnable(GL_CULL_FACE);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-	// Application-specific initialization
 	{
-		// Create Shader (Do not release until VAO is created)
+		// Create Shader
 		m_program = new QOpenGLShaderProgram();
-		 m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/vertexShader.vert");
+		m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/vertexShader.vert");
 		m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/fragmentShader.frag");
 		m_program->link();
 		m_program->bind();
 
 		// Cache Uniform Locations
 		u_modelToWorld = m_program->uniformLocation("modelToWorld");
-		u_worldToView = m_program->uniformLocation("worldToView");
+		u_worldToCamera = m_program->uniformLocation("worldToCamera");
+		u_cameraToView = m_program->uniformLocation("cameraToView");
 
-		// Create Buffer (Do not release until VAO is created)
+		// Create Buffer
 		m_vertex.create();
 		m_vertex.bind();
 		m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -98,7 +97,7 @@ void OpenGLRenderer::initializeGL()
 		m_program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
 		m_program->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
 
-		// Release (unbind) all
+		// Release all
 		m_object.release();
 		m_vertex.release();
 		m_program->release();
@@ -118,12 +117,12 @@ void OpenGLRenderer::paintGL()
 
 void OpenGLRenderer::render()
 {
-	// Clear
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// Render using our shader
 	m_program->bind();
-	m_program->setUniformValue(u_worldToView, m_projection);
+
+	m_program->setUniformValue(u_worldToCamera, m_camera.toMatrix());
+	m_program->setUniformValue(u_cameraToView, m_projection);
 	{
 		m_object.bind();
 		m_program->setUniformValue(u_modelToWorld, m_transform.toMatrix());
@@ -133,9 +132,37 @@ void OpenGLRenderer::render()
 	m_program->release();
 }
 
+void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
+{
+	static const float transSpeed = 0.5f;
+
+	QVector3D translation;
+	if (event->key() == Qt::Key_W)
+	{
+		translation += m_camera.forward();
+	}
+	if (event->key() == Qt::Key_S)
+	{
+		translation -= m_camera.forward();
+	}
+	if (event->key() == Qt::Key_A)
+	{
+		translation -= m_camera.right();
+	}
+	if (event->key() == Qt::Key_D)
+	{
+		translation += m_camera.right();
+	}
+
+	m_camera.translate(transSpeed * translation);
+	m_transform.rotate(1.0f, QVector3D(0.4f, 0.3f, 0.3f));
+
+	QOpenGLWidget::update();
+}
+
+
 void OpenGLRenderer::destroy()
 {
-	// Actually destroy our OpenGL information
 	m_object.destroy();
 	m_vertex.destroy();
 	delete m_program;
@@ -143,10 +170,7 @@ void OpenGLRenderer::destroy()
 
 void OpenGLRenderer::update()
 {
-	// Update instance information
 	m_transform.rotate(1.0f, QVector3D(0.4f, 0.3f, 0.3f));
-
-	// Schedule a redraw
 	QOpenGLWidget::update();
 }
 
@@ -156,11 +180,9 @@ void OpenGLRenderer::printVersionInformation()
 	QString glVersion;
 	QString glProfile;
 
-	// Get Version Information
 	glType = (context()->isOpenGLES()) ? "OpenGL ES" : "OpenGL";
 	glVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION));
 
-	// Get Profile Information
 #define CASE(c) case QSurfaceFormat::c: glProfile = #c; break
 	switch (format().profile())
 	{
@@ -170,7 +192,6 @@ void OpenGLRenderer::printVersionInformation()
 	}
 #undef CASE
 
-	// qPrintable() will print our QString w/o quotes around it.
 	qDebug() << qPrintable(glType) << qPrintable(glVersion) << "(" << qPrintable(glProfile) << ")";
 }
 
