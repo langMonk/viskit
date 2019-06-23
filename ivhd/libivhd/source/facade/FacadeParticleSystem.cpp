@@ -11,7 +11,7 @@
 namespace ivhd::facade
 { 
 	FacadeParticleSystem::FacadeParticleSystem(std::shared_ptr<core::Core> core)
-		: m_internalParticleSystem(core->particleSystem())
+		: m_internalParticleSystem(std::make_shared<particles::ParticleSystem>(core->system()))
 	{
 	}
 
@@ -20,27 +20,18 @@ namespace ivhd::facade
 		return m_internalParticleSystem->originalCoordinates();
 	}
 
+	std::shared_ptr<particles::ParticleSystem> FacadeParticleSystem::internalParticleSystem() const
+	{
+		return m_internalParticleSystem;
+	}
+
 	size_t FacadeParticleSystem::countAlive()
 	{
 		return m_internalParticleSystem->numAliveParticles();
 	}
 
-	ParticleData* FacadeParticleSystem::finalData()
+	particles::ParticleData* FacadeParticleSystem::finalData()
 	{
 		return m_internalParticleSystem->finalData();
 	}
-
-	void FacadeParticleSystem::castData(std::shared_ptr<ICaster> caster)
-	{
-		caster->cast();
-	}
-
-	void FacadeParticleSystem::reduceData(IReducer& reducer)
-	{
-	}
-
-	void FacadeParticleSystem::clusterData(IClusterer& clusterer)
-	{
-	}
-
 }

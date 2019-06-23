@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include "ivhd/ICaster.h"
-#include "core/ParticleSystem.h"
+#include "facade/FacadeCaster.h"
+#include "ivhd/IParticleSystem.h"
 #include "embed/cast/CasterRandom.h"
 
 namespace ivhd::facade
@@ -14,12 +14,12 @@ namespace ivhd::facade
 	/// <summary>
 	/// Implementation of ICaster interface.
 	/// </summary>
-	class FacadeCasterRandom : public ICaster
+	class FacadeCasterRandom : public FacadeCaster
 	{
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterRandom(core::ParticleSystem& system);
+		explicit FacadeCasterRandom(std::shared_ptr<core::Core> core);
 		~FacadeCasterRandom() = default;
 
 		FacadeCasterRandom(const FacadeCasterRandom&) = delete;
@@ -30,14 +30,9 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		void cast() override;
+		void cast(std::shared_ptr<ivhd::IParticleSystem>& ps) override;
 
-		void resetSettings() override;
-
-		void loadSettings(std::istream& in) override;
-
-		void saveSettings(std::ostream& out) override;
-
+		// private members
 	private:
 		std::shared_ptr<ivhd::embed::cast::CasterRandom> m_internalCaster;
 	};

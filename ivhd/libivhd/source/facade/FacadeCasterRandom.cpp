@@ -7,25 +7,22 @@
 
 namespace ivhd::facade
 {
-	FacadeCasterRandom::FacadeCasterRandom(core::ParticleSystem& system)
-		: m_internalCaster(std::make_shared<ivhd::embed::cast::CasterRandom>(system))
+	FacadeCasterRandom::FacadeCasterRandom(std::shared_ptr<core::Core> core)
+		: FacadeCaster(core)
+		, m_internalCaster(std::make_shared<ivhd::embed::cast::CasterRandom>(core->system()))
 	{
 	}
 
-	void FacadeCasterRandom::cast()
+	void FacadeCasterRandom::cast(std::shared_ptr<ivhd::IParticleSystem>& ps)
 	{
-		m_internalCaster->cast();
-	}
-
-	void FacadeCasterRandom::resetSettings()
-	{
-	}
-
-	void FacadeCasterRandom::loadSettings(std::istream& in)
-	{
-	}
-
-	void FacadeCasterRandom::saveSettings(std::ostream& out)
-	{
+		try
+		{
+			auto particleSystem = dynamic_cast<FacadeParticleSystem*>(ps.get());
+			m_internalCaster->cast(*particleSystem->internalParticleSystem().get());
+		}
+		catch (std::exception& ex)
+		{
+			m_ext_core->logger().logWarning("Failed to cast data using RandomCaster. Error message: " + *ex.what());
+		}
 	}
 }

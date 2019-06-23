@@ -12,6 +12,7 @@ namespace ivhd
 {
 	class IParser;
 	class ICaster;
+	class IParticleSystem;
 
 	class IResourceFactory
 	{
@@ -28,6 +29,12 @@ namespace ivhd
 		/// </summary>
 		/// <returns>The created caster.</returns>
 		virtual std::shared_ptr<ICaster> createCaster(CasterType type) = 0;
+
+		/// <summary>
+		/// Creates a new particle system
+		/// </summary>
+		/// <returns>The created system.</returns>
+		virtual std::shared_ptr<IParticleSystem> createParticleSystem() = 0;
 
 	};
 }
