@@ -36,22 +36,5 @@ namespace ivhd
 		/// <returns> Number of particles, that are currently alive.</returns>
 		virtual size_t countAlive() = 0;
 
-		/// <summary>
-		/// Cast data between two spaces (from N -> M dimensions, where M << N). 
-		/// </summary>
-		/// <params name="caster"> Caster, that will be used for casting between spaces. </params>
-		virtual void castData(std::shared_ptr<ICaster> caster) = 0;
-
-		/// <summary>
-		/// Reduce data dimensionality. 
-		/// </summary>
-		/// <params name="reducer"> Reducer, that will be used for dimensionality reduction. </params>
-		virtual void reduceData(IReducer& reducer) = 0;
-
-		/// <summary>
-		/// Cluster data.
-		/// </summary>
-		/// <params name="clusterer"> Clusterer, that will be used for data clustering. </params>
-		virtual void clusterData(IClusterer& clusterer) = 0;
 	};
 }

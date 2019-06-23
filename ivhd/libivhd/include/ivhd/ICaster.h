@@ -5,18 +5,17 @@
 
 #pragma once
 
-#include "ITransformer.h"
+#include "IParticleSystem.h"
 
 namespace ivhd
 {
-	class ICaster : public virtual ITransformer
+	class ICaster
 	{
 		// public methods 
 	public:
 		/// <summary>
 		/// Handles process of casting between spaces
 		/// </summary>
-		virtual void cast() = 0;
-
+		virtual void cast(std::shared_ptr<ivhd::IParticleSystem>& ps) = 0;
 	};
 }

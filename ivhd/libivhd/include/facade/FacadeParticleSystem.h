@@ -7,8 +7,7 @@
 
 #include "ivhd/IParticleSystem.h"
 #include "core/Core.h"
-#include "core/ParticleSystem.h"
-#include "particles/ParticleData.h"
+#include "particles/ParticleSystem.h"
 
 namespace ivhd::facade
 {
@@ -33,17 +32,13 @@ namespace ivhd::facade
 	public:
 		std::vector<std::vector<float>> originalCoordinates() override;
 
-		ParticleData* finalData() override;
+		std::shared_ptr<particles::ParticleSystem> internalParticleSystem() const;
+
+		particles::ParticleData* finalData() override;
 
 		size_t countAlive() override;
 
-		void castData(std::shared_ptr<ICaster> caster) override;
-
-		void reduceData(IReducer& reducer) override;
-
-		void clusterData(IClusterer& clusterer) override;
-
 	private:
-		std::shared_ptr<core::ParticleSystem> m_internalParticleSystem;
+		std::shared_ptr<particles::ParticleSystem> m_internalParticleSystem;
 	};
 }

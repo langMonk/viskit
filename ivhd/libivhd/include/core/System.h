@@ -1,29 +1,28 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 18.04.2019
+/// \date 10.06.2019
 ///
 
 #pragma once
 
 #include "Logger.h"
-#include "System.h"
 
 namespace ivhd::core
 {
-	class Core
+	class System
 	{
 		// public construction and destruction methods
 	public:
-		Core(OnLogAdded handler);
+		System(OnLogAdded logHandler);
 
 		// public methods
 	public:
-		Logger& logger() { return m_system.logger(); }
+		const Logger& logger() const { return m_logger; }
+		Logger& logger() { return m_logger; }
 
-		System& system() { return m_system; }
-
+		// private properties
 	private:
-		OnLogAdded m_logHandler;
-		System m_system;
+		Logger m_logger;
+
 	};
 }

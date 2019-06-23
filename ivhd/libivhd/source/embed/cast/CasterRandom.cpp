@@ -10,13 +10,13 @@
 
 namespace ivhd::embed::cast
 {
-	CasterRandom::CasterRandom(core::ParticleSystem& system)
+	CasterRandom::CasterRandom(core::System& system)
 		: Caster(system)
 		, m_maxEdge(1000)
 	{
 	}
 
-	void CasterRandom::cast()
+	void CasterRandom::cast(particles::ParticleSystem& ps)
 	{
 		initialize();
 
@@ -26,9 +26,9 @@ namespace ivhd::embed::cast
 
 		m_ext_system.logger().logInfo("[CasterRandom] Casting...");
 
-		auto dataPoints = m_ext_system.finalData();
+		auto dataPoints = ps.finalData();
 
-		for (int i = 0; i < m_ext_system.numAliveParticles(); i++)
+		for (int i = 0; i < ps.numAliveParticles(); i++)
 		{
 			dataPoints->m_pos[i].x = gen();
 			dataPoints->m_pos[i].y = gen();

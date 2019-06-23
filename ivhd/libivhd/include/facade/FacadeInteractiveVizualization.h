@@ -25,21 +25,16 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		void loadDataFile(std::string dataFilePath, size_t maxSize, std::shared_ptr<IParser> parser) override;
-
 		IResourceFactory& resourceFactory() override;
-
-		IParticleSystem& particleSystem() override;
 
 		std::shared_ptr<core::Core> core()
 		{
-			return m_ext_core;
+			return m_core;
 		}
 
 		//private properties
 	private:
-		std::shared_ptr<core::Core> m_ext_core;
+		std::shared_ptr<core::Core> m_core;
 		facade::FacadeResourceFactory m_resourceFactory {*this};
-		facade::FacadeParticleSystem m_particleSystem;
 	};
 }

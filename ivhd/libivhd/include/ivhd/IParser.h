@@ -6,6 +6,7 @@
 #pragma once
 
 #include <string>
+#include "ivhd/IParticleSystem.h"
 
 namespace ivhd
 {
@@ -15,9 +16,9 @@ namespace ivhd
 	public:
 
 		/// <summary>
-		/// Load specified file into kNN structure
+		/// Load specified file into particle system structure
 		/// </summary>
-		virtual void loadFile(std::string filePath, size_t maxSize) = 0;
+		virtual void loadFile(std::string filePath, size_t maxSize, std::shared_ptr<ivhd::IParticleSystem>& ps) = 0;
 
 	};
 }

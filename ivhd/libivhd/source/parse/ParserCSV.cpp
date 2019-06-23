@@ -4,19 +4,20 @@
 ///
 
 #include <boost/algorithm/string.hpp>
-
 #include "parse/ParserCSV.h"
 
 namespace ivhd::parse
 { 
-	ParserCSV::ParserCSV(core::ParticleSystem& system) : Parser(system)
+	ParserCSV::ParserCSV(core::System& system) 
+		: Parser(system)
 	{
 
 	}
 
-	void ParserCSV::loadFile(std::string filePath, size_t maxSize)
+	void ParserCSV::loadFile(std::string filePath, size_t maxSize, particles::ParticleSystem& ps)
 	{	
-		m_ext_system.finalData()->generate(maxSize);
+		auto data = ps.finalData();
+		data->generate(maxSize);
 
 		auto input = std::ifstream(filePath.c_str());
 
@@ -26,7 +27,7 @@ namespace ivhd::parse
 		}
 		else 
 		{ 
-			m_ext_system.logger().logInfo("Loading data from file: " + filePath); 
+			m_ext_system.logger().logInfo("Loading data from file: " + filePath);
 		}
 		
 		bool firstLine = true;
@@ -49,11 +50,12 @@ namespace ivhd::parse
 				return std::stof(val);
 			});
 
-			m_ext_system.originalCoordinates().push_back(floatVector);
+			ps.originalCoordinates().push_back(floatVector);
 		}
 
-		m_ext_system.reducedCoordinates() = m_ext_system.originalCoordinates();
+		ps.reducedCoordinates() = ps.originalCoordinates();
 
+		finalize(ps);
 		input.close();
 	}
 }

@@ -9,15 +9,13 @@
 #include <vector>
 #include <map>
 
-#include "core/Logger.h"
+#include "core/System.h"
 #include "particles/ParticleData.h"
 #include "particles/generate/ParticleGenerator.h"
 #include "particles/emit/ParticleEmitter.h"
 #include "particles/update/ParticleUpdater.h"
 
-using namespace ivhd::particles;
-
-namespace ivhd::core
+namespace ivhd::particles
 {
 		// public sub-types
 	using CoordinatesContainer = std::vector<std::vector<float>>;
@@ -26,8 +24,8 @@ namespace ivhd::core
 	{
 		// public construction and destruction methods
 	public:
-		explicit ParticleSystem(OnLogAdded handler);
-		virtual ~ParticleSystem() { }
+		explicit ParticleSystem(core::System& system);
+		~ParticleSystem(){}
 
 		ParticleSystem(const ParticleSystem&) = delete;
 		ParticleSystem& operator=(const ParticleSystem&) = delete;
@@ -42,14 +40,12 @@ namespace ivhd::core
 
 		CoordinatesContainer& originalCoordinates() { return m_originalCoordinates; }
 		CoordinatesContainer& reducedCoordinates() { return m_reducedCoordinates; }
-		ParticleData* finalData() { return &m_particles; }
 
-		const Logger& logger() const { return m_logger; }
-		Logger& logger() { return m_logger; }
+		ParticleData* finalData() { return &m_particles; }
 
 		// private members
 	private:
-		Logger m_logger;
+		core::System& m_ext_system;
 
 		CoordinatesContainer m_originalCoordinates;
 
