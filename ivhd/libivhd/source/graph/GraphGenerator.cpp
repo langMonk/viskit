@@ -7,7 +7,7 @@
 
 namespace ivhd::graph
 { 
-	GraphGenerator::GraphGenerator(core::ParticleSystem& system, bool useCache)
+	GraphGenerator::GraphGenerator(core::System& system, bool useCache)
 		: m_ext_system(system)
 		, m_useCache(useCache)
 	{
@@ -15,7 +15,6 @@ namespace ivhd::graph
 
 	void GraphGenerator::kNN()
 	{
-		m_ext_system.logger().logInfo("Matrix generation started");
 
 
 	}

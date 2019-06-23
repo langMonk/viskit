@@ -6,7 +6,8 @@
 #pragma once
 
 #include <string>
-#include "core/ParticleSystem.h"
+#include "core/System.h"
+#include "particles/ParticleSystem.h"
 
 namespace ivhd::parse
 {
@@ -14,20 +15,16 @@ namespace ivhd::parse
 	{
 		// public construction and destruction methods
 	public:
-		Parser(core::ParticleSystem& system);
+		Parser(core::System& system);
 
 		Parser(const Parser&) = delete;
 		Parser& operator=(const Parser&) = delete;
 
 		// public methods
 	public:
-		virtual void initialize();
-
-		virtual void loadFile(std::string filePath, size_t maxSize);
-
-		virtual void finalize();
+		virtual void finalize(particles::ParticleSystem& ps);
 
 	protected:
-		core::ParticleSystem& m_ext_system;
+		core::System& m_ext_system;
 	};
 }

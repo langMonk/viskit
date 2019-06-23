@@ -5,12 +5,7 @@
 
 #pragma once
 
-#include <map>
-#include <iostream>
-
-#include "core/ParticleSystem.h"
-#include "ivhd/SettingType.h"
-#include "Caster.h"
+#include "core/System.h"
 
 namespace ivhd::embed::cast
 {
@@ -18,15 +13,11 @@ namespace ivhd::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		Caster(core::ParticleSystem& system);
+		Caster(core::System& system);
 		virtual ~Caster();
 
 		Caster(const Caster&) = delete;
 		Caster& operator=(const Caster&) = delete;
-
-		// public methods
-	public:
-		core::ParticleSystem& particleSystem() const;
 
 		// protected methods
 	protected:
@@ -35,8 +26,6 @@ namespace ivhd::embed::cast
 		virtual void finalize();
 
 	protected:
-		std::map<std::string, std::unique_ptr<SettingType>> m_parameters;
-
-		core::ParticleSystem& m_ext_system;
+		core::System& m_ext_system;
 	};
 }
