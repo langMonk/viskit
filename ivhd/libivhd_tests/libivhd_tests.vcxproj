@@ -59,6 +59,7 @@
     <ClCompile Include="core\LoggerTest.cpp" />
     <ClCompile Include="embed\CasterTest.cpp" />
     <ClCompile Include="ivhd\InteractiveVisualizationBuilderTest.cpp" />
+    <ClCompile Include="particles\ParticleData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h" />
