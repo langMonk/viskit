@@ -1,9 +1,9 @@
 #version 450
 
-in highp vec4 vColor;
-out highp vec4 fColor;
+in vec4 outColor;
+out vec4 vFragColor;
 
 void main()
 {
-   fColor = vColor;
+   vFragColor = vec4(1, 0, 0,0);
 }

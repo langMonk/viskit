@@ -9,70 +9,19 @@
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
 
-
-// Front Verticies
-#define VERTEX_FTR Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) )
-#define VERTEX_FTL Vertex( QVector3D(-0.5f,  0.5f,  0.5f), QVector3D( 0.0f, 1.0f, 0.0f ) )
-#define VERTEX_FBL Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) )
-#define VERTEX_FBR Vertex( QVector3D( 0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 0.0f ) )
-
-// Back Verticies
-#define VERTEX_BTR Vertex( QVector3D( 0.5f,  0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 0.0f ) )
-#define VERTEX_BTL Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) )
-#define VERTEX_BBL Vertex( QVector3D(-0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 0.0f, 1.0f ) )
-#define VERTEX_BBR Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) )
-
-// Create a colored cube
-static const Vertex sg_vertexes[] = {
-	// Face 1 (Front)
-	VERTEX_FTR, VERTEX_FTL, VERTEX_FBL,
-	VERTEX_FBL, VERTEX_FBR, VERTEX_FTR,
-	// Face 2 (Back)
-	VERTEX_BBR, VERTEX_BTL, VERTEX_BTR,
-	VERTEX_BTL, VERTEX_BBR, VERTEX_BBL,
-	// Face 3 (Top)
-	VERTEX_FTR, VERTEX_BTR, VERTEX_BTL,
-	VERTEX_BTL, VERTEX_FTL, VERTEX_FTR,
-	// Face 4 (Bottom)
-	VERTEX_FBR, VERTEX_FBL, VERTEX_BBL,
-	VERTEX_BBL, VERTEX_BBR, VERTEX_FBR,
-	// Face 5 (Left)
-	VERTEX_FBL, VERTEX_FTL, VERTEX_BTL,
-	VERTEX_FBL, VERTEX_BTL, VERTEX_BBL,
-	// Face 6 (Right)
-	VERTEX_FTR, VERTEX_FBR, VERTEX_BBR,
-	VERTEX_BBR, VERTEX_BTR, VERTEX_FTR
-};
-
-#undef VERTEX_BBR
-#undef VERTEX_BBL
-#undef VERTEX_BTL
-#undef VERTEX_BTR
-
-#undef VERTEX_FBR
-#undef VERTEX_FBL
-#undef VERTEX_FTL
-#undef VERTEX_FTR
-
 OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 {
 	m_transform.translate(0.0f, 0.0f, -5.0f);
+
 }
 
-void OpenGLRenderer::initializeGL()
+void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
 {
-	initializeOpenGLFunctions();
-	connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &OpenGLRenderer::destroy, Qt::DirectConnection);
-	connect(this, &QOpenGLWidget::frameSwapped, this, &OpenGLRenderer::update);
-	printVersionInformation();
-
-	// Set global information
-	glEnable(GL_CULL_FACE);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+	const size_t count = MainWindow::instance()->particleSystem()->countAlive();
+	m_particleSystem = sys;
 	{
 		// Create Shader
-		m_program = new QOpenGLShaderProgram();
+		m_program = std::make_unique<QOpenGLShaderProgram>();
 		m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/vertexShader.vert");
 		m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/fragmentShader.frag");
 		m_program->link();
@@ -83,25 +32,48 @@ void OpenGLRenderer::initializeGL()
 		u_worldToCamera = m_program->uniformLocation("worldToCamera");
 		u_cameraToView = m_program->uniformLocation("cameraToView");
 
-		// Create Buffer
-		m_vertex.create();
-		m_vertex.bind();
-		m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
-		m_vertex.allocate(sg_vertexes, sizeof(sg_vertexes));
+		// Create position VBO
+		m_bufferPos.create();
+		m_bufferPos.bind();
+		m_bufferPos.setUsagePattern(QOpenGLBuffer::DynamicCopy);
+		m_bufferPos.allocate(m_particleSystem->finalData()->m_pos.get(), 4 * sizeof(float) * count);
 
-		// Create Vertex Array Object
-		m_object.create();
-		m_object.bind();
+		// Create color VBO
+		m_bufferColor.create();
+		m_bufferColor.bind();
+		m_bufferColor.setUsagePattern(QOpenGLBuffer::DynamicCopy);
+		m_bufferColor.allocate(m_particleSystem->finalData()->m_col.get(), 4 * sizeof(float) * count);
+
+		// Create VAO
+		m_vao.create();
+		m_vao.bind();
 		m_program->enableAttributeArray(0);
 		m_program->enableAttributeArray(1);
-		m_program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
-		m_program->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
+		//m_program->setAttributeBuffer(0, GL_FLOAT, 0, 4*sizeof(float), 0);
+		//m_program->setAttributeBuffer(1, GL_FLOAT, 0, 4*sizeof(float), 0);
 
-		// Release all
-		m_object.release();
-		m_vertex.release();
+		// Release (unbind) all
+		m_vao.release();
+		m_bufferPos.release();
+		m_bufferColor.release();
 		m_program->release();
 	}
+
+	particleSystemGenerated = true;
+}
+
+void OpenGLRenderer::initializeGL()
+{
+	if (m_particleSystem != nullptr)
+	{
+		generate(m_particleSystem);
+		return;
+	}
+
+	initializeOpenGLFunctions();
+	connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &OpenGLRenderer::destroy, Qt::DirectConnection);
+	connect(this, &QOpenGLWidget::frameSwapped, this, &OpenGLRenderer::update);
+	printVersionInformation();
 }
 
 void OpenGLRenderer::resizeGL(int width, int height)
@@ -117,24 +89,38 @@ void OpenGLRenderer::paintGL()
 
 void OpenGLRenderer::render()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	if (!particleSystemGenerated) { return; }
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_PROGRAM_POINT_SIZE);
 
 	m_program->bind();
-
 	m_program->setUniformValue(u_worldToCamera, m_camera.toMatrix());
 	m_program->setUniformValue(u_cameraToView, m_projection);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
 	{
-		m_object.bind();
-		m_program->setUniformValue(u_modelToWorld, m_transform.toMatrix());
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
-		m_object.release();
+		m_vao.bind();
+
+		const size_t count = MainWindow::instance()->particleSystem()->countAlive();
+		if (count > 0)
+		{
+			glDrawArrays(GL_POINTS, 0, count);
+		}		
+
+		m_vao.release();
 	}
+
+	glDisable(GL_BLEND);
 	m_program->release();
 }
 
 void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
 {
-	static const float transSpeed = 0.5f;
+	static const float transSpeed = 0.05f;
 
 	QVector3D translation;
 	if (event->key() == Qt::Key_W)
@@ -155,22 +141,25 @@ void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
 	}
 
 	m_camera.translate(transSpeed * translation);
-	m_transform.rotate(1.0f, QVector3D(0.4f, 0.3f, 0.3f));
+	m_transform.rotate(1.0f, QVector3D(0.2f, 0.1f, 0.1f));
 
 	QOpenGLWidget::update();
 }
 
-
 void OpenGLRenderer::destroy()
 {
-	m_object.destroy();
-	m_vertex.destroy();
-	delete m_program;
+	m_vao.destroy();
+	m_bufferColor.destroy();
+	m_bufferPos.destroy();
+	m_program->release();
 }
 
 void OpenGLRenderer::update()
 {
+	// Update instance information
 	m_transform.rotate(1.0f, QVector3D(0.4f, 0.3f, 0.3f));
+
+	// Schedule a redraw
 	QOpenGLWidget::update();
 }
 
@@ -194,7 +183,6 @@ void OpenGLRenderer::printVersionInformation()
 
 	qDebug() << qPrintable(glType) << qPrintable(glVersion) << "(" << qPrintable(glProfile) << ")";
 }
-
 
 void OpenGLRenderer::dockUndock()
 {
