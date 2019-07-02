@@ -40,11 +40,14 @@ void MainWindow::on_pushButton_Open_clicked()
 	else
 	{
 		auto parser = m_ivhd->resourceFactory().createParser(ivhd::ParserType::Csv);
-		parser->loadFile(fileName.toUtf8().constData(), 7000, m_ivhd_particleSystem);
+		parser->loadFile(fileName.toUtf8().constData(), 20, m_ivhd_particleSystem);
 	}
 
 	auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
 	casterRandom->cast(m_ivhd_particleSystem);
+
+	// generate primary rendering of particle system
+	ui.renderer->generate(m_ivhd_particleSystem);
 }
 
 void MainWindow::on_pushButton_Exit_clicked()

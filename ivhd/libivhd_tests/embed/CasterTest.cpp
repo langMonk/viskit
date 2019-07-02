@@ -46,10 +46,11 @@ TEST(CasterTest, CasterRandom)
 
 	caster.cast(particleSystem);
 
+	auto positions = dataPoints->m_pos.get();
 	for (int i = 0; i < particleSystem.numAllParticles()-1; i++)
 	{
-		EXPECT_NE(dataPoints->m_pos[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
-		EXPECT_NE(dataPoints->m_pos[i], dataPoints->m_pos[i+1]);
+		EXPECT_NE(positions[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+		EXPECT_NE(positions[i], positions[i+1]);
 	}
 }
 
