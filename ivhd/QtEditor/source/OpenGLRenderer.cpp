@@ -12,51 +12,51 @@
 OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 {
 	m_transform.translate(0.0f, 0.0f, -5.0f);
-
 }
 
 void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
 {
-	const size_t count = MainWindow::instance()->particleSystem()->countAlive();
+	
 	m_particleSystem = sys;
+
+	const size_t count = m_particleSystem->countAlive();
+
 	{
-		// Create Shader
-		m_program = std::make_unique<QOpenGLShaderProgram>();
-		m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/vertexShader.vert");
-		m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/fragmentShader.frag");
-		m_program->link();
-		m_program->bind();
+		// Create VAO
+		m_vao = new QOpenGLVertexArrayObject(this);
+		m_vao->create();
+		m_vao->bind();
 
 		// Cache Uniform Locations
-		u_modelToWorld = m_program->uniformLocation("modelToWorld");
-		u_worldToCamera = m_program->uniformLocation("worldToCamera");
-		u_cameraToView = m_program->uniformLocation("cameraToView");
+		u_modelToWorld = m_shaderProgram->uniformLocation("modelToWorld");
+		u_worldToCamera = m_shaderProgram->uniformLocation("worldToCamera");
+		u_cameraToView = m_shaderProgram->uniformLocation("cameraToView");
 
 		// Create position VBO
-		m_bufferPos.create();
-		m_bufferPos.bind();
-		m_bufferPos.setUsagePattern(QOpenGLBuffer::DynamicCopy);
-		m_bufferPos.allocate(m_particleSystem->finalData()->m_pos.get(), 4 * sizeof(float) * count);
+		m_bufferPos = std::make_unique<QOpenGLBuffer>(QOpenGLBuffer::VertexBuffer);
+		m_bufferPos->create();
+		m_bufferPos->setUsagePattern(QOpenGLBuffer::StreamDraw);
+		m_bufferPos->bind();
+
+		auto positions = MainWindow::instance()->particleSystem()->finalData()->m_pos.get();
+		m_bufferPos->allocate(positions, 4 * sizeof(float) * count);
+		m_shaderProgram->enableAttributeArray("position");
+		m_shaderProgram->setAttributeBuffer("position" , GL_FLOAT, 0, 4);
 
 		// Create color VBO
-		m_bufferColor.create();
-		m_bufferColor.bind();
-		m_bufferColor.setUsagePattern(QOpenGLBuffer::DynamicCopy);
-		m_bufferColor.allocate(m_particleSystem->finalData()->m_col.get(), 4 * sizeof(float) * count);
-
-		// Create VAO
-		m_vao.create();
-		m_vao.bind();
-		m_program->enableAttributeArray(0);
-		m_program->enableAttributeArray(1);
-		//m_program->setAttributeBuffer(0, GL_FLOAT, 0, 4*sizeof(float), 0);
-		//m_program->setAttributeBuffer(1, GL_FLOAT, 0, 4*sizeof(float), 0);
+		m_bufferColor = std::make_unique<QOpenGLBuffer>(QOpenGLBuffer::VertexBuffer);
+		m_bufferColor->create();
+		m_bufferColor->setUsagePattern(QOpenGLBuffer::StreamDraw);
+		m_bufferColor->bind();
+		auto colors = MainWindow::instance()->particleSystem()->finalData()->m_col.get();
+		m_bufferColor->allocate(colors, 4 * sizeof(float) * count);
+		m_shaderProgram->enableAttributeArray("color");
+		m_shaderProgram->setAttributeBuffer("color", GL_FLOAT, 0, 4);
 
 		// Release (unbind) all
-		m_vao.release();
-		m_bufferPos.release();
-		m_bufferColor.release();
-		m_program->release();
+		m_bufferPos->release();
+		m_bufferColor->release();
+		m_vao->release();
 	}
 
 	particleSystemGenerated = true;
@@ -64,16 +64,32 @@ void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
 
 void OpenGLRenderer::initializeGL()
 {
+	initializeOpenGLFunctions();
+	connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &OpenGLRenderer::destroy, Qt::DirectConnection);
+	connect(this, &QOpenGLWidget::frameSwapped, this, &OpenGLRenderer::update);
+	printVersionInformation();
+
+	// Create Shader
+	m_shaderProgram = std::make_unique<QOpenGLShaderProgram>();
+	m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/vertexShader.vert");
+	m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/fragmentShader.frag");
+	m_shaderProgram->link();
+	m_shaderProgram->bind();
+
 	if (m_particleSystem != nullptr)
 	{
 		generate(m_particleSystem);
 		return;
 	}
 
-	initializeOpenGLFunctions();
-	connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &OpenGLRenderer::destroy, Qt::DirectConnection);
-	connect(this, &QOpenGLWidget::frameSwapped, this, &OpenGLRenderer::update);
-	printVersionInformation();
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_NORMALIZE);
+
+	m_shaderProgram->release();
 }
 
 void OpenGLRenderer::resizeGL(int width, int height)
@@ -92,30 +108,17 @@ void OpenGLRenderer::render()
 	if (!particleSystemGenerated) { return; }
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_PROGRAM_POINT_SIZE);
+	
+	m_vao->bind();
 
-	m_program->bind();
-	m_program->setUniformValue(u_worldToCamera, m_camera.toMatrix());
-	m_program->setUniformValue(u_cameraToView, m_projection);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
+	const size_t count = MainWindow::instance()->particleSystem()->countAlive();
+	if (count > 0)
 	{
-		m_vao.bind();
+		glDrawArrays(GL_POINTS, 0, count);
+	}		
 
-		const size_t count = MainWindow::instance()->particleSystem()->countAlive();
-		if (count > 0)
-		{
-			glDrawArrays(GL_POINTS, 0, count);
-		}		
-
-		m_vao.release();
-	}
-
-	glDisable(GL_BLEND);
-	m_program->release();
+	m_vao->release();
+	
 }
 
 void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
@@ -148,16 +151,29 @@ void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
 
 void OpenGLRenderer::destroy()
 {
-	m_vao.destroy();
-	m_bufferColor.destroy();
-	m_bufferPos.destroy();
-	m_program->release();
+	m_bufferColor->destroy();
+	m_bufferPos->destroy();
+	m_shaderProgram->release();
 }
 
 void OpenGLRenderer::update()
 {
-	// Update instance information
-	m_transform.rotate(1.0f, QVector3D(0.4f, 0.3f, 0.3f));
+	if (!particleSystemGenerated) { return; }
+
+	const size_t count = m_particleSystem->countAlive();
+	if (count > 0)
+	{
+		m_bufferPos->bind();
+		auto positions = MainWindow::instance()->particleSystem()->finalData()->m_col.get();
+		m_bufferColor->allocate(positions, 4 * sizeof(float) * count);
+
+		m_bufferColor->bind();
+		auto colors = MainWindow::instance()->particleSystem()->finalData()->m_col.get();
+		m_bufferColor->allocate(colors, 4 * sizeof(float) * count);
+
+		m_bufferPos->release();
+		m_bufferColor->release();
+	}
 
 	// Schedule a redraw
 	QOpenGLWidget::update();
