@@ -40,15 +40,16 @@ public slots:
 	void dockUndock();
 
 private:
-	QOpenGLBuffer m_bufferPos, m_bufferColor;
-	QOpenGLVertexArrayObject m_vao{ 0 };
-	std::unique_ptr<QOpenGLShaderProgram> m_program;
+	std::unique_ptr<QOpenGLBuffer> m_bufferPos, m_bufferColor;
+	std::unique_ptr<QOpenGLShaderProgram> m_shaderProgram;
+	QOpenGLVertexArrayObject* m_vao;
+
 	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem;
 	bool particleSystemGenerated{ false };
 
-	int u_modelToWorld;
-	int u_worldToCamera;
-	int u_cameraToView;
+	int u_modelToWorld{ 0 };
+	int u_worldToCamera{ 0 };
+	int u_cameraToView{ 0 };
 	QMatrix4x4 m_projection;
 	Camera3D m_camera;
 	Transform3D m_transform;
