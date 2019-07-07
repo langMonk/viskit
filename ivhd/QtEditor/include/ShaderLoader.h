@@ -1,8 +1,9 @@
 #pragma once
 
-#include <QOpenGLShaderProgram>
+#include "ShaderProgram.h"
 
 namespace shaderLoader
 {
-	bool loadAndBuildShaderPairFromFile(QOpenGLShaderProgram* outProg, const char* vs, const char* fs);
+	bool loadAndBuildShaderPairFromFile(ShaderProgram* outProg, const char* vs, const char* fs);
+	bool loadAndBuildShaderPairFromSource(ShaderProgram* outProg, const char* vsSource, const char* fsSource);
 } 

@@ -9,7 +9,6 @@
 #include <ivhd/IParticleSystem.h>
 
 #include "ui_MainWindow.h"
-#include "OpenGLRenderer.h"
 
 class MainWindow : public QMainWindow
 {
