@@ -11,9 +11,8 @@ int main(int argc, char *argv[])
 	//format.setProfile(QSurfaceFormat::CoreProfile);
 	//format.setVersion(4, 6);
 
-	//// Set widget up
-	//OpenGLRenderer* widget = new OpenGLRenderer;
-	//widget->setFormat(format);
+	// Set widget up
+	//OpenGLRenderer* w = new OpenGLRenderer;
 
 	//// Set the window up
 	//QMainWindow window;
