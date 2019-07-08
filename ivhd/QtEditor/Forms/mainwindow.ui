@@ -31,7 +31,15 @@
      <number>2</number>
     </property>
     <item>
-     <widget class="OpenGLRenderer" name="renderer"/>
+     <widget class="QWidget" name="renderer" native="true">
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:black
+</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -2181,13 +2189,6 @@
   <zorder>dockWidget_Algorithms</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>OpenGLRenderer</class>
-   <extends>QOpenGLWidget</extends>
-   <header location="global">openglrenderer.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>pushButton_ClearLog</tabstop>
   <tabstop>pushButton_Open</tabstop>

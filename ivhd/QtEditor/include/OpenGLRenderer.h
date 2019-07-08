@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ShaderLoader.h"
+#include "MainWindow.h"
+
 #include <ivhd/IParticleSystem.h>
 #include <QOpenGLWidget>
 #include <QDebug>
@@ -40,4 +42,6 @@ private:
 	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem;
 
 	void printVersionInformation();
+
+	friend class MainWindow;
 };

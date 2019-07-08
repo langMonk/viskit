@@ -2,7 +2,6 @@
 #include <QDesktopServices>
 
 #include "MainWindow.h"
-#include "OpenGLRenderer.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -24,7 +23,7 @@ void MainWindow::createIVHD()
 	};
 
 	m_ivhd = ivhd::createIVHD(handler);
-	m_ivhd_particleSystem = m_ivhd->resourceFactory().createParticleSystem();
+	m_ivhd_particleSystem = m_ivhd->resourceFactory().createParticleSystem();	
 }
 
 void MainWindow::on_pushButton_Open_clicked()
@@ -46,16 +45,10 @@ void MainWindow::on_pushButton_Open_clicked()
 	auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
 	casterRandom->cast(m_ivhd_particleSystem);
 
-	// generate primary rendering of particle system
-	ui.renderer->generate(m_ivhd_particleSystem);
+	setCentralWidget(new OpenGLRenderer());
 }
 
 void MainWindow::on_pushButton_Exit_clicked()
 {
 	close();
-}
-
-void MainWindow::on_actionDock_triggered()
-{
-	ui.renderer->dockUndock();
 }
