@@ -1,38 +1,18 @@
 #include "OpenGLRenderer.h"
 
-GLfloat vertices_position[24] = {
-	0.0, 0.0,
-	0.5, 0.0,
-	0.5, 0.5,
-
-	0.0, 0.0,
-	0.0, 0.5,
-	- 0.5, 0.5,
-
-	0.0, 0.0,
-	- 0.5, 0.0,
-	- 0.5, -0.5,
-
-	0.0, 0.0,
-	0.0, -0.5,
-	0.5, -0.5,
-};
-
 OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 {
-
+	m_particleSystem = MainWindow::instance()->particleSystem();
 }
 
 void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
 {
-	
 	
 }
 
 void OpenGLRenderer::initializeGL()
 {
 	glewInit();
-	connect(this, &QOpenGLWidget::frameSwapped, this, &OpenGLRenderer::update);
 	printVersionInformation();
 
 	if (!shaderLoader::loadAndBuildShaderPairFromFile(&m_program, "shaders/vertexShader.vert", "shaders/fragmentShader.frag"))
@@ -41,19 +21,34 @@ void OpenGLRenderer::initializeGL()
 	}
 
 	m_program.use();
-
+	
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
+	size_t count = m_particleSystem->countAlive();
+	auto data = m_particleSystem->finalData();
+
+	// Position VBO
 	glGenBuffers(1, &m_bufPos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_position), vertices_position, GL_STATIC_DRAW);
-	GLint position_attribute = glGetAttribLocation(m_program.getId(), "position");
-	glVertexAttribPointer(position_attribute, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_pos.get(), GL_STREAM_DRAW);
+	GLint position_attribute = glGetAttribLocation(m_program.getId(), "vPosition");
+	glVertexAttribPointer(position_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(position_attribute);
+
+	// Color VBO
+	glGenBuffers(1, &m_bufCol);
+	glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
+
+	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_col.get(), GL_STREAM_DRAW);
+	GLint color_attribute = glGetAttribLocation(m_program.getId(), "vColor");
+	glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(color_attribute);
 
 	glEnable(GL_PROGRAM_POINT_SIZE);
 
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void OpenGLRenderer::resizeGL(int width, int height)
@@ -64,8 +59,16 @@ void OpenGLRenderer::resizeGL(int width, int height)
 void OpenGLRenderer::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+
 	glBindVertexArray(m_vao);
-	glDrawArrays(GL_POINTS, 0, 12);
+
+	auto count = m_particleSystem->countAlive();
+	if (count > 0)
+	{
+		glDrawArrays(GL_POINTS, 0, count);
+	}
+
+	glBindVertexArray(0);
 }
 
 void OpenGLRenderer::render()
@@ -80,11 +83,34 @@ void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
 
 void OpenGLRenderer::destroy()
 {
-	
+	if (m_bufPos != 0)
+	{
+		glDeleteBuffers(1, &m_bufPos);
+		m_bufPos = 0;
+	}
+
+	if (m_bufCol != 0)
+	{
+		glDeleteBuffers(1, &m_bufCol);
+		m_bufCol = 0;
+	}
 }
 
 void OpenGLRenderer::update()
 {
+	size_t count = m_particleSystem->countAlive();
+	if (count > 0)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
+		float* ptr = (float*)(m_particleSystem->finalData()->m_pos.get());
+		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
+		ptr = (float*)(m_particleSystem->finalData()->m_col.get());
+		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
 	
 }
 
