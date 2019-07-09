@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
 	// Set widget up
 	OpenGLRenderer* w = new OpenGLRenderer;
-
+	w->resize(QSize(1280, 720));
 	//// Set the window up
 	//QMainWindow window;
 	//window.setCentralWidget(widget);
