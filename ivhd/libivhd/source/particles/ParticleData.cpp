@@ -21,7 +21,7 @@ namespace ivhd::particles
 		for (int i = 0; i < maxSize; i++)
 		{
 			wake(i);
-			m_pos[i] = glm::vec4{ 0.0f, 0.0f, 0.0f, 0.0f };
+			m_pos[i] = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
 			m_col[i] = glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f };
 		}
 	}
