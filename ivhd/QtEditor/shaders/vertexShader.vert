@@ -1,4 +1,4 @@
-#version 450
+#version 450 core
 
 //uniform mat4 modelToWorld;
 //uniform mat4 worldToCamera;
@@ -6,13 +6,13 @@
 
 layout(location = 0) in vec4 vPosition;
 layout(location = 1) in vec4 vColor;
-//
-out vec4 outColor;
+
+flat out vec4 outColor;
  
 void main()
 {
-  gl_Position = vPosition;
-  outColor = vColor;
+	gl_Position = vPosition;
+	outColor = vColor;
 
-  gl_PointSize = 2.0f;
+	gl_PointSize = 20.0f;
 }
