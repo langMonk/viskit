@@ -36,8 +36,7 @@
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color:black
-</string>
+       <string notr="true">background-color: rgb(38,38,38)</string>
       </property>
      </widget>
     </item>
