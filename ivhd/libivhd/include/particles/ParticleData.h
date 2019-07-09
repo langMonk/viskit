@@ -14,8 +14,7 @@ namespace ivhd::particles
 		// public construction and destruction methods
 	public:
 		ParticleData(){}
-		explicit ParticleData(size_t maxCount) { generate(maxCount); }
-		~ParticleData(){}
+		~ParticleData() {};
 
 		ParticleData(const ParticleData&) = delete;
 		ParticleData& operator=(const ParticleData&) = delete;

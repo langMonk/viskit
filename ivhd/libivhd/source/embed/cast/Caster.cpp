@@ -7,7 +7,7 @@
 
 namespace ivhd::embed::cast
 {
-	Caster::Caster(core::ParticleSystem& system)
+	Caster::Caster(core::System& system)
 		: m_ext_system(system)
 	{
 
@@ -16,11 +16,6 @@ namespace ivhd::embed::cast
 	Caster::~Caster()
 	{
 
-	}
-
-	core::ParticleSystem& Caster::particleSystem() const
-	{
-		return m_ext_system;
 	}
 
 	void Caster::initialize()

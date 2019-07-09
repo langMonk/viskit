@@ -9,8 +9,8 @@
 #include <map>
 #include <iostream>
 
-#include "ivhd/SettingType.h"
 #include "Caster.h"
+#include "particles/ParticleSystem.h"
 
 namespace ivhd::embed::cast
 { 
@@ -18,11 +18,11 @@ namespace ivhd::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		CasterRandom(core::ParticleSystem& system);
+		CasterRandom(core::System& system);
 
 		// public methods
 	public:
-		void cast();
+		void cast(particles::ParticleSystem& ps);
 
 		int maxEdge() { return m_maxEdge; };
 
