@@ -17,6 +17,13 @@ namespace ivhd::particles
 		m_acc.reset(new glm::vec4[maxSize]);
 		m_time.reset(new glm::vec4[maxSize]);
 		m_alive.reset(new bool[maxSize]);
+
+		for (int i = 0; i < maxSize; i++)
+		{
+			wake(i);
+			m_pos[i] = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
+			m_col[i] = glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f };
+		}
 	}
 
 	void ParticleData::kill(size_t id)

@@ -13,16 +13,22 @@
     <Filter Include="embed">
       <UniqueIdentifier>{7989af0c-9b30-486b-9dfa-5891b878baea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="particles">
+      <UniqueIdentifier>{d72958e7-7667-48c2-9105-32c3936d344f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\LoggerTest.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="ivhd\InteractiveVisualizationBuilderTest.cpp">
-      <Filter>ivhd</Filter>
-    </ClCompile>
     <ClCompile Include="embed\CasterTest.cpp">
       <Filter>embed</Filter>
+    </ClCompile>
+    <ClCompile Include="particles\ParticleData.cpp">
+      <Filter>particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ivhd\InteractiveVisualizationBuilderTest.cpp">
+      <Filter>ivhd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

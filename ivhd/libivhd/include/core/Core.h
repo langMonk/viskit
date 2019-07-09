@@ -5,9 +5,8 @@
 
 #pragma once
 
-#include "ParticleSystem.h"
 #include "Logger.h"
-#include "parse/Parser.h"
+#include "System.h"
 
 namespace ivhd::core
 {
@@ -15,16 +14,16 @@ namespace ivhd::core
 	{
 		// public construction and destruction methods
 	public:
-		Core(OnLogAdded handler, size_t maxCount);
+		Core(OnLogAdded handler);
 
 		// public methods
 	public:
-		Logger& logger() { return m_particleSystem.logger(); }
+		Logger& logger() { return m_system.logger(); }
 
-		ParticleSystem& particleSystem() { return m_particleSystem; }
+		System& system() { return m_system; }
 
 	private:
-		ParticleSystem m_particleSystem;
-		
+		OnLogAdded m_logHandler;
+		System m_system;
 	};
 }

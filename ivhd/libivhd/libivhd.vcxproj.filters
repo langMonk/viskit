@@ -96,98 +96,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ivhd\ITransformer.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\ISetting.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\SettingType.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\ICaster.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
     <ClInclude Include="include\core\Logger.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="include\core\Core.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\ParticleSystem.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\IInteractiveVizualization.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facade\FacadeInteractiveVizualization.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\Structures.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\LogLevel.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\IParser.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facade\FacadeParticleSystem.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\IParticleSystem.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
     <ClInclude Include="include\parse\ParserCSV.h">
       <Filter>Header Files\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facade\FacadeResourceFactory.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\IResourceFactory.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facade\FacadeParserCSV.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facade\FacadeCasterMDS.h">
-      <Filter>Header Files\facade</Filter>
     </ClInclude>
     <ClInclude Include="include\embed\cast\Caster.h">
       <Filter>Header Files\embed\cast</Filter>
     </ClInclude>
-    <ClInclude Include="include\ivhd\IClusterer.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\IReducer.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
     <ClInclude Include="include\graph\GraphGenerator.h">
       <Filter>Header Files\graph</Filter>
-    </ClInclude>
-    <ClInclude Include="include\graph\IGraph.h">
-      <Filter>Header Files\ivhd</Filter>
     </ClInclude>
     <ClInclude Include="include\embed\cast\CasterRandom.h">
       <Filter>Header Files\embed\cast</Filter>
     </ClInclude>
-    <ClInclude Include="include\facade\FacadeCasterRandom.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
     <ClInclude Include="include\math\glm_adapter.h">
       <Filter>Header Files\math</Filter>
     </ClInclude>
-    <ClInclude Include="include\ivhd\Math.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
     <ClInclude Include="include\parse\Parser.h">
       <Filter>Header Files\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facade\FacadeMath.h">
-      <Filter>Header Files\facade</Filter>
     </ClInclude>
     <ClInclude Include="include\particles\ParticleData.h">
       <Filter>Header Files\particles</Filter>
@@ -201,6 +132,84 @@
     <ClInclude Include="include\particles\emit\ParticleEmitter.h">
       <Filter>Header Files\particles\emit</Filter>
     </ClInclude>
+    <ClInclude Include="include\particles\ParticleSystem.h">
+      <Filter>Header Files\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\System.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\ICaster.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\ICasterDpd.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IClusterer.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IInteractiveVizualization.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IParser.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IParticleSystem.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IReducer.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IResourceFactory.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\ISetting.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\ITransformer.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\LogLevel.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\Math.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\SettingType.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\Structures.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterRandom.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeInteractiveVizualization.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeMath.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeParserCSV.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeParticleSystem.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeResourceFactory.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeTransformer.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCaster.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeParser.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
@@ -209,29 +218,8 @@
     <ClCompile Include="source\core\Core.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="source\core\ParticleSystem.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp">
-      <Filter>Source Files\facade</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp">
-      <Filter>Source Files\ivhd</Filter>
-    </ClCompile>
-    <ClCompile Include="source\facade\FacadeParticleSystem.cpp">
-      <Filter>Source Files\facade</Filter>
-    </ClCompile>
     <ClCompile Include="source\parse\ParserCSV.cpp">
       <Filter>Source Files\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="source\facade\FacadeResourceFactory.cpp">
-      <Filter>Source Files\facade</Filter>
-    </ClCompile>
-    <ClCompile Include="source\facade\FacadeParserCSV.cpp">
-      <Filter>Source Files\facade</Filter>
-    </ClCompile>
-    <ClCompile Include="source\facade\FacadeCasterMDS.cpp">
-      <Filter>Source Files\facade</Filter>
     </ClCompile>
     <ClCompile Include="source\embed\cast\Caster.cpp">
       <Filter>Source Files\embed\cast</Filter>
@@ -241,9 +229,6 @@
     </ClCompile>
     <ClCompile Include="source\embed\cast\CasterRandom.cpp">
       <Filter>Source Files\embed\cast</Filter>
-    </ClCompile>
-    <ClCompile Include="source\facade\FacadeCasterRandom.cpp">
-      <Filter>Source Files\facade</Filter>
     </ClCompile>
     <ClCompile Include="source\parse\Parser.cpp">
       <Filter>Source Files\parse</Filter>
@@ -259,6 +244,36 @@
     </ClCompile>
     <ClCompile Include="source\particles\emit\ParticleEmitter.cpp">
       <Filter>Source Files\particles\emit</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\System.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="source\particles\ParticleSystem.cpp">
+      <Filter>Source Files\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp">
+      <Filter>Source Files\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterRandom.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeParserCSV.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeParticleSystem.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeResourceFactory.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCaster.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeParser.cpp">
+      <Filter>Source Files\facade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

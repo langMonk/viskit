@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include "Structures.h"
+#include "particles/ParticleData.h"
 
 namespace ivhd
 {
@@ -26,21 +27,14 @@ namespace ivhd
 		virtual std::vector<std::vector<float>> originalCoordinates() = 0;
 
 		/// <summary>
-		/// Cast data between two spaces (from N -> M dimensions, where M << N). 
-		/// </summary>
-		/// <params name="caster"> Caster, that will be used for casting between spaces. </params>
-		virtual void castData(std::shared_ptr<ICaster> caster) = 0;
+		/// Returns current final data (after transformations).
+		/// <returns> Container with current final data.</returns>
+		virtual particles::ParticleData* finalData() = 0;
 
 		/// <summary>
-		/// Reduce data dimensionality. 
-		/// </summary>
-		/// <params name="reducer"> Reducer, that will be used for dimensionality reduction. </params>
-		virtual void reduceData(IReducer& reducer) = 0;
+		/// Counts alive particles.
+		/// <returns> Number of particles, that are currently alive.</returns>
+		virtual size_t countAlive() = 0;
 
-		/// <summary>
-		/// Cluster data.
-		/// </summary>
-		/// <params name="clusterer"> Clusterer, that will be used for data clustering. </params>
-		virtual void clusterData(IClusterer& clusterer) = 0;
 	};
 }

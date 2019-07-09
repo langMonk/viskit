@@ -5,7 +5,6 @@
 
 #include "facade/FacadeResourceFactory.h"
 #include "facade/FacadeInteractiveVizualization.h"
-#include "facade/FacadeCasterMDS.h"
 #include "facade/FacadeCasterRandom.h"
 #include "facade/FacadeParserCSV.h"
 
@@ -20,7 +19,7 @@ namespace ivhd::facade
 	{
 		if (type == ParserType::Csv)
 		{
-			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.core()->particleSystem());
+			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.core());
 		}
 		else
 		{
@@ -30,17 +29,18 @@ namespace ivhd::facade
 
 	std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(CasterType type)
 	{
-		if (type == CasterType::Mds)
+		if (type == CasterType::Random)
 		{
-			return std::make_shared<facade::FacadeCasterMDS>(m_ext_ivhd.core()->particleSystem());
-		}
-		else if (type == CasterType::Random)
-		{
-			return std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core()->particleSystem());
+			return std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core());
 		}
 		else
 		{
 			return nullptr;
 		}
+	}
+
+	std::shared_ptr<IParticleSystem> FacadeResourceFactory::createParticleSystem()
+	{
+		return std::make_shared<facade::FacadeParticleSystem>(m_ext_ivhd.core());
 	}
 }
