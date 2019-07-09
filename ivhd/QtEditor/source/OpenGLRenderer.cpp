@@ -1,20 +1,8 @@
 #include "OpenGLRenderer.h"
 
-std::unique_ptr<glm::vec4[]> colors;
-std::unique_ptr<glm::vec4[]> points;
-
 OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 {
-	points.reset(new glm::vec4[5]);
-	colors.reset(new glm::vec4[5]);
-
-	for (int i = 0; i < 5; i++)
-	{
-		points[i] = glm::vec4{ 0.1f * i, 0.1f*i, 0.0f, 1.0f };
-		colors[i] = glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f };
-	}
-
-	//m_particleSystem = MainWindow::instance()->particleSystem();
+	m_particleSystem = MainWindow::instance()->particleSystem();
 }
 
 void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
@@ -54,8 +42,8 @@ void OpenGLRenderer::initializeGL()
 	m_program.uniform1i("tex", 0);
 	m_program.disable();
 
-	//size_t count = m_particleSystem->countAlive();
-	//auto data = m_particleSystem->finalData();
+	size_t count = m_particleSystem->countAlive();
+	auto data = m_particleSystem->finalData();
 
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
@@ -63,7 +51,7 @@ void OpenGLRenderer::initializeGL()
 	// Position VBO
 	glGenBuffers(1, &m_bufPos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
-	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(float), points.get(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_pos.get(), GL_STREAM_DRAW);
 	GLint position_attribute = glGetAttribLocation(m_program.getId(), "vPosition");
 	glVertexAttribPointer(position_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(position_attribute);
@@ -71,14 +59,14 @@ void OpenGLRenderer::initializeGL()
 	// Color VBO
 	glGenBuffers(1, &m_bufCol);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
-	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(float), colors.get(), GL_STREAM_DRAW);
+
+	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_col.get(), GL_STREAM_DRAW);
 	GLint color_attribute = glGetAttribLocation(m_program.getId(), "vColor");
 	glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(color_attribute);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 }
 
 void OpenGLRenderer::resizeGL(int width, int height)
@@ -121,14 +109,13 @@ void OpenGLRenderer::render()
 {
 	glBindVertexArray(m_vao);
 
-	//auto count = m_particleSystem->countAlive();
-	//if (count > 0)
-	//{
-	//	glDrawArrays(GL_POINTS, 0, count);
-	//}
-	glDrawArrays(GL_POINTS, 0, 20 * sizeof(float));
-	glBindVertexArray(0);
+	auto count = m_particleSystem->countAlive();
+	if (count > 0)
+	{
+		glDrawArrays(GL_POINTS, 0, count);
+	}
 
+	glBindVertexArray(0);
 }
 
 void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
