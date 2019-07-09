@@ -1,7 +1,19 @@
 #include "OpenGLRenderer.h"
 
+std::unique_ptr<glm::vec4[]> colors;
+std::unique_ptr<glm::vec4[]> points;
+
 OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 {
+	points.reset(new glm::vec4[5]);
+	colors.reset(new glm::vec4[5]);
+
+	for (int i = 0; i < 5; i++)
+	{
+		points[i] = glm::vec4{ 0.1f * i, 0.1f*i, 0.0f, 1.0f };
+		colors[i] = glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f };
+	}
+
 	m_particleSystem = MainWindow::instance()->particleSystem();
 }
 
@@ -12,26 +24,39 @@ void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
 
 void OpenGLRenderer::initializeGL()
 {
+	glEnable(GL_DEPTH_TEST);
+	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
+
 	glewInit();
 	printVersionInformation();
 
 	if (!shaderLoader::loadAndBuildShaderPairFromFile(&m_program, "shaders/vertexShader.vert", "shaders/fragmentShader.frag"))
 	{
-		std::cout << "It's not working!" << std::endl;
+		std::cout << "Shader not working!" << std::endl;
 	}
 
-	m_program.use();
+	if (!textureLoader::loadTexture(&m_texture, "./particle.png"))
+	{
+		qDebug() << "Texture not loaded properly!";
+	}
 	
-	glGenVertexArrays(1, &m_vao);
-	glBindVertexArray(m_vao);
+
+	glValidateProgram(m_program.getId());
+	
+	m_program.use();
+	m_program.uniform1i("tex", 0);
+	m_program.disable();
 
 	size_t count = m_particleSystem->countAlive();
 	auto data = m_particleSystem->finalData();
 
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
+
 	// Position VBO
 	glGenBuffers(1, &m_bufPos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
-	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_pos.get(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(float), points.get(), GL_STREAM_DRAW);
 	GLint position_attribute = glGetAttribLocation(m_program.getId(), "vPosition");
 	glVertexAttribPointer(position_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(position_attribute);
@@ -39,16 +64,14 @@ void OpenGLRenderer::initializeGL()
 	// Color VBO
 	glGenBuffers(1, &m_bufCol);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
-
-	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_col.get(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(float), colors.get(), GL_STREAM_DRAW);
 	GLint color_attribute = glGetAttribLocation(m_program.getId(), "vColor");
 	glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(color_attribute);
 
-	glEnable(GL_PROGRAM_POINT_SIZE);
-
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 }
 
 void OpenGLRenderer::resizeGL(int width, int height)
@@ -58,22 +81,38 @@ void OpenGLRenderer::resizeGL(int width, int height)
 
 void OpenGLRenderer::paintGL()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+	
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, m_texture);
+	glEnable(GL_PROGRAM_POINT_SIZE);
 
-	glBindVertexArray(m_vao);
+	m_program.use();
 
-	auto count = m_particleSystem->countAlive();
-	if (count > 0)
-	{
-		glDrawArrays(GL_POINTS, 0, count);
-	}
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
-	glBindVertexArray(0);
+	render();
+	
+	glDisable(GL_BLEND);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	m_program.disable();
 }
 
 void OpenGLRenderer::render()
 {
-	
+	glBindVertexArray(m_vao);
+
+	//auto count = m_particleSystem->countAlive();
+	//if (count > 0)
+	//{
+	//	glDrawArrays(GL_POINTS, 0, count);
+	//}
+	glDrawArrays(GL_POINTS, 0, 20 * sizeof(float));
+	glBindVertexArray(0);
+
 }
 
 void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
@@ -93,6 +132,12 @@ void OpenGLRenderer::destroy()
 	{
 		glDeleteBuffers(1, &m_bufCol);
 		m_bufCol = 0;
+	}
+
+	if (m_texture != 0)
+	{
+		glDeleteTextures(1, &m_texture);
+		m_texture = 0;
 	}
 }
 

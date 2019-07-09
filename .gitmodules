@@ -4,3 +4,6 @@
 [submodule "ivhd/libraries/glew"]
 	path = ivhd/libraries/glew
 	url = https://github.com/nigels-com/glew.git
+[submodule "ivhd/libraries/Simple-OpenGL-Image-Library"]
+	path = ivhd/libraries/Simple-OpenGL-Image-Library
+	url = https://github.com/kbranigan/Simple-OpenGL-Image-Library

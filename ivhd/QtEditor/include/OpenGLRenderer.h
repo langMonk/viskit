@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ShaderLoader.h"
+#include "TextureLoader.h"
 #include "MainWindow.h"
 
 #include <ivhd/IParticleSystem.h>
@@ -38,6 +39,7 @@ private:
 	unsigned int m_bufPos{ 0 };
 	unsigned int m_bufCol{ 0 };
 	unsigned int m_vao{ 0 };
+	unsigned int m_texture{ 0 };
 
 	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem;
 
