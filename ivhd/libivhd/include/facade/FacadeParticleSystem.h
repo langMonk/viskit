@@ -6,7 +6,8 @@
 #pragma once
 
 #include "ivhd/IParticleSystem.h"
-#include "core/ParticleSystem.h"
+#include "core/Core.h"
+#include "particles/ParticleSystem.h"
 
 namespace ivhd::facade
 {
@@ -19,17 +20,25 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		FacadeParticleSystem(core::ParticleSystem& ivhd);
+		FacadeParticleSystem(std::shared_ptr<core::Core> core);
 
+		FacadeParticleSystem(const FacadeParticleSystem&) = delete;
+		FacadeParticleSystem(FacadeParticleSystem&&) = delete;
+
+		FacadeParticleSystem& operator=(const FacadeParticleSystem&) = delete;
+		FacadeParticleSystem& operator=(FacadeParticleSystem&&) = delete;
+
+		// public methods
+	public:
 		std::vector<std::vector<float>> originalCoordinates() override;
 
-		void castData(std::shared_ptr<ICaster> caster) override;
+		std::shared_ptr<particles::ParticleSystem> internalParticleSystem() const;
 
-		void reduceData(IReducer& reducer) override;
+		particles::ParticleData* finalData() override;
 
-		void clusterData(IClusterer& clusterer) override;
+		size_t countAlive() override;
 
 	private:
-		core::ParticleSystem& m_ext_particleSystem;
+		std::shared_ptr<particles::ParticleSystem> m_internalParticleSystem;
 	};
 }

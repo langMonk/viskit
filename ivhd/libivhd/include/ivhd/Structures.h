@@ -14,22 +14,6 @@ namespace ivhd
 		size_t pi, pj;
 	};
 
-
-	struct DataParticle
-	{
-		size_t parent_id;
-
-		float size;
-		bool frozen;
-		bool removed;
-		bool visible;
-		bool marked;
-		bool outlier;
-		int aux;
-
-		vec3 pos;
-	};
-
 	enum class PairDistanceType
 	{ 
 		Near, 

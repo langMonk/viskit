@@ -19,16 +19,6 @@ namespace ivhd
 		// public methods
 	public:
 		/// <summary>
-		/// Load data from specified file into ivhd particle system.
-		/// </summary>
-		virtual void loadDataFile(std::string dataFilePath, std::shared_ptr<IParser> parser) = 0;
-
-		/// <summary>
-		/// Obtains particle system, that manages all tasks concerning data.
-		/// </summary>
-		virtual IParticleSystem& particleSystem() = 0;
-
-		/// <summary>
 		/// Obtains resource factory, that enables creation of IVHD objects.
 		/// </summary>
 		virtual IResourceFactory& resourceFactory() = 0;

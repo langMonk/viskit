@@ -23,20 +23,16 @@ TEST(CasterTest, CasterRandom)
 		count++;
 	};
 
-	ivhd::core::Core core{ handler, 20 };
-	auto& particleSystem = core.particleSystem();
-
-	ivhd::parse::ParserCSV parser{ particleSystem };
-	ivhd::embed::cast::CasterRandom caster{ particleSystem };
+	ivhd::core::Core core{ handler };
+	ivhd::parse::ParserCSV parser{ core.system()};
+	ivhd::embed::cast::CasterRandom caster{ core.system() };
+	ivhd::particles::ParticleSystem particleSystem{ core.system() };
 	
 	auto csvFile = resourcesDirectory().string() + "/mnist_20_pca30.csv";
 
-	parser.initialize();
-	parser.loadFile(csvFile);
-	parser.finalize();
+	parser.loadFile(csvFile, 20, particleSystem);
 
-	auto& coords = core.particleSystem().originalCoordinates();
-	auto particles = core.particleSystem().finalData();
+	auto& coords = particleSystem.originalCoordinates();
 
 	EXPECT_EQ(particleSystem.numAllParticles(), 20);
 	EXPECT_EQ(coords.size(), 20);
@@ -48,11 +44,13 @@ TEST(CasterTest, CasterRandom)
 		EXPECT_EQ(dataPoints->m_pos[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
 	}
 
-	caster.cast();
+	caster.cast(particleSystem);
 
-	for (int i = 0; i < particleSystem.numAllParticles(); i++)
+	auto positions = dataPoints->m_pos.get();
+	for (int i = 0; i < particleSystem.numAllParticles()-1; i++)
 	{
-		EXPECT_NE(dataPoints->m_pos[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+		EXPECT_NE(positions[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+		EXPECT_NE(positions[i], positions[i+1]);
 	}
 }
 

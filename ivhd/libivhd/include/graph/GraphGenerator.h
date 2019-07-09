@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "core/Core.h"
+#include "core/System.h"
 
 namespace ivhd::graph
 {
@@ -14,7 +14,7 @@ namespace ivhd::graph
 		// public construction and destruction methods
 	public:
 
-		GraphGenerator(core::ParticleSystem& system, bool useCache);
+		GraphGenerator(core::System& system, bool useCache);
 
 		// public methods
 	public:
@@ -22,7 +22,7 @@ namespace ivhd::graph
 
 		// private members
 	private:
-		core::ParticleSystem& m_ext_system;
+		core::System& m_ext_system;
 
 		bool m_useCache;
 	};
