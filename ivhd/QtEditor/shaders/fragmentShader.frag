@@ -1,9 +1,11 @@
-#version 450
+#version 450 core
 
-in vec4 outColor;
-out vec4 vFragColor;
+layout (location = 0) out vec4 color;
 
-void main()
+uniform sampler2D tex;
+flat in vec4 outColor;
+
+void main(void)
 {
-   vFragColor = outColor;
+	color = outColor * texture(tex, gl_PointCoord);
 }

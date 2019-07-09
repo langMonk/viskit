@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	//format.setVersion(4, 6);
 
 	// Set widget up
-	//OpenGLRenderer* w = new OpenGLRenderer;
+	OpenGLRenderer* w = new OpenGLRenderer;
 
 	//// Set the window up
 	//QMainWindow window;
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 	//window.resize(QSize(800, 600));
 	//window.show();
 
-	auto w = MainWindow::instance();
+	//auto w = MainWindow::instance();
 	w->show();
 
 	return app.exec();
