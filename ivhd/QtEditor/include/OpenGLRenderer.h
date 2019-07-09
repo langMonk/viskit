@@ -8,6 +8,8 @@
 #include <QOpenGLWidget>
 #include <QDebug>
 #include "IRenderer.h"
+#include <glm/glm/gtc/matrix_transform.hpp>
+#include <glm/glm/gtc/type_ptr.hpp>
 
 class QOpenGLShaderProgram;
 
@@ -35,6 +37,14 @@ public slots:
 	void dockUndock();
 
 private:
+	struct Camera
+	{
+		float camDistance;
+		glm::vec3 cameraDir;
+		glm::mat4 modelviewMatrix;
+		glm::mat4 projectionMatrix;
+	} camera;
+
 	ShaderProgram m_program;
 	unsigned int m_bufPos{ 0 };
 	unsigned int m_bufCol{ 0 };

@@ -1,8 +1,7 @@
 #version 450 core
 
-//uniform mat4 modelToWorld;
-//uniform mat4 worldToCamera;
-//uniform mat4 cameraToView;
+uniform mat4x4 matModelview;
+uniform mat4x4 matProjection;
 
 layout(location = 0) in vec4 vPosition;
 layout(location = 1) in vec4 vColor;
@@ -11,8 +10,12 @@ flat out vec4 outColor;
  
 void main()
 {
-	gl_Position = vPosition;
+	vec4 eyePos = matModelview * vPosition;
+    gl_Position = matProjection * eyePos;
+
 	outColor = vColor;
 
-	gl_PointSize = 20.0f;
+	float dist = length(eyePos.xyz);
+	float att = inversesqrt(0.1f*dist);
+	gl_PointSize = 2.0f * att;
 }
