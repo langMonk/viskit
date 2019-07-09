@@ -14,7 +14,7 @@ OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 		colors[i] = glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f };
 	}
 
-	m_particleSystem = MainWindow::instance()->particleSystem();
+	//m_particleSystem = MainWindow::instance()->particleSystem();
 }
 
 void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
@@ -24,31 +24,38 @@ void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
 
 void OpenGLRenderer::initializeGL()
 {
-	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
-
 	glewInit();
 	printVersionInformation();
 
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+
+	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
+
+	camera.cameraDir[0] = 0.0f;
+	camera.cameraDir[1] = 0.0f;
+	camera.cameraDir[2] = 1.0f;
+	camera.camDistance = 1.0f;
+	
 	if (!shaderLoader::loadAndBuildShaderPairFromFile(&m_program, "shaders/vertexShader.vert", "shaders/fragmentShader.frag"))
 	{
-		std::cout << "Shader not working!" << std::endl;
+		qDebug() << "Shader not working!";
 	}
 
-	if (!textureLoader::loadTexture(&m_texture, "./particle.png"))
+	if (!textureLoader::loadTexture(&m_texture, "data\\particle.png"))
 	{
 		qDebug() << "Texture not loaded properly!";
 	}
-	
 
-	glValidateProgram(m_program.getId());
+	glEnable(GL_POINT_SPRITE);
 	
 	m_program.use();
 	m_program.uniform1i("tex", 0);
 	m_program.disable();
 
-	size_t count = m_particleSystem->countAlive();
-	auto data = m_particleSystem->finalData();
+	//size_t count = m_particleSystem->countAlive();
+	//auto data = m_particleSystem->finalData();
 
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
@@ -76,19 +83,29 @@ void OpenGLRenderer::initializeGL()
 
 void OpenGLRenderer::resizeGL(int width, int height)
 {
+	float aspect = static_cast<float>(width / height);
 
+	// Set the viewport to be the entire window
+	glViewport(0, 0, width, height);
+
+	// setup projection matrix
+	camera.projectionMatrix = glm::perspective(45.0f, aspect, 0.1f, 1000.0f);
 }
 
 void OpenGLRenderer::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
-	
+
+	camera.modelviewMatrix = glm::lookAt(camera.cameraDir * camera.camDistance, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 	glEnable(GL_PROGRAM_POINT_SIZE);
 
 	m_program.use();
+	m_program.uniformMatrix4f("matProjection", glm::value_ptr(camera.projectionMatrix));
+	m_program.uniformMatrix4f("matModelview", glm::value_ptr(camera.modelviewMatrix));
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -97,7 +114,6 @@ void OpenGLRenderer::paintGL()
 	
 	glDisable(GL_BLEND);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
 	m_program.disable();
 }
 
@@ -136,7 +152,7 @@ void OpenGLRenderer::destroy()
 
 	if (m_texture != 0)
 	{
-		glDeleteTextures(1, &m_texture);
+		glDeleteTextures(0, &m_texture);
 		m_texture = 0;
 	}
 }
