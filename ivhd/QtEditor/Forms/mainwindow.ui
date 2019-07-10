@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1213</width>
-    <height>798</height>
+    <width>1344</width>
+    <height>855</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,7 +45,7 @@
   <widget class="QDockWidget" name="dockWidget_File">
    <property name="minimumSize">
     <size>
-     <width>186</width>
+     <width>226</width>
      <height>104</height>
     </size>
    </property>
@@ -2141,8 +2141,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1213</width>
-     <height>21</height>
+     <width>1344</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
