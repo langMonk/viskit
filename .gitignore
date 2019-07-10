@@ -14,3 +14,4 @@
 /ivhd/QtEditor/GeneratedFiles
 /ivhd/packages/Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1
 *.vcxproj.user
+/ivhd/Approximate_kNN_generator/x64
