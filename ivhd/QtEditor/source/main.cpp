@@ -1,24 +1,19 @@
 #include "MainWindow.h"
 #include <QApplication>
 #include <QMainWindow>
+#include <QFile>
 
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 
-	//QSurfaceFormat format;
-	//format.setRenderableType(QSurfaceFormat::OpenGL);
-	//format.setProfile(QSurfaceFormat::CoreProfile);
-	//format.setVersion(4, 6);
+	// Load an application style
+	QFile styleFile("./style/MaterialDark.qss");
+	styleFile.open(QFile::ReadOnly);
 
-	// Set widget up
-	//OpenGLRenderer* w = new OpenGLRenderer;
-	//w->resize(QSize(1280, 720));
-	//// Set the window up
-	//QMainWindow window;
-	//window.setCentralWidget(widget);
-	//window.resize(QSize(800, 600));
-	//window.show();
+	// Apply the loaded stylesheet
+	QString style(styleFile.readAll());
+	app.setStyleSheet(style);
 
 	auto w = MainWindow::instance();
 	w->show();
