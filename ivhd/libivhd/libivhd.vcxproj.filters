@@ -222,6 +222,9 @@
     <ClInclude Include="include\utils\ProfileTimer.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
+    <ClInclude Include="include\utils\Math.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">

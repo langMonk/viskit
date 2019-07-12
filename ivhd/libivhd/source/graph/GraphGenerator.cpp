@@ -4,6 +4,7 @@
 ///
 
 #include "graph/GraphGenerator.h"
+#include "utils/Math.h"
 
 namespace ivhd::graph
 { 
@@ -50,21 +51,40 @@ namespace ivhd::graph
 		{
 			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
 			{
-				reset_tmp_dist_matrix(near, std::numeric_limits<float>::max(), nn);
-				reset_tmp_dist_matrix(far, -1.0f, fn);
-
-				for (size_t j = 0; j < m_ext_particleSystem.countAwakeParticles(); j++)
+				reset_tmp_dist_matrix(rand, 0.0f, rn);
+				for (int l = 0; l < rn; l++)
 				{
-					if (i != j)
+					size_t j;
+					do
 					{
-						auto distance = m_ext_particleSystem.vectorDistance(i, j);
-						add_min_dist(near, nn, distance, i, j, true);
-						add_max_dist(far, fn, distance, i, j, true);
-					}
-				}
+						j = math::randInt(0, m_ext_particleSystem.countAwakeParticles() - 1);
+						//check if j is not alread nearest neighbor
+						if (j != i)
+							for (int m = 0; m < nn; m++)
+								if ((near[m].j == j && near[m].i == i) || (near[m].j == i && near[m].i == j))
+								{
+									j = i;
+									break;
+								}
 
-				add_to_dist_matrix(near, nn);
-				add_to_dist_matrix(far, fn);
+						// check if j is not alread furthest neighbor
+						if (j != i)
+							for (int m = 0; m < fn; m++)
+								if ((far[m].j == j && far[m].i == i) || (far[m].j == i && far[m].i == j))
+								{
+									j = i;
+									break;
+								}
+
+					} while (i == j);
+
+					auto distance = m_ext_particleSystem.vectorDistance(i, j);
+					rand[l].i = i;
+					rand[l].j = j;
+					rand[l].r = distance;
+					rand[l].type = NeighborsType::Random;
+				}
+				add_to_dist_matrix(rand, rn);
 			}
 		}
 	}
