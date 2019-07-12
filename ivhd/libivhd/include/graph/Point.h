@@ -3,9 +3,12 @@
 #include <cmath>
 #include <algorithm>
 #include <cassert>
+#include <vector>
 
 namespace ivhd::graph
 {
+	using PointId = size_t;
+
 	class Point
 	{
 		// sub-types
@@ -16,6 +19,7 @@ namespace ivhd::graph
 		// construction and destruction methods
 	public: 
 		Point(size_t size);
+		Point(std::vector<float> vec);
 
 		// public methods
 	public:
@@ -29,10 +33,16 @@ namespace ivhd::graph
 		const_iterator begin() const;
 		const_iterator end() const;
 
+		PointId getId() { return m_id; }
+		PointId getId() const { return m_id; }
+
 		// private members
 	private:
+		PointId m_id;
 		size_t N;
 		float* coords;
+		static size_t m_currentId;
+
 	};
 
 	inline float Distance(const Point& one, const Point& two) 
