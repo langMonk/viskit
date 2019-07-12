@@ -179,8 +179,12 @@ namespace ivhd::graph
 		const Point& currPoint = currNode->point;
 
 		// Add the current point to the BPQ if it is closer to 'key' that some point in the BPQ
-		pQueue.enqueuePoint(currNode->point, Distance(currPoint, key));
-
+		// and point is not the same
+		if (currPoint.getId() != key.getId())
+		{
+			pQueue.enqueuePoint(currNode->point, Distance(currPoint, key));
+		}
+		
 		// Recursively search the half of the tree that contains Point 'key'
 		int currLevel = currNode->level;
 		bool isLeftTree;
