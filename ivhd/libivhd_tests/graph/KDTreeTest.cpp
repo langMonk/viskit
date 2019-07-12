@@ -75,16 +75,6 @@ TEST(KDTree, Generation)
 	auto data = particleSystem.originalCoordinates();
 
 	graph::KDTree kd(data, 30);
-	//std::cout << "Finished building KD-Tree!" << std::endl;
-
-	//// Sanity check on the data set
-	//bool sanityPass = true;
-	//for (int i = 0; i < 1000; i++) {
-	//	if (!kd.contains(data[i].first) || kd.kNNValue(data[i].first, 1) != data[i].second) {
-	//		sanityPass = false;
-	//		break;
-	//	}
-	//}
 
 	//ASSERT_EQ(sanityPass, true);
 
@@ -102,9 +92,34 @@ TEST(KDTree, Generation)
 		threads.push_back(std::thread(kNNQueryThread, start, end, std::ref(kd), k, std::ref(data), std::ref(graph), std::ref(particleSystem)));
 	}
 
+	auto profiler = utils::TimeProfiler(true);
+	profiler.start();
 	for (std::thread& t : threads)
 	{
 		t.join();
+	}
+	profiler.stop();
+	profiler.measurementMs();
+
+	graph.sort();
+
+	std::ofstream m_file;
+	m_file.open("kNN_graph_kdd.txt");
+	for (int i = 0; i < graph.neighborsCount(); i++)
+	{
+		auto neighbors = graph.getNeighbors(i);
+		if (neighbors.type == NeighborsType::Near)
+		{
+			m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Near" << std::endl;
+		}
+		else if (neighbors.type == NeighborsType::Far)
+		{
+			m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Far" << std::endl;
+		}
+		else
+		{
+			m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Random" << std::endl;
+		}
 	}
 }
 
