@@ -1,6 +1,6 @@
 ///
-/// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 13.05.2019
+///\author Bartosz Minch <minch@agh.edu.pl>
+///\date 13.05.2019
 ///
 
 #include <gtest/gtest.h>
@@ -8,7 +8,7 @@
 #include <parse/Parser.h>
 #include <parse/ParserCsv.h>
 #include <core/Core.h>
-#include "utils.h"
+#include "TestUtils.h"
 
 TEST(CasterTest, CasterRandom)
 {
@@ -28,18 +28,18 @@ TEST(CasterTest, CasterRandom)
 	ivhd::embed::cast::CasterRandom caster{ core.system() };
 	ivhd::particles::ParticleSystem particleSystem{ core.system() };
 	
-	auto csvFile = resourcesDirectory().string() + "/mnist_20_pca30.csv";
+	auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
 
 	parser.loadFile(csvFile, 20, particleSystem);
 
 	auto& coords = particleSystem.originalCoordinates();
 
-	EXPECT_EQ(particleSystem.numAllParticles(), 20);
+	EXPECT_EQ(particleSystem.countParticles(), 20);
 	EXPECT_EQ(coords.size(), 20);
 
 	auto dataPoints = particleSystem.finalData();
 
-	for (int i = 0; i < particleSystem.numAllParticles(); i++)
+	for (int i = 0; i < particleSystem.countParticles(); i++)
 	{
 		EXPECT_EQ(dataPoints->m_pos[i], glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 	}
@@ -47,7 +47,7 @@ TEST(CasterTest, CasterRandom)
 	caster.cast(particleSystem);
 
 	auto positions = dataPoints->m_pos.get();
-	for (int i = 0; i < particleSystem.numAllParticles()-1; i++)
+	for (int i = 0; i < particleSystem.countParticles()-1; i++)
 	{
 		EXPECT_NE(positions[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
 		EXPECT_NE(positions[i], positions[i+1]);
