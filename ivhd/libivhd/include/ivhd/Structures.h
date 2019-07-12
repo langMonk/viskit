@@ -14,13 +14,12 @@ namespace ivhd
 		size_t pi, pj;
 	};
 
-	enum class PairDistanceType
+	enum class NeighborsType
 	{ 
 		Near, 
 		Far, 
 		Random, 
-		Reverse,
-		ToRemove
+		Reverse
 	};
 
 	enum class ParserType
@@ -36,21 +35,4 @@ namespace ivhd
 		tSNE,
 		Random
 	};
-
-	struct PairDistance
-	{
-		PairDistance() : i(0), j(0), r(0), type(PairDistanceType::Near) {};
-		PairDistance(long i, long j, float r, PairDistanceType type) : i(i), j(j), r(r), type(type) {};
-		long i, j;
-		float r;
-		PairDistanceType type;
-
-		bool operator== (PairDistance& rhs)
-		{
-			if (i == rhs.i && j == rhs.j && r == rhs.r && type == rhs.type) { return true; }
-			else { return false; }
-		}
-
-	};
-
 }

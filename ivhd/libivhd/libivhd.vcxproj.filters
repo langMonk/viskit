@@ -94,6 +94,12 @@
     <Filter Include="Source Files\particles\update">
       <UniqueIdentifier>{dcc0cb5d-900d-48cd-94e4-c2dcc7973c70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{70c29e70-d7d5-4c78-87e3-752d5c79c4fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{6f80b222-c267-4a90-a542-e315d8ffd7fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core\Logger.h">
@@ -210,6 +216,12 @@
     <ClInclude Include="include\facade\FacadeParser.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
+    <ClInclude Include="include\graph\Graph.h">
+      <Filter>Header Files\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\ProfileTimer.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
@@ -274,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="source\facade\FacadeParser.cpp">
       <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graph\Graph.cpp">
+      <Filter>Source Files\graph</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

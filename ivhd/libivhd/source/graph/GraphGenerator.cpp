@@ -4,18 +4,151 @@
 ///
 
 #include "graph/GraphGenerator.h"
+#include <chrono>
+#include <fstream>
+
+using Clock = std::chrono::high_resolution_clock;
 
 namespace ivhd::graph
 { 
-	GraphGenerator::GraphGenerator(core::System& system, bool useCache)
-		: m_ext_system(system)
+
+	GraphGenerator::GraphGenerator(particles::ParticleSystem& ps, Graph& graph, bool useCache)
+		: m_ext_particleSystem(ps)
 		, m_useCache(useCache)
+		, m_graph(graph)
+		, m_distancesEqualOne(true)
 	{
 	}
 
-	void GraphGenerator::kNN()
+	void GraphGenerator::kNN(size_t nn, size_t fn, size_t rn)
 	{
+		Neighbors* near = new Neighbors[nn + 1];
+		Neighbors* far = new Neighbors[fn + 1];
+		Neighbors* rand = new Neighbors[rn + 1];
 
+		// nearest and furthest neighbors
+		if (nn || fn)
+		{
+			std::ofstream out;
+			out.open("timer.txt");
 
+			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
+			{
+				auto t1 = Clock::now();
+				reset_tmp_dist_matrix(near, std::numeric_limits<float>::max(), nn);
+				reset_tmp_dist_matrix(far, -1.0f, fn);
+
+				for (size_t j = 0; j< m_ext_particleSystem.countAwakeParticles(); j++)
+				{
+					if(i!=j)
+					{ 
+						auto distance = m_ext_particleSystem.vectorDistance(i, j);
+						add_min_dist(near, nn, distance, i, j, true);
+						add_max_dist(far, fn, distance, i, j, true);
+					}
+				}
+
+				add_to_dist_matrix(near, nn);
+				add_to_dist_matrix(far, fn);
+				auto t2 = Clock::now();
+
+				out << "delta: " << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count() << std::endl;
+			}
+		}	
+
+		// random neighbors
+		/*if (rn)
+		{
+			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
+			{
+				auto t1 = Clock::now();
+				reset_tmp_dist_matrix(near, std::numeric_limits<float>::max(), nn);
+				reset_tmp_dist_matrix(far, -1.0f, fn);
+
+				for (size_t j = 0; j < m_ext_particleSystem.countAwakeParticles(); j++)
+				{
+					if (i != j)
+					{
+						auto distance = m_ext_particleSystem.vectorDistance(i, j);
+						add_min_dist(near, nn, distance, i, j, true);
+						add_max_dist(far, fn, distance, i, j, true);
+					}
+				}
+
+				add_to_dist_matrix(near, nn);
+				add_to_dist_matrix(far, fn);
+				auto t2 = Clock::now();
+
+				out << "delta: " << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count() << std::endl;
+			}
+		}*/
+	}
+
+	void GraphGenerator::reset_tmp_dist_matrix(Neighbors* n, float initval, size_t elems)
+	{
+		for (int i = 0; i < elems; i++)
+			n[i].r = initval;
+	}
+
+	void GraphGenerator::add_min_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort)
+	{
+		if (n[elems - 1].r < new_r) return;
+
+		for (int i = 0; i < elems; i++)
+		{
+			if (n[i].r >= new_r)
+			{
+				for (size_t j = elems - 1; j > i; j--)
+					n[j] = n[j - 1];
+
+				n[i].r = new_r;
+				n[i].i = pi;
+				n[i].j = pj;
+				n[i].type = NeighborsType::Near;
+
+				return;
+			}
+		}
+	}
+
+	void GraphGenerator::add_max_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort)
+	{
+		if (n[elems - 1].r > new_r) return;
+
+		for (int i = 0; i < elems; i++)
+		{
+			if (n[i].r <= new_r)
+			{
+				for (size_t j = elems - 1; j > i; j--)
+					n[j] = n[j - 1];
+				n[i].r = new_r;
+				if (!sort || pi < pj)
+				{
+					n[i].i = pi;
+					n[i].j = pj;
+				}
+				else
+				{
+					n[i].i = pj;
+					n[i].j = pi;
+				}
+				n[i].type = NeighborsType::Far;
+
+				return;
+			}
+		}
+	}
+
+	void GraphGenerator::add_to_dist_matrix(Neighbors* n, size_t elems)
+	{
+		for (int i = 0; i < elems; i++)
+		{
+			if (m_distancesEqualOne)
+			{
+				n->r = 1;
+			}
+
+			m_graph.addNeighbors(n[i]);
+		}
 	}
 }

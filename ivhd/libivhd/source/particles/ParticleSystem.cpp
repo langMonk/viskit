@@ -10,7 +10,17 @@ namespace ivhd::particles
 	ParticleSystem::ParticleSystem(core::System& system)
 		: m_ext_system(system)
 		, m_particles(ParticleData())
+		, m_currentMetric(MetricType::Euclidean)
 	{
 		
+	}
+	void ParticleSystem::setMetric(MetricType type)
+	{
+		m_currentMetric = type;
+	}
+
+	MetricType& ParticleSystem::currentMetric()
+	{
+		return m_currentMetric;
 	}
 }

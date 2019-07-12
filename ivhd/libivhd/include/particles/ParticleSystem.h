@@ -8,6 +8,8 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <numeric>
+#include <functional>
 
 #include "core/System.h"
 #include "particles/ParticleData.h"
@@ -17,8 +19,11 @@
 
 namespace ivhd::particles
 {
-		// public sub-types
+	// public sub-types
 	using CoordinatesContainer = std::vector<std::vector<float>>;
+	using Coordinates = std::vector<float>;
+
+	enum class MetricType { Euclidean, Cosine };
 
 	class ParticleSystem
 	{
@@ -32,16 +37,35 @@ namespace ivhd::particles
 
 		// public methods
 	public:
-		virtual size_t numAllParticles() const { return m_particles.m_count; }
-		virtual size_t numAliveParticles() const { return m_particles.m_countAlive; }
+		virtual size_t countParticles() const { return m_particles.m_count; }
+		virtual size_t countAwakeParticles() const { return m_particles.m_countAlive; }
 
 		void addEmitter(std::shared_ptr<emit::ParticleEmitter> em) { m_emitters.push_back(em); }
 		void addUpdater(std::shared_ptr<update::ParticleUpdater> up) { m_updaters.push_back(up); }
 
+		Coordinates& dataPointCoordinates(size_t idx) { return m_originalCoordinates[idx]; }
 		CoordinatesContainer& originalCoordinates() { return m_originalCoordinates; }
 		CoordinatesContainer& reducedCoordinates() { return m_reducedCoordinates; }
 
+		void setMetric(MetricType type);
+		MetricType& currentMetric();
+
 		ParticleData* finalData() { return &m_particles; }
+
+		template<class Value_T>
+		struct DiffSquared
+		{
+			Value_T operator()(Value_T x, Value_T y) const {
+				return (x - y) * (x - y);
+			}
+		};
+
+		float vectorDistance(size_t i, size_t j)
+		{
+			float ret = std::inner_product(m_originalCoordinates[i].begin(), m_originalCoordinates[i].end(), 
+										m_originalCoordinates[j].begin(), 0.0f, std::plus<float>(), DiffSquared <float>());
+			return ret > 0.0f ? sqrt(ret) : 0.0f;
+		}
 
 		// private members
 	private:
@@ -56,5 +80,6 @@ namespace ivhd::particles
 		std::vector<std::shared_ptr<emit::ParticleEmitter>> m_emitters;
 		std::vector<std::shared_ptr<update::ParticleUpdater>> m_updaters;
 
+		MetricType m_currentMetric;
 	};
 }

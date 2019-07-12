@@ -27,7 +27,7 @@ namespace ivhd::facade
 
 	size_t FacadeParticleSystem::countAlive()
 	{
-		return m_internalParticleSystem->numAliveParticles();
+		return m_internalParticleSystem->countAwakeParticles();
 	}
 
 	particles::ParticleData* FacadeParticleSystem::finalData()
