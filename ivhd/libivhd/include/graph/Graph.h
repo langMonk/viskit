@@ -1,5 +1,8 @@
 #pragma once
 
+#include <algorithm>
+#include <string>
+
 #include "core/System.h"
 #include "ivhd/Structures.h"
 
@@ -35,13 +38,15 @@ namespace ivhd::graph
 
 		void addNeighbors(Neighbors neighbors);
 
-		size_t neighborsCount() { return m_neighbors.size(); }
+		size_t neighborsCount() { return m_data.size(); }
+
+		void sort();
 
 		// private members
 	private:
 		core::System& m_ext_system;
 
-		std::vector<Neighbors> m_neighbors;
+		std::vector<Neighbors> m_data;
 	};
 }
 
