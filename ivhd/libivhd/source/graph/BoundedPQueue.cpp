@@ -7,14 +7,26 @@ namespace ivhd::graph
 		maximumSize = maxSize;
 	}
 
-	void BoundedPQueue::enqueue(const size_t& value, double priority)
+	void BoundedPQueue::enqueue(const size_t& value, float priority)
 	{
 		elems.insert(std::make_pair(priority, value));
 
 		if (size() > maxSize()) {
-			typename std::multimap<double, size_t>::iterator last = elems.end();
+			typename std::multimap<float, size_t>::iterator last = elems.end();
 			--last;
 			elems.erase(last);
+		}
+	}
+
+	void BoundedPQueue::enqueuePoint(const Point& value, float priority)
+	{
+		points.insert(std::make_pair(priority, value));
+
+		if (pointSize() > maxSize())
+		{
+			typename std::multimap<float, Point>::iterator last = points.end();
+			--last;
+			points.erase(last);
 		}
 	}
 
@@ -25,14 +37,31 @@ namespace ivhd::graph
 		return result;
 	}
 
+	std::pair<float, Point> BoundedPQueue::dequeuePoint()
+	{
+		auto result = std::make_pair(points.begin()->first, points.begin()->second);
+		points.erase(points.begin());
+		return result;
+	}
+
 	std::size_t BoundedPQueue::size() const
 	{
 		return elems.size();
 	}
 
+	std::size_t BoundedPQueue::pointSize() const
+	{
+		return points.size();
+	}
+
 	bool BoundedPQueue::empty() const
 	{
 		return elems.empty();
+	}
+
+	bool BoundedPQueue::emptyPoints() const
+	{
+		return points.empty();
 	}
 
 	std::size_t BoundedPQueue::maxSize() const

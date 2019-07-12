@@ -16,9 +16,7 @@ namespace ivhd::graph
 	{
 		// public construction and destruction methods
 	public:
-		KDTree(size_t N);
-
-		KDTree(std::vector<std::pair<Point, size_t>>& points);
+		KDTree(std::vector<std::pair<Point, size_t>>& points, size_t dim);
 
 		~KDTree();
 
@@ -43,9 +41,12 @@ namespace ivhd::graph
 
 		size_t kNNValue(const Point& key, std::size_t k) const;
 
+		std::vector<std::pair<float, Point>> kNN(const Point& key, std::size_t k) const;
+
 		// internal sub-types
 	private:
-		struct Node {
+		struct Node 
+		{
 			Point point;
 			Node* left;
 			Node* right;
@@ -61,6 +62,8 @@ namespace ivhd::graph
 			typename std::vector<std::pair<Point, size_t>>::iterator end, int currLevel);
 
 		Node* findNode(Node* currNode, const Point& pt) const;
+
+		void nearestNeighborValueRecurse(const Node* currNode, const Point& key, BoundedPQueue& pQueue) const;
 
 		void nearestNeighborRecurse(const Node* currNode, const Point& key, BoundedPQueue& pQueue) const;
 

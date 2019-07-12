@@ -44,16 +44,17 @@ namespace ivhd::parse
 				firstLine = false;
 			}
 
-			std::vector<float> floatVector(stringVector.size());
-			std::transform(stringVector.begin(), stringVector.end(), floatVector.begin(), [](const std::string& val)
+			std::vector<float> floatVector(stringVector.size()-1);
+
+			std::transform(stringVector.begin(), stringVector.end()-1, floatVector.begin(), [](const std::string& val)
 			{
 				return std::stof(val);
 			});
 
-			ps.originalCoordinates().push_back(floatVector);
-		}
+			size_t label = std::stoi(stringVector.back());
 
-		ps.reducedCoordinates() = ps.originalCoordinates();
+			ps.originalCoordinates().push_back(std::make_pair(graph::Point(floatVector), label));
+		}
 
 		finalize(ps);
 		input.close();

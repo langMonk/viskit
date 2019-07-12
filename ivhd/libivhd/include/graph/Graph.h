@@ -40,6 +40,7 @@ namespace ivhd::graph
 		void addNeighbors(Neighbors neighbors);
 
 		size_t neighborsCount() { return m_data.size(); }
+		size_t neighborsCount() const { return m_data.size(); }
 
 		void sort();
 

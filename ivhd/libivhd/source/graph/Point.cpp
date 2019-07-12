@@ -2,9 +2,21 @@
 
 namespace ivhd::graph
 {
-	Point::Point(size_t size) : N(size)
+	size_t Point::m_currentId = 0;
+
+	Point::Point(size_t size) 
+		: N(size)
+		, m_id(m_currentId++)
 	{
 		coords = new float[size];
+	}
+
+	Point::Point(std::vector<float> vec) 
+		: N(vec.size())
+		, m_id(m_currentId++)
+	{
+		coords = new float[N]; 
+		std::copy(vec.begin(), vec.end(), coords);
 	}
 
 	std::size_t Point::size() const

@@ -59,6 +59,7 @@
     <ClCompile Include="core\LoggerTest.cpp" />
     <ClCompile Include="embed\CasterTest.cpp" />
     <ClCompile Include="graph\GraphTest.cpp" />
+    <ClCompile Include="graph\KDTreeTest.cpp" />
     <ClCompile Include="ivhd\InteractiveVisualizationBuilderTest.cpp" />
     <ClCompile Include="particles\ParticleData.cpp" />
     <ClCompile Include="utils\DistanceCalculatorTest.cpp" />
