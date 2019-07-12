@@ -17,6 +17,13 @@ namespace ivhd::graph
 	{
 	}
 
+	/*void GraphGenerator::kNN(size_t nn)
+	{
+		using dataset = std::vector<std::pair<Point<30>, unsigned int>>;
+
+
+	}*/
+
 	void GraphGenerator::kNN(size_t nn, size_t fn, size_t rn)
 	{
 		Neighbors* near = new Neighbors[nn + 1];

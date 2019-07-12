@@ -1,0 +1,80 @@
+#pragma once
+
+#include <stdexcept>
+#include <cmath>
+#include <vector>
+#include <unordered_map>
+#include <utility>
+#include <algorithm>
+
+#include "graph/Point.h"
+#include "graph/BoundedPQueue.h"
+
+namespace ivhd::graph
+{
+	class KDTree
+	{
+		// public construction and destruction methods
+	public:
+		KDTree(size_t N);
+
+		KDTree(std::vector<std::pair<Point, size_t>>& points);
+
+		~KDTree();
+
+		KDTree(const KDTree& rhs);
+		KDTree& operator=(const KDTree& rhs);
+
+		// public methods
+	public:
+		std::size_t dimension() const;
+
+		std::size_t size() const;
+		bool empty() const;
+
+		bool contains(const Point& pt) const;
+
+		void insert(const Point& pt, const size_t& value = size_t());
+
+		size_t& operator[](const Point& pt);
+
+		size_t& at(const Point& pt);
+		const size_t& at(const Point& pt) const;
+
+		size_t kNNValue(const Point& key, std::size_t k) const;
+
+		// internal sub-types
+	private:
+		struct Node {
+			Point point;
+			Node* left;
+			Node* right;
+			int level; 
+			size_t value;
+			Node(const Point& _pt, int _level, const size_t& _value = size_t()) :
+				point(_pt), left(NULL), right(NULL), level(_level), value(_value) {}
+		};
+
+		// private methods
+	private:
+		Node* buildTree(typename std::vector<std::pair<Point, size_t>>::iterator start,
+			typename std::vector<std::pair<Point, size_t>>::iterator end, int currLevel);
+
+		Node* findNode(Node* currNode, const Point& pt) const;
+
+		void nearestNeighborRecurse(const Node* currNode, const Point& key, BoundedPQueue& pQueue) const;
+
+		Node* deepcopyTree(Node* root);
+
+		void freeResource(Node* currNode);
+
+		//private members
+	private:
+		Node* m_root;
+
+		std::size_t m_sizePoints;
+
+		std::size_t m_size;
+
+	};
+}

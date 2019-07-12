@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <string>
 
+#include "Point.h"
 #include "core/System.h"
 #include "ivhd/Structures.h"
 
