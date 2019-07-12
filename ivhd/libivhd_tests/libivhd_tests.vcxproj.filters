@@ -16,6 +16,12 @@
     <Filter Include="particles">
       <UniqueIdentifier>{d72958e7-7667-48c2-9105-32c3936d344f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="graph">
+      <UniqueIdentifier>{a4333917-5a55-4d0f-a77b-e0dc49c0d9e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{b151d21c-2274-47e7-a754-2348b0513f78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\LoggerTest.cpp">
@@ -30,8 +36,14 @@
     <ClCompile Include="ivhd\InteractiveVisualizationBuilderTest.cpp">
       <Filter>ivhd</Filter>
     </ClCompile>
+    <ClCompile Include="graph\GraphTest.cpp">
+      <Filter>graph</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\DistanceCalculatorTest.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="TestUtils.h" />
   </ItemGroup>
 </Project>
