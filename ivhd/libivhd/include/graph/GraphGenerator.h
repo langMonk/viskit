@@ -21,9 +21,7 @@ namespace ivhd::graph
 
 		// public methods
 	public:
-		void kNN(size_t nn, size_t fn, size_t rn);
-
-		void kNN_kdd_test(size_t nn);
+		void bruteForceKNN(size_t nn, size_t fn, size_t rn);
 
 		void rkNN();
 
