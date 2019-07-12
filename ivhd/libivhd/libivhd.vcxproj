@@ -33,6 +33,7 @@
     <ClInclude Include="include\facade\FacadeParticleSystem.h" />
     <ClInclude Include="include\facade\FacadeResourceFactory.h" />
     <ClInclude Include="include\facade\FacadeTransformer.h" />
+    <ClInclude Include="include\graph\Graph.h" />
     <ClInclude Include="include\graph\GraphGenerator.h" />
     <ClInclude Include="include\ivhd\ICaster.h" />
     <ClInclude Include="include\ivhd\ICasterDpd.h" />
@@ -57,6 +58,7 @@
     <ClInclude Include="include\particles\ParticleData.h" />
     <ClInclude Include="include\particles\ParticleSystem.h" />
     <ClInclude Include="include\particles\update\ParticleUpdater.h" />
+    <ClInclude Include="include\utils\ProfileTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Core.cpp" />
@@ -71,6 +73,7 @@
     <ClCompile Include="source\facade\FacadeParserCSV.cpp" />
     <ClCompile Include="source\facade\FacadeParticleSystem.cpp" />
     <ClCompile Include="source\facade\FacadeResourceFactory.cpp" />
+    <ClCompile Include="source\graph\Graph.cpp" />
     <ClCompile Include="source\graph\GraphGenerator.cpp" />
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
     <ClCompile Include="source\parse\Parser.cpp" />
