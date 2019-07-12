@@ -4,10 +4,6 @@
 ///
 
 #include "graph/GraphGenerator.h"
-#include <chrono>
-#include <fstream>
-
-using Clock = std::chrono::high_resolution_clock;
 
 namespace ivhd::graph
 { 
@@ -29,12 +25,8 @@ namespace ivhd::graph
 		// nearest and furthest neighbors
 		if (nn || fn)
 		{
-			std::ofstream out;
-			out.open("timer.txt");
-
 			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
 			{
-				auto t1 = Clock::now();
 				reset_tmp_dist_matrix(near, std::numeric_limits<float>::max(), nn);
 				reset_tmp_dist_matrix(far, -1.0f, fn);
 
@@ -50,18 +42,14 @@ namespace ivhd::graph
 
 				add_to_dist_matrix(near, nn);
 				add_to_dist_matrix(far, fn);
-				auto t2 = Clock::now();
-
-				out << "delta: " << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count() << std::endl;
 			}
 		}	
 
 		// random neighbors
-		/*if (rn)
+		if (rn)
 		{
 			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
 			{
-				auto t1 = Clock::now();
 				reset_tmp_dist_matrix(near, std::numeric_limits<float>::max(), nn);
 				reset_tmp_dist_matrix(far, -1.0f, fn);
 
@@ -77,11 +65,8 @@ namespace ivhd::graph
 
 				add_to_dist_matrix(near, nn);
 				add_to_dist_matrix(far, fn);
-				auto t2 = Clock::now();
-
-				out << "delta: " << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count() << std::endl;
 			}
-		}*/
+		}
 	}
 
 	void GraphGenerator::reset_tmp_dist_matrix(Neighbors* n, float initval, size_t elems)
