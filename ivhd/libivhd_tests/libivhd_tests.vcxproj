@@ -58,11 +58,13 @@
   <ItemGroup>
     <ClCompile Include="core\LoggerTest.cpp" />
     <ClCompile Include="embed\CasterTest.cpp" />
+    <ClCompile Include="graph\GraphTest.cpp" />
     <ClCompile Include="ivhd\InteractiveVisualizationBuilderTest.cpp" />
     <ClCompile Include="particles\ParticleData.cpp" />
+    <ClCompile Include="utils\DistanceCalculatorTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="TestUtils.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -139,6 +141,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(SolutionDir)libivhd\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
