@@ -23,6 +23,9 @@ namespace ivhd::graph
 		Neighbors* far = new Neighbors[fn + 1];
 		Neighbors* rand = new Neighbors[rn + 1];
 
+		auto timer = utils::TimeProfiler(true);
+		timer.start();
+
 		// nearest and furthest neighbors
 		if (nn || fn)
 		{
@@ -87,6 +90,8 @@ namespace ivhd::graph
 				add_to_dist_matrix(rand, rn);
 			}
 		}
+		timer.stop();
+		timer.measurementMs();
 	}
 
 	void GraphGenerator::reset_tmp_dist_matrix(Neighbors* n, float initval, size_t elems)

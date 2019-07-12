@@ -19,7 +19,8 @@ namespace ivhd
 		Near, 
 		Far, 
 		Random, 
-		Reverse
+		Reverse,
+		ToRemove
 	};
 
 	enum class ParserType
