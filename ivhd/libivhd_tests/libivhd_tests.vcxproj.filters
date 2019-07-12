@@ -42,6 +42,9 @@
     <ClCompile Include="utils\DistanceCalculatorTest.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="graph\KDTreeTest.cpp">
+      <Filter>graph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestUtils.h" />

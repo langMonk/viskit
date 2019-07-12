@@ -9,6 +9,7 @@
 #include <memory>
 #include "Structures.h"
 #include "particles/ParticleData.h"
+#include "graph/Point.h"
 
 namespace ivhd
 {
@@ -24,7 +25,7 @@ namespace ivhd
 		/// Returns original coordinates.
 		/// </summary>
 		/// <returns> Container with data original coordinates.</returns>
-		virtual std::vector<std::vector<float>> originalCoordinates() = 0;
+		virtual std::vector<std::pair<graph::Point, size_t>> originalCoordinates() = 0;
 
 		/// <summary>
 		/// Returns current final data (after transformations).

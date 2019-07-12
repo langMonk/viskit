@@ -16,12 +16,12 @@
 #include "particles/generate/ParticleGenerator.h"
 #include "particles/emit/ParticleEmitter.h"
 #include "particles/update/ParticleUpdater.h"
+#include "graph/Point.h"
 
 namespace ivhd::particles
 {
 	// public sub-types
-	using CoordinatesContainer = std::vector<std::vector<float>>;
-	using Coordinates = std::vector<float>;
+	using Dataset = std::vector<std::pair<graph::Point, size_t>>;
 
 	enum class MetricType { Euclidean, Cosine };
 
@@ -43,11 +43,9 @@ namespace ivhd::particles
 		void addEmitter(std::shared_ptr<emit::ParticleEmitter> em) { m_emitters.push_back(em); }
 		void addUpdater(std::shared_ptr<update::ParticleUpdater> up) { m_updaters.push_back(up); }
 
-		Coordinates& dataPointCoordinates(size_t idx) { return m_originalCoordinates[idx]; }
-		CoordinatesContainer& originalCoordinates() { return m_originalCoordinates; }
-		CoordinatesContainer& reducedCoordinates() { return m_reducedCoordinates; }
+		Dataset& originalCoordinates() { return m_originalCoordinates; }
 
-		void loadData(CoordinatesContainer container) { m_originalCoordinates = container; }
+		void loadData(Dataset container) { m_originalCoordinates = container; }
 		void clear() { m_originalCoordinates.clear(); }
 
 		void setMetric(MetricType type);
@@ -65,8 +63,8 @@ namespace ivhd::particles
 
 		float vectorDistance(size_t i, size_t j)
 		{
-			float ret = std::inner_product(m_originalCoordinates[i].begin(), m_originalCoordinates[i].end(), 
-										m_originalCoordinates[j].begin(), 0.0f, std::plus<float>(), DiffSquared <float>());
+			float ret = std::inner_product(m_originalCoordinates[i].first.begin(), m_originalCoordinates[i].first.end(),
+										m_originalCoordinates[j].first.begin(), 0.0f, std::plus<float>(), DiffSquared <float>());
 			return ret > 0.0f ? sqrt(ret) : 0.0f;
 		}
 
@@ -74,9 +72,7 @@ namespace ivhd::particles
 	private:
 		core::System& m_ext_system;
 
-		CoordinatesContainer m_originalCoordinates;
-
-		CoordinatesContainer m_reducedCoordinates;
+		Dataset m_originalCoordinates;
 
 		ParticleData m_particles;
 
