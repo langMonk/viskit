@@ -14,6 +14,7 @@ namespace ivhd::particles
 	{
 		
 	}
+
 	void ParticleSystem::setMetric(MetricType type)
 	{
 		m_currentMetric = type;

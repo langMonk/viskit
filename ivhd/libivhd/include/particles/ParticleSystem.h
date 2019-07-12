@@ -47,6 +47,9 @@ namespace ivhd::particles
 		CoordinatesContainer& originalCoordinates() { return m_originalCoordinates; }
 		CoordinatesContainer& reducedCoordinates() { return m_reducedCoordinates; }
 
+		void loadData(CoordinatesContainer container) { m_originalCoordinates = container; }
+		void clear() { m_originalCoordinates.clear(); }
+
 		void setMetric(MetricType type);
 		MetricType& currentMetric();
 
