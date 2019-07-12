@@ -28,7 +28,7 @@ namespace ivhd::embed::cast
 
 		auto dataPoints = ps.finalData();
 
-		for (int i = 0; i < ps.numAliveParticles(); i++)
+		for (int i = 0; i < ps.countAwakeParticles(); i++)
 		{
 			dataPoints->m_pos[i].x = gen();
 			dataPoints->m_pos[i].y = gen();
