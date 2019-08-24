@@ -17,7 +17,7 @@ namespace ivhd::graph
 		// public construction and destruction methods
 	public:
 
-		GraphGenerator(particles::ParticleSystem& ps, Graph& graph, bool useCache);
+		GraphGenerator(particles::ParticleSystem& ps, bool useCache);
 
 		// public methods
 	public:
@@ -37,7 +37,7 @@ namespace ivhd::graph
 		
 		bool m_distancesEqualOne;
 
-		graph::Graph& m_graph;
+		graph::Graph* m_graph;
 
 		bool m_useCache;
 	};

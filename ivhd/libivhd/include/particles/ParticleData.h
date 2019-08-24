@@ -27,11 +27,12 @@ namespace ivhd::particles
 		// public members
 	public:
 		std::unique_ptr<glm::vec4[]> m_pos;
+		std::unique_ptr<glm::vec4[]> m_acc;
+		std::unique_ptr<glm::vec4[]> m_force;
 		std::unique_ptr<glm::vec4[]> m_col;
 		std::unique_ptr<glm::vec4[]> m_startCol;
 		std::unique_ptr<glm::vec4[]> m_endCol;
 		std::unique_ptr<glm::vec4[]> m_vel;
-		std::unique_ptr<glm::vec4[]> m_acc;
 		std::unique_ptr<glm::vec4[]> m_time;
 		std::unique_ptr<bool[]>  m_alive;
 
