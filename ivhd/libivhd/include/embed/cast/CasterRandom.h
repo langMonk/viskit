@@ -22,10 +22,10 @@ namespace ivhd::embed::cast
 
 		// public methods
 	public:
-		void cast(particles::ParticleSystem& ps);
+		void cast(particles::ParticleSystem& ps) override;
 
 		int maxEdge() { return m_maxEdge; };
-
+		
 	private:
 		int m_maxEdge;
 	};
