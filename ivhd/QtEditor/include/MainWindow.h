@@ -9,7 +9,8 @@
 #include <ivhd/IParticleSystem.h>
 
 #include "ui_MainWindow.h"
-#include "OpenGLRenderer.h"
+
+class OpenGLRenderer;
 
 class MainWindow : public QMainWindow
 {
@@ -29,14 +30,17 @@ public:
 
 private:
 	MainWindow(QWidget* parent = Q_NULLPTR);
+	void keyPressEvent(QKeyEvent* event) override;
 	void createIVHD();
 
 private slots:
 	void on_pushButton_Open_clicked();
 	void on_pushButton_Exit_clicked();
+	void on_pushButton_CastingRun();
 
 private:
 	Ui::MainWindow ui;
 	std::shared_ptr<ivhd::IInteractiveVizualization> m_ivhd;
 	std::shared_ptr<ivhd::IParticleSystem> m_ivhd_particleSystem;
+	OpenGLRenderer* m_renderer;
 };
