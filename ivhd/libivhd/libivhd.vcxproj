@@ -61,6 +61,8 @@
     <ClInclude Include="include\particles\ParticleData.h" />
     <ClInclude Include="include\particles\ParticleSystem.h" />
     <ClInclude Include="include\particles\update\ParticleUpdater.h" />
+    <ClInclude Include="include\threading\SafeQueue.h" />
+    <ClInclude Include="include\threading\ThreadPool.h" />
     <ClInclude Include="include\utils\Math.h" />
     <ClInclude Include="include\utils\TimeProfiler.h" />
   </ItemGroup>
