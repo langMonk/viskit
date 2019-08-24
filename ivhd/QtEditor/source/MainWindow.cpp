@@ -2,12 +2,18 @@
 #include <QDesktopServices>
 
 #include "MainWindow.h"
+#include "OpenGLRenderer.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 	createIVHD();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* event)
+{
+	m_renderer->onKeyPressedEvent(event);
 }
 
 void MainWindow::createIVHD()
@@ -45,10 +51,15 @@ void MainWindow::on_pushButton_Open_clicked()
 	auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
 	casterRandom->cast(m_ivhd_particleSystem);
 
-	setCentralWidget(new OpenGLRenderer());
+	m_renderer = new OpenGLRenderer();
+	setCentralWidget(m_renderer);
 }
 
 void MainWindow::on_pushButton_Exit_clicked()
 {
 	close();
+}
+
+void MainWindow::on_pushButton_CastingRun()
+{
 }
