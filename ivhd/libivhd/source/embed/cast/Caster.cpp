@@ -23,7 +23,25 @@ namespace ivhd::embed::cast
 		
 	}
 
+	void Caster::cast(particles::ParticleSystem& ps)
+	{
+	}
+
+	void Caster::casterThread(int start, int end, particles::ParticleSystem& ps)
+	{
+	}
+
 	void Caster::finalize()
 	{
+	}
+
+	void Caster::runCasting(particles::ParticleSystem& ps)
+	{
+
+	}
+
+	void Caster::stopCasting()
+	{
+
 	}
 }

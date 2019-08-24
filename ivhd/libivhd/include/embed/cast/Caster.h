@@ -5,8 +5,12 @@
 
 #pragma once
 
+#include <thread>
+#include <mutex>
+
 #include "core/System.h"
 #include "graph/Graph.h"
+#include "particles/ParticleSystem.h"
 
 namespace ivhd::embed::cast
 {
@@ -24,13 +28,25 @@ namespace ivhd::embed::cast
 	protected:
 		virtual void initialize();
 
+		virtual void cast(particles::ParticleSystem& ps);
+
+		virtual void casterThread(int start, int end, particles::ParticleSystem& ps);
+
 		virtual void finalize();
+
+		virtual void runCasting(particles::ParticleSystem& ps);
+
+		virtual void stopCasting();
+
 
 	protected:
 		core::System& m_ext_system;
 
+		bool m_casting;
+
 		float dtFactor{ 1.0f };
 
 		float speedFactor{200};
+
 	};
 }
