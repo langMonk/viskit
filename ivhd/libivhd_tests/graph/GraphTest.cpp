@@ -33,9 +33,10 @@ TEST(Graph, Generation)
 
 	core::Core core{ handler };
 	parse::ParserCSV parser{ core.system() };
-	graph::Graph graph{ core.system() };
 	particles::ParticleSystem particleSystem{ core.system() };
-	graph::GraphGenerator generator{particleSystem, graph, false};
+	graph::GraphGenerator generator{particleSystem, false};
+
+	auto graph = particleSystem.neighbourhoodGraph();
 
 	auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 	parser.loadFile(csvFile, 7000, particleSystem);
@@ -48,9 +49,9 @@ TEST(Graph, Generation)
 
 	std::ofstream m_file;
 	m_file.open("kNN_graph.txt");
-	for (int i = 0; i < graph.neighborsCount(); i++)
+	for (int i = 0; i < graph->neighborsCount(); i++)
 	{
-		auto neighbors = graph.getNeighbors(i);
+		auto neighbors = graph->getNeighbors(i);
 		if (neighbors.type == NeighborsType::Near)
 		{
 			m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Near" << std::endl;
@@ -65,7 +66,7 @@ TEST(Graph, Generation)
 		}
 	}
 
-	size_t kNN_count = graph.neighborsCount();
+	size_t kNN_count = graph->neighborsCount();
 	EXPECT_EQ(kNN_count, 21000); //every point has 3 NN
 }
 

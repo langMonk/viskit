@@ -6,6 +6,7 @@
 #pragma once
 
 #include "core/System.h"
+#include "graph/Graph.h"
 
 namespace ivhd::embed::cast
 {
@@ -27,5 +28,9 @@ namespace ivhd::embed::cast
 
 	protected:
 		core::System& m_ext_system;
+
+		float dtFactor{ 1.0f };
+
+		float speedFactor{200};
 	};
 }
