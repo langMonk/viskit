@@ -9,10 +9,10 @@
 namespace ivhd::graph
 { 
 
-	GraphGenerator::GraphGenerator(particles::ParticleSystem& ps, Graph& graph, bool useCache)
+	GraphGenerator::GraphGenerator(particles::ParticleSystem& ps, bool useCache)
 		: m_ext_particleSystem(ps)
 		, m_useCache(useCache)
-		, m_graph(graph)
+		, m_graph(ps.neighbourhoodGraph())
 		, m_distancesEqualOne(true)
 	{
 	}
@@ -153,7 +153,7 @@ namespace ivhd::graph
 				n->r = 1;
 			}
 
-			m_graph.addNeighbors(n[i]);
+			m_graph->addNeighbors(n[i]);
 		}
 	}
 }

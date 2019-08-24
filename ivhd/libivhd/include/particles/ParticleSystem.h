@@ -17,11 +17,14 @@
 #include "particles/emit/ParticleEmitter.h"
 #include "particles/update/ParticleUpdater.h"
 #include "graph/Point.h"
+#include "graph/Graph.h"
+
+using namespace ivhd::graph;
 
 namespace ivhd::particles
 {
 	// public sub-types
-	using Dataset = std::vector<std::pair<graph::Point, size_t>>;
+	using Dataset = std::vector<std::pair<Point, size_t>>;
 
 	enum class MetricType { Euclidean, Cosine };
 
@@ -53,6 +56,8 @@ namespace ivhd::particles
 
 		ParticleData* finalData() { return &m_particles; }
 
+		Graph* neighbourhoodGraph() { return &m_neighbourhoodGraph; }
+
 		template<class Value_T>
 		struct DiffSquared
 		{
@@ -72,10 +77,12 @@ namespace ivhd::particles
 	private:
 		core::System& m_ext_system;
 
+		Graph m_neighbourhoodGraph;
+
 		Dataset m_originalCoordinates;
 
 		ParticleData m_particles;
-
+		
 		std::vector<std::shared_ptr<emit::ParticleEmitter>> m_emitters;
 		std::vector<std::shared_ptr<update::ParticleUpdater>> m_updaters;
 

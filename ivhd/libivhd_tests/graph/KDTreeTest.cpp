@@ -66,7 +66,7 @@ TEST(KDTree, Generation)
 	parse::ParserCSV parser{ core.system() };
 	graph::Graph graph{ core.system() };
 	particles::ParticleSystem particleSystem{ core.system() };
-	graph::GraphGenerator generator{ particleSystem, graph, false };
+	graph::GraphGenerator generator{ particleSystem, false };
 
 	auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 	parser.loadFile(csvFile, 7000, particleSystem);
