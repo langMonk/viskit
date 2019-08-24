@@ -27,14 +27,13 @@ protected:
 	void initializeGL() override;
 	void resizeGL(int width, int height) override;
 	void paintGL() override;
-	void keyPressEvent(QKeyEvent* event) override;
+
+public:
+	void onKeyPressedEvent(QKeyEvent* event);
 
 protected slots:
 	void destroy() override;
 	void update() override;  
-
-public slots:
-	void dockUndock();
 
 private:
 	struct Camera

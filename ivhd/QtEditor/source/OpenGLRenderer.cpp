@@ -1,3 +1,4 @@
+#include "QKeyEvent"
 #include "OpenGLRenderer.h"
 
 OpenGLRenderer::OpenGLRenderer(QWidget* parent)
@@ -118,9 +119,26 @@ void OpenGLRenderer::render()
 	glBindVertexArray(0);
 }
 
-void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
+void OpenGLRenderer::onKeyPressedEvent(QKeyEvent* event)
 {
-
+	if (event->key() == Qt::Key_W)
+	{
+		camera.camDistance -= 0.1f;
+	}
+	else if (event->key() == Qt::Key_S)
+	{
+		camera.camDistance += 0.1f;
+	}
+	else if (event->key() == Qt::Key_A)
+	{
+		camera.cameraDir.x -= 0.1f;
+	}
+	else if (event->key() == Qt::Key_D)
+	{
+		camera.cameraDir.x += 0.1f;
+	}
+	
+	QWidget::update();
 }
 
 void OpenGLRenderer::destroy()
@@ -184,35 +202,35 @@ void OpenGLRenderer::printVersionInformation()
 	qDebug() << qPrintable(glType) << qPrintable(glVersion) << "(" << qPrintable(glProfile) << ")";
 }
 
-void OpenGLRenderer::dockUndock()
-{
-	//auto mainWindow = MainWindow::instance();
-	//if (parent()) 
-	//{
-	//	setParent(0);
-	//	setAttribute(Qt::WA_DeleteOnClose);
-	//	move(QApplication::desktop()->width() / 2 - width() / 2,
-	//		QApplication::desktop()->height() / 2 - height() / 2);
-	//	mainWindow->setCentralWidget(nullptr);
-	//	show();
-	//}
-	//else 
-	//{
-	//	if (!mainWindow->centralWidget())
-	//	{
-	//		if (mainWindow->isVisible())
-	//		{
-	//			setAttribute(Qt::WA_DeleteOnClose, false);
-	//			mainWindow->setCentralWidget(this);
-	//		}
-	//		else 
-	//		{
-	//			QMessageBox::information(0, tr("Cannot dock"), tr("Main window already closed"));
-	//		}
-	//	}
-	//	else 
-	//	{
-	//		QMessageBox::information(0, tr("Cannot dock"), tr("Main window already occupied"));
-	//	}
-	//}
-}
+//void OpenGLRenderer::dockUndock()
+//{
+//	//auto mainWindow = MainWindow::instance();
+//	//if (parent()) 
+//	//{
+//	//	setParent(0);
+//	//	setAttribute(Qt::WA_DeleteOnClose);
+//	//	move(QApplication::desktop()->width() / 2 - width() / 2,
+//	//		QApplication::desktop()->height() / 2 - height() / 2);
+//	//	mainWindow->setCentralWidget(nullptr);
+//	//	show();
+//	//}
+//	//else 
+//	//{
+//	//	if (!mainWindow->centralWidget())
+//	//	{
+//	//		if (mainWindow->isVisible())
+//	//		{
+//	//			setAttribute(Qt::WA_DeleteOnClose, false);
+//	//			mainWindow->setCentralWidget(this);
+//	//		}
+//	//		else 
+//	//		{
+//	//			QMessageBox::information(0, tr("Cannot dock"), tr("Main window already closed"));
+//	//		}
+//	//	}
+//	//	else 
+//	//	{
+//	//		QMessageBox::information(0, tr("Cannot dock"), tr("Main window already occupied"));
+//	//	}
+//	//}
+//}
