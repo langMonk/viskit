@@ -82,7 +82,7 @@ TEST(KDTree, Generation)
 	size_t k = 3; // Number of nearest neighbors
 	numQueriesProcessed = 0;
 	correctCount = 0;
-	int queriesPerThread = particleSystem.countParticles() / kNumThreads;
+	size_t queriesPerThread = particleSystem.countParticles() / kNumThreads;
 	std::vector<std::thread> threads;
 	
 	for (int i = 0; i < kNumThreads; i++) 

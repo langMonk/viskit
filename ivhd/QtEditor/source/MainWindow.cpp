@@ -49,7 +49,7 @@ void MainWindow::on_pushButton_Open_clicked()
 	}
 
 	auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
-	casterRandom->cast(m_ivhd_particleSystem);
+	casterRandom->castParticleSystem(m_ivhd_particleSystem);
 
 	m_renderer = new OpenGLRenderer();
 	setCentralWidget(m_renderer);
