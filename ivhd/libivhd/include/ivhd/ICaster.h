@@ -14,8 +14,13 @@ namespace ivhd
 		// public methods 
 	public:
 		/// <summary>
-		/// Handles process of casting between spaces
+		/// Handles process of casting particle system between spaces
 		/// </summary>
-		virtual void cast(std::shared_ptr<ivhd::IParticleSystem>& ps) = 0;
+		virtual void castParticleSystem(std::shared_ptr<ivhd::IParticleSystem>& ps) = 0;
+
+		/// <summary>
+		/// Handles process of casting specific particle between spaces
+		/// </summary>
+		virtual void castParticle(std::shared_ptr<ivhd::IParticleSystem>& ps, size_t index) = 0;
 	};
 }
