@@ -44,7 +44,7 @@ TEST(CasterTest, CasterRandom)
 		EXPECT_EQ(dataPoints->m_pos[i], glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 	}
 
-	caster.cast(particleSystem);
+	caster.castParticleSystem(particleSystem);
 
 	auto positions = dataPoints->m_pos.get();
 	for (int i = 0; i < particleSystem.countParticles()-1; i++)
