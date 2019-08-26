@@ -30,7 +30,9 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		void cast(std::shared_ptr<ivhd::IParticleSystem>& ps) override;
+		void castParticleSystem(std::shared_ptr<ivhd::IParticleSystem>& ps) override;
+
+		void castParticle(std::shared_ptr<ivhd::IParticleSystem>& ps, size_t index) override;
 
 		// private members
 	private:

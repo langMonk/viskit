@@ -11,42 +11,31 @@
 #include "core/System.h"
 #include "graph/Graph.h"
 #include "particles/ParticleSystem.h"
+#include "threading/ThreadPool.h"
+#include "math/IvhdMath.h"
+#include "ICaster.h"
 
 namespace ivhd::embed::cast
 {
-	class Caster
+	class Caster : public virtual ICaster
 	{
 		// public construction and destruction methods
 	public:
 		Caster(core::System& system);
-		virtual ~Caster();
+		virtual ~Caster() = default;
 
 		Caster(const Caster&) = delete;
 		Caster& operator=(const Caster&) = delete;
 
-		// protected methods
-	protected:
-		virtual void initialize();
-
-		virtual void cast(particles::ParticleSystem& ps);
-
-		virtual void casterThread(int start, int end, particles::ParticleSystem& ps);
-
-		virtual void finalize();
-
-		virtual void runCasting(particles::ParticleSystem& ps);
-
-		virtual void stopCasting();
-
-
 	protected:
 		core::System& m_ext_system;
 
-		bool m_casting;
+		bool m_casting{ false };
 
 		float dtFactor{ 1.0f };
 
 		float speedFactor{200};
 
+		threading::ThreadPool m_threadPool;
 	};
 }

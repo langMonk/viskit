@@ -24,6 +24,7 @@
     <ClInclude Include="include\core\System.h" />
     <ClInclude Include="include\embed\cast\Caster.h" />
     <ClInclude Include="include\embed\cast\CasterRandom.h" />
+    <ClInclude Include="include\embed\cast\ICaster.h" />
     <ClInclude Include="include\facade\FacadeCaster.h" />
     <ClInclude Include="include\facade\FacadeCasterRandom.h" />
     <ClInclude Include="include\facade\FacadeInteractiveVizualization.h" />
@@ -54,6 +55,7 @@
     <ClInclude Include="include\ivhd\SettingType.h" />
     <ClInclude Include="include\ivhd\Structures.h" />
     <ClInclude Include="include\math\glm_adapter.h" />
+    <ClInclude Include="include\math\IvhdMath.h" />
     <ClInclude Include="include\parse\Parser.h" />
     <ClInclude Include="include\parse\ParserCSV.h" />
     <ClInclude Include="include\particles\emit\ParticleEmitter.h" />
@@ -61,7 +63,6 @@
     <ClInclude Include="include\particles\ParticleData.h" />
     <ClInclude Include="include\particles\ParticleSystem.h" />
     <ClInclude Include="include\particles\update\ParticleUpdater.h" />
-    <ClInclude Include="include\threading\SafeQueue.h" />
     <ClInclude Include="include\threading\ThreadPool.h" />
     <ClInclude Include="include\utils\Math.h" />
     <ClInclude Include="include\utils\TimeProfiler.h" />
