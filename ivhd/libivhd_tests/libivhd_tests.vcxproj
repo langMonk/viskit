@@ -62,6 +62,7 @@
     <ClCompile Include="graph\KDTreeTest.cpp" />
     <ClCompile Include="ivhd\InteractiveVisualizationBuilderTest.cpp" />
     <ClCompile Include="particles\ParticleData.cpp" />
+    <ClCompile Include="threading\ThreadPoolTest.cpp" />
     <ClCompile Include="utils\DistanceCalculatorTest.cpp" />
   </ItemGroup>
   <ItemGroup>
