@@ -240,8 +240,11 @@
     <ClInclude Include="include\threading\ThreadPool.h">
       <Filter>Header Files\threading</Filter>
     </ClInclude>
-    <ClInclude Include="include\threading\SafeQueue.h">
-      <Filter>Header Files\threading</Filter>
+    <ClInclude Include="include\math\IvhdMath.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ICaster.h">
+      <Filter>Header Files\embed\cast</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
