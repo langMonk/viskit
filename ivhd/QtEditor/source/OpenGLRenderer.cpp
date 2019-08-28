@@ -44,7 +44,7 @@ void OpenGLRenderer::initializeGL()
 	m_program.disable();
 
 	size_t count = m_particleSystem->countAlive();
-	auto data = m_particleSystem->finalData();
+	auto data = m_particleSystem->availableData();
 
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
@@ -168,11 +168,11 @@ void OpenGLRenderer::update()
 	if (count > 0)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
-		float* ptr = (float*)(m_particleSystem->finalData()->m_pos.get());
+		float* ptr = (float*)(m_particleSystem->availableData()->m_pos.get());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
-		ptr = (float*)(m_particleSystem->finalData()->m_col.get());
+		ptr = (float*)(m_particleSystem->availableData()->m_col.get());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

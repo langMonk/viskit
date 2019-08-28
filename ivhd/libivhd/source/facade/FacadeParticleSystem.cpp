@@ -30,8 +30,8 @@ namespace ivhd::facade
 		return m_internalParticleSystem->countAwakeParticles();
 	}
 
-	particles::ParticleData* FacadeParticleSystem::finalData()
+	particles::ParticleData* FacadeParticleSystem::availableData()
 	{
-		return m_internalParticleSystem->finalData();
+		return m_internalParticleSystem->availableData();
 	}
 }

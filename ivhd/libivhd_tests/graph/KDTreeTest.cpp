@@ -27,7 +27,7 @@ namespace libivhd_test
 	static const int kNumThreads = 8;
 	bool setDistancesToOne{ true };
 
-	static void kNNQueryThread(int start, int end, const graph::KDTree& kd, size_t k, const particles::Dataset& data, graph::Graph& graph, particles::ParticleSystem& ps) {
+	static void kNNQueryThread(int start, int end, const graph::KDTree& kd, size_t k, const particles::Dataset& data, graph::Graph& graph) {
 		for (int i = start; i < end; i++) {
 			const auto& p = data[i];
 			std::vector<std::pair<float, graph::Point>> pred = kd.kNN(p.first, k);
@@ -91,7 +91,7 @@ namespace libivhd_test
 		{
 			int start = i * queriesPerThread;
 			int end = (i == kNumThreads - 1) ? particleSystem.countParticles() : start + queriesPerThread;
-			threads.push_back(std::thread(kNNQueryThread, start, end, std::ref(kd), k, std::ref(data), std::ref(graph), std::ref(particleSystem)));
+			threads.push_back(std::thread(kNNQueryThread, start, end, std::ref(kd), k, std::ref(data), std::ref(graph)));
 		}
 
 		auto profiler = utils::TimeProfiler(true);
@@ -105,7 +105,8 @@ namespace libivhd_test
 
 		graph.sort();
 
-		std::ofstream m_file;
+		/*std::ofstream m_file;
+
 		m_file.open("kNN_graph_kdd.txt");
 		for (int i = 0; i < graph.neighborsCount(); i++)
 		{
@@ -122,6 +123,12 @@ namespace libivhd_test
 			{
 				m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Random" << std::endl;
 			}
-		}
+		}*/
 	}
 }
+
+//int main(int argc, char** argv) {
+//	::testing::InitGoogleTest(&argc, argv);
+//	::testing::GTEST_FLAG(filter) = "KDTree*";
+//	return RUN_ALL_TESTS();
+//}
