@@ -7,34 +7,36 @@
 #include <core/Logger.h>
 #include <ivhd/LogLevel.h>
 
-TEST(LoggerTest, logging)
+namespace libivhd_test
 {
-	using Logs = std::pair<ivhd::LogLevel, std::string>;
-
-	std::vector<Logs> logs {};
-	size_t count = 0;
-
-	auto handler = [&logs, &count](ivhd::LogLevel level, std::string message)
+	TEST(LoggerTest, logging)
 	{
+		using Logs = std::pair<ivhd::LogLevel, std::string>;
+
+		std::vector<Logs> logs{};
+		size_t count = 0;
+
+		auto handler = [&logs, &count](ivhd::LogLevel level, std::string message)
+		{
 			logs.push_back(std::make_pair(level, message));
 			count++;
-	};
+		};
 
-	ivhd::core::Logger logger{ handler };
+		ivhd::core::Logger logger{ handler };
 
-	logger.logInfo("Info: 1");
-	EXPECT_EQ(logs.size(), count);
-	EXPECT_EQ(logs.back().first, ivhd::LogLevel::Info);
-	EXPECT_EQ(logs.back().second, "Info: 1");
+		logger.logInfo("Info: 1");
+		EXPECT_EQ(logs.size(), count);
+		EXPECT_EQ(logs.back().first, ivhd::LogLevel::Info);
+		EXPECT_EQ(logs.back().second, "Info: 1");
 
-	logger.logInfo("Info: 2");
-	EXPECT_EQ(logs.size(), count);
-	EXPECT_EQ(logs.back().first, ivhd::LogLevel::Info);
-	EXPECT_EQ(logs.back().second, "Info: 2");
+		logger.logInfo("Info: 2");
+		EXPECT_EQ(logs.size(), count);
+		EXPECT_EQ(logs.back().first, ivhd::LogLevel::Info);
+		EXPECT_EQ(logs.back().second, "Info: 2");
 
-	logger.logError("Error: 1");
-	EXPECT_EQ(logs.size(), count);
-	EXPECT_EQ(logs.back().first, ivhd::LogLevel::Error);
-	EXPECT_EQ(logs.back().second, "Error: 1");
+		logger.logError("Error: 1");
+		EXPECT_EQ(logs.size(), count);
+		EXPECT_EQ(logs.back().first, ivhd::LogLevel::Error);
+		EXPECT_EQ(logs.back().second, "Error: 1");
+	}
 }
-

@@ -42,9 +42,6 @@
     <ClCompile Include="graph\GraphTest.cpp">
       <Filter>graph</Filter>
     </ClCompile>
-    <ClCompile Include="utils\DistanceCalculatorTest.cpp">
-      <Filter>utils</Filter>
-    </ClCompile>
     <ClCompile Include="graph\KDTreeTest.cpp">
       <Filter>graph</Filter>
     </ClCompile>

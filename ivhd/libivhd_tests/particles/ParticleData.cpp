@@ -6,9 +6,11 @@
 #include <gtest/gtest.h>
 #include <particles/ParticleData.h>
 
-TEST(ParticleData, create)
+namespace libivhd_test
 {
-	ivhd::particles::ParticleData data;
-	data.generate(30);
+	TEST(ParticleData, create)
+	{
+		ivhd::particles::ParticleData data;
+		data.generate(30);
+	}
 }
-
