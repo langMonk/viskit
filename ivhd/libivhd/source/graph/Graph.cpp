@@ -14,6 +14,11 @@ namespace ivhd::graph
 		{
 			return m_data[idx];
 		}
+		else
+		{
+			m_ext_system.logger().logWarning("Neighbors for passed index doesn't exist. Returning default Neighbors() object.");
+			return Neighbors();
+		}
 	}
 
 	void Graph::addNeighbors(Neighbors neighbors)

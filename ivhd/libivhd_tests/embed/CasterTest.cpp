@@ -39,7 +39,7 @@ namespace libivhd_test
 		EXPECT_EQ(particleSystem.countParticles(), 20);
 		EXPECT_EQ(coords.size(), 20);
 
-		auto dataPoints = particleSystem.finalData();
+		auto dataPoints = particleSystem.calculationData();
 
 		for (int i = 0; i < particleSystem.countParticles(); i++)
 		{
