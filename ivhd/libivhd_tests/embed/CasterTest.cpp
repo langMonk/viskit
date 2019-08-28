@@ -10,47 +10,49 @@
 #include <core/Core.h>
 #include "TestUtils.h"
 
-TEST(CasterTest, CasterRandom)
+namespace libivhd_test
 {
-	using Logs = std::pair<ivhd::LogLevel, std::string>;
-
-	std::vector<Logs> logs{};
-	size_t count = 0;
-
-	auto handler = [&logs, &count](ivhd::LogLevel level, std::string message)
+	TEST(CasterTest, CasterRandom)
 	{
-		logs.push_back(std::make_pair(level, message));
-		count++;
-	};
+		using Logs = std::pair<ivhd::LogLevel, std::string>;
 
-	ivhd::core::Core core{ handler };
-	ivhd::parse::ParserCSV parser{ core.system()};
-	ivhd::embed::cast::CasterRandom caster{ core.system() };
-	ivhd::particles::ParticleSystem particleSystem{ core.system() };
-	
-	auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
+		std::vector<Logs> logs{};
+		size_t count = 0;
 
-	parser.loadFile(csvFile, 20, particleSystem);
+		auto handler = [&logs, &count](ivhd::LogLevel level, std::string message)
+		{
+			logs.push_back(std::make_pair(level, message));
+			count++;
+		};
 
-	auto& coords = particleSystem.originalCoordinates();
+		ivhd::core::Core core{ handler };
+		ivhd::parse::ParserCSV parser{ core.system() };
+		ivhd::embed::cast::CasterRandom caster{ core.system() };
+		ivhd::particles::ParticleSystem particleSystem{ core.system() };
 
-	EXPECT_EQ(particleSystem.countParticles(), 20);
-	EXPECT_EQ(coords.size(), 20);
+		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
 
-	auto dataPoints = particleSystem.finalData();
+		parser.loadFile(csvFile, 20, particleSystem);
 
-	for (int i = 0; i < particleSystem.countParticles(); i++)
-	{
-		EXPECT_EQ(dataPoints->m_pos[i], glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-	}
+		auto& coords = particleSystem.originalCoordinates();
 
-	caster.castParticleSystem(particleSystem);
+		EXPECT_EQ(particleSystem.countParticles(), 20);
+		EXPECT_EQ(coords.size(), 20);
 
-	auto positions = dataPoints->m_pos.get();
-	for (int i = 0; i < particleSystem.countParticles()-1; i++)
-	{
-		EXPECT_NE(positions[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
-		EXPECT_NE(positions[i], positions[i+1]);
+		auto dataPoints = particleSystem.finalData();
+
+		for (int i = 0; i < particleSystem.countParticles(); i++)
+		{
+			EXPECT_EQ(dataPoints->m_pos[i], glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+		}
+
+		caster.castParticleSystem(particleSystem);
+
+		auto positions = dataPoints->m_pos.get();
+		for (int i = 0; i < particleSystem.countParticles() - 1; i++)
+		{
+			EXPECT_NE(positions[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+			EXPECT_NE(positions[i], positions[i + 1]);
+		}
 	}
 }
-

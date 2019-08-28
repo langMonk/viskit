@@ -6,24 +6,26 @@
 #include <gtest/gtest.h>
 #include <threading/ThreadPool.h>
 
-int multiply(const int a, const int b) 
+namespace libivhd_test
 {
-	const int res = a * b;
-	return res;
-}
+	int multiply(const int a, const int b)
+	{
+		const int res = a * b;
+		return res;
+	}
+	
+	TEST(ThreadPool, DefaultThreadPool)
+	{
+		// Create pool with 3 threads
+		ivhd::threading::ThreadPool pool(3);
 
-TEST(ThreadPool, DefaultThreadPool)
-{
-	// Create pool with 3 threads
-	ivhd::threading::ThreadPool pool(3);
 
-
-	// Submit (partial) multiplication table
-	for (int i = 1; i < 20; ++i) {
-		for (int j = 1; j < 40; ++j) {
-			auto result = pool.enqueue(multiply, i, j);
-			ASSERT_EQ(result.get(), i * j);
+		// Submit (partial) multiplication table
+		for (int i = 1; i < 20; ++i) {
+			for (int j = 1; j < 40; ++j) {
+				auto result = pool.enqueue(multiply, i, j);
+				ASSERT_EQ(result.get(), i * j);
+			}
 		}
 	}
 }
-
