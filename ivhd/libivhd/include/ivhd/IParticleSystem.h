@@ -30,7 +30,7 @@ namespace ivhd
 		/// <summary>
 		/// Returns current final data (after transformations).
 		/// <returns> Container with current final data.</returns>
-		virtual particles::ParticleData* finalData() = 0;
+		virtual particles::ParticleData* availableData() = 0;
 
 		/// <summary>
 		/// Counts alive particles.

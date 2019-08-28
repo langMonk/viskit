@@ -34,7 +34,7 @@ namespace ivhd::facade
 
 		std::shared_ptr<particles::ParticleSystem> internalParticleSystem() const;
 
-		particles::ParticleData* finalData() override;
+		particles::ParticleData* availableData() override;
 
 		size_t countAlive() override;
 

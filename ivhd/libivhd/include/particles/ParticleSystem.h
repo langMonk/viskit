@@ -54,7 +54,9 @@ namespace ivhd::particles
 		void setMetric(MetricType type);
 		MetricType& currentMetric();
 
-		ParticleData* finalData() { return &m_particles; }
+		ParticleData* calculationData() { return &m_particles; }
+
+		ParticleData* availableData() { return &m_cachedParticles; }
 
 		Graph* neighbourhoodGraph() { return &m_neighbourhoodGraph; }
 
@@ -80,6 +82,8 @@ namespace ivhd::particles
 		Graph m_neighbourhoodGraph;
 
 		Dataset m_originalCoordinates;
+
+		ParticleData m_cachedParticles;
 
 		ParticleData m_particles;
 		

@@ -19,7 +19,7 @@ namespace ivhd::embed::cast
 	{
 		m_ext_system.logger().logInfo("[CasterRandom] Casting particle with index" + index);
 
-		auto dataPoints = ps.finalData();
+		auto dataPoints = ps.calculationData();
 
 		dataPoints->m_pos[index].x = m_gen->gen();
 		dataPoints->m_pos[index].y = m_gen->gen();
@@ -31,12 +31,8 @@ namespace ivhd::embed::cast
 	{
 		m_ext_system.logger().logInfo("[CasterRandom] Casting particle system...");
 
-		//m_threadPool.init();
-
 		internalCastingThread(ps);
-
-		//m_threadPool.shutdown();
-
+		
 		m_ext_system.logger().logInfo("[CasterRandom] Finished.");
 	}
 
@@ -54,7 +50,7 @@ namespace ivhd::embed::cast
 			auto gen = m_gen;
 			auto future = threadPool.enqueue([&ps, &gen, start, end]()
 			{
-				auto dataPoints = ps.finalData();
+				auto dataPoints = ps.calculationData();
 
 				for (size_t i = start; i < end; i++)
 				{

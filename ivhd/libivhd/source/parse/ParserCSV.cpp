@@ -16,7 +16,7 @@ namespace ivhd::parse
 
 	void ParserCSV::loadFile(std::string filePath, size_t maxSize, particles::ParticleSystem& ps)
 	{	
-		auto data = ps.finalData();
+		auto data = ps.calculationData();
 		data->generate(maxSize);
 
 		auto input = std::ifstream(filePath.c_str());
