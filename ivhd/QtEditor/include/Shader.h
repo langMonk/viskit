@@ -34,7 +34,7 @@ public:
 
 private:
 	GLuint m_id;
-	Type   m_type;
+	Type m_type;
 	std::string m_name;
 
 private:

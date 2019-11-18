@@ -56,7 +56,9 @@ namespace ivhd::particles
 
 		ParticleData* calculationData() { return &m_particles; }
 
-		ParticleData* availableData() { return &m_cachedParticles; }
+		ParticleData* availableData() { return &m_availableParticles; }
+
+		void swapParticleData();
 
 		Graph* neighbourhoodGraph() { return &m_neighbourhoodGraph; }
 
@@ -83,7 +85,7 @@ namespace ivhd::particles
 
 		Dataset m_originalCoordinates;
 
-		ParticleData m_cachedParticles;
+		ParticleData m_availableParticles;
 
 		ParticleData m_particles;
 		

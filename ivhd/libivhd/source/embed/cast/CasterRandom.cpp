@@ -32,7 +32,8 @@ namespace ivhd::embed::cast
 		m_ext_system.logger().logInfo("[CasterRandom] Casting particle system...");
 
 		internalCastingThread(ps);
-		
+		ps.swapParticleData();
+
 		m_ext_system.logger().logInfo("[CasterRandom] Finished.");
 	}
 
