@@ -25,7 +25,6 @@ public:
 	inline void  disable();
 	inline GLint getUniformLocation(const char* varName);
 
-
 	inline bool uniform1i(const char* varName, int value);
 	inline bool uniform1f(const char* varName, float value);
 	inline bool uniform2f(const char* varName, float x, float y);
@@ -36,7 +35,6 @@ public:
 	inline bool uniform4fv(const char* varName, float* values);
 	inline bool uniformMatrix3f(const char* varName, float* mat, bool transpose = false);
 	inline bool uniformMatrix4f(const char* varName, float* mat, bool transpose = false);
-
 
 	GLuint getId() const { return m_id; }
 	
