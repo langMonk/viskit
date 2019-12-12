@@ -13,12 +13,12 @@ namespace ivhd::facade
 	{
 	}
 
-	void FacadeParserCSV::loadFile(std::string filePath, size_t maxSize, std::shared_ptr<ivhd::IParticleSystem>& ps)
+	void FacadeParserCSV::loadFile(std::string filePath, std::shared_ptr<ivhd::IParticleSystem>& ps)
 	{
 		try
 		{
 			auto particleSystem = dynamic_cast<FacadeParticleSystem*>(ps.get());
-			m_internalParser->loadFile(filePath, maxSize, *particleSystem->internalParticleSystem().get());
+			m_internalParser->loadFile(filePath, *particleSystem->internalParticleSystem().get());
 		}
 		catch (std::exception& ex)
 		{

@@ -32,6 +32,6 @@ namespace ivhd::facade
 
 	particles::ParticleData* FacadeParticleSystem::availableData()
 	{
-		return m_internalParticleSystem->availableData();
+		return m_internalParticleSystem->calculationData();
 	}
 }

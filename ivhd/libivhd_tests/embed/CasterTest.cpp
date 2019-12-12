@@ -32,7 +32,7 @@ namespace libivhd_test
 
 		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
 
-		parser.loadFile(csvFile, 20, particleSystem);
+		parser.loadFile(csvFile, particleSystem);
 
 		auto& coords = particleSystem.originalCoordinates();
 
@@ -56,3 +56,9 @@ namespace libivhd_test
 		}
 	}
 }
+
+//int main(int argc, char** argv) {
+//	::testing::InitGoogleTest(&argc, argv);
+//	::testing::GTEST_FLAG(filter) = "CasterTest*";
+//	return RUN_ALL_TESTS();
+//}

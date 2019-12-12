@@ -12,7 +12,7 @@ namespace ivhd::particles
 		m_pos.reset(new glm::vec4[maxSize]);
 		m_acc.reset(new glm::vec4[maxSize]);
 		m_col.reset(new glm::vec4[maxSize]);
-		m_startCol.reset(new glm::vec4[maxSize]);
+		m_startCol.reset(new glm::vec4[maxSize]); 
 		m_endCol.reset(new glm::vec4[maxSize]);
 		m_vel.reset(new glm::vec4[maxSize]);
 		m_acc.reset(new glm::vec4[maxSize]);

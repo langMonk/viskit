@@ -41,7 +41,10 @@ namespace libivhd_test
 		auto graph = particleSystem.neighbourhoodGraph();
 
 		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
-		parser.loadFile(csvFile, 7000, particleSystem);
+		parser.loadFile(csvFile, particleSystem);
+
+		EXPECT_EQ(particleSystem.countParticles(), 7000);
+		EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);
 
 		auto profiler = utils::TimeProfiler(true);
 		profiler.start();

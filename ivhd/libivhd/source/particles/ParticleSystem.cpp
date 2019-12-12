@@ -25,8 +25,4 @@ namespace ivhd::particles
 	{
 		return m_currentMetric;
 	}
-
-	void ParticleSystem::swapParticleData()
-	{
-	}
 }
