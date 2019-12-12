@@ -14,13 +14,20 @@ namespace ivhd::parse
 
 	}
 
-	void ParserCSV::loadFile(std::string filePath, size_t maxSize, particles::ParticleSystem& ps)
+	void ParserCSV::loadFile(std::string filePath, particles::ParticleSystem& ps)
 	{	
 		auto data = ps.calculationData();
-		data->generate(maxSize);
-
 		auto input = std::ifstream(filePath.c_str());
 
+		// count+1, because the last line of csv file won't contain '\n'
+		auto count = std::count(std::istreambuf_iterator<char>(input),
+			std::istreambuf_iterator<char>(), '\n')+1;
+
+		m_ext_system.logger().logInfo("Loaded dataset with  " + std::to_string(count) + " points was loaded.");
+		data->generate(count);
+
+		input.clear();
+		input.seekg(0, std::ios::beg);
 		if (!input.good())
 		{
 			m_ext_system.logger().logError("Problems while opening the file : " + filePath);
@@ -33,6 +40,7 @@ namespace ivhd::parse
 		bool firstLine = true;
 		std::string line = "";
 
+		auto& originalDataset = ps.originalCoordinates();
 		while (std::getline(input, line))
 		{
 			std::vector<std::string> stringVector;
@@ -53,7 +61,7 @@ namespace ivhd::parse
 
 			size_t label = std::stoi(stringVector.back());
 
-			ps.originalCoordinates().push_back(std::make_pair(graph::Point(floatVector), label));
+			originalDataset.push_back(std::make_pair(graph::Point(floatVector), label));
 		}
 
 		finalize(ps);

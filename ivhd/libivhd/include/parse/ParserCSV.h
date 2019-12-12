@@ -23,7 +23,7 @@ namespace ivhd::parse
 
 		// public methods
 	public:
-		void loadFile(std::string filePath, size_t maxSize, particles::ParticleSystem& ps);
+		void loadFile(std::string filePath, particles::ParticleSystem& ps);
 
 	};
 }
