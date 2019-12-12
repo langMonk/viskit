@@ -71,7 +71,7 @@ namespace libivhd_test
 		graph::GraphGenerator generator{ particleSystem, false };
 
 		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
-		parser.loadFile(csvFile, 7000, particleSystem);
+		parser.loadFile(csvFile, particleSystem);
 
 		// Part responsible for creating a tree
 		auto data = particleSystem.originalCoordinates();
@@ -127,8 +127,3 @@ namespace libivhd_test
 	}
 }
 
-//int main(int argc, char** argv) {
-//	::testing::InitGoogleTest(&argc, argv);
-//	::testing::GTEST_FLAG(filter) = "KDTree*";
-//	return RUN_ALL_TESTS();
-//}

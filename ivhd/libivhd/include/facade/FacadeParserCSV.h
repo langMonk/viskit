@@ -29,7 +29,7 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		void loadFile(std::string filePath, size_t maxSize, std::shared_ptr<ivhd::IParticleSystem>& ps) override;
+		void loadFile(std::string filePath, std::shared_ptr<ivhd::IParticleSystem>& ps) override;
 
 		// private members
 	private:

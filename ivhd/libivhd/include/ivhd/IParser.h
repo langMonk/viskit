@@ -18,7 +18,7 @@ namespace ivhd
 		/// <summary>
 		/// Load specified file into particle system structure
 		/// </summary>
-		virtual void loadFile(std::string filePath, size_t maxSize, std::shared_ptr<ivhd::IParticleSystem>& ps) = 0;
+		virtual void loadFile(std::string filePath, std::shared_ptr<ivhd::IParticleSystem>& ps) = 0;
 
 	};
 }

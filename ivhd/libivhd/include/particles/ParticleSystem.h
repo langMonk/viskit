@@ -56,10 +56,6 @@ namespace ivhd::particles
 
 		ParticleData* calculationData() { return &m_particles; }
 
-		ParticleData* availableData() { return &m_availableParticles; }
-
-		void swapParticleData();
-
 		Graph* neighbourhoodGraph() { return &m_neighbourhoodGraph; }
 
 		template<class Value_T>
@@ -84,8 +80,6 @@ namespace ivhd::particles
 		Graph m_neighbourhoodGraph;
 
 		Dataset m_originalCoordinates;
-
-		ParticleData m_availableParticles;
 
 		ParticleData m_particles;
 		
