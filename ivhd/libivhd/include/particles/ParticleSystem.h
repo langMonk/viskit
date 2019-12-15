@@ -41,24 +41,35 @@ namespace ivhd::particles
 		// public methods
 	public:
 		virtual size_t countParticles() const { return m_particles.m_count; }
+		
 		virtual size_t countAwakeParticles() const { return m_particles.m_countAlive; }
-
-		void addEmitter(std::shared_ptr<emit::ParticleEmitter> em) { m_emitters.push_back(em); }
-		void addUpdater(std::shared_ptr<update::ParticleUpdater> up) { m_updaters.push_back(up); }
-
-		Dataset& originalCoordinates() { return m_originalCoordinates; }
-
+		
 		void loadData(Dataset container) { m_originalCoordinates = container; }
+		
 		void clear();
+		
 		bool empty();
 
-		void setMetric(MetricType type);
-		MetricType& currentMetric();
-
+		// public getters and setters
+	public:
+		Dataset& originalCoordinates() { return m_originalCoordinates; }
+		
+		MetricType* currentMetric() { return &m_currentMetric; };
+		
 		ParticleData* calculationData() { return &m_particles; }
-
+		
 		Graph* neighbourhoodGraph() { return &m_neighbourhoodGraph; }
+		
+		void setMetric(MetricType type);
 
+		// add emitters, casters, etc.
+	public:
+		void addEmitter(std::shared_ptr<emit::ParticleEmitter> em) { m_emitters.push_back(em); }
+		
+		void addUpdater(std::shared_ptr<update::ParticleUpdater> up) { m_updaters.push_back(up); }
+
+		// add emitters, casters, etc.
+	public:
 		template<class Value_T>
 		struct DiffSquared
 		{
@@ -67,12 +78,7 @@ namespace ivhd::particles
 			}
 		};
 
-		float vectorDistance(size_t i, size_t j)
-		{
-			float ret = std::inner_product(m_originalCoordinates[i].first.begin(), m_originalCoordinates[i].first.end(),
-										m_originalCoordinates[j].first.begin(), 0.0f, std::plus<float>(), DiffSquared <float>());
-			return ret > 0.0f ? sqrt(ret) : 0.0f;
-		}
+		float vectorDistance(size_t i, size_t j);
 
 		// private members
 	private:

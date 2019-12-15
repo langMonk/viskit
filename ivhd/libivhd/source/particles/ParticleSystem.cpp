@@ -30,13 +30,17 @@ namespace ivhd::particles
 		return (m_originalCoordinates.empty() && m_particles.empty()) ? true : false;
 	}
 
+
 	void ParticleSystem::setMetric(MetricType type)
 	{
 		m_currentMetric = type;
 	}
 
-	MetricType& ParticleSystem::currentMetric()
+	float ParticleSystem::vectorDistance(size_t i, size_t j)
 	{
-		return m_currentMetric;
+		float ret = std::inner_product(m_originalCoordinates[i].first.begin(), m_originalCoordinates[i].first.end(),
+				m_originalCoordinates[j].first.begin(), 0.0f, std::plus<float>(), DiffSquared <float>());
+
+		return ret > 0.0f ? sqrt(ret) : 0.0f;
 	}
 }
