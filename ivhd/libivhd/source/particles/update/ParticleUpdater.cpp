@@ -70,13 +70,6 @@ namespace ivhd::particles::update
 		}
 	}
 
-	void BasicColorUpdater::update(double dt, ParticleData* data)
-	{
-		const size_t endId = data->m_countAlive;
-		for (size_t i = 0; i < endId; ++i)
-			data->m_col[i] = glm::mix(data->m_startCol[i], data->m_endCol[i], data->m_time[i].z);
-	}
-
 	void PosColorUpdater::update(double dt, ParticleData* data)
 	{
 		const size_t endId = data->m_countAlive;
@@ -92,7 +85,6 @@ namespace ivhd::particles::update
 			data->m_col[i].r = scaler;// glm::mix(data->m_startCol[i].r, data->m_endCol[i].r, scaler);
 			data->m_col[i].g = scaleg;// glm::mix(data->m_startCol[i].g, data->m_endCol[i].g, scaleg);
 			data->m_col[i].b = scaleb;// glm::mix(data->m_startCol[i].b, data->m_endCol[i].b, scaleb);
-			data->m_col[i].a = glm::mix(data->m_startCol[i].a, data->m_endCol[i].a, data->m_time[i].z);
 		}
 	}
 
@@ -111,29 +103,6 @@ namespace ivhd::particles::update
 			data->m_col[i].r = scaler;// glm::mix(data->m_startCol[i].r, data->m_endCol[i].r, scaler);
 			data->m_col[i].g = scaleg;// glm::mix(data->m_startCol[i].g, data->m_endCol[i].g, scaleg);
 			data->m_col[i].b = scaleb;// glm::mix(data->m_startCol[i].b, data->m_endCol[i].b, scaleb);
-			data->m_col[i].a = glm::mix(data->m_startCol[i].a, data->m_endCol[i].a, data->m_time[i].z);
-		}
-	}
-
-	void BasicTimeUpdater::update(double dt, ParticleData* data)
-	{
-		unsigned int endId = static_cast<unsigned int>(data->m_countAlive);
-		const float localDT = (float)dt;
-
-		if (endId == 0) return;
-
-		for (size_t i = 0; i < endId; ++i)
-		{
-			data->m_time[i].x -= localDT;
-			// interpolation: from 0 (start of life) till 1 (end of life)
-			data->m_time[i].z = (float)1.0 - (data->m_time[i].x * data->m_time[i].w); // .w is 1.0/max life time		
-
-			if (data->m_time[i].x < (float)0.0)
-			{
-				data->kill(i);
-				endId = data->m_countAlive < data->m_count ? static_cast<unsigned int>(data->m_countAlive) 
-														: static_cast<unsigned int>(data->m_count);
-			}
 		}
 	}
 }

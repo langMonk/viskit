@@ -61,13 +61,6 @@ namespace ivhd::particles::update
 		std::vector<glm::vec4> m_attractors;
 	};
 
-	class BasicColorUpdater : public ParticleUpdater
-	{
-		// public methods
-	public:
-		virtual void update(double dt, ParticleData* data) override;
-	};
-
 	class PosColorUpdater : public ParticleUpdater
 	{
 		// public methods
@@ -90,12 +83,5 @@ namespace ivhd::particles::update
 	public:
 		glm::vec4 m_minVel{ 0.0 };
 		glm::vec4 m_maxVel{ 1.0 };
-	};
-
-	class BasicTimeUpdater : public ParticleUpdater
-	{
-		// public methods
-	public:
-		virtual void update(double dt, ParticleData* data) override;
 	};
 }

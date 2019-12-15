@@ -49,19 +49,6 @@ namespace ivhd::particles::generate
 		virtual void generate(double dt, ParticleData* p, size_t startId, size_t endId) override;
 	};
 
-	class BasicColorGen : public ParticleGenerator
-	{
-	public:
-		glm::vec4 m_minStartCol{ 0.0 };
-		glm::vec4 m_maxStartCol{ 0.0 };
-		glm::vec4 m_minEndCol{ 0.0 };
-		glm::vec4 m_maxEndCol{ 0.0 };
-	public:
-		BasicColorGen() { }
-
-		virtual void generate(double dt, ParticleData* p, size_t startId, size_t endId) override;
-	};
-
 	class BasicVelGen : public ParticleGenerator
 	{
 	public:
@@ -80,17 +67,6 @@ namespace ivhd::particles::generate
 		float m_maxVel{ 0.0f };
 	public:
 		SphereVelGen() { }
-
-		virtual void generate(double dt, ParticleData* p, size_t startId, size_t endId) override;
-	};
-
-	class BasicTimeGen : public ParticleGenerator
-	{
-	public:
-		float m_minTime{ 0.0 };
-		float m_maxTime{ 0.0 };
-	public:
-		BasicTimeGen() { }
 
 		virtual void generate(double dt, ParticleData* p, size_t startId, size_t endId) override;
 	};

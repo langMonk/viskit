@@ -4,7 +4,7 @@
 ///
 
 #pragma once
-
+#include <vector>
 #include "math/glm_adapter.h"
 
 namespace ivhd::particles
@@ -28,15 +28,12 @@ namespace ivhd::particles
 
 		// public members
 	public:
-		std::unique_ptr<glm::vec4[]> m_pos;
-		std::unique_ptr<glm::vec4[]> m_acc;
-		std::unique_ptr<glm::vec4[]> m_force;
-		std::unique_ptr<glm::vec4[]> m_col;
-		std::unique_ptr<glm::vec4[]> m_startCol;
-		std::unique_ptr<glm::vec4[]> m_endCol;
-		std::unique_ptr<glm::vec4[]> m_vel;
-		std::unique_ptr<glm::vec4[]> m_time;
-		std::unique_ptr<bool[]>  m_alive;
+		std::vector<glm::vec4> m_pos;
+		std::vector<glm::vec4> m_acc;
+		std::vector<glm::vec4> m_force;
+		std::vector<glm::vec4> m_col;
+		std::vector<glm::vec4> m_vel;
+		std::vector<bool> m_alive;
 
 		size_t m_count{ 0 };
 		size_t m_countAlive{ 0 };
