@@ -7,7 +7,7 @@
 #include <utility>
 #include <algorithm>
 
-#include "graph/Point.h"
+#include "graph/DataPoint.h"
 #include "graph/BoundedPQueue.h"
 
 namespace ivhd::graph
