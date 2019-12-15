@@ -18,13 +18,13 @@ namespace ivhd::graph
 		}
 	}
 
-	void BoundedPQueue::enqueuePoint(const Point& value, float priority)
+	void BoundedPQueue::enqueuePoint(const DataPoint& value, float priority)
 	{
 		points.insert(std::make_pair(priority, value));
 
 		if (pointSize() > maxSize())
 		{
-			typename std::multimap<float, Point>::iterator last = points.end();
+			typename std::multimap<float, DataPoint>::iterator last = points.end();
 			--last;
 			points.erase(last);
 		}
@@ -37,7 +37,7 @@ namespace ivhd::graph
 		return result;
 	}
 
-	std::pair<float, Point> BoundedPQueue::dequeuePoint()
+	std::pair<float, DataPoint> BoundedPQueue::dequeuePoint()
 	{
 		auto result = std::make_pair(points.begin()->first, points.begin()->second);
 		points.erase(points.begin());

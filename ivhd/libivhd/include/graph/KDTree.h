@@ -16,7 +16,7 @@ namespace ivhd::graph
 	{
 		// public construction and destruction methods
 	public:
-		KDTree(std::vector<std::pair<Point, size_t>>& points, size_t dim);
+		KDTree(std::vector<std::pair<DataPoint, size_t>>& points, size_t dim);
 
 		~KDTree();
 
@@ -30,42 +30,42 @@ namespace ivhd::graph
 		std::size_t size() const;
 		bool empty() const;
 
-		bool contains(const Point& pt) const;
+		bool contains(const DataPoint& pt) const;
 
-		void insert(const Point& pt, const size_t& value = size_t());
+		void insert(const DataPoint& pt, const size_t& value = size_t());
 
-		size_t& operator[](const Point& pt);
+		size_t& operator[](const DataPoint& pt);
 
-		size_t& at(const Point& pt);
-		const size_t& at(const Point& pt) const;
+		size_t& at(const DataPoint& pt);
+		const size_t& at(const DataPoint& pt) const;
 
-		size_t kNNValue(const Point& key, std::size_t k) const;
+		size_t kNNValue(const DataPoint& key, std::size_t k) const;
 
-		std::vector<std::pair<float, Point>> kNN(const Point& key, std::size_t k) const;
+		std::vector<std::pair<float, DataPoint>> kNN(const DataPoint& key, std::size_t k) const;
 
 		// internal sub-types
 	private:
 		struct Node 
 		{
-			Point point;
+			DataPoint point;
 			Node* left;
 			Node* right;
 			int level; 
 			size_t value;
-			Node(const Point& _pt, int _level, const size_t& _value = size_t()) :
+			Node(const DataPoint& _pt, int _level, const size_t& _value = size_t()) :
 				point(_pt), left(NULL), right(NULL), level(_level), value(_value) {}
 		};
 
 		// private methods
 	private:
-		Node* buildTree(typename std::vector<std::pair<Point, size_t>>::iterator start,
-			typename std::vector<std::pair<Point, size_t>>::iterator end, int currLevel);
+		Node* buildTree(typename std::vector<std::pair<DataPoint, size_t>>::iterator start,
+			typename std::vector<std::pair<DataPoint, size_t>>::iterator end, int currLevel);
 
-		Node* findNode(Node* currNode, const Point& pt) const;
+		Node* findNode(Node* currNode, const DataPoint& pt) const;
 
-		void nearestNeighborValueRecurse(const Node* currNode, const Point& key, BoundedPQueue& pQueue) const;
+		void nearestNeighborValueRecurse(const Node* currNode, const DataPoint& key, BoundedPQueue& pQueue) const;
 
-		void nearestNeighborRecurse(const Node* currNode, const Point& key, BoundedPQueue& pQueue) const;
+		void nearestNeighborRecurse(const Node* currNode, const DataPoint& key, BoundedPQueue& pQueue) const;
 
 		Node* deepcopyTree(Node* root);
 

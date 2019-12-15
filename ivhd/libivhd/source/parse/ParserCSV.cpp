@@ -40,7 +40,7 @@ namespace ivhd::parse
 		bool firstLine = true;
 		std::string line = "";
 
-		auto& originalDataset = ps.originalCoordinates();
+		particles::Dataset dataset;
 		while (std::getline(input, line))
 		{
 			std::vector<std::string> stringVector;
@@ -61,9 +61,10 @@ namespace ivhd::parse
 
 			size_t label = std::stoi(stringVector.back());
 
-			originalDataset.push_back(std::make_pair(graph::Point(floatVector), label));
+			dataset.push_back(std::make_pair(graph::DataPoint(floatVector), label));
 		}
 
+		ps.setDataset(dataset);
 		finalize(ps);
 		input.close();
 	}
