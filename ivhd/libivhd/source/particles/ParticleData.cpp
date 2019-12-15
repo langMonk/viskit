@@ -57,4 +57,22 @@ namespace ivhd::particles
 		std::swap(m_time[a], m_time[b]);
 		std::swap(m_alive[a], m_alive[b]);
 	}
+	
+	bool ParticleData::empty()
+	{
+		return m_count != 0 ? true : false;
+	}
+
+	void ParticleData::clear()
+	{
+		m_pos.reset(new glm::vec4[0]);
+		m_acc.reset(new glm::vec4[0]);
+		m_col.reset(new glm::vec4[0]);
+		m_startCol.reset(new glm::vec4[0]);
+		m_endCol.reset(new glm::vec4[0]);
+		m_vel.reset(new glm::vec4[0]);
+		m_acc.reset(new glm::vec4[0]);
+		m_time.reset(new glm::vec4[0]);
+		m_alive.reset(new bool[0]);
+	}
 }

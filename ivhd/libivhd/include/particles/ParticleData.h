@@ -23,6 +23,8 @@ namespace ivhd::particles
 		void kill(size_t id);
 		void wake(size_t id);
 		void swapData(size_t a, size_t b);
+		bool empty();
+		void clear();
 
 		// public members
 	public:
