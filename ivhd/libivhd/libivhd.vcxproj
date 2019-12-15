@@ -64,6 +64,7 @@
     <ClInclude Include="include\particles\ParticleSystem.h" />
     <ClInclude Include="include\particles\update\ParticleUpdater.h" />
     <ClInclude Include="include\threading\ThreadPool.h" />
+    <ClInclude Include="include\utils\RandomColor.h" />
     <ClInclude Include="include\utils\Math.h" />
     <ClInclude Include="include\utils\TimeProfiler.h" />
   </ItemGroup>
@@ -93,6 +94,7 @@
     <ClCompile Include="source\particles\ParticleData.cpp" />
     <ClCompile Include="source\particles\ParticleSystem.cpp" />
     <ClCompile Include="source\particles\update\ParticleUpdater.cpp" />
+    <ClCompile Include="source\utils\RandomColor.cpp" />
     <ClCompile Include="source\utils\TimeProfiler.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
