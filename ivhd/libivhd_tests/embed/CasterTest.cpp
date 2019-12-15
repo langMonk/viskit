@@ -48,7 +48,7 @@ namespace libivhd_test
 
 		caster.castParticleSystem(particleSystem);
 
-		auto positions = dataPoints->m_pos.get();
+		auto positions = dataPoints->m_pos;
 		for (int i = 0; i < particleSystem.countParticles() - 1; i++)
 		{
 			EXPECT_NE(positions[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
@@ -56,9 +56,3 @@ namespace libivhd_test
 		}
 	}
 }
-
-//int main(int argc, char** argv) {
-//	::testing::InitGoogleTest(&argc, argv);
-//	::testing::GTEST_FLAG(filter) = "CasterTest*";
-//	return RUN_ALL_TESTS();
-//}
