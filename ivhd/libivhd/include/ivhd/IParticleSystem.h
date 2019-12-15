@@ -25,7 +25,7 @@ namespace ivhd
 		/// Returns original coordinates.
 		/// </summary>
 		/// <returns> Container with data original coordinates.</returns>
-		virtual std::vector<std::pair<graph::Point, size_t>> originalCoordinates() = 0;
+		virtual std::vector<std::pair<graph::DataPoint, size_t>> originalCoordinates() = 0;
 
 		/// <summary>
 		/// Returns current final data (after transformations).

@@ -7,9 +7,9 @@
 
 namespace ivhd::graph
 {
-	using PointId = size_t;
+	using DataPointId = size_t;
 
-	class Point
+	class DataPoint
 	{
 		// sub-types
 	public:
@@ -18,8 +18,8 @@ namespace ivhd::graph
 
 		// construction and destruction methods
 	public: 
-		Point(size_t size);
-		Point(std::vector<float> vec);
+		DataPoint(size_t size);
+		DataPoint(std::vector<float> vec);
 
 		// public methods
 	public:
@@ -33,19 +33,19 @@ namespace ivhd::graph
 		const_iterator begin() const;
 		const_iterator end() const;
 
-		PointId getId() { return m_id; }
-		PointId getId() const { return m_id; }
+		DataPointId getId() { return m_id; }
+		DataPointId getId() const { return m_id; }
 
 		// private members
 	private:
-		PointId m_id;
+		DataPointId m_id;
 		size_t N;
 		float* coords;
 		static size_t m_currentId;
 
 	};
 
-	inline float Distance(const Point& one, const Point& two) 
+	inline float Distance(const DataPoint& one, const DataPoint& two)
 	{
 		assert(one.size() == two.size());
 		float result = 0.0;
@@ -54,13 +54,13 @@ namespace ivhd::graph
 		return result;
 	}
 
-	inline bool operator==(const Point& one, const Point& two)
+	inline bool operator==(const DataPoint& one, const DataPoint& two)
 	{
 		assert(one.size() == two.size());
 		return std::equal(one.begin(), one.end(), two.begin());
 	}
 
-	inline bool operator!=(const Point& one, const Point& two)
+	inline bool operator!=(const DataPoint& one, const DataPoint& two)
 	{
 		assert(one.size() == two.size());
 		return !(one == two);
