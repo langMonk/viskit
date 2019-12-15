@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <limits>
 
-#include "graph/Point.h"
+#include "graph/DataPoint.h"
 
 namespace ivhd::graph
 { 

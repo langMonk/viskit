@@ -38,7 +38,7 @@
     <ClInclude Include="include\graph\Graph.h" />
     <ClInclude Include="include\graph\GraphGenerator.h" />
     <ClInclude Include="include\graph\KDTree.h" />
-    <ClInclude Include="include\graph\Point.h" />
+    <ClInclude Include="include\graph\DataPoint.h" />
     <ClInclude Include="include\ivhd\ICaster.h" />
     <ClInclude Include="include\ivhd\ICasterDpd.h" />
     <ClInclude Include="include\ivhd\IClusterer.h" />
@@ -84,7 +84,7 @@
     <ClCompile Include="source\graph\Graph.cpp" />
     <ClCompile Include="source\graph\GraphGenerator.cpp" />
     <ClCompile Include="source\graph\KDTree.cpp" />
-    <ClCompile Include="source\graph\Point.cpp" />
+    <ClCompile Include="source\graph\DataPoint.cpp" />
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
     <ClCompile Include="source\parse\Parser.cpp" />
     <ClCompile Include="source\parse\ParserCSV.cpp" />

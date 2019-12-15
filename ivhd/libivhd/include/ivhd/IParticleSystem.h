@@ -9,7 +9,7 @@
 #include <memory>
 #include "Structures.h"
 #include "particles/ParticleData.h"
-#include "graph/Point.h"
+#include "graph/DataPoint.h"
 
 namespace ivhd
 {

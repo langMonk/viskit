@@ -16,7 +16,7 @@
 #include "particles/generate/ParticleGenerator.h"
 #include "particles/emit/ParticleEmitter.h"
 #include "particles/update/ParticleUpdater.h"
-#include "graph/Point.h"
+#include "graph/DataPoint.h"
 #include "graph/Graph.h"
 
 using namespace ivhd::graph;
