@@ -37,5 +37,14 @@ namespace ivhd
 		/// <returns> Number of particles, that are currently alive.</returns>
 		virtual size_t countAlive() = 0;
 
+		/// <summary>
+		/// Clears the particle system (if not empty).
+		///
+		virtual void clear() = 0;
+
+		/// <summary>
+		/// Checks if particles system is empty
+		/// <returns> True if particle system is empty, false otherwise.</returns>
+		virtual bool empty() = 0;
 	};
 }

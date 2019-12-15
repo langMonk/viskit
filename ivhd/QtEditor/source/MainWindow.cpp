@@ -34,6 +34,11 @@ void MainWindow::createIVHD()
 
 void MainWindow::on_pushButton_Open_clicked()
 {
+	if (!m_ivhd_particleSystem->empty())
+	{
+		m_ivhd_particleSystem->clear();
+	}
+
 	QString fileName = QFileDialog::getOpenFileName(this,
 		tr("Choose dataset"), "",
 		tr("CSV format(*.csv);;All Files (*)"));
