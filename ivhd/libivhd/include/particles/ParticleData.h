@@ -31,8 +31,8 @@ namespace ivhd::particles
 		std::vector<glm::vec4> m_pos;
 		std::vector<glm::vec4> m_acc;
 		std::vector<glm::vec4> m_force;
-		std::vector<glm::vec4> m_col;
 		std::vector<glm::vec4> m_vel;
+		std::vector<glm::vec4> m_col;
 		std::vector<bool> m_alive;
 
 		size_t m_count{ 0 };

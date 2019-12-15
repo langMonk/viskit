@@ -34,17 +34,12 @@ namespace libivhd_test
 
 		parser.loadFile(csvFile, particleSystem);
 
-		auto& coords = particleSystem.originalCoordinates();
+		auto coords = particleSystem.originalCoordinates();
 
 		EXPECT_EQ(particleSystem.countParticles(), 20);
 		EXPECT_EQ(coords.size(), 20);
 
 		auto dataPoints = particleSystem.calculationData();
-
-		for (int i = 0; i < particleSystem.countParticles(); i++)
-		{
-			EXPECT_EQ(dataPoints->m_pos[i], glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-		}
 
 		caster.castParticleSystem(particleSystem);
 
