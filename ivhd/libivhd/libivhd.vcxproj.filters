@@ -231,9 +231,6 @@
     <ClInclude Include="include\graph\KDTree.h">
       <Filter>Header Files\graph</Filter>
     </ClInclude>
-    <ClInclude Include="include\graph\Point.h">
-      <Filter>Header Files\graph</Filter>
-    </ClInclude>
     <ClInclude Include="include\graph\BoundedPQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -245,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="include\embed\cast\ICaster.h">
       <Filter>Header Files\embed\cast</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graph\DataPoint.h">
+      <Filter>Header Files\graph</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -320,10 +320,10 @@
     <ClCompile Include="source\graph\KDTree.cpp">
       <Filter>Source Files\graph</Filter>
     </ClCompile>
-    <ClCompile Include="source\graph\Point.cpp">
+    <ClCompile Include="source\graph\BoundedPQueue.cpp">
       <Filter>Source Files\graph</Filter>
     </ClCompile>
-    <ClCompile Include="source\graph\BoundedPQueue.cpp">
+    <ClCompile Include="source\graph\DataPoint.cpp">
       <Filter>Source Files\graph</Filter>
     </ClCompile>
   </ItemGroup>

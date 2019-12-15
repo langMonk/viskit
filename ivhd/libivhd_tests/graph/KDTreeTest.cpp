@@ -14,7 +14,7 @@
 #include <parse/ParserCsv.h>
 #include <graph/GraphGenerator.h>
 #include <graph/KDTree.h>
-#include <graph/Point.h>
+#include <graph/DataPoint.h>
 #include "TestUtils.h"
 
 using namespace ivhd;
