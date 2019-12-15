@@ -10,12 +10,12 @@ namespace ivhd::graph
 		return newRoot;
 	}
 
-	typename KDTree::Node* KDTree::buildTree(typename std::vector<std::pair<Point, size_t>>::iterator start,
-		typename std::vector<std::pair<Point, size_t>>::iterator end, int currLevel) {
+	typename KDTree::Node* KDTree::buildTree(typename std::vector<std::pair<DataPoint, size_t>>::iterator start,
+		typename std::vector<std::pair<DataPoint, size_t>>::iterator end, int currLevel) {
 		if (start >= end) return NULL; // empty tree
 
 		int axis = currLevel % m_sizePoints; // the axis to split on
-		auto cmp = [axis](const std::pair<Point, size_t>& p1, const std::pair<Point, size_t>& p2) {
+		auto cmp = [axis](const std::pair<DataPoint, size_t>& p1, const std::pair<DataPoint, size_t>& p2) {
 			return p1.first[axis] < p2.first[axis];
 		};
 		std::size_t len = end - start;
@@ -34,7 +34,7 @@ namespace ivhd::graph
 		return newNode;
 	}
 
-	KDTree::KDTree(std::vector<std::pair<Point, size_t>>& points, size_t dim) {
+	KDTree::KDTree(std::vector<std::pair<DataPoint, size_t>>& points, size_t dim) {
 		m_root = buildTree(points.begin(), points.end(), 0);
 		m_size = points.size();
 		m_sizePoints = dim;
@@ -77,10 +77,10 @@ namespace ivhd::graph
 		return m_size == 0;
 	}
 
-	typename KDTree::Node* KDTree::findNode(typename KDTree::Node* currNode, const Point& pt) const {
+	typename KDTree::Node* KDTree::findNode(typename KDTree::Node* currNode, const DataPoint& pt) const {
 		if (currNode == NULL || currNode->point == pt) return currNode;
 
-		const Point& currPoint = currNode->point;
+		const DataPoint& currPoint = currNode->point;
 		int currLevel = currNode->level;
 		if (pt[currLevel % m_sizePoints] < currPoint[currLevel % m_sizePoints]) { // recurse to the left side
 			return currNode->left == NULL ? currNode : findNode(currNode->left, pt);
@@ -90,12 +90,12 @@ namespace ivhd::graph
 		}
 	}
 
-	bool KDTree::contains(const Point& pt) const {
+	bool KDTree::contains(const DataPoint& pt) const {
 		auto node = findNode(m_root, pt);
 		return node != NULL && node->point == pt;
 	}
 
-	void KDTree::insert(const Point& pt, const size_t& value) {
+	void KDTree::insert(const DataPoint& pt, const size_t& value) {
 		auto targetNode = findNode(m_root, pt);
 		if (targetNode == NULL) { // this means the tree is empty
 			m_root = new Node(pt, 0, value);
@@ -119,7 +119,7 @@ namespace ivhd::graph
 		}
 	}
 
-	const size_t& KDTree::at(const Point& pt) const {
+	const size_t& KDTree::at(const DataPoint& pt) const {
 		auto node = findNode(m_root, pt);
 		if (node == NULL || node->point != pt) {
 			throw std::out_of_range("Point not found in the KD-Tree");
@@ -129,12 +129,12 @@ namespace ivhd::graph
 		}
 	}
 
-	size_t& KDTree::at(const Point& pt) {
+	size_t& KDTree::at(const DataPoint& pt) {
 		const KDTree& constThis = *this;
 		return const_cast<size_t&>(constThis.at(pt));
 	}
 
-	size_t& KDTree::operator[](const Point& pt) {
+	size_t& KDTree::operator[](const DataPoint& pt) {
 		auto node = findNode(m_root, pt);
 		if (node != NULL && node->point == pt) { // pt is already in the tree
 			return node->value;
@@ -146,10 +146,10 @@ namespace ivhd::graph
 		}
 	}
 
-	void KDTree::nearestNeighborValueRecurse(const typename KDTree::Node* currNode, const Point& key, BoundedPQueue& pQueue) const 
+	void KDTree::nearestNeighborValueRecurse(const typename KDTree::Node* currNode, const DataPoint& key, BoundedPQueue& pQueue) const
 	{
 		if (currNode == NULL) return;
-		const Point& currPoint = currNode->point;
+		const DataPoint& currPoint = currNode->point;
 
 		// Add the current point to the BPQ if it is closer to 'key' that some point in the BPQ
 		pQueue.enqueue(currNode->value, Distance(currPoint, key));
@@ -173,10 +173,10 @@ namespace ivhd::graph
 		}
 	}
 
-	void KDTree::nearestNeighborRecurse(const typename KDTree::Node* currNode, const Point& key, BoundedPQueue& pQueue) const
+	void KDTree::nearestNeighborRecurse(const typename KDTree::Node* currNode, const DataPoint& key, BoundedPQueue& pQueue) const
 	{
 		if (currNode == NULL) return;
-		const Point& currPoint = currNode->point;
+		const DataPoint& currPoint = currNode->point;
 
 		// Add the current point to the BPQ if it is closer to 'key' that some point in the BPQ
 		// and point is not the same
@@ -204,7 +204,7 @@ namespace ivhd::graph
 		}
 	}
 
-	size_t KDTree::kNNValue(const Point& key, std::size_t k) const 
+	size_t KDTree::kNNValue(const DataPoint& key, std::size_t k) const
 	{
 		BoundedPQueue pQueue(k); // BPQ with maximum size k
 		if (empty()) return size_t(); // default return value if KD-tree is empty
@@ -231,14 +231,14 @@ namespace ivhd::graph
 		return result;
 	}
 
-	std::vector<std::pair<float, Point>> KDTree::kNN(const Point& key, std::size_t k) const
+	std::vector<std::pair<float, DataPoint>> KDTree::kNN(const DataPoint& key, std::size_t k) const
 	{
 		BoundedPQueue pQueue(k); 
-		if (empty()) return std::vector<std::pair<float, Point>>{};
+		if (empty()) return std::vector<std::pair<float, DataPoint>>{};
 
 		nearestNeighborRecurse(m_root, key, pQueue);
 
-		std::vector<std::pair<float, Point>> result;
+		std::vector<std::pair<float, DataPoint>> result;
 		while (!pQueue.emptyPoints()) {
 			result.push_back(pQueue.dequeuePoint());
 		}

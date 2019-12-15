@@ -15,7 +15,7 @@ namespace ivhd::facade
 	{
 	}
 
-	std::vector<std::pair<graph::Point, size_t>> FacadeParticleSystem::originalCoordinates()
+	std::vector<std::pair<graph::DataPoint, size_t>> FacadeParticleSystem::originalCoordinates()
 	{
 		return m_internalParticleSystem->originalCoordinates();
 	}

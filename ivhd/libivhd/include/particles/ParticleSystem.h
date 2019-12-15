@@ -24,7 +24,9 @@ using namespace ivhd::graph;
 namespace ivhd::particles
 {
 	// public sub-types
-	using Dataset = std::vector<std::pair<Point, size_t>>;
+	using DataPointLabel = size_t;
+	using Color = glm::vec4;
+	using Dataset = std::vector<std::pair<DataPoint, DataPointLabel>>;
 
 	enum class MetricType { Euclidean, Cosine };
 
@@ -44,7 +46,7 @@ namespace ivhd::particles
 		
 		virtual size_t countAwakeParticles() const { return m_particles.m_countAlive; }
 		
-		void loadData(Dataset container) { m_originalCoordinates = container; }
+		void setDataset(Dataset container) { m_originalCoordinates = container; }
 		
 		void clear();
 		
@@ -89,8 +91,11 @@ namespace ivhd::particles
 		Dataset m_originalCoordinates;
 
 		ParticleData m_particles;
-		
+
+		std::map<DataPointLabel, Color> m_colorsMap;
+
 		std::vector<std::shared_ptr<emit::ParticleEmitter>> m_emitters;
+		
 		std::vector<std::shared_ptr<update::ParticleUpdater>> m_updaters;
 
 		MetricType m_currentMetric;

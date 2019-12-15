@@ -14,10 +14,10 @@ namespace ivhd::graph
 		explicit BoundedPQueue(std::size_t maxSize);
 
 		void enqueue(const size_t& value, float priority);
-		void enqueuePoint(const Point& value, float priority);
+		void enqueuePoint(const DataPoint& value, float priority);
 
 		size_t dequeueMin();
-		std::pair<float, Point> dequeuePoint();
+		std::pair<float, DataPoint> dequeuePoint();
 
 		std::size_t size() const;
 		std::size_t pointSize() const;
@@ -32,7 +32,7 @@ namespace ivhd::graph
 	private:
 
 		std::multimap<float, size_t> elems;
-		std::multimap<float, Point> points;
+		std::multimap<float, DataPoint> points;
 		std::size_t maximumSize;
 	};
 }

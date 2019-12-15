@@ -30,7 +30,7 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		std::vector<std::pair<graph::Point, size_t>> originalCoordinates() override;
+		std::vector<std::pair<graph::DataPoint, size_t>> originalCoordinates() override;
 
 		std::shared_ptr<particles::ParticleSystem> internalParticleSystem() const;
 
