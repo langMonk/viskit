@@ -27,15 +27,6 @@ namespace ivhd::particles::generate
 		}
 	}
 
-	void BasicColorGen::generate(double dt, ParticleData* data, size_t startId, size_t endId)
-	{
-		for (size_t i = startId; i < endId; ++i)
-		{
-			data->m_startCol[i] = glm::linearRand(m_minStartCol, m_maxStartCol);
-			data->m_endCol[i] = glm::linearRand(m_minEndCol, m_maxEndCol);
-		}
-	}
-
 	void BasicVelGen::generate(double dt, ParticleData* data, size_t startId, size_t endId)
 	{
 		for (size_t i = startId; i < endId; ++i)
@@ -57,16 +48,6 @@ namespace ivhd::particles::generate
 			data->m_vel[i].z = v * cosf(phi);
 			data->m_vel[i].x = r * cosf(theta);
 			data->m_vel[i].y = r * sinf(theta);
-		}
-	}
-
-	void BasicTimeGen::generate(double dt, ParticleData* data, size_t startId, size_t endId)
-	{
-		for (size_t i = startId; i < endId; ++i)
-		{
-			data->m_time[i].x = data->m_time[i].y = glm::linearRand(m_minTime, m_maxTime);
-			data->m_time[i].z = (float)0.0;
-			data->m_time[i].w = (float)1.0 / data->m_time[i].x;
 		}
 	}
 }

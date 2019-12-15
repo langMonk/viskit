@@ -52,7 +52,7 @@ void OpenGLRenderer::initializeGL()
 	// Position VBO
 	glGenBuffers(1, &m_bufPos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
-	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_pos.get(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_pos.data(), GL_STREAM_DRAW);
 	GLint position_attribute = glGetAttribLocation(m_program.getId(), "vPosition");
 	glVertexAttribPointer(position_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(position_attribute);
@@ -61,7 +61,7 @@ void OpenGLRenderer::initializeGL()
 	glGenBuffers(1, &m_bufCol);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
 
-	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_col.get(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_col.data(), GL_STREAM_DRAW);
 	GLint color_attribute = glGetAttribLocation(m_program.getId(), "vColor");
 	glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(color_attribute);
@@ -168,11 +168,11 @@ void OpenGLRenderer::update()
 	if (count > 0)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
-		float* ptr = (float*)(m_particleSystem->availableData()->m_pos.get());
+		float* ptr = (float*)(m_particleSystem->availableData()->m_pos.data());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
-		ptr = (float*)(m_particleSystem->availableData()->m_col.get());
+		ptr = (float*)(m_particleSystem->availableData()->m_col.data());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
