@@ -38,6 +38,10 @@ namespace ivhd::facade
 
 		size_t countAlive() override;
 
+		void clear() override;
+
+		bool empty() override;
+
 	private:
 		std::shared_ptr<particles::ParticleSystem> m_internalParticleSystem;
 	};

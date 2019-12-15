@@ -49,7 +49,8 @@ namespace ivhd::particles
 		Dataset& originalCoordinates() { return m_originalCoordinates; }
 
 		void loadData(Dataset container) { m_originalCoordinates = container; }
-		void clear() { m_originalCoordinates.clear(); }
+		void clear();
+		bool empty();
 
 		void setMetric(MetricType type);
 		MetricType& currentMetric();

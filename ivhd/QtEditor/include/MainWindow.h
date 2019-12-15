@@ -42,5 +42,5 @@ private:
 	Ui::MainWindow ui;
 	std::shared_ptr<ivhd::IInteractiveVizualization> m_ivhd;
 	std::shared_ptr<ivhd::IParticleSystem> m_ivhd_particleSystem;
-	OpenGLRenderer* m_renderer;
+	OpenGLRenderer* m_renderer{nullptr};
 };

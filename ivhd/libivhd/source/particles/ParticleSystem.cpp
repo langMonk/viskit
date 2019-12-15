@@ -16,6 +16,20 @@ namespace ivhd::particles
 		
 	}
 
+	void ParticleSystem::clear()
+	{
+		if (!m_originalCoordinates.empty() && !m_particles.empty())
+		{
+			m_originalCoordinates.clear();
+			m_particles.clear();
+		}
+	}
+
+	bool ParticleSystem::empty()
+	{
+		return (m_originalCoordinates.empty() && m_particles.empty()) ? true : false;
+	}
+
 	void ParticleSystem::setMetric(MetricType type)
 	{
 		m_currentMetric = type;

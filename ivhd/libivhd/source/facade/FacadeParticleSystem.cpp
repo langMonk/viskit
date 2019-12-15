@@ -30,6 +30,19 @@ namespace ivhd::facade
 		return m_internalParticleSystem->countAwakeParticles();
 	}
 
+	void FacadeParticleSystem::clear()
+	{
+		if (m_internalParticleSystem != nullptr)
+		{
+			m_internalParticleSystem->clear();
+		}
+	}
+
+	bool FacadeParticleSystem::empty()
+	{
+		return m_internalParticleSystem->empty();
+	}
+
 	particles::ParticleData* FacadeParticleSystem::availableData()
 	{
 		return m_internalParticleSystem->calculationData();
