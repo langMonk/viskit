@@ -16,18 +16,37 @@ namespace ivhd::particles
 		
 	}
 
+	void ParticleSystem::setDataset(Dataset dataset, std::vector<DataPointLabel> labels)
+	{
+		utils::RandomColor color;
+		if (!dataset.empty())
+		{
+			m_originalDataset = dataset;
+		}
+
+		for (const auto label : labels)
+		{
+			m_colorsMap.insert(std::pair<DataPointLabel, Color>(label, color.generate()));
+		}
+
+		for (size_t i = 0; i < countParticles(); i++)
+		{
+			m_particles.m_col[i] = m_colorsMap[dataset[i].second];
+		}
+	}
+
 	void ParticleSystem::clear()
 	{
-		if (!m_originalCoordinates.empty() && !m_particles.empty())
+		if (!m_originalDataset.empty() && !m_particles.empty())
 		{
-			m_originalCoordinates.clear();
+			m_originalDataset.clear();
 			m_particles.clear();
 		}
 	}
 
 	bool ParticleSystem::empty()
 	{
-		return (m_originalCoordinates.empty() && m_particles.empty()) ? true : false;
+		return (m_originalDataset.empty() && m_particles.empty()) ? true : false;
 	}
 
 
@@ -38,8 +57,8 @@ namespace ivhd::particles
 
 	float ParticleSystem::vectorDistance(size_t i, size_t j)
 	{
-		float ret = std::inner_product(m_originalCoordinates[i].first.begin(), m_originalCoordinates[i].first.end(),
-				m_originalCoordinates[j].first.begin(), 0.0f, std::plus<float>(), DiffSquared <float>());
+		float ret = std::inner_product(m_originalDataset[i].first.begin(), m_originalDataset[i].first.end(),
+				m_originalDataset[j].first.begin(), 0.0f, std::plus<float>(), DiffSquared <float>());
 
 		return ret > 0.0f ? sqrt(ret) : 0.0f;
 	}

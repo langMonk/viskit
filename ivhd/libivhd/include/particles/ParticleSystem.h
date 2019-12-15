@@ -18,6 +18,7 @@
 #include "particles/update/ParticleUpdater.h"
 #include "graph/DataPoint.h"
 #include "graph/Graph.h"
+#include "utils/RandomColor.h"
 
 using namespace ivhd::graph;
 
@@ -46,7 +47,7 @@ namespace ivhd::particles
 		
 		virtual size_t countAwakeParticles() const { return m_particles.m_countAlive; }
 		
-		void setDataset(Dataset container) { m_originalCoordinates = container; }
+		void setDataset(Dataset dataset, std::vector<DataPointLabel> labels);
 		
 		void clear();
 		
@@ -54,7 +55,7 @@ namespace ivhd::particles
 
 		// public getters and setters
 	public:
-		Dataset& originalCoordinates() { return m_originalCoordinates; }
+		Dataset& originalCoordinates() { return m_originalDataset; }
 		
 		MetricType* currentMetric() { return &m_currentMetric; };
 		
@@ -72,10 +73,10 @@ namespace ivhd::particles
 
 		// add emitters, casters, etc.
 	public:
-		template<class Value_T>
+		template<class T>
 		struct DiffSquared
 		{
-			Value_T operator()(Value_T x, Value_T y) const {
+			T operator()(T x, T y) const {
 				return (x - y) * (x - y);
 			}
 		};
@@ -88,7 +89,7 @@ namespace ivhd::particles
 
 		Graph m_neighbourhoodGraph;
 
-		Dataset m_originalCoordinates;
+		Dataset m_originalDataset;
 
 		ParticleData m_particles;
 

@@ -41,6 +41,7 @@ namespace ivhd::parse
 		std::string line = "";
 
 		particles::Dataset dataset;
+		std::vector<particles::DataPointLabel> labels;
 		while (std::getline(input, line))
 		{
 			std::vector<std::string> stringVector;
@@ -59,12 +60,16 @@ namespace ivhd::parse
 				return std::stof(val);
 			});
 
-			size_t label = std::stoi(stringVector.back());
-
+			particles::DataPointLabel label = std::stoi(stringVector.back());
 			dataset.push_back(std::make_pair(graph::DataPoint(floatVector), label));
+
+			if (std::find(labels.begin(), labels.end(), label) == labels.end())
+			{
+				labels.emplace_back(label);
+			}
 		}
 
-		ps.setDataset(dataset);
+		ps.setDataset(dataset, labels);
 		finalize(ps);
 		input.close();
 	}
