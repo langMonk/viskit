@@ -29,21 +29,24 @@ namespace ivhd
 
 		/// <summary>
 		/// Returns current final data (after transformations).
+		/// </summary>
 		/// <returns> Container with current final data.</returns>
 		virtual particles::ParticleData* availableData() = 0;
 
 		/// <summary>
 		/// Counts alive particles.
+		/// </summary>
 		/// <returns> Number of particles, that are currently alive.</returns>
 		virtual size_t countAlive() = 0;
 
 		/// <summary>
 		/// Clears the particle system (if not empty).
-		///
+		/// </summary>
 		virtual void clear() = 0;
 
 		/// <summary>
-		/// Checks if particles system is empty
+		/// Checks if particles system is empty.
+		/// </summary>
 		/// <returns> True if particle system is empty, false otherwise.</returns>
 		virtual bool empty() = 0;
 	};

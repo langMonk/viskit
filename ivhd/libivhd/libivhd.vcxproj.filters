@@ -22,9 +22,6 @@
     <Filter Include="Header Files\ivhd">
       <UniqueIdentifier>{de2a87c4-afb1-4ab6-bc27-8e5dd3566b9a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\facade">
-      <UniqueIdentifier>{8302e218-19af-4c98-aed4-5b9acdd98dd2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\facade">
       <UniqueIdentifier>{9f7461c8-acf1-4945-94fc-8a23f12599b4}</UniqueIdentifier>
     </Filter>
@@ -102,6 +99,9 @@
     </Filter>
     <Filter Include="Header Files\threading">
       <UniqueIdentifier>{ab54262f-7742-4dc6-8b2f-f1712a8c581b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\facade">
+      <UniqueIdentifier>{8302e218-19af-4c98-aed4-5b9acdd98dd2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +248,12 @@
     </ClInclude>
     <ClInclude Include="include\utils\RandomColor.h">
       <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IResourceCollection.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeResourceCollection.h">
+      <Filter>Header Files\facade</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
