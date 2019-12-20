@@ -4,7 +4,9 @@
 #include <functional>
 
 #include "IInteractiveVizualization.h"
+#include "IResourceCollection.h"
 #include "ivhd/LogLevel.h"
+#include "facade/FacadeResourceCollection.h"
 
 namespace ivhd
 {
@@ -20,4 +22,21 @@ namespace ivhd
 	/// </summary>
 	/// <returns>The created IVHD resource or nullptr in case of an error.</returns>
 	std::shared_ptr<IInteractiveVizualization> createIVHD(LogHandler logHandler = LogHandler{});
+
+	/// <summary>
+	/// Creates the IVHD resource collection.
+	/// </summary>
+	/// <returns>The created resource collection or nullptr in case of an error.</returns>
+	template<typename T>
+	std::shared_ptr<IResourceCollection<T>> createResourceCollection()
+	{
+		try
+		{
+			return std::make_shared<facade::FacadeResourceCollection<T>>();
+		}
+		catch (std::exception& e)
+		{
+			return nullptr;
+		}
+	}
 }

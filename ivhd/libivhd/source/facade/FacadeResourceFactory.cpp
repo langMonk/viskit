@@ -4,6 +4,7 @@
 ///
 
 #include "facade/FacadeResourceFactory.h"
+#include "facade/FacadeResourceCollection.h"
 #include "facade/FacadeInteractiveVizualization.h"
 #include "facade/FacadeCasterRandom.h"
 #include "facade/FacadeParserCSV.h"

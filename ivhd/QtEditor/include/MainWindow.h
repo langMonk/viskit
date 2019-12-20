@@ -5,6 +5,7 @@
 #include <ivhd/InteractiveVizualizationBuilder.h>
 #include <ivhd/IParser.h>
 #include <ivhd/ICaster.h>
+#include <ivhd/IResourceCollection.h>
 #include <ivhd/IResourceFactory.h>
 #include <ivhd/IParticleSystem.h>
 
@@ -26,21 +27,26 @@ public:
 		return s;
 	}
 
-	std::shared_ptr<ivhd::IParticleSystem> particleSystem() { return m_ivhd_particleSystem; }
+	std::shared_ptr<ivhd::IParticleSystem> particleSystem() { return m_particleSystem; }
 
 private:
 	MainWindow(QWidget* parent = Q_NULLPTR);
 	void keyPressEvent(QKeyEvent* event) override;
-	void createIVHD();
+	void setupIVHD();
 
 private slots:
 	void on_pushButton_Open_clicked();
 	void on_pushButton_Exit_clicked();
-	void on_pushButton_CastingRun();
+	void on_pushButton_CastingRun_clicked();
 
+	// Qt resources
 private:
 	Ui::MainWindow ui;
+	OpenGLRenderer* m_renderer{ nullptr };
+
+	// IVHD resources
+private:
 	std::shared_ptr<ivhd::IInteractiveVizualization> m_ivhd;
-	std::shared_ptr<ivhd::IParticleSystem> m_ivhd_particleSystem;
-	OpenGLRenderer* m_renderer{nullptr};
+	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem;
+	std::shared_ptr<ivhd::IResourceCollection<ivhd::ICaster>> m_casters;
 };

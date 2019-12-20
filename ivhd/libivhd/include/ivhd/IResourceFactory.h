@@ -35,6 +35,5 @@ namespace ivhd
 		/// </summary>
 		/// <returns>The created system.</returns>
 		virtual std::shared_ptr<IParticleSystem> createParticleSystem() = 0;
-
 	};
 }

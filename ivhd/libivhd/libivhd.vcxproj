@@ -32,6 +32,7 @@
     <ClInclude Include="include\facade\FacadeParser.h" />
     <ClInclude Include="include\facade\FacadeParserCSV.h" />
     <ClInclude Include="include\facade\FacadeParticleSystem.h" />
+    <ClInclude Include="include\facade\FacadeResourceCollection.h" />
     <ClInclude Include="include\facade\FacadeResourceFactory.h" />
     <ClInclude Include="include\facade\FacadeTransformer.h" />
     <ClInclude Include="include\graph\BoundedPQueue.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="include\ivhd\ITransformer.h" />
     <ClInclude Include="include\ivhd\LogLevel.h" />
     <ClInclude Include="include\ivhd\Math.h" />
+    <ClInclude Include="include\ivhd\IResourceCollection.h" />
     <ClInclude Include="include\ivhd\SettingType.h" />
     <ClInclude Include="include\ivhd\Structures.h" />
     <ClInclude Include="include\math\glm_adapter.h" />
