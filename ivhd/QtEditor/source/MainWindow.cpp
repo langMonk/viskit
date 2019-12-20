@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	createIVHD();
+	setupIVHD();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -16,7 +16,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 	m_renderer->onKeyPressedEvent(event);
 }
 
-void MainWindow::createIVHD()
+void MainWindow::setupIVHD()
 {
 	auto handler = [&](ivhd::LogLevel level, std::string message)
 	{
@@ -29,14 +29,25 @@ void MainWindow::createIVHD()
 	};
 
 	m_ivhd = ivhd::createIVHD(handler);
-	m_ivhd_particleSystem = m_ivhd->resourceFactory().createParticleSystem();	
+	m_casters = ivhd::createResourceCollection<ivhd::ICaster>();
+	
+	m_particleSystem = m_ivhd->resourceFactory().createParticleSystem();
+
+	// initialize casters and add it to casters collection
+	auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
+	m_casters->add("Random", casterRandom);
+
+	//// initialize Casters Combo Box
+	m_casters->iterate([&](std::string name) {
+		ui.comboBox_CastingSetup->addItem(QString::fromStdString(name));
+	});
 }
 
 void MainWindow::on_pushButton_Open_clicked()
 {
-	if (!m_ivhd_particleSystem->empty())
+	if (!m_particleSystem->empty())
 	{
-		m_ivhd_particleSystem->clear();
+		m_particleSystem->clear();
 	}
 
 	QString fileName = QFileDialog::getOpenFileName(this,
@@ -50,11 +61,10 @@ void MainWindow::on_pushButton_Open_clicked()
 	else
 	{
 		auto parser = m_ivhd->resourceFactory().createParser(ivhd::ParserType::Csv);
-		parser->loadFile(fileName.toUtf8().constData(), m_ivhd_particleSystem);
+		parser->loadFile(fileName.toUtf8().constData(), m_particleSystem);
 	}
 
-	auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
-	casterRandom->castParticleSystem(m_ivhd_particleSystem);
+	m_casters->find("Random")->castParticleSystem(m_particleSystem);
 
 	m_renderer = new OpenGLRenderer();
 	setCentralWidget(m_renderer);
@@ -65,6 +75,7 @@ void MainWindow::on_pushButton_Exit_clicked()
 	close();
 }
 
-void MainWindow::on_pushButton_CastingRun()
+void MainWindow::on_pushButton_CastingRun_clicked()
 {
+
 }
