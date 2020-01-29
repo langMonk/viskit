@@ -28,6 +28,8 @@ public:
 	}
 
 	std::shared_ptr<ivhd::IParticleSystem> particleSystem() { return m_particleSystem; }
+	
+	void setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster);
 
 private:
 	MainWindow(QWidget* parent = Q_NULLPTR);
@@ -48,5 +50,8 @@ private:
 private:
 	std::shared_ptr<ivhd::IInteractiveVizualization> m_ivhd;
 	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem;
+
+	// IVHD collections and current resources
 	std::shared_ptr<ivhd::IResourceCollection<ivhd::ICaster>> m_casters;
+	std::shared_ptr<ivhd::ICaster> m_currentCaster;
 };
