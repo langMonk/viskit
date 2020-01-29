@@ -4,6 +4,14 @@
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
 
+void MainWindow::setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster)
+{
+	if (caster != nullptr)
+	{
+		m_currentCaster = caster;
+	}
+}
+
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -41,6 +49,9 @@ void MainWindow::setupIVHD()
 	m_casters->iterate([&](std::string name) {
 		ui.comboBox_CastingSetup->addItem(QString::fromStdString(name));
 	});
+
+	// set Random as startup currentCaster
+	setCurrentCaster(casterRandom);
 }
 
 void MainWindow::on_pushButton_Open_clicked()
@@ -77,5 +88,13 @@ void MainWindow::on_pushButton_Exit_clicked()
 
 void MainWindow::on_pushButton_CastingRun_clicked()
 {
-
+	if (m_currentCaster != nullptr)
+	{
+		m_currentCaster->castParticleSystem(m_particleSystem);
+		m_renderer->update();
+	}
+	else
+	{
+		
+	}
 }

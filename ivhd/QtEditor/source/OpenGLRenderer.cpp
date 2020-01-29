@@ -52,6 +52,7 @@ void OpenGLRenderer::initializeGL()
 	// Position VBO
 	glGenBuffers(1, &m_bufPos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
+
 	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_pos.data(), GL_STREAM_DRAW);
 	GLint position_attribute = glGetAttribLocation(m_program.getId(), "vPosition");
 	glVertexAttribPointer(position_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
@@ -177,7 +178,6 @@ void OpenGLRenderer::update()
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
-	
 }
 
 void OpenGLRenderer::printVersionInformation()
