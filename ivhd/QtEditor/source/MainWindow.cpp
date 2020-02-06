@@ -92,6 +92,7 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 	{
 		m_currentCaster->castParticleSystem(m_particleSystem);
 		m_renderer->update();
+		m_renderer->repaint();
 	}
 	else
 	{
