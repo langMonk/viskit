@@ -3,17 +3,14 @@
 namespace ivhd::embed::cast
 {
 	CasterMDS::CasterMDS(core::System& system, graph::Graph& graph)
-		: Caster(system, graph)
-	{
-	}
-
-	void CasterMDS::cast(particles::ParticleSystem& ps)
+		: Caster(system)
+		, m_graph(graph)
 	{
 	}
 
 	glm::vec4 CasterMDS::calculateForces(long pair_indx, long pi, long pj, float& energy, particles::ParticleSystem& ps)
 	{
-		auto pos = ps.finalData()->m_pos.get();
+		auto pos = ps.calculationData()->m_pos;
 		glm::vec4 rv = pos[pi] - pos[pj];
 
 		float r = ps.vectorDistance(pi, pj);
@@ -46,7 +43,7 @@ namespace ivhd::embed::cast
 		return rv * (-energy);
 	}
 
-	void CasterMDS::stepLeapFrog(long step, float& energy, float& v_max, float& dtf, long& interactions, particles::ParticleSystem& ps)
+	void CasterMDS::cast(particles::ParticleSystem& ps)
 	{
 		float dt = 1e-3 * speedFactor * dtFactor;
 		float dtHalf = dt * 0.5;
@@ -60,34 +57,33 @@ namespace ivhd::embed::cast
 		int cnt = 0;
 		float mv2 = 0;
 
-		auto velocities = ps.finalData()->m_pos.get();
-		auto forces = ps.finalData()->m_force.get();
-		auto positions = ps.finalData()->m_pos.get();
+		auto velocities = ps.calculationData()->m_vel;
+		auto forces = ps.calculationData()->m_force;
+		auto positions = ps.calculationData()->m_pos;
 
-		if (step > 0)
+		
+		for (int i = 0; i < ps.countAwakeParticles(); i++)
 		{
-			for (int i = 0; i < ps.countAwakeParticles(); i++)
+			velocities[i] += forces[i] * dtHalf;
+
+			vl = velocities[i].length();
+			if (vl > mv2) mv2 = vl;
+
+			if (vl > maxVelocity * maxVelocity)
 			{
-				velocities[i] += forces[i] * dtHalf;
-
-				vl = velocities[i].length();
-				if (vl > mv2) mv2 = vl;
-
-				if (vl > maxVelocity * maxVelocity)
-				{
-					velocities[i] *= maxVelocity / std::sqrt(vl);
-					vl = maxVelocity * maxVelocity;
-				}
-
-				avg_velocity += vl;
-				cnt++;
-
-				positions[i] = velocities[i] * dt;
-
+				velocities[i] *= maxVelocity / std::sqrt(vl);
+				vl = maxVelocity * maxVelocity;
 			}
 
-			avg_velocity /= cnt;
+			avg_velocity += vl;
+			cnt++;
+
+			positions[i] = velocities[i] * dt;
+
 		}
+
+		avg_velocity /= cnt;
+		
 
 		avg_velocity = sqrt(avg_velocity);
 
@@ -97,19 +93,16 @@ namespace ivhd::embed::cast
 
 		long pi, pj;
 		float de;
-		energy = 0;
-		interactions = 0;
 		for (int i = 0; i < m_graph.neighborsCount(); i++)
 		{
 			auto element = m_graph.getNeighbors(i);
 			pi = element.i;
 			pj = element.j;
 
-			auto awake = ps.finalData()->m_alive.get();
+			auto awake = ps.calculationData()->m_alive;
 
 			if (awake[pi] && awake[pj])
 			{
-				interactions++;
 				glm::vec4 df = calculateForces(i, pi, pj, de, ps);
 
 				bool reversed = false;
@@ -131,15 +124,11 @@ namespace ivhd::embed::cast
 					df *= m_distanceKernelParameters.far;
 				}
 
-				energy += de * de;
 				forces[pi] += df;
 				forces[pj] -= df;
 
 			}
 		}
-
-		if (interactions)
-			energy /= interactions;
 
 		//-------------------------------------------------------------
 		// update velocities

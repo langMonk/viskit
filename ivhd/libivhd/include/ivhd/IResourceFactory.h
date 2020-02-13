@@ -13,6 +13,7 @@ namespace ivhd
 	class IParser;
 	class ICaster;
 	class IParticleSystem;
+	class IGraphGenerator;
 
 	class IResourceFactory
 	{
@@ -23,6 +24,12 @@ namespace ivhd
 		/// </summary>
 		/// <returns>The created parser.</returns>
 		virtual std::shared_ptr<IParser> createParser(ParserType type) = 0;
+
+		/// <summary>
+		/// Creates a new kNN graph generator used for creating kNN Graph
+		/// </summary>
+		/// <returns>The created generator.</returns>
+		virtual std::shared_ptr<IGraphGenerator> createGraphGenerator(GraphGeneratorType type) = 0;
 
 		/// <summary>
 		/// Creates a new caster, that might be used for data embedding.

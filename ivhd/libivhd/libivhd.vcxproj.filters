@@ -255,6 +255,30 @@
     <ClInclude Include="include\facade\FacadeResourceCollection.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
+    <ClInclude Include="include\embed\cast\CasterMDS.h">
+      <Filter>Header Files\embed\cast</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterMDS.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IGraphGenerator.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeGraphGenerator.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graph\IGraphGenerator.h">
+      <Filter>Header Files\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeGraphGeneratorKDTree.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IGraph.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeGraph.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
@@ -337,6 +361,21 @@
     </ClCompile>
     <ClCompile Include="source\utils\RandomColor.cpp">
       <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\CasterMDS.cpp">
+      <Filter>Source Files\embed\cast</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterMDS.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeGraphGenerator.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeGraphGeneratorKDTree.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeGraph.cpp">
+      <Filter>Source Files\facade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
