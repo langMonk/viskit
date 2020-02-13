@@ -22,7 +22,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using RandomCaster.castParticleSystem. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using CasterRandom.castParticleSystem. Error message: " + *ex.what());
 		}
 	}
 
@@ -35,7 +35,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using RandomCaster.castParticle. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using CasterRandom.castParticle. Error message: " + *ex.what());
 		}
 	}
 }

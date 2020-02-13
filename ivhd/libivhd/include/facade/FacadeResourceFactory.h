@@ -24,6 +24,8 @@ namespace ivhd::facade
 	public:
 		std::shared_ptr<IParser> createParser(ParserType type) override;
 
+		std::shared_ptr<IGraphGenerator> createGraphGenerator(GraphGeneratorType type) override;
+
 		std::shared_ptr<ICaster> createCaster(CasterType type) override;
 
 		std::shared_ptr<IParticleSystem> createParticleSystem() override;
