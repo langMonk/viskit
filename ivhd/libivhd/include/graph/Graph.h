@@ -14,6 +14,7 @@ namespace ivhd::graph
 	{
 	public:
 		Neighbors() : i(0), j(0), r(0), type(NeighborsType::Near) {};
+		Neighbors(size_t i, size_t j) : i(i), j(j), r(0), type(NeighborsType::Near) {};
 		Neighbors(size_t i, size_t j, float r, NeighborsType type) : i(i), j(j), r(r), type(type) {};
 		size_t i, j;
 		float r;
