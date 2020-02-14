@@ -3,10 +3,10 @@
 /// \date 12.05.2019
 ///
 
-#include "graph/GraphGenerator.h"
+#include "graph/generate/GraphGenerator.h"
 #include "utils/Math.h"
 
-namespace ivhd::graph
+namespace ivhd::graph::generate
 { 
 
 	GraphGenerator::GraphGenerator(particles::ParticleSystem& ps, bool useCache)

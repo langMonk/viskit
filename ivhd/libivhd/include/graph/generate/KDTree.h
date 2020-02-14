@@ -8,9 +8,9 @@
 #include <algorithm>
 
 #include "graph/DataPoint.h"
-#include "graph/BoundedPQueue.h"
+#include "graph/generate/BoundedPQueue.h"
 
-namespace ivhd::graph
+namespace ivhd::graph::generate
 {
 	class KDTree
 	{

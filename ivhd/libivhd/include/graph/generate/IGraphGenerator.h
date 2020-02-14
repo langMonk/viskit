@@ -7,7 +7,7 @@
 
 #include "particles/ParticleSystem.h"
 
-namespace ivhd::embed::cast
+namespace ivhd::graph::generate
 {
 	class IGraphGenerator
 	{

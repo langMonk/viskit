@@ -103,6 +103,12 @@
     <Filter Include="Header Files\facade">
       <UniqueIdentifier>{8302e218-19af-4c98-aed4-5b9acdd98dd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\graph\generate">
+      <UniqueIdentifier>{49b54523-c2c8-4fc8-898b-3a5f8719d729}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graph\generate">
+      <UniqueIdentifier>{0a68a4b4-0966-4d64-b578-13327acd0b84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core\Logger.h">
@@ -116,9 +122,6 @@
     </ClInclude>
     <ClInclude Include="include\embed\cast\Caster.h">
       <Filter>Header Files\embed\cast</Filter>
-    </ClInclude>
-    <ClInclude Include="include\graph\GraphGenerator.h">
-      <Filter>Header Files\graph</Filter>
     </ClInclude>
     <ClInclude Include="include\embed\cast\CasterRandom.h">
       <Filter>Header Files\embed\cast</Filter>
@@ -228,12 +231,6 @@
     <ClInclude Include="include\utils\TimeProfiler.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="include\graph\KDTree.h">
-      <Filter>Header Files\graph</Filter>
-    </ClInclude>
-    <ClInclude Include="include\graph\BoundedPQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\threading\ThreadPool.h">
       <Filter>Header Files\threading</Filter>
     </ClInclude>
@@ -267,9 +264,6 @@
     <ClInclude Include="include\facade\FacadeGraphGenerator.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
-    <ClInclude Include="include\graph\IGraphGenerator.h">
-      <Filter>Header Files\graph</Filter>
-    </ClInclude>
     <ClInclude Include="include\facade\FacadeGraphGeneratorKDTree.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
@@ -278,6 +272,18 @@
     </ClInclude>
     <ClInclude Include="include\facade\FacadeGraph.h">
       <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graph\generate\BoundedPQueue.h">
+      <Filter>Header Files\graph\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graph\generate\GraphGenerator.h">
+      <Filter>Header Files\graph\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graph\generate\IGraphGenerator.h">
+      <Filter>Header Files\graph\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graph\generate\KDTree.h">
+      <Filter>Header Files\graph\generate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -292,9 +298,6 @@
     </ClCompile>
     <ClCompile Include="source\embed\cast\Caster.cpp">
       <Filter>Source Files\embed\cast</Filter>
-    </ClCompile>
-    <ClCompile Include="source\graph\GraphGenerator.cpp">
-      <Filter>Source Files\graph</Filter>
     </ClCompile>
     <ClCompile Include="source\embed\cast\CasterRandom.cpp">
       <Filter>Source Files\embed\cast</Filter>
@@ -350,12 +353,6 @@
     <ClCompile Include="source\utils\TimeProfiler.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
-    <ClCompile Include="source\graph\KDTree.cpp">
-      <Filter>Source Files\graph</Filter>
-    </ClCompile>
-    <ClCompile Include="source\graph\BoundedPQueue.cpp">
-      <Filter>Source Files\graph</Filter>
-    </ClCompile>
     <ClCompile Include="source\graph\DataPoint.cpp">
       <Filter>Source Files\graph</Filter>
     </ClCompile>
@@ -376,6 +373,15 @@
     </ClCompile>
     <ClCompile Include="source\facade\FacadeGraph.cpp">
       <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graph\generate\BoundedPQueue.cpp">
+      <Filter>Source Files\graph\generate</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graph\generate\GraphGenerator.cpp">
+      <Filter>Source Files\graph\generate</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graph\generate\KDTree.cpp">
+      <Filter>Source Files\graph\generate</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
