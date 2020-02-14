@@ -18,7 +18,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeParserCSV(std::shared_ptr<core::Core> core);
+		explicit FacadeParserCSV(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
 		~FacadeParserCSV() = default;
 
 		FacadeParserCSV(const FacadeParserCSV&) = delete;
@@ -29,10 +29,12 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		void loadFile(std::string filePath, std::shared_ptr<ivhd::IParticleSystem>& ps) override;
+		void loadFile(std::string filePath) override;
 
 		// private members
 	private:
 		std::shared_ptr<ivhd::parse::ParserCSV> m_internalParser;
+
+		particles::ParticleSystem& m_ext_particleSystem;
 	};
 }

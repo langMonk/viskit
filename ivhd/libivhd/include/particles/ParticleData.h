@@ -4,6 +4,7 @@
 ///
 
 #pragma once
+
 #include <vector>
 #include "math/glm_adapter.h"
 

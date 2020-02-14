@@ -6,10 +6,8 @@
 #pragma once
 
 #include <mutex>
-#include <thread>
 
 #include "ivhd/IParticleSystem.h"
-#include "ivhd/IGraphGenerator.h"
 #include "facade/FacadeGraphGenerator.h"
 #include "facade/FacadeParticleSystem.h"
 #include "graph/generate/KDTree.h"
@@ -22,7 +20,9 @@ namespace ivhd::facade
 	class FacadeGraphGeneratorKDTree : public FacadeGraphGenerator
 	{
 	public:
-		std::shared_ptr<IGraph> generate(std::shared_ptr<ivhd::IParticleSystem>& ps) override;
+		FacadeGraphGeneratorKDTree(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
+		
+		void generate() override;
 
 	private:
 		static void kNNQueryThread(int start, int end, bool setDistancesToOne, const graph::generate::KDTree& kd, size_t k, const particles::Dataset& data, graph::Graph& graph);
@@ -31,5 +31,6 @@ namespace ivhd::facade
 
 	private:
 		std::shared_ptr<graph::generate::KDTree> m_graph;
+		
 	};
 }

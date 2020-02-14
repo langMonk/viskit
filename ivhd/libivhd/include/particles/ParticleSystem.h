@@ -8,16 +8,14 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include <numeric>
-#include <functional>
 
 #include "core/System.h"
 #include "particles/ParticleData.h"
 #include "particles/generate/ParticleGenerator.h"
 #include "particles/emit/ParticleEmitter.h"
 #include "particles/update/ParticleUpdater.h"
-#include "graph/DataPoint.h"
 #include "graph/Graph.h"
+#include "ivhd/Structures.h"
 #include "utils/RandomColor.h"
 
 using namespace ivhd::graph;
@@ -61,7 +59,7 @@ namespace ivhd::particles
 		
 		ParticleData* calculationData() { return &m_particles; }
 		
-		Graph* neighbourhoodGraph() { return &m_neighbourhoodGraph; }
+		Graph& neighbourhoodGraph() { return m_neighbourhoodGraph; }
 		
 		void setMetric(MetricType type);
 

@@ -9,8 +9,8 @@
 #include <particles/ParticleSystem.h>
 #include <graph/Graph.h>
 #include <parse/ParserCsv.h>
-#include <graph/GraphGenerator.h>
-#include <graph/KDTree.h>
+#include <graph/generate/GraphGenerator.h>
+#include <graph/generate/KDTree.h>
 #include <graph/DataPoint.h>
 #include <ivhd/Structures.h>
 #include <utils/TimeProfiler.h>
@@ -36,9 +36,7 @@ namespace libivhd_test
 		core::Core core{ handler };
 		parse::ParserCSV parser{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
-		graph::GraphGenerator generator{ particleSystem, false };
-
-		auto graph = particleSystem.neighbourhoodGraph();
+		graph::generate::GraphGenerator generator{ particleSystem, false };
 
 		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);
@@ -54,9 +52,12 @@ namespace libivhd_test
 
 		std::ofstream m_file;
 		m_file.open("kNN_graph.txt");
-		for (int i = 0; i < graph->neighborsCount(); i++)
+
+		auto graph = particleSystem.neighbourhoodGraph();
+		size_t kNN_count = graph.neighborsCount();
+		for (int i = 0; i < kNN_count; i++)
 		{
-			auto neighbors = graph->getNeighbors(i);
+			auto neighbors = graph.getNeighbors(i);
 			if (neighbors.type == NeighborsType::Near)
 			{
 				m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Near" << std::endl;
@@ -70,8 +71,7 @@ namespace libivhd_test
 				m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Random" << std::endl;
 			}
 		}
-
-		size_t kNN_count = graph->neighborsCount();
+		
 		EXPECT_EQ(kNN_count, 21000); //every point has 3 NN
 	}
 }

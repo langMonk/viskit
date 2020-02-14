@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <string>
+
 #include "graph\Graph.h"
 
 namespace ivhd::graph

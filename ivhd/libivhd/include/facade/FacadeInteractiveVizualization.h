@@ -27,14 +27,20 @@ namespace ivhd::facade
 	public:
 		IResourceFactory& resourceFactory() override;
 
-		std::shared_ptr<core::Core> core()
-		{
-			return m_core;
-		}
+		IParticleSystem& particleSystem() override;
+
+		
+		particles::ParticleSystem& internalParticleSystem();
+
+		[[nodiscard]] auto core() const -> std::shared_ptr<core::Core>;
 
 		//private properties
 	private:
 		std::shared_ptr<core::Core> m_core;
-		facade::FacadeResourceFactory m_resourceFactory {*this};
+
+		particles::ParticleSystem m_internalParticleSystem{ m_core->system() };
+		
+		FacadeParticleSystem m_particleSystem{ m_core, m_internalParticleSystem };
+		FacadeResourceFactory m_resourceFactory {*this};
 	};
 }

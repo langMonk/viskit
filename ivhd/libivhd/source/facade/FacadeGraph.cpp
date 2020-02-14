@@ -7,40 +7,65 @@
 
 namespace ivhd::facade
 {
-	FacadeGraph::FacadeGraph(std::shared_ptr<ivhd::graph::Graph> graph)
-		: m_ext_internalGraph(graph)
+	FacadeGraph::FacadeGraph(core::Core& core, graph::Graph& graph)
+		: m_ext_core(core)
+		, m_ext_graph(graph)
 	{
 	}
 
 	Neighbors FacadeGraph::getNeighbors(size_t idx)
 	{
-		if (m_ext_internalGraph != nullptr)
+		try
 		{
-			return m_ext_internalGraph->getNeighbors(idx);
+			return m_ext_graph.getNeighbors(idx);
+		}
+		catch (std::exception& exception)
+		{
+			std::string message = "Failed to get the neighbors from the graph: ";
+			message += exception.what();
+			m_ext_core.logger().logWarning(message);
 		}
 	}
 
 	void FacadeGraph::addNeighbors(Neighbors neighbors)
 	{
-		if (m_ext_internalGraph != nullptr)
+		try
 		{
-			m_ext_internalGraph->addNeighbors(neighbors);
+			m_ext_graph.addNeighbors(neighbors);
+		}
+		catch (std::exception& exception)
+		{
+			std::string message = "Failed to add the neighbors to the graph: ";
+			message += exception.what();
+			m_ext_core.logger().logWarning(message);
 		}
 	}
 
 	size_t FacadeGraph::neighborsCount()
 	{
-		if (m_ext_internalGraph != nullptr)
+		try
 		{
-			m_ext_internalGraph->neighborsCount();
+			return m_ext_graph.neighborsCount();
+		}
+		catch (std::exception& exception)
+		{
+			std::string message = "Failed to get the number of neighbors currently in the graph: ";
+			message += exception.what();
+			m_ext_core.logger().logWarning(message);
 		}
 	}
 
 	void FacadeGraph::sort()
 	{
-		if (m_ext_internalGraph != nullptr)
+		try
 		{
-			m_ext_internalGraph->sort();
+			m_ext_graph.sort();
+		}
+		catch (std::exception& exception)
+		{
+			std::string message = "Failed to sort the graph: ";
+			message += exception.what();
+			m_ext_core.logger().logWarning(message);
 		}
 	}
 }
