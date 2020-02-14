@@ -6,7 +6,7 @@
 
 #include "graph/DataPoint.h"
 
-namespace ivhd::graph
+namespace ivhd::graph::generate
 { 
 	class BoundedPQueue 
 	{

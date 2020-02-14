@@ -38,6 +38,8 @@ namespace ivhd::facade
 
 		size_t countAlive() override;
 
+		size_t countParticles() override;
+
 		void clear() override;
 
 		bool empty() override;

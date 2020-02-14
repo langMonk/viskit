@@ -40,6 +40,12 @@ namespace ivhd
 		virtual size_t countAlive() = 0;
 
 		/// <summary>
+		/// Count particles.
+		/// </summary>
+		/// <returns> Number of particles in the system.</returns>
+		virtual size_t countParticles() = 0;
+
+		/// <summary>
 		/// Clears the particle system (if not empty).
 		/// </summary>
 		virtual void clear() = 0;
