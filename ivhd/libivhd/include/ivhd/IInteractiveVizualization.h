@@ -19,6 +19,11 @@ namespace ivhd
 		// public methods
 	public:
 		/// <summary>
+		/// Obtains particle system.
+		/// </summary>
+		virtual IParticleSystem& particleSystem() = 0;
+		
+		/// <summary>
 		/// Obtains resource factory, that enables creation of IVHD objects.
 		/// </summary>
 		virtual IResourceFactory& resourceFactory() = 0;

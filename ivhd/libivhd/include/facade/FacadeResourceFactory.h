@@ -28,8 +28,6 @@ namespace ivhd::facade
 
 		std::shared_ptr<ICaster> createCaster(CasterType type) override;
 
-		std::shared_ptr<IParticleSystem> createParticleSystem() override;
-
 	private:
 		FacadeInteractiveVizualization& m_ext_ivhd;
 	};

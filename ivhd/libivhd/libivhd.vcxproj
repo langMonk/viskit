@@ -45,7 +45,6 @@
     <ClInclude Include="include\graph\generate\IGraphGenerator.h" />
     <ClInclude Include="include\graph\generate\KDTree.h" />
     <ClInclude Include="include\graph\Graph.h" />
-    <ClInclude Include="include\graph\DataPoint.h" />
     <ClInclude Include="include\ivhd\ICaster.h" />
     <ClInclude Include="include\ivhd\ICasterDpd.h" />
     <ClInclude Include="include\ivhd\IClusterer.h" />
@@ -100,7 +99,6 @@
     <ClCompile Include="source\graph\generate\GraphGenerator.cpp" />
     <ClCompile Include="source\graph\generate\KDTree.cpp" />
     <ClCompile Include="source\graph\Graph.cpp" />
-    <ClCompile Include="source\graph\DataPoint.cpp" />
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
     <ClCompile Include="source\parse\Parser.cpp" />
     <ClCompile Include="source\parse\ParserCSV.cpp" />

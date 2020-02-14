@@ -61,7 +61,7 @@ namespace ivhd::parse
 			});
 
 			particles::DataPointLabel label = std::stoi(stringVector.back());
-			dataset.push_back(std::make_pair(graph::DataPoint(floatVector), label));
+			dataset.push_back(std::make_pair(DataPoint(floatVector), label));
 
 			if (std::find(labels.begin(), labels.end(), label) == labels.end())
 			{

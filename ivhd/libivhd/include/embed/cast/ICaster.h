@@ -5,16 +5,14 @@
 
 #pragma once
 
-#include "particles/ParticleSystem.h"
-
 namespace ivhd::embed::cast
 {
 	class ICaster
 	{
 		// public construction and destruction methods
 	public:
-		virtual void castParticle(particles::ParticleSystem& ps, size_t index) = 0;
+		virtual void castParticle(size_t index) = 0;
 
-		virtual void castParticleSystem(particles::ParticleSystem& ps) = 0;
+		virtual void castParticleSystem() = 0;
 	};
 }

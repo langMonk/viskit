@@ -4,6 +4,7 @@
 ///
 
 #include "particles/ParticleSystem.h"
+#include <numeric>
 
 namespace ivhd::particles
 {

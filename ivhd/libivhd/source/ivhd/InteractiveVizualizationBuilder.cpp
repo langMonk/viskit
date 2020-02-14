@@ -14,9 +14,11 @@ namespace ivhd
 		{
 			return std::make_shared<facade::FacadeInteractiveVizualization>(logHandler);
 		}
-		catch(std::exception& e)
+		catch(std::exception& exception)
 		{
-			logHandler(LogLevel::Error, e.what());
+			std::string message = "Failed to create IVHD: ";
+			message += exception.what();
+			logHandler(LogLevel::Error, message);
 			return nullptr;
 		}
 	}

@@ -38,8 +38,6 @@ void MainWindow::setupIVHD()
 
 	m_ivhd = ivhd::createIVHD(handler);
 	m_casters = ivhd::createResourceCollection<ivhd::ICaster>();
-	
-	m_particleSystem = m_ivhd->resourceFactory().createParticleSystem();
 
 	// initialize casters and add it to casters collection
 	auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
@@ -56,9 +54,11 @@ void MainWindow::setupIVHD()
 
 void MainWindow::on_pushButton_Open_clicked()
 {
-	if (!m_particleSystem->empty())
+	ivhd::IParticleSystem& particleSystem = m_ivhd->particleSystem();
+	
+	if (!particleSystem.empty())
 	{
-		m_particleSystem->clear();
+		particleSystem.clear();
 	}
 
 	QString fileName = QFileDialog::getOpenFileName(this,
@@ -72,10 +72,10 @@ void MainWindow::on_pushButton_Open_clicked()
 	else
 	{
 		auto parser = m_ivhd->resourceFactory().createParser(ivhd::ParserType::Csv);
-		parser->loadFile(fileName.toUtf8().constData(), m_particleSystem);
+		parser->loadFile(fileName.toUtf8().constData());
 	}
 
-	m_casters->find("Random")->castParticleSystem(m_particleSystem);
+	m_casters->find("Random")->castParticleSystem();
 
 	m_renderer = new OpenGLRenderer();
 	setCentralWidget(m_renderer);
@@ -90,7 +90,7 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 {
 	if (m_currentCaster != nullptr)
 	{
-		m_currentCaster->castParticleSystem(m_particleSystem);
+		m_currentCaster->castParticleSystem();
 		m_renderer->update();
 		m_renderer->repaint();
 	}

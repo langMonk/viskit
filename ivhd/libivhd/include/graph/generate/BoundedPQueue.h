@@ -1,10 +1,8 @@
 #pragma once
 
 #include <map>
-#include <algorithm>
-#include <limits>
 
-#include "graph/DataPoint.h"
+#include "ivhd/Structures.h"
 
 namespace ivhd::graph::generate
 { 

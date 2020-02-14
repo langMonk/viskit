@@ -27,7 +27,7 @@ public:
 		return s;
 	}
 
-	std::shared_ptr<ivhd::IParticleSystem> particleSystem() { return m_particleSystem; }
+	ivhd::IParticleSystem& particleSystem() const { return m_ivhd->particleSystem(); }
 	
 	void setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster);
 
@@ -49,7 +49,6 @@ private:
 	// IVHD resources
 private:
 	std::shared_ptr<ivhd::IInteractiveVizualization> m_ivhd;
-	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem;
 
 	// IVHD collections and current resources
 	std::shared_ptr<ivhd::IResourceCollection<ivhd::ICaster>> m_casters;

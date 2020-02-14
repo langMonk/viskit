@@ -7,19 +7,20 @@
 
 namespace ivhd::embed::cast
 {
-	CasterRandom::CasterRandom(core::System& system)
+	CasterRandom::CasterRandom(core::System& system, particles::ParticleSystem& ps)
 		: Caster(system)
 		, m_maxEdge(1000)
 		, m_gen(new RandomGenerator())
+		, m_particleSystem(ps)
 	{
 
 	}
 
-	void CasterRandom::castParticle(particles::ParticleSystem& ps, size_t index)
+	void CasterRandom::castParticle(size_t index)
 	{
 		m_ext_system.logger().logInfo("[CasterRandom] Casting particle with index" + index);
 
-		auto dataPoints = ps.calculationData();
+		auto dataPoints = m_particleSystem.calculationData();
 
 		dataPoints->m_pos[index].x = m_gen->gen();
 		dataPoints->m_pos[index].y = m_gen->gen();
@@ -27,30 +28,31 @@ namespace ivhd::embed::cast
 		m_ext_system.logger().logInfo("[CasterRandom] Finished.");
 	}
 
-	void CasterRandom::castParticleSystem(particles::ParticleSystem& ps)
+	void CasterRandom::castParticleSystem()
 	{
 		m_ext_system.logger().logInfo("[CasterRandom] Casting particle system...");
 
-		internalCastingThread(ps);
+		internalCastingThread();
 
 		m_ext_system.logger().logInfo("[CasterRandom] Finished.");
 	}
 
-	void CasterRandom::internalCastingThread(particles::ParticleSystem& ps)
+	void CasterRandom::internalCastingThread()
 	{
-		size_t queriesPerThread = ps.countParticles() / math::threads<>;
+		size_t queriesPerThread = m_particleSystem.countParticles() / math::threads<>;
 		
 		threading::ThreadPool threadPool(math::threads<>);
 
 		for (size_t i = 0; i < math::threads<>; i++)
 		{
 			size_t start = i * queriesPerThread;
-			size_t end = (i == math::threads<> -1) ? ps.countParticles() : start + queriesPerThread;
+			size_t end = (i == math::threads<> -1) ? m_particleSystem.countParticles() : start + queriesPerThread;
 
 			auto gen = m_gen;
+			auto ps = &m_particleSystem;
 			auto future = threadPool.enqueue([&ps, &gen, start, end]()
 			{
-				auto dataPoints = ps.calculationData();
+				auto dataPoints = ps->calculationData();
 
 				for (size_t i = start; i < end; i++)
 				{

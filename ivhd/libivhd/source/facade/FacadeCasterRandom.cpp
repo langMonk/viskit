@@ -7,18 +7,18 @@
 
 namespace ivhd::facade
 {
-	FacadeCasterRandom::FacadeCasterRandom(std::shared_ptr<core::Core> core)
+	FacadeCasterRandom::FacadeCasterRandom(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
 		: FacadeCaster(core)
-		, m_internalCaster(std::make_shared<ivhd::embed::cast::CasterRandom>(core->system()))
+		, m_internalCaster(std::make_shared<ivhd::embed::cast::CasterRandom>(core->system(), ps))
+		, m_ext_particleSystem(ps)
 	{
 	}
 
-	void FacadeCasterRandom::castParticleSystem(std::shared_ptr<ivhd::IParticleSystem>& ps)
+	void FacadeCasterRandom::castParticleSystem()
 	{
 		try
 		{
-			auto particleSystem = dynamic_cast<FacadeParticleSystem*>(ps.get());
-			m_internalCaster->castParticleSystem(*particleSystem->internalParticleSystem().get());
+			m_internalCaster->castParticleSystem();
 		}
 		catch (std::exception& ex)
 		{
@@ -26,12 +26,11 @@ namespace ivhd::facade
 		}
 	}
 
-	void FacadeCasterRandom::castParticle(std::shared_ptr<ivhd::IParticleSystem>& ps, size_t index)
+	void FacadeCasterRandom::castParticle(size_t index)
 	{
 		try
 		{
-			auto particleSystem = dynamic_cast<FacadeParticleSystem*>(ps.get());
-			m_internalCaster->castParticle(*particleSystem->internalParticleSystem().get(), index);
+			m_internalCaster->castParticle(index);
 		}
 		catch (std::exception& ex)
 		{

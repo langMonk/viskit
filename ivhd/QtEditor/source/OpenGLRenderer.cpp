@@ -3,7 +3,7 @@
 
 OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 {
-	m_particleSystem = MainWindow::instance()->particleSystem();
+	m_particleSystem = &MainWindow::instance()->particleSystem();
 }
 
 void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
@@ -44,7 +44,8 @@ void OpenGLRenderer::initializeGL()
 	m_program.disable();
 
 	size_t count = m_particleSystem->countAlive();
-	auto data = m_particleSystem->availableData();
+	auto positions = m_particleSystem->positions();
+	auto colors = m_particleSystem->colors();
 
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
@@ -53,7 +54,7 @@ void OpenGLRenderer::initializeGL()
 	glGenBuffers(1, &m_bufPos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
 
-	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_pos.data(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), positions.data(), GL_STREAM_DRAW);
 	GLint position_attribute = glGetAttribLocation(m_program.getId(), "vPosition");
 	glVertexAttribPointer(position_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(position_attribute);
@@ -62,7 +63,7 @@ void OpenGLRenderer::initializeGL()
 	glGenBuffers(1, &m_bufCol);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
 
-	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), data->m_col.data(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), colors.data(), GL_STREAM_DRAW);
 	GLint color_attribute = glGetAttribLocation(m_program.getId(), "vColor");
 	glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(color_attribute);
@@ -169,11 +170,11 @@ void OpenGLRenderer::update()
 	if (count > 0)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
-		float* ptr = (float*)(m_particleSystem->availableData()->m_pos.data());
+		float* ptr = (float*)(m_particleSystem->positions().data());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
-		ptr = (float*)(m_particleSystem->availableData()->m_col.data());
+		ptr = (float*)(m_particleSystem->colors().data());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

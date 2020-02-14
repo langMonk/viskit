@@ -26,9 +26,9 @@ namespace libivhd_test
 		};
 
 		ivhd::core::Core core{ handler };
-		ivhd::parse::ParserCSV parser{ core.system() };
-		ivhd::embed::cast::CasterRandom caster{ core.system() };
 		ivhd::particles::ParticleSystem particleSystem{ core.system() };
+		ivhd::embed::cast::CasterRandom caster{ core.system(), particleSystem };
+		ivhd::parse::ParserCSV parser{ core.system() };
 
 		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
 
@@ -41,7 +41,7 @@ namespace libivhd_test
 
 		auto dataPoints = particleSystem.calculationData();
 
-		caster.castParticleSystem(particleSystem);
+		caster.castParticleSystem();
 
 		auto positions = dataPoints->m_pos;
 		for (int i = 0; i < particleSystem.countParticles() - 1; i++)

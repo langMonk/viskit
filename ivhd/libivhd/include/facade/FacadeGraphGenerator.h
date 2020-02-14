@@ -20,7 +20,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeGraphGenerator(std::shared_ptr<core::Core> core);
+		explicit FacadeGraphGenerator(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
 		~FacadeGraphGenerator() = default;
 
 		FacadeGraphGenerator(const FacadeGraphGenerator&) = delete;
@@ -32,6 +32,7 @@ namespace ivhd::facade
 		// protected members
 	protected:
 		std::shared_ptr<core::Core> m_ext_core;
-
+		
+		particles::ParticleSystem& m_ext_particleSystem;
 	};
 }

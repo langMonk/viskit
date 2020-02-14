@@ -7,8 +7,10 @@
 #include <utility>
 #include <algorithm>
 
-#include "graph/DataPoint.h"
+#include "ivhd/Structures.h"
 #include "graph/generate/BoundedPQueue.h"
+
+using namespace ivhd::graph;
 
 namespace ivhd::graph::generate
 {

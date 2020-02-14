@@ -1,9 +1,5 @@
 #pragma once
 
-#include <algorithm>
-#include <string>
-
-#include "DataPoint.h"
 #include "core/System.h"
 #include "ivhd/Structures.h"
 

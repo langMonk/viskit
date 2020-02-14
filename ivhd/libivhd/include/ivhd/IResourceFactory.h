@@ -41,6 +41,6 @@ namespace ivhd
 		/// Creates a new particle system
 		/// </summary>
 		/// <returns>The created system.</returns>
-		virtual std::shared_ptr<IParticleSystem> createParticleSystem() = 0;
+		//virtual std::shared_ptr<IParticleSystem> createParticleSystem() = 0;
 	};
 }

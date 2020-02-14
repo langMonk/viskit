@@ -12,7 +12,7 @@ namespace ivhd::graph::generate
 	GraphGenerator::GraphGenerator(particles::ParticleSystem& ps, bool useCache)
 		: m_ext_particleSystem(ps)
 		, m_useCache(useCache)
-		, m_graph(ps.neighbourhoodGraph())
+		, m_graph(&ps.neighbourhoodGraph())
 		, m_distancesEqualOne(true)
 	{
 	}
