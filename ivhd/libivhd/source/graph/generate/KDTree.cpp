@@ -1,6 +1,6 @@
-#include "graph/KDTree.h"
+#include "graph/generate/KDTree.h"
 
-namespace ivhd::graph
+namespace ivhd::graph::generate
 { 
 	typename KDTree::Node* KDTree::deepcopyTree(typename KDTree::Node* root) {
 		if (root == NULL) return NULL;

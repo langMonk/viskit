@@ -12,8 +12,8 @@
 #include <particles/ParticleSystem.h>
 #include <graph/Graph.h>
 #include <parse/ParserCsv.h>
-#include <graph/GraphGenerator.h>
-#include <graph/KDTree.h>
+#include <graph/generate/GraphGenerator.h>
+#include <graph/generate/KDTree.h>
 #include <graph/DataPoint.h>
 #include "TestUtils.h"
 
@@ -27,7 +27,7 @@ namespace libivhd_test
 	static const int kNumThreads = 8;
 	bool setDistancesToOne{ true };
 
-	static void kNNQueryThread(int start, int end, const graph::KDTree& kd, size_t k, const particles::Dataset& data, graph::Graph& graph) {
+	static void kNNQueryThread(int start, int end, const graph::generate::KDTree& kd, size_t k, const particles::Dataset& data, graph::Graph& graph) {
 		for (int i = start; i < end; i++) {
 			const auto& p = data[i];
 			std::vector<std::pair<float, graph::DataPoint>> pred = kd.kNN(p.first, k);
@@ -40,11 +40,11 @@ namespace libivhd_test
 				{
 					if (setDistancesToOne)
 					{
-						graph.addNeighbors(graph::Neighbors(id, elem.second.getId(), 1.0f, NeighborsType::Near));
+						graph.addNeighbors(ivhd::Neighbors(id, elem.second.getId(), 1.0f, NeighborsType::Near));
 					}
 					else
 					{
-						graph.addNeighbors(graph::Neighbors(id, elem.second.getId(), elem.first, NeighborsType::Near));
+						graph.addNeighbors(ivhd::Neighbors(id, elem.second.getId(), elem.first, NeighborsType::Near));
 					}
 				}
 			}
@@ -68,7 +68,7 @@ namespace libivhd_test
 		parse::ParserCSV parser{ core.system() };
 		graph::Graph graph{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
-		graph::GraphGenerator generator{ particleSystem, false };
+		graph::generate::GraphGenerator generator{ particleSystem, false };
 
 		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);
@@ -76,7 +76,7 @@ namespace libivhd_test
 		// Part responsible for creating a tree
 		auto data = particleSystem.originalCoordinates();
 
-		graph::KDTree kd(data, 30);
+		graph::generate::KDTree kd(data, 30);
 
 		//ASSERT_EQ(sanityPass, true);
 

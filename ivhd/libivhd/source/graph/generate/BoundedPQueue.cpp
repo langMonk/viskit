@@ -1,6 +1,6 @@
-#include "graph/BoundedPQueue.h"
+#include "graph/generate/BoundedPQueue.h"
 
-namespace ivhd::graph
+namespace ivhd::graph::generate
 {
 	BoundedPQueue::BoundedPQueue(std::size_t maxSize)
 	{
