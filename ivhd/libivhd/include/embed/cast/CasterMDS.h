@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "Caster.h"
+#include "graph/Graph.h"
 #include "particles/ParticleSystem.h"
 
 namespace ivhd::embed::cast
@@ -39,12 +40,13 @@ namespace ivhd::embed::cast
 		// private methods
 	private:
 		glm::vec4 calculateForces(long pair_indx, long pi, long pj, float& energy, particles::ParticleSystem& ps);
-		void stepLeapFrog(long step, float& energy, float& v_max, float& dtf, long& interactions, particles::ParticleSystem& ps);
 
 		// private members
 	private:
 		SammonParameters m_sammonParameters;
 		distanceKernelParameters m_distanceKernelParameters;
+		Graph m_graph;
+
 		int maxVelocity{ 1000 };
 		float dumpVelocity{ 0.95f };
 	};

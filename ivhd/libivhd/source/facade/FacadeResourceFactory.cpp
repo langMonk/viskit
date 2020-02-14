@@ -8,6 +8,7 @@
 #include "facade/FacadeInteractiveVizualization.h"
 #include "facade/FacadeCasterRandom.h"
 #include "facade/FacadeParserCSV.h"
+#include "facade/FacadeGraphGeneratorKDTree.h"
 
 namespace ivhd::facade
 {
@@ -21,6 +22,18 @@ namespace ivhd::facade
 		if (type == ParserType::Csv)
 		{
 			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.core());
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+
+	std::shared_ptr<IGraphGenerator> FacadeResourceFactory::createGraphGenerator(GraphGeneratorType type)
+	{
+		if (type == GraphGeneratorType::KDTreeBased)
+		{
+			return std::make_shared<facade::FacadeGraphGeneratorKDTree>(m_ext_ivhd.core());
 		}
 		else
 		{

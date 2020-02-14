@@ -18,6 +18,8 @@ namespace ivhd
 		/// <summary>
 		/// Load specified file into particle system structure
 		/// </summary>
+		/// <param name="filePath"> Path, where the file (to read) is located.</param>
+		/// <param name="ps"> Particle system which should be casted by this caster.</param>
 		virtual void loadFile(std::string filePath, std::shared_ptr<ivhd::IParticleSystem>& ps) = 0;
 
 	};
