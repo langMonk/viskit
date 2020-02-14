@@ -11,7 +11,7 @@
 
 namespace ivhd
 {
-	class ICaster : public virtual ITransformer
+	class IClusterer : public virtual ITransformer
 	{
 		// public methods 
 	public:

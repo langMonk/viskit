@@ -50,7 +50,7 @@ private:
 	unsigned int m_vao{ 0 };
 	unsigned int m_texture{ 0 };
 
-	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem;
+	ivhd::IParticleSystem* m_particleSystem;
 
 	void printVersionInformation();
 

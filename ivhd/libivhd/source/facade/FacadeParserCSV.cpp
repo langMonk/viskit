@@ -7,18 +7,18 @@
 
 namespace ivhd::facade
 {
-	FacadeParserCSV::FacadeParserCSV(std::shared_ptr<core::Core> core)
+	FacadeParserCSV::FacadeParserCSV(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
 		: FacadeParser(core)
 		, m_internalParser(std::make_shared<ivhd::parse::ParserCSV>(core->system()))
+		, m_ext_particleSystem(ps)
 	{
 	}
 
-	void FacadeParserCSV::loadFile(std::string filePath, std::shared_ptr<ivhd::IParticleSystem>& ps)
+	void FacadeParserCSV::loadFile(std::string filePath)
 	{
 		try
 		{
-			auto particleSystem = dynamic_cast<FacadeParticleSystem*>(ps.get());
-			m_internalParser->loadFile(filePath, *particleSystem->internalParticleSystem().get());
+			m_internalParser->loadFile(filePath, m_ext_particleSystem);
 		}
 		catch (std::exception& ex)
 		{

@@ -14,7 +14,7 @@
 #include <parse/ParserCsv.h>
 #include <graph/generate/GraphGenerator.h>
 #include <graph/generate/KDTree.h>
-#include <graph/DataPoint.h>
+#include <ivhd/Structures.h>
 #include "TestUtils.h"
 
 using namespace ivhd;
@@ -30,7 +30,7 @@ namespace libivhd_test
 	static void kNNQueryThread(int start, int end, const graph::generate::KDTree& kd, size_t k, const particles::Dataset& data, graph::Graph& graph) {
 		for (int i = start; i < end; i++) {
 			const auto& p = data[i];
-			std::vector<std::pair<float, graph::DataPoint>> pred = kd.kNN(p.first, k);
+			std::vector<std::pair<float, DataPoint>> pred = kd.kNN(p.first, k);
 			{
 				std::scoped_lock lock(mutex);
 

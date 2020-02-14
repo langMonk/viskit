@@ -6,6 +6,7 @@
 #pragma once
 
 #include "graph/Graph.h"
+#include "core/Core.h"
 #include "facade/FacadeGraph.h"
 #include "ivhd/IGraph.h"
 
@@ -19,7 +20,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeGraph(std::shared_ptr<ivhd::graph::Graph> graph);
+		explicit FacadeGraph(core::Core& core, graph::Graph& graph);
 		~FacadeGraph() = default;
 
 		FacadeGraph(const FacadeGraph&) = delete;
@@ -37,9 +38,11 @@ namespace ivhd::facade
 
 		void sort() override;
 
-		// protected members
-	protected:
-		std::shared_ptr<graph::Graph> m_ext_internalGraph;
+		// private members
+	private:
+		core::Core& m_ext_core;
+		
+		graph::Graph& m_ext_graph;
 
 	};
 }

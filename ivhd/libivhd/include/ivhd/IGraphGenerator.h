@@ -18,7 +18,7 @@ namespace ivhd
 		/// Generate a graph using specified method
 		/// </summary>
 		/// <param name="ps"> Particle system which should be casted by this caster.</param>
-		virtual std::shared_ptr<ivhd::IGraph> generate(std::shared_ptr<ivhd::IParticleSystem>& ps) = 0;
+		virtual void generate() = 0;
 
 	};
 }

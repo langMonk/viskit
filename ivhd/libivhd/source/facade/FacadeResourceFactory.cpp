@@ -21,7 +21,7 @@ namespace ivhd::facade
 	{
 		if (type == ParserType::Csv)
 		{
-			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.core());
+			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
 		else
 		{
@@ -33,7 +33,7 @@ namespace ivhd::facade
 	{
 		if (type == GraphGeneratorType::KDTreeBased)
 		{
-			return std::make_shared<facade::FacadeGraphGeneratorKDTree>(m_ext_ivhd.core());
+			return std::make_shared<facade::FacadeGraphGeneratorKDTree>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
 		else
 		{
@@ -45,16 +45,11 @@ namespace ivhd::facade
 	{
 		if (type == CasterType::Random)
 		{
-			return std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core());
+			return std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
 		else
 		{
 			return nullptr;
 		}
-	}
-
-	std::shared_ptr<IParticleSystem> FacadeResourceFactory::createParticleSystem()
-	{
-		return std::make_shared<facade::FacadeParticleSystem>(m_ext_ivhd.core());
 	}
 }

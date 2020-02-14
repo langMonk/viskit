@@ -19,7 +19,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterRandom(std::shared_ptr<core::Core> core);
+		explicit FacadeCasterRandom(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
 		~FacadeCasterRandom() = default;
 
 		FacadeCasterRandom(const FacadeCasterRandom&) = delete;
@@ -30,12 +30,14 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		void castParticleSystem(std::shared_ptr<ivhd::IParticleSystem>& ps) override;
+		void castParticleSystem() override;
 
-		void castParticle(std::shared_ptr<ivhd::IParticleSystem>& ps, size_t index) override;
+		void castParticle(size_t index) override;
 
 		// private members
 	private:
 		std::shared_ptr<ivhd::embed::cast::CasterRandom> m_internalCaster;
+		
+		particles::ParticleSystem& m_ext_particleSystem;
 	};
 }

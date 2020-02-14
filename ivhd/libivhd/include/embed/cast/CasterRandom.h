@@ -23,13 +23,13 @@ namespace ivhd::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		CasterRandom(core::System& system);
+		CasterRandom(core::System& system, particles::ParticleSystem& ps);
 
 		// public methods
 	public:
-		void castParticle(particles::ParticleSystem& ps, size_t index) override;
+		void castParticle(size_t index) override;
 
-		void castParticleSystem(particles::ParticleSystem& ps) override;
+		void castParticleSystem() override;
 
 		int maxEdge() { return m_maxEdge; };
 		
@@ -52,12 +52,14 @@ namespace ivhd::embed::cast
 
 		// private methods
 	private:
-		void internalCastingThread(particles::ParticleSystem& ps);
+		void internalCastingThread();
 
 		// private members
 	private:
 		int m_maxEdge;
 
 		RandomGenerator* m_gen;
+		
+		particles::ParticleSystem& m_particleSystem;
 	};
 }
