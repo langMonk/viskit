@@ -8,9 +8,9 @@
 #include <limits>
 #include "particles/ParticleSystem.h"
 #include "graph/Graph.h"
-#include "graph/KDTree.h"
+#include "graph/generate/KDTree.h"
 
-namespace ivhd::graph
+namespace ivhd::graph::generate
 {
 	class GraphGenerator 
 	{
