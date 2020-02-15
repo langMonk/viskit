@@ -4,15 +4,12 @@
 ///
 
 #include <gtest/gtest.h>
-#include <iostream>
 #include <mutex>
 #include <thread>
-
 #include <core/Core.h>
 #include <particles/ParticleSystem.h>
 #include <graph/Graph.h>
 #include <parse/ParserCsv.h>
-#include <graph/generate/GraphGenerator.h>
 #include <graph/generate/KDTree.h>
 #include <ivhd/Structures.h>
 #include "TestUtils.h"
@@ -68,7 +65,6 @@ namespace libivhd_test
 		parse::ParserCSV parser{ core.system() };
 		graph::Graph graph{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
-		graph::generate::GraphGenerator generator{ particleSystem, false };
 
 		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);

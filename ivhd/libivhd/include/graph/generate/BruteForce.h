@@ -5,26 +5,26 @@
 
 #pragma once
 
-#include <limits>
+#include "IGraphGenerator.h"
 #include "particles/ParticleSystem.h"
 #include "graph/Graph.h"
 #include "graph/generate/KDTree.h"
 
 namespace ivhd::graph::generate
 {
-	class GraphGenerator 
+	class BruteForce : public IGraphGenerator
 	{
 		// public construction and destruction methods
 	public:
 
-		GraphGenerator(particles::ParticleSystem& ps, bool useCache);
+		BruteForce(particles::ParticleSystem& ps);
 
 		// public methods
 	public:
-		void bruteForceKNN(size_t nn, size_t fn, size_t rn);
+		void generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors) override;
 
-		void rkNN();
-
+		void useCache(bool useCache) override;
+		
 	private:
 		void add_min_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort);
 		void add_max_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort);
@@ -39,6 +39,6 @@ namespace ivhd::graph::generate
 
 		graph::Graph* m_graph;
 
-		bool m_useCache;
+		bool m_useCache {false};
 	};
 }
