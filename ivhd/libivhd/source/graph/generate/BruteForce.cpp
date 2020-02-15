@@ -3,56 +3,55 @@
 /// \date 12.05.2019
 ///
 
-#include "graph/generate/GraphGenerator.h"
+#include "graph/generate/BruteForce.h"
 #include "utils/Math.h"
 
 namespace ivhd::graph::generate
 { 
 
-	GraphGenerator::GraphGenerator(particles::ParticleSystem& ps, bool useCache)
+	BruteForce::BruteForce(particles::ParticleSystem& ps)
 		: m_ext_particleSystem(ps)
-		, m_useCache(useCache)
 		, m_graph(&ps.neighbourhoodGraph())
 		, m_distancesEqualOne(true)
 	{
 	}
 
-	void GraphGenerator::bruteForceKNN(size_t nn, size_t fn, size_t rn)
+	void BruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors)
 	{
-		Neighbors* near = new Neighbors[nn + 1];
-		Neighbors* far = new Neighbors[fn + 1];
-		Neighbors* rand = new Neighbors[rn + 1];
+		Neighbors* near = new Neighbors[nearestNeighbors + 1];
+		Neighbors* far = new Neighbors[furthestNeighbors + 1];
+		Neighbors* rand = new Neighbors[randomNeighbors + 1];
 
 		// nearest and furthest neighbors
-		if (nn || fn)
+		if (nearestNeighbors || furthestNeighbors)
 		{
 			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
 			{
-				reset_tmp_dist_matrix(near, std::numeric_limits<float>::max(), nn);
-				reset_tmp_dist_matrix(far, -1.0f, fn);
+				reset_tmp_dist_matrix(near, std::numeric_limits<float>::max(), nearestNeighbors);
+				reset_tmp_dist_matrix(far, -1.0f, furthestNeighbors);
 
 				for (size_t j = 0; j< m_ext_particleSystem.countAwakeParticles(); j++)
 				{
 					if(i!=j)
 					{ 
 						auto distance = m_ext_particleSystem.vectorDistance(i, j);
-						add_min_dist(near, nn, distance, i, j, true);
-						add_max_dist(far, fn, distance, i, j, true);
+						add_min_dist(near, nearestNeighbors, distance, i, j, true);
+						add_max_dist(far, furthestNeighbors, distance, i, j, true);
 					}
 				}
 
-				add_to_dist_matrix(near, nn);
-				add_to_dist_matrix(far, fn);
+				add_to_dist_matrix(near, nearestNeighbors);
+				add_to_dist_matrix(far, furthestNeighbors);
 			}
 		}	
 
 		// random neighbors
-		if (rn)
+		if (randomNeighbors)
 		{
 			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
 			{
-				reset_tmp_dist_matrix(rand, 0.0f, rn);
-				for (int l = 0; l < rn; l++)
+				reset_tmp_dist_matrix(rand, 0.0f, randomNeighbors);
+				for (int l = 0; l < randomNeighbors; l++)
 				{
 					size_t j;
 					do
@@ -60,7 +59,7 @@ namespace ivhd::graph::generate
 						j = math::randInt(0, m_ext_particleSystem.countAwakeParticles() - 1);
 						//check if j is not alread nearest neighbor
 						if (j != i)
-							for (int m = 0; m < nn; m++)
+							for (int m = 0; m < nearestNeighbors; m++)
 								if ((near[m].j == j && near[m].i == i) || (near[m].j == i && near[m].i == j))
 								{
 									j = i;
@@ -69,7 +68,7 @@ namespace ivhd::graph::generate
 
 						// check if j is not alread furthest neighbor
 						if (j != i)
-							for (int m = 0; m < fn; m++)
+							for (int m = 0; m < furthestNeighbors; m++)
 								if ((far[m].j == j && far[m].i == i) || (far[m].j == i && far[m].i == j))
 								{
 									j = i;
@@ -84,18 +83,23 @@ namespace ivhd::graph::generate
 					rand[l].r = distance;
 					rand[l].type = NeighborsType::Random;
 				}
-				add_to_dist_matrix(rand, rn);
+				add_to_dist_matrix(rand, randomNeighbors);
 			}
 		}
 	}
 
-	void GraphGenerator::reset_tmp_dist_matrix(Neighbors* n, float initval, size_t elems)
+	void BruteForce::useCache(bool useCache)
+	{
+		m_useCache = useCache;
+	}
+
+	void BruteForce::reset_tmp_dist_matrix(Neighbors* n, float initval, size_t elems)
 	{
 		for (int i = 0; i < elems; i++)
 			n[i].r = initval;
 	}
 
-	void GraphGenerator::add_min_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort)
+	void BruteForce::add_min_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort)
 	{
 		if (n[elems - 1].r < new_r) return;
 
@@ -116,7 +120,7 @@ namespace ivhd::graph::generate
 		}
 	}
 
-	void GraphGenerator::add_max_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort)
+	void BruteForce::add_max_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort)
 	{
 		if (n[elems - 1].r > new_r) return;
 
@@ -144,7 +148,7 @@ namespace ivhd::graph::generate
 		}
 	}
 
-	void GraphGenerator::add_to_dist_matrix(Neighbors* n, size_t elems)
+	void BruteForce::add_to_dist_matrix(Neighbors* n, size_t elems)
 	{
 		for (int i = 0; i < elems; i++)
 		{
