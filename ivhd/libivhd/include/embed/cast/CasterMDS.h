@@ -31,11 +31,11 @@ namespace ivhd::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		CasterMDS(core::System& system, graph::Graph& graph);
+		CasterMDS(core::System& system, particles::ParticleSystem& ps);
 
 		// public methods
 	public:
-		void cast(particles::ParticleSystem& ps);
+		void cast();
 
 		// private methods
 	private:
@@ -45,7 +45,6 @@ namespace ivhd::embed::cast
 	private:
 		SammonParameters m_sammonParameters;
 		distanceKernelParameters m_distanceKernelParameters;
-		Graph m_graph;
 
 		int maxVelocity{ 1000 };
 		float dumpVelocity{ 0.95f };

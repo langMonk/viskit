@@ -4,13 +4,11 @@
 ///
 
 #include <gtest/gtest.h>
-#include <iostream>
 #include <core/Core.h>
 #include <particles/ParticleSystem.h>
 #include <graph/Graph.h>
 #include <parse/ParserCsv.h>
-#include <graph/generate/GraphGenerator.h>
-#include <graph/generate/KDTree.h>
+#include <graph/generate/BruteForce.h>
 #include <graph/DataPoint.h>
 #include <ivhd/Structures.h>
 #include <utils/TimeProfiler.h>
@@ -36,7 +34,7 @@ namespace libivhd_test
 		core::Core core{ handler };
 		parse::ParserCSV parser{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
-		graph::generate::GraphGenerator generator{ particleSystem, false };
+		generate::BruteForce generator{ particleSystem };
 
 		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);
@@ -46,7 +44,7 @@ namespace libivhd_test
 
 		auto profiler = utils::TimeProfiler(true);
 		profiler.start();
-		generator.bruteForceKNN(3, 0, 0);
+		generator.generate(3, 0, 0);
 		profiler.stop();
 		profiler.measurementMs();
 
