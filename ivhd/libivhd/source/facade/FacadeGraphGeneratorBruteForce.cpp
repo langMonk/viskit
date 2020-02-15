@@ -4,7 +4,7 @@ namespace ivhd::facade
 {
 	FacadeGraphGeneratorBruteForce::FacadeGraphGeneratorBruteForce(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
 		: FacadeGraphGenerator(core, ps)
-		, m_graphGenerator(std::make_shared<generate::BruteForce>(ps))
+		, m_graphGenerator(std::make_shared<generate::BruteForce>(core->system(), ps))
 	{
 	}
 

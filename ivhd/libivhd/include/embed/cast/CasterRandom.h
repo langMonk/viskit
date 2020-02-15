@@ -60,6 +60,5 @@ namespace ivhd::embed::cast
 
 		RandomGenerator* m_gen;
 		
-		particles::ParticleSystem& m_particleSystem;
 	};
 }
