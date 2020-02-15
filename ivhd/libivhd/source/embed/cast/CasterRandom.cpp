@@ -4,14 +4,14 @@
 ///
 
 #include "embed/cast/CasterRandom.h"
+#include "math/IvhdMath.h"
 
 namespace ivhd::embed::cast
 {
 	CasterRandom::CasterRandom(core::System& system, particles::ParticleSystem& ps)
-		: Caster(system)
+		: Caster(system, ps)
 		, m_maxEdge(1000)
 		, m_gen(new RandomGenerator())
-		, m_particleSystem(ps)
 	{
 
 	}
@@ -20,7 +20,7 @@ namespace ivhd::embed::cast
 	{
 		m_ext_system.logger().logInfo("[CasterRandom] Casting particle with index" + index);
 
-		auto dataPoints = m_particleSystem.calculationData();
+		auto dataPoints = m_ext_particleSystem.calculationData();
 
 		dataPoints->m_pos[index].x = m_gen->gen();
 		dataPoints->m_pos[index].y = m_gen->gen();
@@ -39,17 +39,17 @@ namespace ivhd::embed::cast
 
 	void CasterRandom::internalCastingThread()
 	{
-		size_t queriesPerThread = m_particleSystem.countParticles() / math::threads<>;
+		size_t queriesPerThread = m_ext_particleSystem.countParticles() / math::threads<>;
 		
 		threading::ThreadPool threadPool(math::threads<>);
 
 		for (size_t i = 0; i < math::threads<>; i++)
 		{
 			size_t start = i * queriesPerThread;
-			size_t end = (i == math::threads<> -1) ? m_particleSystem.countParticles() : start + queriesPerThread;
+			size_t end = (i == math::threads<> -1) ? m_ext_particleSystem.countParticles() : start + queriesPerThread;
 
 			auto gen = m_gen;
-			auto ps = &m_particleSystem;
+			auto ps = &m_ext_particleSystem;
 			auto future = threadPool.enqueue([&ps, &gen, start, end]()
 			{
 				auto dataPoints = ps->calculationData();

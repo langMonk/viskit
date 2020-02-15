@@ -43,6 +43,7 @@
     <ClInclude Include="include\facade\FacadeTransformer.h" />
     <ClInclude Include="include\graph\generate\BoundedPQueue.h" />
     <ClInclude Include="include\graph\generate\BruteForce.h" />
+    <ClInclude Include="include\graph\generate\GraphGenerator.h" />
     <ClInclude Include="include\graph\generate\IGraphGenerator.h" />
     <ClInclude Include="include\graph\generate\KDTree.h" />
     <ClInclude Include="include\graph\Graph.h" />
@@ -99,6 +100,7 @@
     <ClCompile Include="source\facade\FacadeResourceFactory.cpp" />
     <ClCompile Include="source\graph\generate\BoundedPQueue.cpp" />
     <ClCompile Include="source\graph\generate\BruteForce.cpp" />
+    <ClCompile Include="source\graph\generate\GraphGenerator.cpp" />
     <ClCompile Include="source\graph\generate\KDTree.cpp" />
     <ClCompile Include="source\graph\Graph.cpp" />
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />

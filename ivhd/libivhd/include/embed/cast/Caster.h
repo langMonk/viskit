@@ -5,14 +5,9 @@
 
 #pragma once
 
-#include <thread>
-#include <mutex>
-
 #include "core/System.h"
-#include "graph/Graph.h"
 #include "particles/ParticleSystem.h"
 #include "threading/ThreadPool.h"
-#include "math/IvhdMath.h"
 #include "ICaster.h"
 
 namespace ivhd::embed::cast
@@ -21,7 +16,7 @@ namespace ivhd::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		Caster(core::System& system);
+		Caster(core::System& system, particles::ParticleSystem& ps);
 		virtual ~Caster() = default;
 
 		Caster(const Caster&) = delete;
@@ -29,13 +24,15 @@ namespace ivhd::embed::cast
 
 	protected:
 		core::System& m_ext_system;
-
+		
+		particles::ParticleSystem& m_ext_particleSystem;
+		
+		threading::ThreadPool m_threadPool;
+		
 		bool m_casting{ false };
 
 		float dtFactor{ 1.0f };
 
 		float speedFactor{200};
-
-		threading::ThreadPool m_threadPool;
 	};
 }

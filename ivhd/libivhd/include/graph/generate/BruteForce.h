@@ -5,19 +5,19 @@
 
 #pragma once
 
-#include "IGraphGenerator.h"
+#include "graph/generate/GraphGenerator.h"
 #include "particles/ParticleSystem.h"
 #include "graph/Graph.h"
 #include "graph/generate/KDTree.h"
 
 namespace ivhd::graph::generate
 {
-	class BruteForce : public IGraphGenerator
+	class BruteForce : public GraphGenerator
 	{
 		// public construction and destruction methods
 	public:
 
-		BruteForce(particles::ParticleSystem& ps);
+		BruteForce(core::System& system, particles::ParticleSystem& ps);
 
 		// public methods
 	public:
@@ -33,8 +33,6 @@ namespace ivhd::graph::generate
 
 		// private members
 	private:
-		particles::ParticleSystem& m_ext_particleSystem;
-		
 		bool m_distancesEqualOne;
 
 		graph::Graph* m_graph;
