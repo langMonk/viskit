@@ -273,13 +273,19 @@
     <ClInclude Include="include\graph\generate\BoundedPQueue.h">
       <Filter>Header Files\graph\generate</Filter>
     </ClInclude>
-    <ClInclude Include="include\graph\generate\GraphGenerator.h">
-      <Filter>Header Files\graph\generate</Filter>
-    </ClInclude>
     <ClInclude Include="include\graph\generate\IGraphGenerator.h">
       <Filter>Header Files\graph\generate</Filter>
     </ClInclude>
     <ClInclude Include="include\graph\generate\KDTree.h">
+      <Filter>Header Files\graph\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeGraphGeneratorBruteForce.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graph\generate\BruteForce.h">
+      <Filter>Header Files\graph\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graph\generate\GraphGenerator.h">
       <Filter>Header Files\graph\generate</Filter>
     </ClInclude>
   </ItemGroup>
@@ -371,10 +377,16 @@
     <ClCompile Include="source\graph\generate\BoundedPQueue.cpp">
       <Filter>Source Files\graph\generate</Filter>
     </ClCompile>
-    <ClCompile Include="source\graph\generate\GraphGenerator.cpp">
+    <ClCompile Include="source\graph\generate\KDTree.cpp">
       <Filter>Source Files\graph\generate</Filter>
     </ClCompile>
-    <ClCompile Include="source\graph\generate\KDTree.cpp">
+    <ClCompile Include="source\graph\generate\BruteForce.cpp">
+      <Filter>Source Files\graph\generate</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeGraphGeneratorBruteForce.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graph\generate\GraphGenerator.cpp">
       <Filter>Source Files\graph\generate</Filter>
     </ClCompile>
   </ItemGroup>

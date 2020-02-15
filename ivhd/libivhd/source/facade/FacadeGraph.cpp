@@ -68,4 +68,39 @@ namespace ivhd::facade
 			m_ext_core.logger().logWarning(message);
 		}
 	}
+
+	void FacadeGraph::dump(std::string filePath, std::string fileName)
+	{
+		std::ofstream m_file;
+		
+		try
+		{
+			m_file.open(filePath + "\\" + fileName + ".txt");
+			for (int i = 0; i < m_ext_graph.neighborsCount(); i++)
+			{
+				auto neighbors = m_ext_graph.getNeighbors(i);
+				if (neighbors.type == NeighborsType::Near)
+				{
+					m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Near" << std::endl;
+				}
+				else if (neighbors.type == NeighborsType::Far)
+				{
+					m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Far" << std::endl;
+				}
+				else
+				{
+					m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Random" << std::endl;
+				}
+			}
+
+			m_file.close();
+		}
+		catch (std::exception& exception)
+		{
+			std::string message = "Failed to dump graph to plain text file: ";
+			message += exception.what();
+			m_ext_core.logger().logWarning(message);
+			m_file.close();
+		}
+	}
 }

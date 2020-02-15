@@ -14,6 +14,8 @@ namespace ivhd
 	/// </summary>
 	class IGraph
 	{
+		// public methods 
+	public:
 		/// <summary>
 		/// Get neighbors from graph with specified index.
 		/// </summary>
@@ -35,5 +37,13 @@ namespace ivhd
 		/// Sort a graph
 		/// </summary>
 		void virtual sort() = 0;
+
+		/// <summary>
+		/// Dumping whole graph to readable plain text format (.txt).
+		/// Only for debug purposes.
+		/// </summary>
+		/// <param name="filePath"> Filepath, where graph should be dumped.</param>
+		/// <param name="fileName"> Filename.</param>
+		void virtual dump(std::string filePath, std::string fileName) = 0;
 	};
 }

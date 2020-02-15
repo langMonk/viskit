@@ -31,6 +31,7 @@
     <ClInclude Include="include\facade\FacadeCasterRandom.h" />
     <ClInclude Include="include\facade\FacadeGraph.h" />
     <ClInclude Include="include\facade\FacadeGraphGenerator.h" />
+    <ClInclude Include="include\facade\FacadeGraphGeneratorBruteForce.h" />
     <ClInclude Include="include\facade\FacadeGraphGeneratorKDTree.h" />
     <ClInclude Include="include\facade\FacadeInteractiveVizualization.h" />
     <ClInclude Include="include\facade\FacadeMath.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="include\facade\FacadeResourceFactory.h" />
     <ClInclude Include="include\facade\FacadeTransformer.h" />
     <ClInclude Include="include\graph\generate\BoundedPQueue.h" />
+    <ClInclude Include="include\graph\generate\BruteForce.h" />
     <ClInclude Include="include\graph\generate\GraphGenerator.h" />
     <ClInclude Include="include\graph\generate\IGraphGenerator.h" />
     <ClInclude Include="include\graph\generate\KDTree.h" />
@@ -89,6 +91,7 @@
     <ClCompile Include="source\facade\FacadeCasterRandom.cpp" />
     <ClCompile Include="source\facade\FacadeGraph.cpp" />
     <ClCompile Include="source\facade\FacadeGraphGenerator.cpp" />
+    <ClCompile Include="source\facade\FacadeGraphGeneratorBruteForce.cpp" />
     <ClCompile Include="source\facade\FacadeGraphGeneratorKDTree.cpp" />
     <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp" />
     <ClCompile Include="source\facade\FacadeParser.cpp" />
@@ -96,6 +99,7 @@
     <ClCompile Include="source\facade\FacadeParticleSystem.cpp" />
     <ClCompile Include="source\facade\FacadeResourceFactory.cpp" />
     <ClCompile Include="source\graph\generate\BoundedPQueue.cpp" />
+    <ClCompile Include="source\graph\generate\BruteForce.cpp" />
     <ClCompile Include="source\graph\generate\GraphGenerator.cpp" />
     <ClCompile Include="source\graph\generate\KDTree.cpp" />
     <ClCompile Include="source\graph\Graph.cpp" />

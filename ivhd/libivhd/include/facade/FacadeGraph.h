@@ -37,6 +37,8 @@ namespace ivhd::facade
 		size_t neighborsCount() override;
 
 		void sort() override;
+		
+		void dump(std::string filePath, std::string fileName) override;
 
 		// private members
 	private:

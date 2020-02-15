@@ -14,7 +14,6 @@ namespace ivhd
 	{
 		// public methods
 	public:
-
 		/// <summary>
 		/// Load specified file into particle system structure
 		/// </summary>

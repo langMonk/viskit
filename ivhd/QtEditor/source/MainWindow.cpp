@@ -1,16 +1,7 @@
 #include <QFileDialog>
-#include <QDesktopServices>
 
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
-
-void MainWindow::setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster)
-{
-	if (caster != nullptr)
-	{
-		m_currentCaster = caster;
-	}
-}
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -36,20 +27,42 @@ void MainWindow::setupIVHD()
 		}
 	};
 
+	// create IVHD
 	m_ivhd = ivhd::createIVHD(handler);
-	m_casters = ivhd::createResourceCollection<ivhd::ICaster>();
+	initializeIVHDResources();
+	initializeEditorElements();
+}
 
-	// initialize casters and add it to casters collection
+void MainWindow::initializeIVHDResources()
+{
+	// create collections
+	m_casters = ivhd::createResourceCollection<ivhd::ICaster>();
+	m_generators = ivhd::createResourceCollection<ivhd::IGraphGenerator>();
+
+	// add resources to collections
 	auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
 	m_casters->add("Random", casterRandom);
 
-	//// initialize Casters Combo Box
+	auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
+	m_generators->add("Brute Force", bruteGenerator);
+
+	// set default resources
+	setCurrentCaster(casterRandom);
+	setCurrentGraphGenerator(bruteGenerator);
+}
+
+void MainWindow::initializeEditorElements()
+{
+	// casters
 	m_casters->iterate([&](std::string name) {
 		ui.comboBox_CastingSetup->addItem(QString::fromStdString(name));
 	});
 
-	// set Random as startup currentCaster
-	setCurrentCaster(casterRandom);
+	// graph generators
+	m_generators->iterate([&](std::string name) {
+		ui.comboBox_GraphSetup->addItem(QString::fromStdString(name));
+	});
+
 }
 
 void MainWindow::on_pushButton_Open_clicked()
@@ -86,7 +99,7 @@ void MainWindow::on_pushButton_Exit_clicked()
 	close();
 }
 
-void MainWindow::on_pushButton_CastingRun_clicked()
+void MainWindow::on_pushButton_CastingRun_clicked() const
 {
 	if (m_currentCaster != nullptr)
 	{
@@ -97,5 +110,35 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 	else
 	{
 		
+	}
+}
+
+void MainWindow::on_pushButton_GraphRun_clicked() const
+{
+	if (m_currentGraphGenerator != nullptr)
+	{
+		m_currentGraphGenerator->generate(3, 0, 1);
+		ivhd::IGraph& graph = m_ivhd->particleSystem().kNNGraph();
+		graph.dump("D:\\Repositories\\ivhd", "kNN_BruteForce");
+	}
+	else
+	{
+
+	}
+}
+
+void MainWindow::setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster)
+{
+	if (caster != nullptr)
+	{
+		m_currentCaster = caster;
+	}
+}
+
+void MainWindow::setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator)
+{
+	if (generator != nullptr)
+	{
+		m_currentGraphGenerator = generator;
 	}
 }
