@@ -12,4 +12,9 @@ namespace ivhd::facade
 		, m_ext_particleSystem(ps)
 	{
 	}
+
+	void FacadeGraphGenerator::useCache(bool useCache)
+	{
+		m_ext_useCache = useCache;
+	}
 }

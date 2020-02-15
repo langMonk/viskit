@@ -4,11 +4,11 @@
 ///
 
 #include "facade/FacadeResourceFactory.h"
-#include "facade/FacadeResourceCollection.h"
 #include "facade/FacadeInteractiveVizualization.h"
 #include "facade/FacadeCasterRandom.h"
 #include "facade/FacadeParserCSV.h"
 #include "facade/FacadeGraphGeneratorKDTree.h"
+#include "facade/FacadeGraphGeneratorBruteForce.h"
 
 namespace ivhd::facade
 {
@@ -31,25 +31,33 @@ namespace ivhd::facade
 
 	std::shared_ptr<IGraphGenerator> FacadeResourceFactory::createGraphGenerator(GraphGeneratorType type)
 	{
+		std::shared_ptr<IGraphGenerator> generator = nullptr;
+		
 		if (type == GraphGeneratorType::KDTreeBased)
 		{
-			return std::make_shared<facade::FacadeGraphGeneratorKDTree>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			generator = std::make_shared<facade::FacadeGraphGeneratorKDTree>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
-		else
+		else if (type == GraphGeneratorType::BruteForce)
 		{
-			return nullptr;
+			generator = std::make_shared<facade::FacadeGraphGeneratorBruteForce>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
+
+		return generator;
 	}
 
 	std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(CasterType type)
 	{
+		std::shared_ptr<ICaster> caster = nullptr;
+			
 		if (type == CasterType::Random)
 		{
-			return std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			caster = std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
-		else
+		else if (type == CasterType::Mds)
 		{
-			return nullptr;
+			//caster = std::make_shared<facade::FacadeCasterMDS>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
+		
+		return caster;
 	}
 }

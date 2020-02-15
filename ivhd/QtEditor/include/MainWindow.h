@@ -1,10 +1,10 @@
 #pragma once
  
-#include <QtWidgets/QMainWindow>
-#include <QMessageBox>
 #include <ivhd/InteractiveVizualizationBuilder.h>
 #include <ivhd/IParser.h>
 #include <ivhd/ICaster.h>
+#include <ivhd/IGraphGenerator.h>
+#include <ivhd/IGraph.h>
 #include <ivhd/IResourceCollection.h>
 #include <ivhd/IResourceFactory.h>
 #include <ivhd/IParticleSystem.h>
@@ -30,16 +30,20 @@ public:
 	ivhd::IParticleSystem& particleSystem() const { return m_ivhd->particleSystem(); }
 	
 	void setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster);
+	void setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator);
 
 private:
 	MainWindow(QWidget* parent = Q_NULLPTR);
 	void keyPressEvent(QKeyEvent* event) override;
 	void setupIVHD();
+	void initializeIVHDResources();
+	void initializeEditorElements();
 
 private slots:
 	void on_pushButton_Open_clicked();
 	void on_pushButton_Exit_clicked();
-	void on_pushButton_CastingRun_clicked();
+	void on_pushButton_CastingRun_clicked() const;
+	void on_pushButton_GraphRun_clicked() const;
 
 	// Qt resources
 private:
@@ -52,5 +56,8 @@ private:
 
 	// IVHD collections and current resources
 	std::shared_ptr<ivhd::IResourceCollection<ivhd::ICaster>> m_casters;
-	std::shared_ptr<ivhd::ICaster> m_currentCaster;
+	std::shared_ptr<ivhd::IResourceCollection<ivhd::IGraphGenerator>> m_generators;
+	
+	std::shared_ptr<ivhd::ICaster> m_currentCaster { nullptr };
+	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator { nullptr };
 };

@@ -33,7 +33,7 @@ namespace ivhd::facade
 		}*/
 	}
 
-	void ivhd::facade::FacadeGraphGeneratorKDTree::generate()
+	void FacadeGraphGeneratorKDTree::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors)
 	{
 		// Part responsible for creating a tree
 	//	auto data = m_ext_particleSystem.originalCoordinates();
