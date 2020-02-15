@@ -13,6 +13,8 @@ namespace ivhd::graph::generate
 	{
 		// public construction and destruction methods
 	public:
-		virtual void generate(particles::ParticleSystem& ps) = 0;
+		virtual void generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors) = 0;
+		
+		virtual void useCache(bool useCache) = 0;
 	};
 }
