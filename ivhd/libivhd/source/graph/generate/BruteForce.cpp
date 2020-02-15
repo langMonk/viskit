@@ -9,15 +9,17 @@
 namespace ivhd::graph::generate
 { 
 
-	BruteForce::BruteForce(particles::ParticleSystem& ps)
-		: m_ext_particleSystem(ps)
-		, m_graph(&ps.neighbourhoodGraph())
+	BruteForce::BruteForce(core::System& system, particles::ParticleSystem& ps)
+		: GraphGenerator(system, ps)
 		, m_distancesEqualOne(true)
+		, m_graph(&ps.neighbourhoodGraph())
 	{
 	}
 
 	void BruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors)
 	{
+		m_ext_system.logger().logInfo("[BruteForce Generator] Generating kNN Graph...");
+	
 		Neighbors* near = new Neighbors[nearestNeighbors + 1];
 		Neighbors* far = new Neighbors[furthestNeighbors + 1];
 		Neighbors* rand = new Neighbors[randomNeighbors + 1];
@@ -86,6 +88,8 @@ namespace ivhd::graph::generate
 				add_to_dist_matrix(rand, randomNeighbors);
 			}
 		}
+
+		m_ext_system.logger().logInfo("[BruteForce Generator] Finished.");
 	}
 
 	void BruteForce::useCache(bool useCache)

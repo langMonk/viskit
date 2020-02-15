@@ -5,8 +5,6 @@
 
 #pragma once
 
-#include <ivhd/IGraph.h>
-
 namespace ivhd
 {
 	/// <summary>
@@ -14,6 +12,8 @@ namespace ivhd
 	/// </summary>
 	class IGraphGenerator
 	{
+		// public methods 
+	public:
 		/// <summary>
 		/// Generate a graph using specified method
 		/// </summary>
