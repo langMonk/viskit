@@ -73,5 +73,70 @@ namespace ivhd::graph
 
 		m_ext_system.logger().logInfo("Min distance: " + std::to_string(mind) + ", max distance: " + std::to_string(maxd));
 	}
+
+	void Graph::clear()
+	{
+		m_data.clear();
+	}
+
+	size_t Graph::size() const
+	{
+		return m_data.size();
+	}
+
+	bool Graph::saveToCache(const std::string& fileName)
+	{
+		std::ofstream file(fileName + ".graph", std::ios::out | std::ios::binary);
+
+		if (!file) {
+			m_ext_system.logger().logError("[Graph] File to save graph couldn't be created!");
+			return false;
+		}
+
+		auto graphSize = m_data.size();
+		file.write(reinterpret_cast<char*>(&graphSize), sizeof(size_t));
+		
+		for (auto& i : m_data)
+		{
+			file.write(reinterpret_cast<char*>(&i), sizeof(Neighbors));
+		}
+
+		file.close();
+
+		if (!file.good()) {
+			m_ext_system.logger().logError("[Graph] Error occurred while saving graph to file.");
+			return false;
+		}
+
+		return true;
+	}
+
+	bool Graph::loadFromCache(const std::string& fileName)
+	{
+		std::ifstream file(fileName + ".graph", std::ios::in | std::ios::binary);
+
+		if (!file) {
+			m_ext_system.logger().logError("[Graph] File to read graph couldn't be opened!");
+			return false;
+		}
+
+		auto length = 0;
+		file.read(reinterpret_cast<char*>(&length), sizeof(size_t));
+		m_data.resize(length);
+		
+		for (auto i = 0; i < length; i++)
+		{
+			file.read(reinterpret_cast<char*>(&m_data[i]), sizeof(Neighbors));
+		}
+
+		file.close();
+
+		if (!file.good()) {
+			m_ext_system.logger().logError("[Graph] Error occurred while saving graph to file.");
+			return false;
+		}
+
+		return true;
+	}
 }
 

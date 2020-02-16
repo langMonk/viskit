@@ -35,8 +35,8 @@ namespace ivhd::graph::generate
 				for (size_t j = 0; j< m_ext_particleSystem.countAwakeParticles(); j++)
 				{
 					if(i!=j)
-					{ 
-						auto distance = m_ext_particleSystem.vectorDistance(i, j);
+					{
+						const auto distance = m_ext_particleSystem.vectorDistance(i, j);
 						add_min_dist(near, nearestNeighbors, distance, i, j, true);
 						add_max_dist(far, furthestNeighbors, distance, i, j, true);
 					}
