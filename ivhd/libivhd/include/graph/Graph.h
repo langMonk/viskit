@@ -21,7 +21,15 @@ namespace ivhd::graph
 		size_t neighborsCount() const { return m_data.size(); }
 
 		void sort();
+		
+		void clear();
+		
+		size_t size() const;
 
+		bool saveToCache(const std::string& fileName);
+
+		bool loadFromCache(const std::string& fileName);
+		
 		// private members
 	private:
 		core::System& m_ext_system;
