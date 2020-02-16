@@ -33,7 +33,7 @@ namespace ivhd::graph::generate
 
 		// private members
 	private:
-		bool m_distancesEqualOne;
+		bool m_distancesEqualOne {true};
 
 		graph::Graph* m_graph;
 

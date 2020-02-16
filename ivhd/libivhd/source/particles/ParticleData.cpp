@@ -12,6 +12,7 @@ namespace ivhd::particles
 		m_pos.resize(maxSize);
 		m_acc.resize(maxSize);
 		m_col.resize(maxSize);
+		m_force.resize(maxSize);
 		m_vel.resize(maxSize);
 		m_acc.resize(maxSize);
 		m_alive.resize(maxSize);
@@ -21,6 +22,8 @@ namespace ivhd::particles
 			wake(i);
 			m_pos[i] = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
 			m_col[i] = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
+			m_force[i] = glm::vec4{ 0.0f, 0.0f, 0.0f, 0.0f };
+			m_vel[i] = glm::vec4{ 0.0f, 0.0f, 0.0f, 0.0f };
 		}
 	}
 

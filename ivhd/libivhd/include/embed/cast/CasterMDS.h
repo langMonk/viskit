@@ -5,12 +5,7 @@
 
 #pragma once
 
-#include <memory>
-#include <map>
-#include <iostream>
-
 #include "Caster.h"
-#include "graph/Graph.h"
 #include "particles/ParticleSystem.h"
 
 namespace ivhd::embed::cast
@@ -35,17 +30,20 @@ namespace ivhd::embed::cast
 
 		// public methods
 	public:
-		void cast();
+		void castParticle(size_t index) override;
 
+		void castParticleSystem() override;
+		
 		// private methods
 	private:
-		glm::vec4 calculateForces(long pair_indx, long pi, long pj, float& energy, particles::ParticleSystem& ps);
+		glm::vec4 calculateForces(size_t pairIndex, size_t pi, size_t pj, float& energy) const;
 
 		// private members
 	private:
 		SammonParameters m_sammonParameters;
 		distanceKernelParameters m_distanceKernelParameters;
-
+		graph::Graph& m_ext_graph;
+		
 		int maxVelocity{ 1000 };
 		float dumpVelocity{ 0.95f };
 	};
