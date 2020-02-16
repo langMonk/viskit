@@ -52,7 +52,7 @@ namespace ivhd::embed::cast
 
 		// private methods
 	private:
-		void internalCastingThread();
+		void internalCastingThread() const;
 
 		// private members
 	private:

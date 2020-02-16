@@ -16,6 +16,6 @@ void main()
 	outColor = vColor;
 
 	float dist = length(eyePos.xyz);
-	float att = inversesqrt(0.1f*dist);
-	gl_PointSize = 2.0f * att;
+	float att = sqrt(0.01f*dist);
+	gl_PointSize = 20.0f * att;
 }

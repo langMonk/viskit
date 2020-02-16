@@ -4,140 +4,155 @@ namespace ivhd::embed::cast
 {
 	CasterMDS::CasterMDS(core::System& system, particles::ParticleSystem& ps)
 		: Caster(system, ps)
+		, m_ext_graph(ps.neighbourhoodGraph())
 	{
 	}
 
-	glm::vec4 CasterMDS::calculateForces(long pair_indx, long pi, long pj, float& energy, particles::ParticleSystem& ps)
+	void CasterMDS::castParticle(size_t index)
 	{
-		return glm::vec4{};
-		//auto pos = ps.calculationData()->m_pos;
-		//glm::vec4 rv = pos[pi] - pos[pj];
-
-		//float r = ps.vectorDistance(pi, pj);
-
-		//auto element = m_graph.getNeighbors(pair_indx);
-
-		//float D = element.r;
-
-		//if (element.type == NeighborsType::Near)
-		//	D *= 0;
-		//else if (element.type == NeighborsType::Reverse)
-		//	D *= 0;
-		//else if (element.type == NeighborsType::Far)
-		//	D *= 1;
-
-		//// kmD^w factor...
-		//float mkDw = m_sammonParameters.k * m_sammonParameters.m * std::pow(D, -m_sammonParameters.w);
-
-		//// r^(k-2) factor...
-		//float rk2 = std::pow(r, m_sammonParameters.k - 2);
-
-		//// (r^k-D^k)^(m-1) factor...
-		//float rk = std::pow(r, m_sammonParameters.k);
-		//float Dk = std::pow(D, m_sammonParameters.k);
-		//float rdm = std::pow(rk - Dk, m_sammonParameters.m - 1);
-		//if (m_sammonParameters.m % 2 && rk < Dk)
-		//	rdm *= -1;
-
-		//energy = mkDw * rk2 * rdm;
-		//return rv * (-energy);
 	}
 
-	void CasterMDS::cast()
+	glm::vec4 CasterMDS::calculateForces(size_t pairIndex, size_t pi, size_t pj, float& energy) const
 	{
-	//	float dt = 1e-3 * speedFactor * dtFactor;
-	//	float dtHalf = dt * 0.5;
+		auto& pos = m_ext_particleSystem.calculationData()->m_pos;
+		
+		const auto pipos = glm::vec2(pos[pi].x, pos[pi].y);
+		const auto pjpos = glm::vec2(pos[pj].x, pos[pj].y);
+		const auto rv = pipos - pjpos;
+		const auto r = glm::distance(pipos, pjpos);
+		
+		const auto element = m_ext_graph.getNeighbors(pairIndex);
+		auto D = element.r;
 
-	//	//-------------------------------------------------------------
-	//	// update velocities and positions
-	//	//-------------------------------------------------------------
+		if (element.type == NeighborsType::Near)
+			D *= 0;
+		else if (element.type == NeighborsType::Reverse)
+			D *= 0;
+		else if (element.type == NeighborsType::Far)
+			D *= 1;
 
-	//	float vl;
-	//	float avg_velocity = 0;
-	//	int cnt = 0;
-	//	float mv2 = 0;
+		if (m_sammonParameters.k == 1 && m_sammonParameters.m == 2 && m_sammonParameters.w == 0)
+		{ 
+			energy = r == 0 ? 0 : (2.0 / r) * (r - D);
+		}
+		else
+		{ 
+			const auto mkDw = m_sammonParameters.k * m_sammonParameters.m * std::pow(D, -m_sammonParameters.w);
+			const auto rk2 = std::pow(r, m_sammonParameters.k - 2);
 
-	//	auto velocities = ps.calculationData()->m_vel;
-	//	auto forces = ps.calculationData()->m_force;
-	//	auto positions = ps.calculationData()->m_pos;
+			const auto rk = std::pow(r, m_sammonParameters.k);
+			const auto Dk = std::pow(D, m_sammonParameters.k);
+			auto rdm = std::pow(rk - Dk, m_sammonParameters.m - 1);
+			if (m_sammonParameters.m % 2 && rk < Dk)
+				rdm *= -1;
 
-	//	
-	//	for (int i = 0; i < ps.countAwakeParticles(); i++)
-	//	{
-	//		velocities[i] += forces[i] * dtHalf;
+			energy = mkDw * rk2 * rdm;
+		}
 
-	//		vl = velocities[i].length();
-	//		if (vl > mv2) mv2 = vl;
+		const auto rv2 = glm::vec4{ rv.x, rv.y, 0.0f, 0.0f };
+		return rv2 * (-energy);
+	}
 
-	//		if (vl > maxVelocity * maxVelocity)
-	//		{
-	//			velocities[i] *= maxVelocity / std::sqrt(vl);
-	//			vl = maxVelocity * maxVelocity;
-	//		}
+	void CasterMDS::castParticleSystem()
+	{
+		m_ext_system.logger().logInfo("[CasterMDS] Casting particle system...");
+		
+		const float dt = 1e-3f * speedFactor * dtFactor;
+		const float dtHalf = 0.5f * dt;
 
-	//		avg_velocity += vl;
-	//		cnt++;
+		//-------------------------------------------------------------
+		// update velocities and positions
+		//-------------------------------------------------------------
 
-	//		positions[i] = velocities[i] * dt;
+		float avg_velocity = 0;
+		auto cnt = 0;
+		auto mv2 = 0.0f;
 
-	//	}
+		auto& velocities = m_ext_particleSystem.calculationData()->m_vel;
+		auto& forces = m_ext_particleSystem.calculationData()->m_force;
+		auto& positions = m_ext_particleSystem.calculationData()->m_pos;
 
-	//	avg_velocity /= cnt;
-	//	
 
-	//	avg_velocity = sqrt(avg_velocity);
+		if(m_ext_particleSystem.step() > 0)
+		{
+			for (auto i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
+			{
+				velocities[i] += forces[i] * dtHalf;
 
-	//	//-------------------------------------------------------------
-	//	// calculate forces
-	//	//-------------------------------------------------------------
+				auto vl = glm::dot(velocities[i], velocities[i]);
+				
+				if (vl > mv2) mv2 = vl;
 
-	//	long pi, pj;
-	//	float de;
-	//	for (int i = 0; i < m_graph.neighborsCount(); i++)
-	//	{
-	//		auto element = m_graph.getNeighbors(i);
-	//		pi = element.i;
-	//		pj = element.j;
+				if (vl > maxVelocity * maxVelocity)
+				{
+					velocities[i] *= maxVelocity / std::sqrt(vl);
+					vl = maxVelocity * maxVelocity;
+				}
 
-	//		auto awake = ps.calculationData()->m_alive;
+				avg_velocity += vl;
+				cnt++;
 
-	//		if (awake[pi] && awake[pj])
-	//		{
-	//			glm::vec4 df = calculateForces(i, pi, pj, de, ps);
+				positions[i] += velocities[i] * dt;
+			}
+		}
+		
+		avg_velocity /= cnt;
+		avg_velocity = std::sqrt(avg_velocity);
 
-	//			bool reversed = false;
-	//			if (element.type == NeighborsType::Near)
-	//			{
-	//				df *= m_distanceKernelParameters.near;
-	//			}
-	//			else if (element.type == NeighborsType::Random)
-	//			{
-	//				df *= m_distanceKernelParameters.random;
-	//			}
-	//		/*	else if (element.type == NeighborsType::Reversed && m_graphGenerator->name == "rkNN")
-	//			{
-	//				reversed = true;
-	//				df *= w_reversed;
-	//			}*/
-	//			else
-	//			{
-	//				df *= m_distanceKernelParameters.far;
-	//			}
+		m_ext_particleSystem.resetForces();
+		
+		//-------------------------------------------------------------
+		// calculate forces
+		//-------------------------------------------------------------
 
-	//			forces[pi] += df;
-	//			forces[pj] -= df;
+		float de = 0.1f;
+		for (auto i = 0; i < m_ext_graph.neighborsCount(); i++)
+		{
+			const auto element = m_ext_graph.getNeighbors(i);
+			const size_t pi = element.i;
+			const size_t pj = element.j;
 
-	//		}
-	//	}
+			auto& awake = m_ext_particleSystem.calculationData()->m_alive;
 
-	//	//-------------------------------------------------------------
-	//	// update velocities
-	//	//-------------------------------------------------------------
+			if (awake[pi] && awake[pj])
+			{
+				auto df = calculateForces(i, pi, pj, de);
 
-	//	for (int i = 0; i < ps.countAwakeParticles(); i++)
-	//	{
-	//		velocities[i] += forces[i] * dtHalf;
-	//		velocities[i] *= dumpVelocity;
-	//	}
+				if (element.type == NeighborsType::Near)
+				{
+					df *= m_distanceKernelParameters.near;
+				}
+				else if (element.type == NeighborsType::Random)
+				{
+					df *= m_distanceKernelParameters.random;
+				}
+			/*	else if (element.type == NeighborsType::Reversed && m_graphGenerator->name == "rkNN")
+				{
+					reversed = true;
+					df *= w_reversed;
+				}*/
+				else
+				{
+					df *= m_distanceKernelParameters.far;
+				}
+
+				forces[pi] += df;
+				forces[pj] -= df;
+
+			}
+		}
+
+		//-------------------------------------------------------------
+		// update velocities
+		//-------------------------------------------------------------
+
+		for (auto i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
+		{
+			velocities[i] += forces[i] * dtHalf;
+			velocities[i] *= dumpVelocity;
+		}
+
+		m_ext_particleSystem.increaseStep();
+		m_ext_system.logger().logInfo("[CasterMDS] Step finished.");
 	}
 }

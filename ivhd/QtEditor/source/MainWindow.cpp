@@ -41,7 +41,9 @@ void MainWindow::initializeIVHDResources()
 
 	// add resources to collections
 	auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
+	auto casterMDS = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::MDS);
 	m_casters->add("Random", casterRandom);
+	m_casters->add("MDS", casterMDS);
 
 	auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
 	m_generators->add("Brute Force", bruteGenerator);
@@ -103,9 +105,12 @@ void MainWindow::on_pushButton_CastingRun_clicked() const
 {
 	if (m_currentCaster != nullptr)
 	{
-		m_currentCaster->castParticleSystem();
-		m_renderer->update();
-		m_renderer->repaint();
+		while(true)
+		{ 
+			m_currentCaster->castParticleSystem();
+			m_renderer->update();
+			m_renderer->repaint();
+		}
 	}
 	else
 	{
@@ -125,6 +130,17 @@ void MainWindow::on_pushButton_GraphRun_clicked() const
 	{
 
 	}
+}
+
+void MainWindow::on_comboBox_CastingSetup_activated()
+{
+	
+	setCurrentCaster(m_casters->find(ui.comboBox_CastingSetup->currentText().toStdString()));
+}
+
+void MainWindow::on_comboBox_GraphSetup_activated()
+{
+	setCurrentGraphGenerator(m_generators->find(ui.comboBox_GraphSetup->currentText().toStdString()));
 }
 
 void MainWindow::setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster)

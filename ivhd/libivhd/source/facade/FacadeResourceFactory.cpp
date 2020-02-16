@@ -9,6 +9,7 @@
 #include "facade/FacadeParserCSV.h"
 #include "facade/FacadeGraphGeneratorKDTree.h"
 #include "facade/FacadeGraphGeneratorBruteForce.h"
+#include "facade/FacadeCasterMDS.h"
 
 namespace ivhd::facade
 {
@@ -53,9 +54,9 @@ namespace ivhd::facade
 		{
 			caster = std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
-		else if (type == CasterType::Mds)
+		else if (type == CasterType::MDS)
 		{
-			//caster = std::make_shared<facade::FacadeCasterMDS>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			caster = std::make_shared<facade::FacadeCasterMDS>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
 		
 		return caster;

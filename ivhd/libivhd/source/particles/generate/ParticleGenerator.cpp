@@ -45,7 +45,6 @@ namespace ivhd::particles::generate
 			v = glm::linearRand(m_minVel, m_maxVel);
 
 			r = v * sinf(phi);
-			data->m_vel[i].z = v * cosf(phi);
 			data->m_vel[i].x = r * cosf(theta);
 			data->m_vel[i].y = r * sinf(theta);
 		}
