@@ -36,6 +36,22 @@ namespace ivhd::particles
 		}
 	}
 
+	void ParticleSystem::resetForces()
+	{
+		for(auto i = 0; i < countParticles(); i++)
+		{
+			m_particles.m_force[i] = glm::vec4{ 0.0f, 0.0f,0.0f, 0.0f };
+		}
+	}
+
+	void ParticleSystem::resetVelocities()
+	{
+		for (auto i = 0; i < countParticles(); i++)
+		{
+			m_particles.m_vel[i] = glm::vec4{ 0.0f, 0.0f,0.0f, 0.0f };
+		}
+	}
+	
 	void ParticleSystem::clear()
 	{
 		if (!m_originalDataset.empty() && !m_particles.empty())
@@ -48,13 +64,7 @@ namespace ivhd::particles
 	bool ParticleSystem::empty()
 	{
 		return (m_originalDataset.empty() && m_particles.empty()) ? true : false;
-	}
-
-
-	void ParticleSystem::setMetric(MetricType type)
-	{
-		m_currentMetric = type;
-	}
+	}	
 
 	float ParticleSystem::vectorDistance(size_t i, size_t j)
 	{

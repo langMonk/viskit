@@ -29,7 +29,7 @@ protected:
 	void paintGL() override;
 
 public:
-	void onKeyPressedEvent(QKeyEvent* event);
+	void onKeyPressedEvent(QKeyEvent* event) override;
 
 protected slots:
 	void destroy() override;
@@ -52,7 +52,7 @@ private:
 
 	ivhd::IParticleSystem* m_particleSystem;
 
-	void printVersionInformation();
+	void printVersionInformation() const;
 
 	friend class MainWindow;
 };

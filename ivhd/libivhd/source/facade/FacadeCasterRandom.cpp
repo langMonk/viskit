@@ -8,9 +8,8 @@
 namespace ivhd::facade
 {
 	FacadeCasterRandom::FacadeCasterRandom(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
-		: FacadeCaster(core)
+		: FacadeCaster(core, ps)
 		, m_internalCaster(std::make_shared<ivhd::embed::cast::CasterRandom>(core->system(), ps))
-		, m_ext_particleSystem(ps)
 	{
 	}
 
