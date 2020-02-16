@@ -58,6 +58,7 @@ namespace ivhd::particles
 		{
 			m_originalDataset.clear();
 			m_particles.clear();
+			m_neighbourhoodGraph.clear();
 		}
 	}
 
@@ -68,8 +69,9 @@ namespace ivhd::particles
 
 	float ParticleSystem::vectorDistance(size_t i, size_t j)
 	{
-		float ret = std::inner_product(m_originalDataset[i].first.begin(), m_originalDataset[i].first.end(),
-				m_originalDataset[j].first.begin(), 0.0f, std::plus<float>(), DiffSquared <float>());
+		const auto ret = std::inner_product(m_originalDataset[i].first.begin(), m_originalDataset[i].first.end(),
+		                                    m_originalDataset[j].first.begin(), 0.0f, std::plus<float>(),
+		                                    DiffSquared<float>());
 
 		return ret > 0.0f ? sqrt(ret) : 0.0f;
 	}
