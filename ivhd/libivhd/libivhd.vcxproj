@@ -69,11 +69,8 @@
     <ClInclude Include="include\math\IvhdMath.h" />
     <ClInclude Include="include\parse\Parser.h" />
     <ClInclude Include="include\parse\ParserCSV.h" />
-    <ClInclude Include="include\particles\emit\ParticleEmitter.h" />
-    <ClInclude Include="include\particles\generate\ParticleGenerator.h" />
     <ClInclude Include="include\particles\ParticleData.h" />
     <ClInclude Include="include\particles\ParticleSystem.h" />
-    <ClInclude Include="include\particles\update\ParticleUpdater.h" />
     <ClInclude Include="include\threading\ThreadPool.h" />
     <ClInclude Include="include\utils\RandomColor.h" />
     <ClInclude Include="include\utils\Math.h" />
@@ -106,11 +103,8 @@
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
     <ClCompile Include="source\parse\Parser.cpp" />
     <ClCompile Include="source\parse\ParserCSV.cpp" />
-    <ClCompile Include="source\particles\emit\ParticleEmitter.cpp" />
-    <ClCompile Include="source\particles\generate\ParticleGenerator.cpp" />
     <ClCompile Include="source\particles\ParticleData.cpp" />
     <ClCompile Include="source\particles\ParticleSystem.cpp" />
-    <ClCompile Include="source\particles\update\ParticleUpdater.cpp" />
     <ClCompile Include="source\utils\RandomColor.cpp" />
     <ClCompile Include="source\utils\TimeProfiler.cpp" />
   </ItemGroup>

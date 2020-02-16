@@ -34,7 +34,7 @@ namespace libivhd_test
 		core::Core core{ handler };
 		parse::ParserCSV parser{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
-		generate::BruteForce generator{ particleSystem };
+		generate::BruteForce generator{ core.system(), particleSystem };
 
 		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);

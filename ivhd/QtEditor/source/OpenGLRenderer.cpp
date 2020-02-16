@@ -43,7 +43,7 @@ void OpenGLRenderer::initializeGL()
 	m_program.uniform1i("tex", 0);
 	m_program.disable();
 
-	size_t count = m_particleSystem->countAlive();
+	const auto count = m_particleSystem->countAlive();
 	auto positions = m_particleSystem->positions();
 	auto colors = m_particleSystem->colors();
 
@@ -55,7 +55,7 @@ void OpenGLRenderer::initializeGL()
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
 
 	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), positions.data(), GL_STREAM_DRAW);
-	GLint position_attribute = glGetAttribLocation(m_program.getId(), "vPosition");
+	const auto position_attribute = glGetAttribLocation(m_program.getId(), "vPosition");
 	glVertexAttribPointer(position_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(position_attribute);
 
@@ -64,7 +64,7 @@ void OpenGLRenderer::initializeGL()
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
 
 	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), colors.data(), GL_STREAM_DRAW);
-	GLint color_attribute = glGetAttribLocation(m_program.getId(), "vColor");
+	const auto color_attribute = glGetAttribLocation(m_program.getId(), "vColor");
 	glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(color_attribute);
 
@@ -74,13 +74,13 @@ void OpenGLRenderer::initializeGL()
 
 void OpenGLRenderer::resizeGL(int width, int height)
 {
-	float aspect = static_cast<float>(width / height);
+	const auto aspect = static_cast<float>(width / height);
 
 	// Set the viewport to be the entire window
 	glViewport(0, 0, width, height);
 
 	// setup projection matrix
-	camera.projectionMatrix = glm::perspective(45.0f, aspect, 0.1f, 1000.0f);
+	camera.projectionMatrix = glm::perspective(45.0f, aspect, 0.1f, 3500.0f);
 }
 
 void OpenGLRenderer::paintGL()
@@ -97,6 +97,8 @@ void OpenGLRenderer::paintGL()
 	m_program.use();
 	m_program.uniformMatrix4f("matProjection", glm::value_ptr(camera.projectionMatrix));
 	m_program.uniformMatrix4f("matModelview", glm::value_ptr(camera.modelviewMatrix));
+	m_program.uniform2f("screenSize", 800,600);
+	m_program.uniform1f("spriteSize", 20.0f);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -125,11 +127,11 @@ void OpenGLRenderer::onKeyPressedEvent(QKeyEvent* event)
 {
 	if (event->key() == Qt::Key_W)
 	{
-		camera.camDistance -= 0.1f;
+		camera.camDistance -= 1.0f;
 	}
 	else if (event->key() == Qt::Key_S)
 	{
-		camera.camDistance += 0.1f;
+		camera.camDistance += 1.0f;
 	}
 	else if (event->key() == Qt::Key_A)
 	{
@@ -166,30 +168,26 @@ void OpenGLRenderer::destroy()
 
 void OpenGLRenderer::update()
 {
-	size_t count = m_particleSystem->countAlive();
+	const size_t count = m_particleSystem->countAlive();
 	if (count > 0)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
-		float* ptr = (float*)(m_particleSystem->positions().data());
+		float* ptr = reinterpret_cast<float*>(m_particleSystem->positions().data());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
-		ptr = (float*)(m_particleSystem->colors().data());
+		ptr = reinterpret_cast<float*>(m_particleSystem->colors().data());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 }
 
-void OpenGLRenderer::printVersionInformation()
+void OpenGLRenderer::printVersionInformation() const
 {
-	QString glType;
-	QString glVersion;
 	QString glProfile;
-
-
-	glType = reinterpret_cast<const char*>(glGetString(GL_TYPE));
-	glVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION));
+	const QString glType = reinterpret_cast<const char*>(glGetString(GL_TYPE));
+	const QString glVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION));
 
 #define CASE(c) case QSurfaceFormat::c: glProfile = #c; break
 	switch (format().profile())

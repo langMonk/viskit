@@ -20,7 +20,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCaster(std::shared_ptr<core::Core> core);
+		explicit FacadeCaster(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
 		~FacadeCaster() = default;
 
 		FacadeCaster(const FacadeCaster&) = delete;
@@ -32,5 +32,7 @@ namespace ivhd::facade
 		// protected members
 	protected:
 		std::shared_ptr<core::Core> m_ext_core;
+		
+		particles::ParticleSystem& m_ext_particleSystem;
 	};
 }

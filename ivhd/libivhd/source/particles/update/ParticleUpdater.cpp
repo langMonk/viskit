@@ -4,10 +4,10 @@ namespace ivhd::particles::update
 {
 	void EulerUpdater::update(double dt, ParticleData* data)
 	{
-		const glm::vec4 globalA{ dt * m_globalAcceleration.x,
+		const glm::vec2 globalA{ dt * m_globalAcceleration.x,
 							 dt * m_globalAcceleration.y,
-							 dt * m_globalAcceleration.z,
-							 0.0 };
+		};
+	
 		const float localDT = (float)dt;
 
 		const unsigned int endId = static_cast<unsigned int>(data->m_countAlive);
@@ -30,14 +30,14 @@ namespace ivhd::particles::update
 		{
 			if (data->m_pos[i].y < m_floorY)
 			{
-				glm::vec4 force = data->m_acc[i];
-				float normalFactor = glm::dot(force, glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));
+				glm::vec2 force = data->m_acc[i];
+				float normalFactor = glm::dot(force, glm::vec2(0.0f, 1.0f));
 				if (normalFactor < 0.0f)
-					force -= glm::vec4(0.0f, 1.0f, 0.0f, 0.0f) * normalFactor;
+					force -= glm::vec2(0.0f, 1.0f) * normalFactor;
 
-				float velFactor = glm::dot(data->m_vel[i], glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));
+				float velFactor = glm::dot(data->m_vel[i], glm::vec2(0.0f, 1.0f));
 				//if (velFactor < 0.0)
-				data->m_vel[i] -= glm::vec4(0.0f, 1.0f, 0.0f, 0.0f) * (1.0f + m_bounceFactor) * velFactor;
+				data->m_vel[i] -= glm::vec2(0.0f, 1.0f) * (1.0f + m_bounceFactor) * velFactor;
 
 				data->m_acc[i] = force;
 			}
@@ -99,7 +99,6 @@ namespace ivhd::particles::update
 		{
 			scaler = (data->m_vel[i].x - m_minVel.x) / diffr;
 			scaleg = (data->m_vel[i].y - m_minVel.y) / diffg;
-			scaleb = (data->m_vel[i].z - m_minVel.z) / diffb;
 			data->m_col[i].r = scaler;// glm::mix(data->m_startCol[i].r, data->m_endCol[i].r, scaler);
 			data->m_col[i].g = scaleg;// glm::mix(data->m_startCol[i].g, data->m_endCol[i].g, scaleg);
 			data->m_col[i].b = scaleb;// glm::mix(data->m_startCol[i].b, data->m_endCol[i].b, scaleb);

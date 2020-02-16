@@ -19,7 +19,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterMDS(std::shared_ptr<core::Core> core);
+		explicit FacadeCasterMDS(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
 		~FacadeCasterMDS() = default;
 
 		FacadeCasterMDS(const FacadeCasterMDS&) = delete;
@@ -36,6 +36,6 @@ namespace ivhd::facade
 
 		// private members
 	private:
-		std::shared_ptr<ivhd::embed::cast::CasterMDS> m_internalCaster;
+		std::shared_ptr<embed::cast::CasterMDS> m_internalCaster;
 	};
 }
