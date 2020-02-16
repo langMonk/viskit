@@ -7,7 +7,6 @@ namespace ivhd::particles
 	void ParticleData::generate(size_t maxSize)
 	{
 		m_count = maxSize;
-		m_countAlive = 0;
 
 		m_pos.resize(maxSize);
 		m_acc.resize(maxSize);
