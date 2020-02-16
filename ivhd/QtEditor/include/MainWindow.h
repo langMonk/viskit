@@ -44,6 +44,8 @@ private slots:
 	void on_pushButton_Exit_clicked();
 	void on_pushButton_CastingRun_clicked() const;
 	void on_pushButton_GraphRun_clicked() const;
+	void on_comboBox_CastingSetup_activated();
+	void on_comboBox_GraphSetup_activated();
 
 	// Qt resources
 private:

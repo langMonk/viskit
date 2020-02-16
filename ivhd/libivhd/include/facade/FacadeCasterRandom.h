@@ -36,8 +36,6 @@ namespace ivhd::facade
 
 		// private members
 	private:
-		std::shared_ptr<ivhd::embed::cast::CasterRandom> m_internalCaster;
-		
-		particles::ParticleSystem& m_ext_particleSystem;
+		std::shared_ptr<embed::cast::CasterRandom> m_internalCaster;
 	};
 }
