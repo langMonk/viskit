@@ -40,12 +40,12 @@ void MainWindow::initializeIVHDResources()
 	m_generators = ivhd::createResourceCollection<ivhd::IGraphGenerator>();
 
 	// add resources to collections
-	auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
-	auto casterMDS = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::MDS);
+	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
+	const auto casterMDS = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::MDS);
 	m_casters->add("Random", casterRandom);
 	m_casters->add("MDS", casterMDS);
 
-	auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
+	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
 	m_generators->add("Brute Force", bruteGenerator);
 
 	// set default resources
@@ -101,21 +101,33 @@ void MainWindow::on_pushButton_Exit_clicked()
 	close();
 }
 
-void MainWindow::on_pushButton_CastingRun_clicked() const
+void MainWindow::on_pushButton_CastingRun_clicked()
 {
 	if (m_currentCaster != nullptr)
 	{
-		while (true)
+		m_ivhd->currentCaster(m_currentCaster);
+		m_ivhd->subscribeOnCastingStepFinish([&]()
 		{
-			m_currentCaster->castParticleSystem();
-			m_renderer->update();
-			m_renderer->repaint();
-		}
+
+		});
+
+		m_ivhd->startCasting();
+		m_running = true;
 	}
 	else
 	{
 
 	}
+}
+
+void MainWindow::on_pushButton_CastingStop_clicked()
+{
+	if(m_running)
+	{
+		m_ivhd->stopCasting();
+	}
+
+	m_running = false;
 }
 
 void MainWindow::on_pushButton_GraphRun_clicked() const
