@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "core/Core.h"
 #include "ivhd/IInteractiveVizualization.h"
 #include "ivhd/InteractiveVizualizationBuilder.h"
@@ -43,6 +45,8 @@ namespace ivhd::facade
 		void stopCasting() override;
 
 		void pauseCasting() override;
+
+		std::vector<std::pair<float, float>> calculateBoundingBox() override;
 		
 		//private properties
 	private:
