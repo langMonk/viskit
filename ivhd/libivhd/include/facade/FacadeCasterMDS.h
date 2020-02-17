@@ -6,7 +6,6 @@
 #pragma once
 
 #include "facade/FacadeCaster.h"
-#include "ivhd/IParticleSystem.h"
 #include "embed/cast/CasterMDS.h"
 
 namespace ivhd::facade

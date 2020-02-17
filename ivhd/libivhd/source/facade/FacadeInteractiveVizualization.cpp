@@ -1,5 +1,5 @@
 #include "facade\FacadeInteractiveVizualization.h"
-#include <exception>
+#include <vector>
 
 namespace ivhd::facade
 {
@@ -48,6 +48,14 @@ namespace ivhd::facade
 	void FacadeInteractiveVizualization::pauseCasting()
 	{
 		m_castingRunning = false;
+	}
+
+	std::vector<std::pair<float, float>> FacadeInteractiveVizualization::calculateBoundingBox()
+	{
+		std::vector<std::pair<float, float>> vec;
+		const auto pair = std::pair < float, float >(0.0f, 0.0f);
+		vec.push_back(pair);
+		return vec;
 	}
 
 	IParticleSystem& FacadeInteractiveVizualization::particleSystem()

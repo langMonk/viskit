@@ -23,10 +23,12 @@
     <ClInclude Include="include\core\Logger.h" />
     <ClInclude Include="include\core\System.h" />
     <ClInclude Include="include\embed\cast\Caster.h" />
+    <ClInclude Include="include\embed\cast\CasterAB.h" />
     <ClInclude Include="include\embed\cast\CasterMDS.h" />
     <ClInclude Include="include\embed\cast\CasterRandom.h" />
     <ClInclude Include="include\embed\cast\ICaster.h" />
     <ClInclude Include="include\facade\FacadeCaster.h" />
+    <ClInclude Include="include\facade\FacadeCasterAB.h" />
     <ClInclude Include="include\facade\FacadeCasterMDS.h" />
     <ClInclude Include="include\facade\FacadeCasterRandom.h" />
     <ClInclude Include="include\facade\FacadeGraph.h" />
@@ -81,9 +83,11 @@
     <ClCompile Include="source\core\Logger.cpp" />
     <ClCompile Include="source\core\System.cpp" />
     <ClCompile Include="source\embed\cast\Caster.cpp" />
+    <ClCompile Include="source\embed\cast\CasterAB.cpp" />
     <ClCompile Include="source\embed\cast\CasterMDS.cpp" />
     <ClCompile Include="source\embed\cast\CasterRandom.cpp" />
     <ClCompile Include="source\facade\FacadeCaster.cpp" />
+    <ClCompile Include="source\facade\FacadeCasterAB.cpp" />
     <ClCompile Include="source\facade\FacadeCasterMDS.cpp" />
     <ClCompile Include="source\facade\FacadeCasterRandom.cpp" />
     <ClCompile Include="source\facade\FacadeGraph.cpp" />

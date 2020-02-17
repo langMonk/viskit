@@ -47,6 +47,12 @@ namespace ivhd
 		/// Pause casting process.
 		/// </summary>
 		virtual void pauseCasting() = 0;
+
+		/// <summary>
+		/// Calculate min and max values for Bounding Box.
+		/// </summary>
+		/// </return> Vector of pairs, where min x,y are first and max x,y second values
+		virtual std::vector<std::pair<float, float>> calculateBoundingBox() = 0;
 		
 		/// <summary>
 		/// Sets caster that is currently used.
