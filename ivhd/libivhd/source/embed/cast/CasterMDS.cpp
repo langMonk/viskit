@@ -105,6 +105,8 @@ namespace ivhd::embed::cast
 		// calculate forces
 		//-------------------------------------------------------------
 
+		auto& awake = m_ext_particleSystem.calculationData()->m_alive;
+
 		float de = 0.1f;
 		for (auto i = 0; i < m_ext_graph.neighborsCount(); i++)
 		{
@@ -112,7 +114,6 @@ namespace ivhd::embed::cast
 			const size_t pi = element.i;
 			const size_t pj = element.j;
 
-			auto& awake = m_ext_particleSystem.calculationData()->m_alive;
 
 			if (awake[pi] && awake[pj])
 			{
