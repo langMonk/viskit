@@ -3,7 +3,7 @@
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
@@ -70,7 +70,7 @@ void MainWindow::initializeEditorElements()
 void MainWindow::on_pushButton_Open_clicked()
 {
 	ivhd::IParticleSystem& particleSystem = m_ivhd->particleSystem();
-	
+
 	if (!particleSystem.empty())
 	{
 		particleSystem.clear();
@@ -105,8 +105,8 @@ void MainWindow::on_pushButton_CastingRun_clicked() const
 {
 	if (m_currentCaster != nullptr)
 	{
-		while(true)
-		{ 
+		while (true)
+		{
 			m_currentCaster->castParticleSystem();
 			m_renderer->update();
 			m_renderer->repaint();
@@ -114,7 +114,7 @@ void MainWindow::on_pushButton_CastingRun_clicked() const
 	}
 	else
 	{
-		
+
 	}
 }
 
@@ -122,9 +122,10 @@ void MainWindow::on_pushButton_GraphRun_clicked() const
 {
 	if (m_currentGraphGenerator != nullptr)
 	{
-		m_currentGraphGenerator->generate(3, 0, 1);
-		ivhd::IGraph& graph = m_ivhd->particleSystem().kNNGraph();
-		graph.dump("D:\\Repositories\\ivhd", "kNN_BruteForce");
+		if (true)
+		{
+			m_currentGraphGenerator->generate(3, 0, 1);
+		}
 	}
 	else
 	{
@@ -134,7 +135,7 @@ void MainWindow::on_pushButton_GraphRun_clicked() const
 
 void MainWindow::on_comboBox_CastingSetup_activated()
 {
-	
+
 	setCurrentCaster(m_casters->find(ui.comboBox_CastingSetup->currentText().toStdString()));
 }
 

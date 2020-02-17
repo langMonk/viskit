@@ -1,6 +1,6 @@
 #version 450 core
 
-uniform mat4x4 matModelview;
+uniform mat4x4 matModelView;
 uniform mat4x4 matProjection;
 
 layout(location = 0) in vec4 vPosition;
@@ -10,7 +10,7 @@ flat out vec4 outColor;
  
 void main()
 {
-	vec4 eyePos = matModelview * vPosition;
+	vec4 eyePos = matModelView * vPosition;
     gl_Position = matProjection * eyePos;
 
 	outColor = vColor;

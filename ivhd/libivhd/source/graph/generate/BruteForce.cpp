@@ -7,19 +7,26 @@
 #include "utils/Math.h"
 
 namespace ivhd::graph::generate
-{ 
+{
 
 	BruteForce::BruteForce(core::System& system, particles::ParticleSystem& ps)
 		: GraphGenerator(system, ps)
-		, m_distancesEqualOne(true)
 		, m_graph(&ps.neighbourhoodGraph())
 	{
 	}
 
 	void BruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors)
 	{
+		// if there is cached graph for this dataset, then just load it and return from this method
+		auto path = m_ext_particleSystem.datasetInfo().path + m_ext_particleSystem.datasetInfo().fileName;
+		if (m_graph->loadFromCache(path))
+		{
+			m_ext_system.logger().logInfo("[BruteForce Generator] kNN Graph loaded from cache.");
+			return;
+		}
+
 		m_ext_system.logger().logInfo("[BruteForce Generator] Generating kNN Graph...");
-	
+
 		Neighbors* near = new Neighbors[nearestNeighbors + 1];
 		Neighbors* far = new Neighbors[furthestNeighbors + 1];
 		Neighbors* rand = new Neighbors[randomNeighbors + 1];
@@ -32,9 +39,9 @@ namespace ivhd::graph::generate
 				reset_tmp_dist_matrix(near, std::numeric_limits<float>::max(), nearestNeighbors);
 				reset_tmp_dist_matrix(far, -1.0f, furthestNeighbors);
 
-				for (size_t j = 0; j< m_ext_particleSystem.countAwakeParticles(); j++)
+				for (size_t j = 0; j < m_ext_particleSystem.countAwakeParticles(); j++)
 				{
-					if(i!=j)
+					if (i != j)
 					{
 						const auto distance = m_ext_particleSystem.vectorDistance(i, j);
 						add_min_dist(near, nearestNeighbors, distance, i, j, true);
@@ -45,7 +52,7 @@ namespace ivhd::graph::generate
 				add_to_dist_matrix(near, nearestNeighbors);
 				add_to_dist_matrix(far, furthestNeighbors);
 			}
-		}	
+		}
 
 		// random neighbors
 		if (randomNeighbors)
@@ -89,7 +96,8 @@ namespace ivhd::graph::generate
 			}
 		}
 
-		m_ext_system.logger().logInfo("[BruteForce Generator] Finished.");
+		m_graph->saveToCache(path);
+		m_ext_system.logger().logInfo("[BruteForce Generator] Finished. Graph cached.");
 	}
 
 	void BruteForce::useCache(bool useCache)
