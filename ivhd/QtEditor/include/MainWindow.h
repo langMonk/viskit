@@ -1,5 +1,5 @@
 #pragma once
- 
+
 #include <ivhd/InteractiveVizualizationBuilder.h>
 #include <ivhd/IParser.h>
 #include <ivhd/ICaster.h>
@@ -27,8 +27,8 @@ public:
 		return s;
 	}
 
-	ivhd::IParticleSystem& particleSystem() const { return m_ivhd->particleSystem(); }
-	
+	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return m_ivhd->particleSystem(); }
+
 	void setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster);
 	void setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator);
 
@@ -59,7 +59,7 @@ private:
 	// IVHD collections and current resources
 	std::shared_ptr<ivhd::IResourceCollection<ivhd::ICaster>> m_casters;
 	std::shared_ptr<ivhd::IResourceCollection<ivhd::IGraphGenerator>> m_generators;
-	
-	std::shared_ptr<ivhd::ICaster> m_currentCaster { nullptr };
-	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator { nullptr };
+
+	std::shared_ptr<ivhd::ICaster> m_currentCaster{ nullptr };
+	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator{ nullptr };
 };

@@ -27,6 +27,13 @@ namespace ivhd::particles
 	using Color = glm::vec4;
 	using Dataset = std::vector<std::pair<DataPoint, DataPointLabel>>;
 
+	struct DatasetInfo
+	{
+		std::string path;
+		std::string fileName;
+		size_t count{};
+	};
+
 	enum class MetricType { Euclidean, Cosine };
 
 	class ParticleSystem
@@ -34,7 +41,7 @@ namespace ivhd::particles
 		// public construction and destruction methods
 	public:
 		explicit ParticleSystem(core::System& system);
-		~ParticleSystem(){}
+		~ParticleSystem() {}
 
 		ParticleSystem(const ParticleSystem&) = delete;
 		ParticleSystem& operator=(const ParticleSystem&) = delete;
@@ -42,39 +49,43 @@ namespace ivhd::particles
 		// public methods
 	public:
 		virtual size_t countParticles() const { return m_particles.m_count; }
-		
+
 		virtual size_t countAwakeParticles() const { return m_particles.m_countAlive; }
-		
+
 		void setDataset(Dataset dataset, std::vector<DataPointLabel> labels);
 
 		void resetForces();
 
 		void resetVelocities();
-		
+
 		void clear();
-		
+
 		bool empty();
 
 		// public getters and setters
 	public:
 		Dataset& originalCoordinates() { return m_originalDataset; }
-		
+
 		MetricType* currentMetric() { return &m_currentMetric; };
-		
+
 		ParticleData* calculationData() { return &m_particles; }
-		
+
 		Graph& neighbourhoodGraph() { return m_neighbourhoodGraph; }
-		
+
 		void setMetric(MetricType type) { m_currentMetric = type; };
 
 		size_t step() { return m_step; }
 
 		void increaseStep() { m_step++; }
-		
+
+		[[nodiscard]] DatasetInfo datasetInfo() const { return m_datasetFileName; }
+
+		void datasetInfo(DatasetInfo info) { m_datasetFileName = info; }
+
 		// add emitters, casters, etc.
 	public:
 		void addEmitter(std::shared_ptr<emit::ParticleEmitter> em) { m_emitters.push_back(em); }
-		
+
 		void addUpdater(std::shared_ptr<update::ParticleUpdater> up) { m_updaters.push_back(up); }
 
 		// add emitters, casters, etc.
@@ -101,12 +112,14 @@ namespace ivhd::particles
 
 		std::map<DataPointLabel, Color> m_colorsMap;
 
+		DatasetInfo m_datasetFileName;
+
 		std::vector<std::shared_ptr<emit::ParticleEmitter>> m_emitters;
-		
+
 		std::vector<std::shared_ptr<update::ParticleUpdater>> m_updaters;
 
 		MetricType m_currentMetric;
 
-		size_t m_step {0};
+		size_t m_step{ 0 };
 	};
 }
