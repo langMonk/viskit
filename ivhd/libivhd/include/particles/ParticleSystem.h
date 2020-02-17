@@ -5,15 +5,12 @@
 
 #pragma once
 
-#include <memory>
 #include <vector>
 #include <map>
+#include <mutex>
 
 #include "core/System.h"
 #include "particles/ParticleData.h"
-#include "particles/generate/ParticleGenerator.h"
-#include "particles/emit/ParticleEmitter.h"
-#include "particles/update/ParticleUpdater.h"
 #include "graph/Graph.h"
 #include "ivhd/Structures.h"
 #include "utils/RandomColor.h"
@@ -48,9 +45,9 @@ namespace ivhd::particles
 
 		// public methods
 	public:
-		virtual size_t countParticles() const { return m_particles.m_count; }
+		virtual size_t countParticles();
 
-		virtual size_t countAwakeParticles() const { return m_particles.m_countAlive; }
+		virtual size_t countAwakeParticles();
 
 		void setDataset(Dataset dataset, std::vector<DataPointLabel> labels);
 
@@ -68,7 +65,7 @@ namespace ivhd::particles
 
 		MetricType* currentMetric() { return &m_currentMetric; };
 
-		ParticleData* calculationData() { return &m_particles; }
+		ParticleData* calculationData();
 
 		Graph& neighbourhoodGraph() { return m_neighbourhoodGraph; }
 
@@ -81,12 +78,6 @@ namespace ivhd::particles
 		[[nodiscard]] DatasetInfo datasetInfo() const { return m_datasetFileName; }
 
 		void datasetInfo(DatasetInfo info) { m_datasetFileName = info; }
-
-		// add emitters, casters, etc.
-	public:
-		void addEmitter(std::shared_ptr<emit::ParticleEmitter> em) { m_emitters.push_back(em); }
-
-		void addUpdater(std::shared_ptr<update::ParticleUpdater> up) { m_updaters.push_back(up); }
 
 		// add emitters, casters, etc.
 	public:
@@ -114,12 +105,10 @@ namespace ivhd::particles
 
 		DatasetInfo m_datasetFileName;
 
-		std::vector<std::shared_ptr<emit::ParticleEmitter>> m_emitters;
-
-		std::vector<std::shared_ptr<update::ParticleUpdater>> m_updaters;
-
 		MetricType m_currentMetric;
 
 		size_t m_step{ 0 };
+
+		std::mutex m_lock;
 	};
 }

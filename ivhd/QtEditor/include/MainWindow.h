@@ -42,7 +42,8 @@ private:
 private slots:
 	void on_pushButton_Open_clicked();
 	void on_pushButton_Exit_clicked();
-	void on_pushButton_CastingRun_clicked() const;
+	void on_pushButton_CastingRun_clicked();
+	void on_pushButton_CastingStop_clicked();
 	void on_pushButton_GraphRun_clicked() const;
 	void on_comboBox_CastingSetup_activated();
 	void on_comboBox_GraphSetup_activated();
@@ -51,6 +52,8 @@ private slots:
 private:
 	Ui::MainWindow ui;
 	OpenGLRenderer* m_renderer{ nullptr };
+
+	bool m_running{ false };
 
 	// IVHD resources
 private:
@@ -62,4 +65,5 @@ private:
 
 	std::shared_ptr<ivhd::ICaster> m_currentCaster{ nullptr };
 	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator{ nullptr };
+
 };
