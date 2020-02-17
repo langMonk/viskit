@@ -7,6 +7,7 @@
 
 #include "Logger.h"
 #include "System.h"
+#include "threading/ThreadPool.h"
 
 namespace ivhd::core
 {
@@ -22,8 +23,13 @@ namespace ivhd::core
 
 		System& system() { return m_system; }
 
+		void enqueueToThreadPool(std::function<void()> task);
+
 	private:
 		OnLogAdded m_logHandler;
 		System m_system;
+		
+		threading::ThreadPool m_threadPool;
+		std::mutex m_lock;
 	};
 }

@@ -34,6 +34,8 @@ namespace ivhd::facade
 
 		void castParticle(size_t index) override;
 
+		CasterType type() override { return CasterType::Random; }
+
 		// private members
 	private:
 		std::shared_ptr<embed::cast::CasterRandom> m_internalCaster;
