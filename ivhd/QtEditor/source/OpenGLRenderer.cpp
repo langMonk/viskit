@@ -1,21 +1,21 @@
 #include "QKeyEvent"
+#include "QTimer"
 #include "OpenGLRenderer.h"
 
 OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 {
 	m_particleSystem = &MainWindow::instance()->particleSystem();
-}
-
-void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
-{
-
+	m_timer = new QTimer(this);
+	connect(m_timer, SIGNAL(timeout()), this, SLOT(repaint()));
+	m_timer->start(50);
 }
 
 void OpenGLRenderer::initializeGL()
 {
 	glewInit();
 	printVersionInformation();
-
+	
+	
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
@@ -103,6 +103,7 @@ void OpenGLRenderer::paintGL()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
+	update();
 	render();
 
 	glDisable(GL_BLEND);

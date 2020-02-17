@@ -17,6 +17,18 @@ namespace ivhd::particles
 		
 	}
 
+	size_t ParticleSystem::countParticles()
+	{
+		std::scoped_lock lock{ m_lock };
+		return m_particles.m_count;
+	}
+
+	size_t ParticleSystem::countAwakeParticles()
+	{
+		std::scoped_lock lock{ m_lock };
+		return m_particles.m_countAlive;
+	}
+	
 	void ParticleSystem::setDataset(Dataset dataset, std::vector<DataPointLabel> labels)
 	{
 		utils::RandomColor color;
@@ -65,7 +77,13 @@ namespace ivhd::particles
 	bool ParticleSystem::empty()
 	{
 		return (m_originalDataset.empty() && m_particles.empty()) ? true : false;
-	}	
+	}
+
+	ParticleData* ParticleSystem::calculationData()
+	{
+		std::scoped_lock lock{ m_lock };
+		return &m_particles;
+	}
 
 	float ParticleSystem::vectorDistance(size_t i, size_t j)
 	{
