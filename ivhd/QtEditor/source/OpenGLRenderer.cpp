@@ -8,7 +8,7 @@ OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 
 void OpenGLRenderer::generate(std::shared_ptr<ivhd::IParticleSystem> sys)
 {
-	
+
 }
 
 void OpenGLRenderer::initializeGL()
@@ -26,7 +26,7 @@ void OpenGLRenderer::initializeGL()
 	camera.cameraDir[1] = 0.0f;
 	camera.cameraDir[2] = 1.0f;
 	camera.camDistance = 1.0f;
-	
+
 	if (!shaderLoader::loadAndBuildShaderPairFromFile(&m_program, "shaders/vertexShader.vert", "shaders/fragmentShader.frag"))
 	{
 		qDebug() << "Shader not working!";
@@ -38,7 +38,7 @@ void OpenGLRenderer::initializeGL()
 	}
 
 	glEnable(GL_POINT_SPRITE);
-	
+
 	m_program.use();
 	m_program.uniform1i("tex", 0);
 	m_program.disable();
@@ -56,7 +56,7 @@ void OpenGLRenderer::initializeGL()
 
 	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), positions.data(), GL_STREAM_DRAW);
 	const auto position_attribute = glGetAttribLocation(m_program.getId(), "vPosition");
-	glVertexAttribPointer(position_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(position_attribute, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(position_attribute);
 
 	// Color VBO
@@ -65,7 +65,7 @@ void OpenGLRenderer::initializeGL()
 
 	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), colors.data(), GL_STREAM_DRAW);
 	const auto color_attribute = glGetAttribLocation(m_program.getId(), "vColor");
-	glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(color_attribute);
 
 	glBindVertexArray(0);
@@ -96,15 +96,15 @@ void OpenGLRenderer::paintGL()
 
 	m_program.use();
 	m_program.uniformMatrix4f("matProjection", glm::value_ptr(camera.projectionMatrix));
-	m_program.uniformMatrix4f("matModelview", glm::value_ptr(camera.modelviewMatrix));
-	m_program.uniform2f("screenSize", 800,600);
+	m_program.uniformMatrix4f("matModelView", glm::value_ptr(camera.modelviewMatrix));
+	m_program.uniform2f("screenSize", 800, 600);
 	m_program.uniform1f("spriteSize", 20.0f);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	render();
-	
+
 	glDisable(GL_BLEND);
 
 	m_program.disable();
@@ -141,7 +141,7 @@ void OpenGLRenderer::onKeyPressedEvent(QKeyEvent* event)
 	{
 		camera.cameraDir.x += 0.1f;
 	}
-	
+
 	QWidget::update();
 }
 
@@ -168,15 +168,17 @@ void OpenGLRenderer::destroy()
 
 void OpenGLRenderer::update()
 {
-	const size_t count = m_particleSystem->countAlive();
+	const auto count = m_particleSystem->countAlive();
 	if (count > 0)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
-		float* ptr = reinterpret_cast<float*>(m_particleSystem->positions().data());
+		auto pos = m_particleSystem->positions();
+		auto* ptr = reinterpret_cast<float*>(pos.data());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
-		ptr = reinterpret_cast<float*>(m_particleSystem->colors().data());
+		auto colors = m_particleSystem->colors();
+		ptr = reinterpret_cast<float*>(colors.data());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
