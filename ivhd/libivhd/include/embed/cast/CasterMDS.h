@@ -42,7 +42,7 @@ namespace ivhd::embed::cast
 	private:
 		SammonParameters m_sammonParameters;
 		distanceKernelParameters m_distanceKernelParameters;
-		graph::Graph& m_ext_graph;
+		Graph& m_ext_graph;
 		
 		int maxVelocity{ 1000 };
 		float dumpVelocity{ 0.95f };

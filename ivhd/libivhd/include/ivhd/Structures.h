@@ -107,6 +107,7 @@ namespace ivhd
 	enum class CasterType
 	{
 		MDS,
+		SGD,
 		AB,
 		DpdMds,
 		LargeVis,

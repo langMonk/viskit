@@ -267,6 +267,12 @@
     <ClInclude Include="include\facade\FacadeCasterAB.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
+    <ClInclude Include="include\embed\cast\CasterSGD.h">
+      <Filter>Header Files\embed\cast</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterSGD.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
@@ -363,6 +369,12 @@
       <Filter>Source Files\embed\cast</Filter>
     </ClCompile>
     <ClCompile Include="source\facade\FacadeCasterAB.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\CasterSGD.cpp">
+      <Filter>Source Files\embed\cast</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterSGD.cpp">
       <Filter>Source Files\facade</Filter>
     </ClCompile>
   </ItemGroup>
