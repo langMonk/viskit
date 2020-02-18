@@ -35,10 +35,11 @@ public:
 private:
 	MainWindow(QWidget* parent = Q_NULLPTR);
 	void keyPressEvent(QKeyEvent* event) override;
+	
 	void setupIVHD();
 	void initializeIVHDResources();
 	void initializeEditorElements();
-
+	
 private slots:
 	void on_pushButton_Open_clicked();
 	void on_pushButton_Exit_clicked();
@@ -48,6 +49,8 @@ private slots:
 	void on_comboBox_CastingSetup_activated();
 	void on_comboBox_GraphSetup_activated();
 	void on_actionReset_View_clicked();
+	void calculateBoundingBox();
+
 	// Qt resources
 private:
 	Ui::MainWindow ui;
@@ -57,6 +60,9 @@ private:
 
 	// IVHD resources
 private:
+	glm::vec4 bounding_box_min;
+	glm::vec4 bounding_box_max;
+	
 	std::shared_ptr<ivhd::IInteractiveVizualization> m_ivhd;
 
 	// IVHD collections and current resources
