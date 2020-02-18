@@ -7,7 +7,7 @@ OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 	m_particleSystem = &MainWindow::instance()->particleSystem();
 	m_timer = new QTimer(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(repaint()));
-	m_timer->start(50);
+	m_timer->start(100);
 }
 
 void OpenGLRenderer::initializeGL()
