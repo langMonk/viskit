@@ -1,3 +1,5 @@
+#include <glm/glm/gtc/type_ptr.hpp>
+#include "TextureLoader.h"
 #include "QKeyEvent"
 #include "QTimer"
 #include "OpenGLRenderer.h"
@@ -8,6 +10,7 @@ OpenGLRenderer::OpenGLRenderer(QWidget* parent)
 	m_timer = new QTimer(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(repaint()));
 	m_timer->start(100);
+
 }
 
 void OpenGLRenderer::initializeGL()
@@ -21,11 +24,6 @@ void OpenGLRenderer::initializeGL()
 	glEnable(GL_DEPTH_TEST);
 
 	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
-
-	camera.cameraDir[0] = 0.0f;
-	camera.cameraDir[1] = 0.0f;
-	camera.cameraDir[2] = 1.0f;
-	camera.camDistance = 1.0f;
 
 	if (!shaderLoader::loadAndBuildShaderPairFromFile(&m_program, "shaders/vertexShader.vert", "shaders/fragmentShader.frag"))
 	{
@@ -74,13 +72,8 @@ void OpenGLRenderer::initializeGL()
 
 void OpenGLRenderer::resizeGL(int width, int height)
 {
-	const auto aspect = static_cast<float>(width / height);
-
 	// Set the viewport to be the entire window
 	glViewport(0, 0, width, height);
-
-	// setup projection matrix
-	camera.projectionMatrix = glm::perspective(45.0f, aspect, 0.1f, 3500.0f);
 }
 
 void OpenGLRenderer::paintGL()
@@ -88,16 +81,20 @@ void OpenGLRenderer::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
 
-	camera.modelviewMatrix = glm::lookAt(camera.cameraDir * camera.camDistance, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	// pass projection matrix to shader (note that in this case it could change every frame)
+	glm::mat4 projectionMatrix = glm::perspective(glm::radians(m_camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 3500.0f);
+
+	// camera/view transformation
+	glm::mat4 modelViewMatrix = m_camera.GetViewMatrix();
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 	glEnable(GL_PROGRAM_POINT_SIZE);
 
 	m_program.use();
-	m_program.uniformMatrix4f("matProjection", glm::value_ptr(camera.projectionMatrix));
-	m_program.uniformMatrix4f("matModelView", glm::value_ptr(camera.modelviewMatrix));
-	m_program.uniform2f("screenSize", 800, 600);
+	m_program.uniformMatrix4f("matProjection", glm::value_ptr(projectionMatrix));
+	m_program.uniformMatrix4f("matModelView", glm::value_ptr(modelViewMatrix));
+	m_program.uniform2f("screenSize", SCR_WIDTH, SCR_HEIGHT);
 	m_program.uniform1f("spriteSize", 20.0f);
 
 	glEnable(GL_BLEND);
@@ -115,7 +112,7 @@ void OpenGLRenderer::render()
 {
 	glBindVertexArray(m_vao);
 
-	auto count = m_particleSystem->countAlive();
+	const auto count = m_particleSystem->countAlive();
 	if (count > 0)
 	{
 		glDrawArrays(GL_POINTS, 0, count);
@@ -124,23 +121,64 @@ void OpenGLRenderer::render()
 	glBindVertexArray(0);
 }
 
+void OpenGLRenderer::setBoundingBox(glm::vec4 bounding_box_min, glm::vec4 bounding_box_max)
+{
+	m_camera.Position.x = (bounding_box_min.x + bounding_box_max.x) / 2;
+	m_camera.Position.y = (bounding_box_min.y + bounding_box_max.y) / 2;
+}
+
+
+void OpenGLRenderer::mousePressEvent(QMouseEvent* event)
+{
+
+}
+
+void OpenGLRenderer::mouseMoveEvent(QMouseEvent* event)
+{
+	auto xpos = event->x();
+	auto ypos = event->y();
+	
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos;
+
+	lastX = xpos;
+	lastY = ypos;
+
+	m_camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+void OpenGLRenderer::wheelEvent(QWheelEvent* event)
+{
+	// m_camera.ProcessMouseScroll(event->delta());
+}
+
 void OpenGLRenderer::onKeyPressedEvent(QKeyEvent* event)
 {
+	firstMouse = true;
+	float cameraSpeed = 0.25f;
+	
 	if (event->key() == Qt::Key_W)
 	{
-		camera.camDistance -= 1.0f;
+		m_camera.ProcessKeyboard(FORWARD, 0.25f);
 	}
 	else if (event->key() == Qt::Key_S)
 	{
-		camera.camDistance += 1.0f;
+		m_camera.ProcessKeyboard(BACKWARD, 0.25f);
 	}
 	else if (event->key() == Qt::Key_A)
 	{
-		camera.cameraDir.x -= 0.1f;
+		m_camera.ProcessKeyboard(LEFT, 0.25f);
 	}
 	else if (event->key() == Qt::Key_D)
 	{
-		camera.cameraDir.x += 0.1f;
+		m_camera.ProcessKeyboard(RIGHT, 0.25f);
 	}
 
 	QWidget::update();
