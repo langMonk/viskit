@@ -21,7 +21,7 @@ namespace ivhd::facade
 	public:
 
 		explicit FacadeCaster(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
-		~FacadeCaster() = default;
+		virtual ~FacadeCaster() = default;
 
 		FacadeCaster(const FacadeCaster&) = delete;
 		FacadeCaster(FacadeCaster&&) = delete;

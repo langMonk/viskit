@@ -42,8 +42,10 @@ void MainWindow::initializeIVHDResources()
 	// add resources to collections
 	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
 	const auto casterMDS = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::MDS);
+	const auto casterAB = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::AB);
 	m_casters->add("Random", casterRandom);
 	m_casters->add("MDS", casterMDS);
+	m_casters->add("AB", casterAB);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
 	m_generators->add("Brute Force", bruteGenerator);
@@ -154,6 +156,11 @@ void MainWindow::on_comboBox_CastingSetup_activated()
 void MainWindow::on_comboBox_GraphSetup_activated()
 {
 	setCurrentGraphGenerator(m_generators->find(ui.comboBox_GraphSetup->currentText().toStdString()));
+}
+
+void MainWindow::on_actionReset_View_clicked()
+{
+	m_ivhd->calculateBoundingBox();
 }
 
 void MainWindow::setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster)

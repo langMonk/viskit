@@ -2158,8 +2158,15 @@
     <addaction name="actionSettings"/>
     <addaction name="actionDock"/>
    </widget>
+   <widget class="QMenu" name="menuRenderer">
+    <property name="title">
+     <string>Renderer</string>
+    </property>
+    <addaction name="actionReset_View"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Settings"/>
+   <addaction name="menuRenderer"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
@@ -2182,6 +2189,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionReset_View">
+   <property name="text">
+    <string>Reset View</string>
    </property>
   </action>
   <zorder>dockWidget_Selection</zorder>
