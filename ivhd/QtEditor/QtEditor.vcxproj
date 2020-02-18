@@ -29,6 +29,7 @@
     <QtUic Include="Forms\mainwindow.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\RendererFactory.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\ShaderProgram.h" />

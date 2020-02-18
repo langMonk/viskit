@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	connect(ui.actionResetView, SIGNAL(triggered()), this, SLOT(calculateBoundingBox()));
 	setupIVHD();
 }
 
@@ -160,7 +161,35 @@ void MainWindow::on_comboBox_GraphSetup_activated()
 
 void MainWindow::on_actionReset_View_clicked()
 {
-	m_ivhd->calculateBoundingBox();
+	calculateBoundingBox();
+}
+
+void MainWindow::calculateBoundingBox()
+{
+	auto positions = m_ivhd->particleSystem().positions();
+	const auto countParticles = m_ivhd->particleSystem().countParticles();
+	
+	bool first = true;
+	for (int i = 0; i < countParticles; i++)
+	{
+		if (first)
+		{
+			bounding_box_max = bounding_box_min = positions[i];
+			first = false;
+		}
+		
+		if (bounding_box_min.x > positions[i].x)
+			bounding_box_min.x = positions[i].x;
+		if (bounding_box_max.x < positions[i].x)
+			bounding_box_max.x = positions[i].x;
+
+		if (bounding_box_min.y > positions[i].y)
+			bounding_box_min.y = positions[i].y;
+		if (bounding_box_max.y < positions[i].y)
+			bounding_box_max.y = positions[i].y;
+	}
+
+	m_renderer->setBoundingBox(bounding_box_min, bounding_box_max);
 }
 
 void MainWindow::setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster)
