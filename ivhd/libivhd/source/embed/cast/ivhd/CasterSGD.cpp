@@ -3,9 +3,7 @@
 namespace ivhd::embed::cast::ivhd
 {
 	CasterSGD::CasterSGD(core::System& system, particles::ParticleSystem& ps)
-		: Caster(system, ps)
-		, m_randomCaster(system, ps)
-		, m_ext_graph(ps.neighbourhoodGraph())
+		: Caster(system, ps, ps.neighbourhoodGraph())
 	{
 		
 	}
@@ -21,8 +19,6 @@ namespace ivhd::embed::cast::ivhd
 		auto& forces = m_ext_particleSystem.calculationData()->m_force;
 		
 		float lenPK;
-
-		initPos();
 		
 		auto& awake = m_ext_particleSystem.calculationData()->m_alive;
 
@@ -60,10 +56,5 @@ namespace ivhd::embed::cast::ivhd
 		}
 		
 		m_ext_particleSystem.increaseStep();
-	}
-
-	void CasterSGD::initPos()
-	{
-		m_randomCaster.castParticleSystem();
 	}
 }

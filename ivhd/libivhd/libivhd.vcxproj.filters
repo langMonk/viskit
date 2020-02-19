@@ -273,6 +273,21 @@
     <ClInclude Include="include\facade\FacadeCasterForceDirected.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterAdadelta.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterAdam.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterNesterov.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterIVHD.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterAdadelta.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
@@ -369,6 +384,21 @@
       <Filter>Source Files\embed\cast\ivhd</Filter>
     </ClCompile>
     <ClCompile Include="source\facade\FacadeCasterForceDirected.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterIVHD.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterAdadelta.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterNesterov.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterAdam.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterAdadelta.cpp">
       <Filter>Source Files\facade</Filter>
     </ClCompile>
   </ItemGroup>

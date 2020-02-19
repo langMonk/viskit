@@ -16,7 +16,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterAB.castParticleSystem. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using CasterForceDirected.castParticleSystem. Error message: " + *ex.what());
 		}
 	}
 
@@ -28,7 +28,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterAB.castParticle. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using CasterForceDirected.castParticle. Error message: " + *ex.what());
 		}
 	}
 }

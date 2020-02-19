@@ -10,7 +10,7 @@
 #include "facade/FacadeGraphGeneratorKDTree.h"
 #include "facade/FacadeGraphGeneratorBruteForce.h"
 #include "facade/FacadeCasterForceDirected.h"
-#include "facade/FacadeCasterSGD.h"
+#include "facade/FacadeCasterAdadelta.h"
 
 namespace ivhd::facade
 {
@@ -59,9 +59,9 @@ namespace ivhd::facade
 		{
 			caster = std::make_shared<facade::FacadeCasterForceDirected>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
-		else if (type == CasterType::SGD)
+		else if (type == CasterType::Adadelta)
 		{
-			caster = std::make_shared<facade::FacadeCasterSGD>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			caster = std::make_shared < facade::FacadeCasterAdadelta> (m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
 		return caster;
 	}

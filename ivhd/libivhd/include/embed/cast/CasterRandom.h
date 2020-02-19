@@ -5,11 +5,7 @@
 
 #pragma once
 
-#include <memory>
-#include <map>
-#include <iostream>
 #include <boost/random.hpp>
-#include <glm/glm/gtc/random.hpp>
 
 #include "Caster.h"
 #include "particles/ParticleSystem.h"
