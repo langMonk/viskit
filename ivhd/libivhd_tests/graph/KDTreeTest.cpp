@@ -37,11 +37,11 @@ namespace libivhd_test
 				{
 					if (setDistancesToOne)
 					{
-						graph.addNeighbors(ivhd::Neighbors(id, elem.second.getId(), 1.0f, NeighborsType::Near));
+						graph.addNeighbors(id, ivhd::Neighbors(id, elem.second.getId(), 1.0f, NeighborsType::Near));
 					}
 					else
 					{
-						graph.addNeighbors(ivhd::Neighbors(id, elem.second.getId(), elem.first, NeighborsType::Near));
+						graph.addNeighbors(id, ivhd::Neighbors(id, elem.second.getId(), elem.first, NeighborsType::Near));
 					}
 				}
 			}
@@ -66,9 +66,11 @@ namespace libivhd_test
 		graph::Graph graph{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
 
-		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
+		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);
 
+		graph.generate(particleSystem.countParticles());
+		
 		// Part responsible for creating a tree
 		auto data = particleSystem.originalCoordinates();
 
@@ -100,26 +102,6 @@ namespace libivhd_test
 		profiler.measurementMs();
 
 		graph.sort();
-
-		/*std::ofstream m_file;
-
-		m_file.open("kNN_graph_kdd.txt");
-		for (int i = 0; i < graph.neighborsCount(); i++)
-		{
-			auto neighbors = graph.getNeighbors(i);
-			if (neighbors.type == NeighborsType::Near)
-			{
-				m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Near" << std::endl;
-			}
-			else if (neighbors.type == NeighborsType::Far)
-			{
-				m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Far" << std::endl;
-			}
-			else
-			{
-				m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Random" << std::endl;
-			}
-		}*/
 	}
 }
 

@@ -11,11 +11,11 @@
 
 namespace ivhd::embed::cast::ivhd
 {
-	class CasterAB : public Caster
+	class CasterForceDirected : public Caster
 	{
 		// public construction and destruction methods
 	public:
-		CasterAB(core::System& system, particles::ParticleSystem& ps);
+		CasterForceDirected(core::System& system, particles::ParticleSystem& ps);
 
 		// public methods
 	public:
@@ -25,15 +25,14 @@ namespace ivhd::embed::cast::ivhd
 
 		// private methods
 	private:
-		glm::vec4 calculateForces(size_t pairIndex, size_t pi, size_t pj, float& energy) const;
+		void calculateForces(size_t index, float& energy) const;
 
 		// private members
-	private:
-		SammonParameters m_sammonParameters;
-		distanceKernelParameters m_distanceKernelParameters;
-		graph::Graph& m_ext_graph;
+		Graph& m_ext_graph;
 
-		float a_factor { 0.990545f };
-		float b_factor { 0.000200945f };
+		float a_factor { 0.99f };
+		float b_factor { 0.0002f };
+
+		float w_random {0.01f};
 	};
 }

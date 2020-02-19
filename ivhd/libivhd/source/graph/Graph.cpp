@@ -11,6 +11,11 @@ namespace ivhd::graph
 
 	}
 
+	void Graph::generate(size_t elements)
+	{
+		m_data.resize(elements);
+	}
+
 	std::optional<std::vector<Neighbors>> Graph::getNeighbors(size_t index)
 	{
 		if (!m_data.empty())
@@ -24,14 +29,32 @@ namespace ivhd::graph
 		}
 	}
 
-	void Graph::addNeighbor(size_t index, Neighbors neighbors)
+	void Graph::addNeighbors(size_t index, Neighbors neighbor)
 	{
-		m_data[index].emplace_back(neighbors);
+		m_data[index].emplace_back(neighbor);
+	}
+	
+	void Graph::addNeighbors(size_t index, std::vector<Neighbors> neighbors)
+	{
+		for(const auto& neighbor : neighbors)
+		{
+			m_data[index].emplace_back(neighbor);
+		}
+	}
+
+	size_t Graph::neighborsCount()
+	{
+		size_t size {0};
+		for(const auto& neighbors : m_data)
+		{
+			size += neighbors.size();
+		}
+		return size;
 	}
 
 	struct dist_compare
 	{
-		bool operator() (const Neighbors& distElem1, const Neighbors& distElem2)
+		bool operator() (const Neighbors& distElem1, const Neighbors& distElem2) const
 		{
 			if (distElem1.i != distElem2.i)
 			{
@@ -43,11 +66,13 @@ namespace ivhd::graph
 
 	void Graph::sort()
 	{
-		auto numberOfElements = m_data.size();
-		auto numberOfNeighbors = m_data[0].size();
+		auto const numberOfElements = m_data.size();
+		auto const numberOfNeighbors = m_data[0].size();
 
-		size_t from = numberOfNeighbors * numberOfElements;
-		for (const auto neighbors : m_data)
+		const auto from = numberOfNeighbors * numberOfElements;
+
+		// sort graph (for every index)
+		for (auto neighbors : m_data)
 		{
 			std::sort(neighbors.begin(), neighbors.end(), dist_compare());
 		}
@@ -62,39 +87,32 @@ namespace ivhd::graph
 			), neighbors.end());
 		}
 
-		for (int i = 0; i < numberOfElements; i++)
+		// remove duplicates
+		for (size_t i = 0; i < numberOfElements; i++)
 		{
-			for (int j = 1; j < numberOfNeighbors; j++)
+			for (size_t j = 1; j < numberOfNeighbors; j++)
 			{
 				if (m_data[i][j].i == m_data[i][j-1].i && m_data[i][j].j == m_data[i][j-1].j)
 					m_data[i][j].type = NeighborsType::ToRemove;
 			}
 		}
 
-		// remove 
-		for (auto neighbors : m_data)
-		{
-			neighbors.erase(std::remove_if(neighbors.begin(), neighbors.end(), [](Neighbors elem)
-			{
-				return elem.type == NeighborsType::ToRemove;
-			}
-			), neighbors.end());
-		}
-
-		size_t to = m_data[0].size() * m_data.size();
+		const auto to = m_data[0].size() * m_data.size();
 		m_ext_system.logger().logInfo("Sorted and size reduced: " + std::to_string(from) + "-->" + std::to_string(to));
 
 		// calculate min and max distance
-		float mind, maxd;
-		mind = maxd = m_data[0].r;
-		for (int i = 1; i < m_data.size(); i++)
+		float maxd;
+		float mind = maxd = m_data[0][0].r;
+		for (size_t i = 0; i < numberOfElements; i++)
 		{
-			if (mind > m_data[i].r)
-				mind = m_data[i].r;
-			if (maxd < m_data[i].r)
-				maxd = m_data[i].r;
+			for (size_t j = 1; j < numberOfNeighbors; j++)
+			{
+				if (mind > m_data[i][j].r)
+					mind = m_data[i][j].r;
+				if (maxd < m_data[i][j].r)
+					maxd = m_data[i][j].r;
+			}
 		}
-
 		m_ext_system.logger().logInfo("Min distance: " + std::to_string(mind) + ", max distance: " + std::to_string(maxd));
 	}
 
@@ -117,12 +135,21 @@ namespace ivhd::graph
 			return false;
 		}
 
-		auto graphSize = m_data.size();
-		file.write(reinterpret_cast<char*>(&graphSize), sizeof(size_t));
+		long testNum = 0x01020304;
+		file.write(reinterpret_cast<char*>(&testNum), sizeof(long));
 		
-		for (auto& i : m_data)
+		auto graphSize = size();
+		file.write(reinterpret_cast<char*>(&graphSize), sizeof(size_t));
+
+		auto graphNeighborsCount = neighborsCount();
+		file.write(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(size_t));
+
+		for (auto& neighbors : m_data)
 		{
-			file.write(reinterpret_cast<char*>(&i), sizeof(Neighbors));
+			for (auto& neighbor : neighbors)
+			{
+				file.write(reinterpret_cast<char*>(&neighbor), sizeof(Neighbors));
+			}
 		}
 
 		file.close();
@@ -144,13 +171,27 @@ namespace ivhd::graph
 			return false;
 		}
 
-		auto length = 0;
-		file.read(reinterpret_cast<char*>(&length), sizeof(size_t));
-		m_data.resize(length);
+		auto testNum = 0;
+		file.read(reinterpret_cast<char*>(&testNum), sizeof(long));
+		assert(testNum == 0x01020304);
 		
-		for (auto i = 0; i < length; i++)
+		auto graphSize = 0;
+		file.read(reinterpret_cast<char*>(&graphSize), sizeof(size_t));
+		m_data.resize(graphSize);
+
+		auto graphNeighborsCount = 0;
+		file.read(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(size_t));
+
+		const auto neighborsCount = graphNeighborsCount / graphSize;
+
+		for (auto& element : m_data) { element.resize(neighborsCount); }
+		
+		for (auto i = 0; i < graphSize; i++)
 		{
-			file.read(reinterpret_cast<char*>(&m_data[i]), sizeof(Neighbors));
+			for (auto j = 0; j < neighborsCount; j++)
+			{
+				file.read(reinterpret_cast<char*>(&m_data[i][j]), sizeof(Neighbors));
+			}
 		}
 
 		file.close();
