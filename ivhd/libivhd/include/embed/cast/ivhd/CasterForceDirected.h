@@ -25,7 +25,7 @@ namespace ivhd::embed::cast::ivhd
 
 		// private methods
 	private:
-		glm::vec4 calculateForces(size_t pairIndex, size_t pi, size_t pj, float r_element, NeighborsType type, float& energy) const;
+		void calculateForces(size_t index, float& energy) const;
 
 		// private members
 		Graph& m_ext_graph;
