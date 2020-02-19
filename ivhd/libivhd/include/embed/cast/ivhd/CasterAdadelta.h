@@ -10,17 +10,27 @@
 
 namespace ivhd::embed::cast::ivhd
 {
-	class CasterForceDirected : public CasterIVHD
+	class CasterAdadelta : public CasterIVHD
 	{
 		// public construction and destruction methods
 	public:
-		CasterForceDirected(core::System& system, particles::ParticleSystem& ps);
+		CasterAdadelta(core::System& system, particles::ParticleSystem& ps);
 
 		// public methods
 	public:
 		void castParticle(size_t index) override;
 
 		void castParticleSystem() override;
+
+	private:
+		glm::vec4 calcGradient(size_t index, float& energy) const;
+
+	private:
+		std::vector<glm::vec4> decGrad;
 		
+		std::vector<glm::vec4> decDelta;
+
+		float DECAYING_PARAM{ 0.9f };
+		float EPS{ 0.00000001f };
 	};
 }
