@@ -1,6 +1,6 @@
-#include "embed/cast/CasterSGD.h"
+#include "embed/cast/ivhd/CasterSGD.h"
 
-namespace ivhd::embed::cast
+namespace ivhd::embed::cast::ivhd
 {
 	CasterSGD::CasterSGD(core::System& system, particles::ParticleSystem& ps)
 		: Caster(system, ps)

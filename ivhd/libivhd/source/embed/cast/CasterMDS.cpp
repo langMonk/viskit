@@ -1,6 +1,6 @@
 #include "embed/cast/CasterMDS.h"
 
-namespace ivhd::embed::cast
+namespace ivhd::embed::cast::ivhd
 {
 	CasterMDS::CasterMDS(core::System& system, particles::ParticleSystem& ps)
 		: Caster(system, ps)
