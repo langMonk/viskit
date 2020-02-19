@@ -21,6 +21,6 @@ namespace ivhd
 		/// <param name="furthestNeighbors"> Number of furthest neighbors, which should be calculated in this graph.</param>
 		/// <param name="randomNeighbors"> Number of random neighbors, which should be calculated in this graph.</param>
 		/// <param name="distancesEqualOne"> If true all distances while generating graph are set to 1.</param>
-		virtual void generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne) = 0;
+		virtual void generate(size_t nearestNeighbors = 0, size_t furthestNeighbors = 0, size_t randomNeighbors = 0, bool distancesEqualOne = true) = 0;
 	};
 }
