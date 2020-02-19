@@ -15,8 +15,10 @@ namespace ivhd::graph::generate
 	{
 	}
 
-	void BruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors)
+	void BruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne)
 	{
+		m_distancesEqualOne = distancesEqualOne;
+
 		// if there is cached graph for this dataset, then just load it and return from this method
 		auto path = m_ext_particleSystem.datasetInfo().path + m_ext_particleSystem.datasetInfo().fileName;
 		if (m_graph->loadFromCache(path))
@@ -98,11 +100,6 @@ namespace ivhd::graph::generate
 
 		m_graph->saveToCache(path);
 		m_ext_system.logger().logInfo("[BruteForce Generator] Finished. Graph cached.");
-	}
-
-	void BruteForce::useCache(bool useCache)
-	{
-		m_useCache = useCache;
 	}
 
 	void BruteForce::reset_tmp_dist_matrix(Neighbors* n, float initval, size_t elems)

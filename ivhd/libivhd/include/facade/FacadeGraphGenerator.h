@@ -28,14 +28,10 @@ namespace ivhd::facade
 		FacadeGraphGenerator& operator=(const FacadeGraphGenerator&) = delete;
 		FacadeGraphGenerator& operator=(FacadeGraphGenerator&&) = delete;
 
-		void useCache(bool useCache) override;
-
 		// protected members
 	protected:
 		std::shared_ptr<core::Core> m_ext_core;
 		
 		particles::ParticleSystem& m_ext_particleSystem;
-
-		bool m_ext_useCache {false};
 	};
 }

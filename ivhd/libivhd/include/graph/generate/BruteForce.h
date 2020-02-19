@@ -21,9 +21,7 @@ namespace ivhd::graph::generate
 
 		// public methods
 	public:
-		void generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors) override;
-
-		void useCache(bool useCache) override;
+		void generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne) override;
 		
 	private:
 		void add_min_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort);
@@ -36,7 +34,5 @@ namespace ivhd::graph::generate
 		bool m_distancesEqualOne {true};
 
 		graph::Graph* m_graph;
-
-		bool m_useCache {false};
 	};
 }

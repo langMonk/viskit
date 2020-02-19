@@ -11,22 +11,22 @@ namespace ivhd::graph
 
 	}
 
-	Neighbors Graph::getNeighbors(size_t idx)
+	std::optional<std::vector<Neighbors>> Graph::getNeighbors(size_t index)
 	{
 		if (!m_data.empty())
 		{
-			return m_data[idx];
+			return m_data[index];
 		}
 		else
 		{
-			m_ext_system.logger().logWarning("Neighbors for passed index doesn't exist. Returning default Neighbors() object.");
-			return Neighbors();
+			m_ext_system.logger().logError("There is no neighbor item with passed index.");
+			return {};
 		}
 	}
 
-	void Graph::addNeighbors(Neighbors neighbors)
+	void Graph::addNeighbor(size_t index, Neighbors neighbors)
 	{
-		m_data.push_back(neighbors);
+		m_data[index].emplace_back(neighbors);
 	}
 
 	struct dist_compare
@@ -43,22 +43,46 @@ namespace ivhd::graph
 
 	void Graph::sort()
 	{
-		size_t from = m_data.size();
-		std::sort(m_data.begin(), m_data.end(), dist_compare());
+		auto numberOfElements = m_data.size();
+		auto numberOfNeighbors = m_data[0].size();
+
+		size_t from = numberOfNeighbors * numberOfElements;
+		for (const auto neighbors : m_data)
+		{
+			std::sort(neighbors.begin(), neighbors.end(), dist_compare());
+		}
 
 		// mark duplicates 
-		for (int i = 1; i < m_data.size(); i++)
-			if (m_data[i].i == m_data[i-1].i && m_data[i].j == m_data[i-1].j)
-				m_data[i].type = NeighborsType::ToRemove;
+		for (auto neighbors : m_data)
+		{
+			neighbors.erase(std::remove_if(neighbors.begin(), neighbors.end(), [](Neighbors elem)
+			{
+				return elem.type == NeighborsType::ToRemove;
+			}
+			), neighbors.end());
+		}
+
+		for (int i = 0; i < numberOfElements; i++)
+		{
+			for (int j = 1; j < numberOfNeighbors; j++)
+			{
+				if (m_data[i][j].i == m_data[i][j-1].i && m_data[i][j].j == m_data[i][j-1].j)
+					m_data[i][j].type = NeighborsType::ToRemove;
+			}
+		}
 
 		// remove 
-		m_data.erase(std::remove_if(m_data.begin(), m_data.end(), [](Neighbors elem)
+		for (auto neighbors : m_data)
 		{
-			return elem.type == NeighborsType::ToRemove;
+			neighbors.erase(std::remove_if(neighbors.begin(), neighbors.end(), [](Neighbors elem)
+			{
+				return elem.type == NeighborsType::ToRemove;
+			}
+			), neighbors.end());
 		}
-		), m_data.end());
 
-		m_ext_system.logger().logInfo("Sorted and size reduced: " + std::to_string(from) + "-->" + std::to_string(m_data.size()));
+		size_t to = m_data[0].size() * m_data.size();
+		m_ext_system.logger().logInfo("Sorted and size reduced: " + std::to_string(from) + "-->" + std::to_string(to));
 
 		// calculate min and max distance
 		float mind, maxd;
