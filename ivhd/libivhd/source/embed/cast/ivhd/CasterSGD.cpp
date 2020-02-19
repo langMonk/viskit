@@ -32,7 +32,7 @@ namespace ivhd::embed::cast::ivhd
 			m_ext_particleSystem.resetForces();
 		}
 		
-		for (auto i = 0; i < m_ext_graph.neighborsCount(); i++)
+		/*for (auto i = 0; i < m_ext_graph.neighborsCount(); i++)
 		{
 			const auto element = m_ext_graph.getNeighbors(i);
 			const size_t pi = element.i;
@@ -52,7 +52,7 @@ namespace ivhd::embed::cast::ivhd
 					forces[pj] += 2 * B * (positions[pi] - positions[pj]);
 				}
 			}
-		}
+		}*/
 
 		for (auto i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
 		{

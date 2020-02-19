@@ -4,7 +4,7 @@ namespace ivhd::facade
 {
 	FacadeCasterSGD::FacadeCasterSGD(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
 		: FacadeCaster(core, ps)
-		, m_internalCaster(std::make_shared<ivhd::embed::cast::CasterSGD>(core->system(), ps))
+		, m_internalCaster(std::make_shared<ivhd::embed::cast::ivhd::CasterSGD>(core->system(), ps))
 	{
 	}
 
