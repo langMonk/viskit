@@ -1,21 +1,27 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 17.02.2020
+/// \date 18.02.2020
+///
 ///
 
 #pragma once
 
-#include "Caster.h"
+#include "embed/cast/Caster.h"
+#include "embed/cast/CasterRandom.h"
 #include "particles/ParticleSystem.h"
-#include "CasterMDS.h"
 
-namespace ivhd::embed::cast
+namespace ivhd::embed::cast::ivhd
 {
-	class CasterAB : public Caster
+	class CasterSGD : public Caster
 	{
+	public:
+		float c = 0.5f;
+		float learningRate = 0.01f;
+		float B = 0.2f;
+		
 		// public construction and destruction methods
 	public:
-		CasterAB(core::System& system, particles::ParticleSystem& ps);
+		CasterSGD(core::System& system, particles::ParticleSystem& ps);
 
 		// public methods
 	public:
@@ -23,17 +29,16 @@ namespace ivhd::embed::cast
 
 		void castParticleSystem() override;
 
+		void initPos();
+		
 		// private methods
 	private:
 		glm::vec4 calculateForces(size_t pairIndex, size_t pi, size_t pj, float& energy) const;
 
 		// private members
 	private:
-		SammonParameters m_sammonParameters;
-		distanceKernelParameters m_distanceKernelParameters;
-		graph::Graph& m_ext_graph;
+		Graph& m_ext_graph;
 
-		float a_factor { 0.990545f };
-		float b_factor { 0.000200945f };
+		CasterRandom m_randomCaster;
 	};
 }

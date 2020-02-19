@@ -8,11 +8,11 @@ namespace ivhd::facade
 	{
 	}
 
-	void FacadeGraphGeneratorBruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors)
+	void FacadeGraphGeneratorBruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne)
 	{
 		if (m_graphGenerator != nullptr)
 		{
-			m_graphGenerator->generate(nearestNeighbors, furthestNeighbors, randomNeighbors);
+			m_graphGenerator->generate(nearestNeighbors, furthestNeighbors, randomNeighbors, distancesEqualOne);
 		}
 	}
 }

@@ -1,6 +1,6 @@
-#include "embed/cast/CasterAB.h"
+#include "embed/cast/ivhd/CasterForceDirected.h"
 
-namespace ivhd::embed::cast
+namespace ivhd::embed::cast::ivhd
 {
 	CasterAB::CasterAB(core::System& system, particles::ParticleSystem& ps)
 		: Caster(system, ps)
@@ -21,20 +21,6 @@ namespace ivhd::embed::cast
 		auto& forces = m_ext_particleSystem.calculationData()->m_force;
 		auto& velocities = m_ext_particleSystem.calculationData()->m_vel;
 		auto& positions = m_ext_particleSystem.calculationData()->m_pos;
-		
-		if (m_ext_particleSystem.step() == 0)
-		{
-			m_ext_particleSystem.resetVelocities();
-		}
-		else
-		{			
-			for (auto i = 0; i < m_ext_particleSystem.countParticles(); i++)
-				if (awake[i])
-				{
-					velocities[i] = velocities[i] * a_factor + forces[i] * b_factor;
-					positions[i] += velocities[i];
-				}
-		}
 
 		m_ext_particleSystem.resetForces();
 		
@@ -67,6 +53,15 @@ namespace ivhd::embed::cast
 					forces[pj] -= df;
 				}
 			}
+		}		
+
+		for (auto i = 0; i < m_ext_particleSystem.countParticles(); i++)
+		{ 
+			if (awake[i])
+			{
+				velocities[i] = velocities[i] * a_factor + forces[i] * b_factor;
+				positions[i] += velocities[i];
+			}
 		}
 
 		m_ext_particleSystem.increaseStep();
@@ -77,35 +72,16 @@ namespace ivhd::embed::cast
 	{
 		auto& pos = m_ext_particleSystem.calculationData()->m_pos;
 
-		const auto pipos = glm::vec2(pos[pi].x, pos[pi].y);
-		const auto pjpos = glm::vec2(pos[pj].x, pos[pj].y);
-		const auto rv = pipos - pjpos;
-
-		const auto r = glm::distance(pipos, pjpos);
+		const auto rv = glm::vec2(pos[pi].x, pos[pi].y) - glm::vec2(pos[pj].x, pos[pj].y);
+		const auto r = glm::distance(glm::vec2(pos[pi].x, pos[pi].y), glm::vec2(pos[pj].x, pos[pj].y)) + 0.00001f;
 
 		const auto element = m_ext_graph.getNeighbors(pairIndex);
 		auto D = element.r;
 
-		if (element.type == NeighborsType::Near)
-			D *= 0;
-		else if (element.type == NeighborsType::Reverse)
-			D *= 0;
-		else if (element.type == NeighborsType::Far)
-			D *= 1;
-		
-		const auto mkDw = m_sammonParameters.k * m_sammonParameters.m * std::pow(D, -m_sammonParameters.w);
-		const auto rk2 = std::pow(r, m_sammonParameters.k - 2);
+		if (element.type == NeighborsType::Near || element.type == NeighborsType::Reverse) D *= 0;
 
-		const auto rk = std::pow(r, m_sammonParameters.k);
-		const auto Dk = std::pow(D, m_sammonParameters.k);
-		auto rdm = std::pow(rk - Dk, m_sammonParameters.m - 1);
-		
-		if (m_sammonParameters.m % 2 && rk < Dk)
-			rdm *= -1;
+		energy = (D-r)/r;
 
-		energy = mkDw * rk2 * rdm;
-
-		const auto rv2 = glm::vec4{ rv.x, rv.y, 0.0f, 0.0f };
-		return rv2 * (-energy);
+		return glm::vec4{ rv.x*energy, rv.y*energy, 0.0f, 0.0f };
 	}
 }
