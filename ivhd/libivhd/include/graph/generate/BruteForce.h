@@ -30,7 +30,5 @@ namespace ivhd::graph::generate
 		// private members
 	private:
 		bool m_distancesEqualOne {true};
-
-		Graph* m_graph;
 	};
 }

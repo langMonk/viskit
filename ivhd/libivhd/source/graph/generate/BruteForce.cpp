@@ -9,24 +9,23 @@
 namespace ivhd::graph::generate
 {
 	BruteForce::BruteForce(core::System& system, particles::ParticleSystem& ps)
-		: GraphGenerator(system, ps)
-		, m_graph(&ps.neighbourhoodGraph())
+		: GraphGenerator(system, ps, ps.neighbourhoodGraph())
 	{
 	}
 
 	void BruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne)
 	{
-		m_graph->generate(m_ext_particleSystem.countParticles());
+		m_ext_graph.generate(m_ext_particleSystem.countParticles());
 		
 		m_distancesEqualOne = distancesEqualOne;
 
-		//// if there is cached graph for this dataset, then just load it and return from this method
-		//auto path = m_ext_particleSystem.datasetInfo().path + m_ext_particleSystem.datasetInfo().fileName;
-		//if (m_graph->loadFromCache(path))
-		//{
-		//	m_ext_system.logger().logInfo("[BruteForce Generator] kNN Graph loaded from cache.");
-		//	return;
-		//}
+		// if there is cached graph for this dataset, then just load it and return from this method
+		auto path = m_ext_particleSystem.datasetInfo().path + m_ext_particleSystem.datasetInfo().fileName;
+		if (m_ext_graph.loadFromCache(path))
+		{
+			m_ext_system.logger().logInfo("[BruteForce Generator] kNN Graph loaded from cache.");
+			return;
+		}
 
 		m_ext_system.logger().logInfo("[BruteForce Generator] Generating kNN Graph...");
 
@@ -74,8 +73,8 @@ namespace ivhd::graph::generate
 					}
 				}
 
-				m_graph->addNeighbors(i, near);
-				m_graph->addNeighbors(i, far);
+				m_ext_graph.addNeighbors(i, near);
+				m_ext_graph.addNeighbors(i, far);
 			}
 		}
 
@@ -90,27 +89,23 @@ namespace ivhd::graph::generate
 					return neighbors;
 				});
 				
-				for (int l = 0; l < randomNeighbors; l++)
-				{					
-					auto const j = math::randInt(0, m_ext_particleSystem.countAwakeParticles() - 1);
-					
-					if (j != i)
+				for (auto random = 0; random < randomNeighbors; random++)
+				{
+					while(true)
 					{
-						if (auto neighbors = m_graph->getNeighbors(j))
+						const auto j = math::randInt(0, m_ext_particleSystem.countAwakeParticles());
+						if (j != i)
 						{
-							for (const auto neighbor : *neighbors)
+							if(!alreadyNeighbors(i ,j))
 							{
-								if(neighbor.i != j && neighbor.j != j)
+								auto distance = 1.0f;
+								if (!m_distancesEqualOne)
 								{
-									auto distance = 1.0f;
-									if (!m_distancesEqualOne)
-									{
-										distance = m_ext_particleSystem.vectorDistance(i, j);
-									}
-									const Neighbors randomNeighbor(i, j, distance, NeighborsType::Random);
-									m_graph->addNeighbors(i, randomNeighbor);
-									break;
+									distance = m_ext_particleSystem.vectorDistance(i, j);
 								}
+								
+								m_ext_graph.addNeighbors(i, Neighbors{ i, j, distance, NeighborsType::Random });
+								break;
 							}
 						}
 					}
@@ -118,7 +113,7 @@ namespace ivhd::graph::generate
 			}
 		}
 
-		//m_graph->saveToCache(path);
+		m_ext_graph.saveToCache(path);
 		m_ext_system.logger().logInfo("[BruteForce Generator] Finished. Graph cached.");
 	}
 
