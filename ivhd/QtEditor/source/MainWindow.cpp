@@ -42,13 +42,11 @@ void MainWindow::initializeIVHDResources()
 
 	// add resources to collections
 	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
-	const auto casterMDS = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::MDS);
-	const auto casterAB = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::AB);
+	const auto casterForceDirected = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::ForceDirected);
 	const auto casterSGD = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::SGD);
 
 	m_casters->add("Random", casterRandom);
-	m_casters->add("MDS", casterMDS);
-	m_casters->add("AB", casterAB);
+	m_casters->add("ForceDirected", casterForceDirected);
 	m_casters->add("SGD", casterSGD);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
@@ -143,6 +141,7 @@ void MainWindow::on_pushButton_GraphRun_clicked() const
 		if (true)
 		{
 			m_currentGraphGenerator->generate(3, 0, 1, true);
+			m_ivhd->particleSystem().kNNGraph().dump("D:\\Repositories\\ivhd\\", "test");
 		}
 	}
 	else
