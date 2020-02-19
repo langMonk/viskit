@@ -15,43 +15,19 @@ namespace ivhd::embed::cast::ivhd
 
 	void CasterForceDirected::castParticleSystem()
 	{
-		m_ext_system.logger().logInfo("[Caster AB] Casting particle system...");
+		m_ext_system.logger().logInfo("[Caster IVHD ForceDirected] Casting particle system...");
 
 		auto& awake = m_ext_particleSystem.calculationData()->m_alive;
 		auto& forces = m_ext_particleSystem.calculationData()->m_force;
 		auto& velocities = m_ext_particleSystem.calculationData()->m_vel;
 		auto& positions = m_ext_particleSystem.calculationData()->m_pos;
-			
+
 		m_ext_particleSystem.resetForces();
 
 		float de;
-		for (int i = 0; i < m_ext_graph.size(); i++)
+		for (auto i = 0; i < m_ext_graph.size(); i++)
 		{
-			if (const auto neighbors = m_ext_graph.getNeighbors(i))
-			{
-				for (const auto element : *neighbors)
-				{
-					const auto pi = element.i;
-					const auto pj = element.j;
-					const auto r = element.r;
-					const auto type = element.type;
-
-					if (awake[pi] && awake[pj])
-					{
-						auto df = calculateForces(i, pi, pj, r, type, de);
-
-						if (element.type == NeighborsType::Random)
-						{
-							df *= w_random;
-						}
-
-						{
-							forces[pi] += df;
-							forces[pj] -= df;
-						}
-					}
-				}
-			}
+			calculateForces(i, de);
 		}
 
 		for (auto i = 0; i < m_ext_particleSystem.countParticles(); i++)
@@ -62,29 +38,44 @@ namespace ivhd::embed::cast::ivhd
 				positions[i] += velocities[i];
 			}
 		}
-		
+
 		m_ext_particleSystem.increaseStep();
-		m_ext_system.logger().logInfo("[CasterAB] Finished.");
+		m_ext_system.logger().logInfo("[Caster IVHD ForceDirected] Finished.");
 	}
 
-
-	glm::vec4 CasterForceDirected::calculateForces(size_t pairIndex, size_t pi, size_t pj, float r_element, NeighborsType type, float& energy) const
+	void CasterForceDirected::calculateForces(size_t index, float& energy) const
 	{
 		auto& pos = m_ext_particleSystem.calculationData()->m_pos;
+		auto& forces = m_ext_particleSystem.calculationData()->m_force;
 
-		const auto pipos = glm::vec2(pos[pi].x, pos[pi].y);
-		const auto pjpos = glm::vec2(pos[pj].x, pos[pj].y);
-		const auto rv = pipos - pjpos;
+		if (auto neighbors = m_ext_graph.getNeighbors(index))
+		{
+			for (const auto neighbor : *neighbors)
+			{
+				const auto pi = neighbor.i;
+				const auto pj = neighbor.j;
 
-		const auto r = glm::distance(pipos, pjpos) + 0.00001f;
 
-		auto D = r_element;
+				const auto rv = pos[pi] - pos[pj];
+				const auto r = glm::distance(glm::vec2(pos[pi].x, pos[pi].y), glm::vec2(pos[pj].x, pos[pj].y)) + 0.00001f;
 
-		if (type == NeighborsType::Near)
-			D *= 0;
+				auto D = neighbor.r;
 
-		energy = (D - r) / r;
-		
-		return glm::vec4{ rv.x * energy, rv.y * energy, 0.0f, 0.0f };
+				if (neighbor.type == NeighborsType::Near || neighbor.type == NeighborsType::Reverse) D *= 0;
+
+				energy = (D - r) / r;
+
+				auto df = glm::vec4{ rv.x * energy, rv.y * energy, 0.0f, 0.0f };
+
+				switch(neighbor.type)
+				{
+					case NeighborsType::Random: df *= w_random;
+					default: ;
+				}
+
+				forces[pi] += df;
+				forces[pj] -= df;
+			}
+		}
 	}
 }
