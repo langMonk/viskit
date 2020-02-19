@@ -159,7 +159,7 @@ void OpenGLRenderer::wheelEvent(QWheelEvent* event)
 	// m_camera.ProcessMouseScroll(event->delta());
 }
 
-void OpenGLRenderer::onKeyPressedEvent(QKeyEvent* event)
+void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
 {
 	firstMouse = true;
 	float cameraSpeed = 0.25f;
