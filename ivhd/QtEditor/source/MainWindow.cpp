@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget* parent)
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-	m_renderer->onKeyPressedEvent(event);
+	m_renderer->keyPressEvent(event);
 }
 
 void MainWindow::setupIVHD()
@@ -142,7 +142,7 @@ void MainWindow::on_pushButton_GraphRun_clicked() const
 	{
 		if (true)
 		{
-			m_currentGraphGenerator->generate(3, 0, 1);
+			m_currentGraphGenerator->generate(3, 0, 1, true);
 		}
 	}
 	else
