@@ -30,9 +30,11 @@ namespace ivhd::facade
 		FacadeGraph& operator=(FacadeGraph&&) = delete;
 
 	public:
-		Neighbors getNeighbors(size_t idx) override;
-
-		void addNeighbors(Neighbors neighbors) override;
+		std::vector<Neighbors> getNeighbors(size_t idx) override;
+	
+		void addNeighbors(size_t index, Neighbors neighbor) override;
+		
+		void addNeighbors(size_t index, std::vector<Neighbors> neighbors) override;
 
 		size_t neighborsCount() override;
 

@@ -6,7 +6,7 @@
 #pragma once
 
 #include "facade/FacadeCaster.h"
-#include "embed/cast/CasterSGD.h"
+#include "embed/cast/ivhd/CasterSGD.h"
 
 namespace ivhd::facade
 {
@@ -33,10 +33,10 @@ namespace ivhd::facade
 
 		void castParticle(size_t index) override;
 
-		CasterType type() override { return CasterType::MDS; }
+		CasterType type() override { return CasterType::SGD; }
 
 		// private members
 	private:
-		std::shared_ptr<embed::cast::CasterSGD> m_internalCaster;
+		std::shared_ptr<embed::cast::ivhd::CasterSGD> m_internalCaster;
 	};
 }

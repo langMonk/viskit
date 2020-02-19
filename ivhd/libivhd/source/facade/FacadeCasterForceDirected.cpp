@@ -1,14 +1,14 @@
-#include "facade\FacadeCasterAB.h"
+#include "facade\FacadeCasterForceDirected.h"
 
 namespace ivhd::facade
 {
-	FacadeCasterAB::FacadeCasterAB(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
+	FacadeCasterForceDirected::FacadeCasterForceDirected(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
 		: FacadeCaster(core, ps)
-		, m_internalCaster(std::make_shared<ivhd::embed::cast::CasterAB>(core->system(), ps))
+		, m_internalCaster(std::make_shared<ivhd::embed::cast::ivhd::CasterForceDirected>(core->system(), ps))
 	{
 	}
 
-	void FacadeCasterAB::castParticleSystem()
+	void FacadeCasterForceDirected::castParticleSystem()
 	{
 		try
 		{
@@ -20,7 +20,7 @@ namespace ivhd::facade
 		}
 	}
 
-	void FacadeCasterAB::castParticle(size_t index)
+	void FacadeCasterForceDirected::castParticle(size_t index)
 	{
 		try
 		{

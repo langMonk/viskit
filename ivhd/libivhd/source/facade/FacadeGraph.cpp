@@ -13,11 +13,14 @@ namespace ivhd::facade
 	{
 	}
 
-	Neighbors FacadeGraph::getNeighbors(size_t idx)
+	std::vector<Neighbors> FacadeGraph::getNeighbors(size_t idx)
 	{
 		try
 		{
-			return m_ext_graph.getNeighbors(idx);
+			if(const auto neighbors = m_ext_graph.getNeighbors(idx))
+			{
+				return *neighbors;
+			}
 		}
 		catch (std::exception& exception)
 		{
@@ -25,13 +28,28 @@ namespace ivhd::facade
 			message += exception.what();
 			m_ext_core.logger().logWarning(message);
 		}
+		return {};
 	}
 
-	void FacadeGraph::addNeighbors(Neighbors neighbors)
+	void FacadeGraph::addNeighbors(size_t index, Neighbors neighbors)
 	{
 		try
 		{
-			m_ext_graph.addNeighbors(neighbors);
+			m_ext_graph.addNeighbors(index, neighbors);
+		}
+		catch (std::exception& exception)
+		{
+			std::string message = "Failed to add the neighbor to the graph: ";
+			message += exception.what();
+			m_ext_core.logger().logWarning(message);
+		}
+	}
+
+	void FacadeGraph::addNeighbors(size_t index, std::vector<Neighbors> neighbors)
+	{
+		try
+		{
+			m_ext_graph.addNeighbors(index, neighbors);
 		}
 		catch (std::exception& exception)
 		{
@@ -53,6 +71,7 @@ namespace ivhd::facade
 			message += exception.what();
 			m_ext_core.logger().logWarning(message);
 		}
+		return 0;
 	}
 
 	void FacadeGraph::sort()
@@ -76,21 +95,26 @@ namespace ivhd::facade
 		try
 		{
 			m_file.open(filePath + "\\" + fileName + ".txt");
-			for (int i = 0; i < m_ext_graph.neighborsCount(); i++)
+			for (int i = 0; i < m_ext_graph.size(); i++)
 			{
-				auto neighbors = m_ext_graph.getNeighbors(i);
-				if (neighbors.type == NeighborsType::Near)
+				if(const auto neighbors = m_ext_graph.getNeighbors(i))
 				{
-					m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Near" << std::endl;
-				}
-				else if (neighbors.type == NeighborsType::Far)
-				{
-					m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Far" << std::endl;
-				}
-				else
-				{
-					m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Random" << std::endl;
-				}
+					for(const auto neighbor : *neighbors)
+					{
+						if (neighbor.type == NeighborsType::Near)
+						{
+							m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Near" << std::endl;
+						}
+						else if (neighbor.type == NeighborsType::Far)
+						{
+							m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Far" << std::endl;
+						}
+						else
+						{
+							m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Random" << std::endl;
+						}
+					}
+				}				
 			}
 
 			m_file.close();

@@ -21,18 +21,21 @@ namespace ivhd::graph
 
 		// public methods
 	public:
+		void generate(size_t elements);
+		
 		std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
 
-		void addNeighbor(size_t index, Neighbors neighbors);
-
-		size_t neighborsCount() { return m_data.size(); }
-		size_t neighborsCount() const { return m_data.size(); }
+		void addNeighbors(size_t index, std::vector<Neighbors> neighbors);
+		
+		void addNeighbors(size_t index, Neighbors neighbor);
+		
+		size_t neighborsCount();
 
 		void sort();
 		
 		void clear();
-		
-		size_t size() const;
+
+		[[nodiscard]] size_t size() const;
 
 		bool saveToCache(const std::string& fileName);
 
