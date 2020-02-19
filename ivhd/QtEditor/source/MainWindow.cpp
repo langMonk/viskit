@@ -43,11 +43,11 @@ void MainWindow::initializeIVHDResources()
 	// add resources to collections
 	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
 	const auto casterForceDirected = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::ForceDirected);
-	const auto casterSGD = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::SGD);
+	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Adadelta);
 
 	m_casters->add("Random", casterRandom);
 	m_casters->add("ForceDirected", casterForceDirected);
-	m_casters->add("SGD", casterSGD);
+	m_casters->add("Adadelta", casterAdadelta);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
 	m_generators->add("Brute Force", bruteGenerator);
