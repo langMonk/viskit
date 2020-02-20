@@ -104,13 +104,19 @@ namespace ivhd
 		Approx
 	};
 
-	enum class CasterType
+	enum class OptimizerType
 	{
+		None,
 		SGD,
 		ForceDirected,
 		Adadelta,
 		Adam,
-		Nesterov,
+		Nesterov
+	};
+	
+	enum class CasterType
+	{
+		IVHD,
 		LargeVis,
 		tSNE,
 		Random

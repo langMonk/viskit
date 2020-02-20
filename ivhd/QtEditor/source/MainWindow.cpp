@@ -42,10 +42,10 @@ void MainWindow::initializeIVHDResources()
 
 	// add resources to collections
 	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
-	const auto casterForceDirected = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::ForceDirected);
-	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Adadelta);
-	const auto casterAdam = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Adam);
-	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Nesterov);
+	const auto casterForceDirected = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::ForceDirected);
+	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adadelta);
+	const auto casterAdam = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adam);
+	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Nesterov);
 
 	m_casters->add("Random", casterRandom);
 	m_casters->add("ForceDirected", casterForceDirected);
