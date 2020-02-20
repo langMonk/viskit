@@ -108,7 +108,8 @@ namespace ivhd
 	{
 		SGD,
 		ForceDirected,
-		Adadelta ,
+		Adadelta,
+		Adam,
 		LargeVis,
 		tSNE,
 		Random
