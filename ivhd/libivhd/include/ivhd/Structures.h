@@ -110,6 +110,7 @@ namespace ivhd
 		ForceDirected,
 		Adadelta,
 		Adam,
+		Nesterov,
 		LargeVis,
 		tSNE,
 		Random

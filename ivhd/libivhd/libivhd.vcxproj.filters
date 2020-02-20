@@ -291,6 +291,9 @@
     <ClInclude Include="include\facade\FacadeCasterAdam.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterNesterov.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
@@ -405,6 +408,9 @@
       <Filter>Source Files\facade</Filter>
     </ClCompile>
     <ClCompile Include="source\facade\FacadeCasterAdam.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterNesterov.cpp">
       <Filter>Source Files\facade</Filter>
     </ClCompile>
   </ItemGroup>
