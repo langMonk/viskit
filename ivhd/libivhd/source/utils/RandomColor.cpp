@@ -103,15 +103,15 @@ namespace ivhd::utils
 
 		switch (luminosity) {
 		case Dark:
-			sRange[0] = sRange[1] - sRangeSize * 0.3;
+			sRange[0] = static_cast<int>(sRange[1] - sRangeSize * 0.3);
 			break;
 
 		case Light:
-			sRange[1] = sRange[0] + sRangeSize * 0.25;
+			sRange[1] = static_cast<int>(sRange[0] + sRangeSize * 0.25);
 			break;
 
 		case Bright:
-			sRange[0] = sRange[1] - sRangeSize * 0.3;
+			sRange[0] = static_cast<int>(sRange[1] - sRangeSize * 0.3);
 			break;
 
 		case Normal:
@@ -132,20 +132,20 @@ namespace ivhd::utils
 
 		switch (luminosity) {
 		case Dark:
-			bRange[1] = bRange[0] + std::min(bRangeSize * 0.3, 30.0);
+			bRange[1] = static_cast<int>(bRange[0] + std::min(bRangeSize * 0.3, 30.0));
 			break;
 
 		case Light:
-			bRange[0] = bRange[1] - std::min(bRangeSize * 0.3, 15.0);
+			bRange[0] = static_cast<int>(bRange[1] - std::min(bRangeSize * 0.3f, 15.0f));
 			break;
 
 		case Bright:
-			bRange[0] = bRange[1] - std::min(bRangeSize * 0.3, 10.0);
+			bRange[0] = static_cast<int>(bRange[1] - std::min(bRangeSize * 0.3f, 10.0f));
 			break;
 
 		case Normal:
-			bRange[0] += bRangeSize * 0.5;
-			bRange[1] -= bRangeSize * 0.125;
+			bRange[0] += static_cast<int>(bRangeSize * 0.5f);
+			bRange[1] -= static_cast<int>(bRangeSize * 0.125f);
 			break;
 
 		case RandomLuminosity:
@@ -161,14 +161,14 @@ namespace ivhd::utils
 
 		// Find a slice of sbRanges to which s belongs, and calculate the
 		// brightness range proportionally to s
-		for (int i = sbRanges.size() - 2; i >= 0; --i) {
+		for (int i = static_cast<int>(sbRanges.size() - 2); i >= 0; --i) {
 			if (s >= sbRanges[i].s) {
 				const SBRange& r1 = sbRanges[i];
 				const SBRange& r2 = sbRanges[i + 1];
 				const double sRangeSize = r2.s - r1.s;
 				const double sFraction = sRangeSize ? (s - r1.s) / sRangeSize : 0;
-				const int bMin = r1.bMin + sFraction * (r2.bMin - r1.bMin);
-				const int bMax = r1.bMax + sFraction * (r2.bMax - r1.bMax);
+				const int bMin = static_cast<int>(r1.bMin + sFraction * (r2.bMin - r1.bMin));
+				const int bMax = static_cast<int>(r1.bMax + sFraction * (r2.bMax - r1.bMax));
 				return { bMin, bMax };
 			}
 		}
