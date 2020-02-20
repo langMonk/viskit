@@ -21,9 +21,15 @@ namespace ivhd::embed::cast
 		CasterIVHD(const CasterIVHD&) = delete;
 		CasterIVHD& operator=(const CasterIVHD&) = delete;
 
+		void castParticle(size_t index) override;
+
+		void castParticleSystem() override;
+		
 		// protected methods
 	protected:
-		virtual glm::vec4 calculateForces(Neighbors neighbors, float& energy) const;;
+		virtual void calculateForces(float& energy);;
+
+		virtual void calculatePositions();;
 
 		float w_random{ 0.01f };
 		
