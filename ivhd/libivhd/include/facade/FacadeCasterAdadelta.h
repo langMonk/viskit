@@ -33,7 +33,7 @@ namespace ivhd::facade
 
 		void castParticle(size_t index) override;
 
-		CasterType type() override { return CasterType::Adadelta; }
+		CasterType type() override { return CasterType::IVHD; }
 
 		// private members
 	private:

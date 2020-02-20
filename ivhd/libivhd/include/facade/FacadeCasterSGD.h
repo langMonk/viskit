@@ -33,8 +33,8 @@ namespace ivhd::facade
 
 		void castParticle(size_t index) override;
 
-		CasterType type() override { return CasterType::SGD; }
-
+		CasterType type() override { return CasterType::IVHD; }
+		
 		// private members
 	private:
 		std::shared_ptr<embed::cast::ivhd::CasterSGD> m_internalCaster;
