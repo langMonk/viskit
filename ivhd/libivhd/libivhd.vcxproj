@@ -33,6 +33,7 @@
     <ClInclude Include="include\embed\cast\ivhd\CasterSGD.h" />
     <ClInclude Include="include\facade\FacadeCaster.h" />
     <ClInclude Include="include\facade\FacadeCasterAdadelta.h" />
+    <ClInclude Include="include\facade\FacadeCasterAdam.h" />
     <ClInclude Include="include\facade\FacadeCasterForceDirected.h" />
     <ClInclude Include="include\facade\FacadeCasterRandom.h" />
     <ClInclude Include="include\facade\FacadeCasterSGD.h" />
@@ -97,6 +98,7 @@
     <ClCompile Include="source\embed\cast\ivhd\CasterSGD.cpp" />
     <ClCompile Include="source\facade\FacadeCaster.cpp" />
     <ClCompile Include="source\facade\FacadeCasterAdadelta.cpp" />
+    <ClCompile Include="source\facade\FacadeCasterAdam.cpp" />
     <ClCompile Include="source\facade\FacadeCasterForceDirected.cpp" />
     <ClCompile Include="source\facade\FacadeCasterRandom.cpp" />
     <ClCompile Include="source\facade\FacadeCasterSGD.cpp" />

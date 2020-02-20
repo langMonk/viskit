@@ -288,6 +288,9 @@
     <ClInclude Include="include\facade\FacadeCasterAdadelta.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterAdam.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\core\Logger.cpp">
@@ -399,6 +402,9 @@
       <Filter>Source Files\embed\cast\ivhd</Filter>
     </ClCompile>
     <ClCompile Include="source\facade\FacadeCasterAdadelta.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterAdam.cpp">
       <Filter>Source Files\facade</Filter>
     </ClCompile>
   </ItemGroup>
