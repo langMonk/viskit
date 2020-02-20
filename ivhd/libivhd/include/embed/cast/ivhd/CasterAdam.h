@@ -25,7 +25,7 @@ namespace ivhd::embed::cast::ivhd
 
 		float B1{ 0.9f };
 		
-		float B2{ 0.999 };
+		float B2{ 0.999f };
 		
 		float EPS{ 0.00000001f };
 		
