@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget* parent)
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-	m_renderer->onKeyPressedEvent(event);
+	m_renderer->keyPressEvent(event);
 }
 
 void MainWindow::setupIVHD()
@@ -42,11 +42,16 @@ void MainWindow::initializeIVHDResources()
 
 	// add resources to collections
 	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
-	const auto casterMDS = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::MDS);
-	const auto casterAB = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::AB);
+	const auto casterForceDirected = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::ForceDirected);
+	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adadelta);
+	const auto casterAdam = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adam);
+	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Nesterov);
+
 	m_casters->add("Random", casterRandom);
-	m_casters->add("MDS", casterMDS);
-	m_casters->add("AB", casterAB);
+	m_casters->add("ForceDirected", casterForceDirected);
+	m_casters->add("Adadelta", casterAdadelta);
+	m_casters->add("Adam", casterAdam);
+	m_casters->add("Nesterov", casterNesterov);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
 	m_generators->add("Brute Force", bruteGenerator);
@@ -139,7 +144,8 @@ void MainWindow::on_pushButton_GraphRun_clicked() const
 	{
 		if (true)
 		{
-			m_currentGraphGenerator->generate(3, 0, 1);
+			m_currentGraphGenerator->generate(3, 0, 1, true);
+			m_ivhd->particleSystem().kNNGraph().dump("D:\\Repositories\\ivhd\\", "test");
 		}
 	}
 	else

@@ -17,16 +17,24 @@ namespace ivhd
 		// public methods 
 	public:
 		/// <summary>
-		/// Get neighbors from graph with specified index.
+		/// Get neighbors from graph for specified by index element.
 		/// </summary>
-		/// <param name="index"> Index of neighbors to get.</param>
-		Neighbors virtual getNeighbors(size_t idx) = 0;
+		/// <param name="index"> Index of element for which get neighbor.</param>
+		std::vector<Neighbors> virtual getNeighbors(size_t idx) = 0;
 
 		/// <summary>
-		/// Add neighbors to graph.
+		/// Add one neighbor to graph.
 		/// </summary>
+		/// <param name="index"> Index of element to which add neighbor.</param>
+		/// <param name="neighbors"> Neighbor to add.</param>
+		void virtual addNeighbors(size_t index, Neighbors neighbor) = 0;
+
+		/// <summary>
+		/// Add vector of neighbors to graph.
+		/// </summary>
+		/// <param name="index"> Index of element to which add neighbors.</param>
 		/// <param name="neighbors"> Neighbors to add.</param>
-		void virtual addNeighbors(Neighbors neighbors) = 0;
+		void virtual addNeighbors(size_t index, std::vector<Neighbors> neighbors) = 0;
 
 		/// <summary>
 		/// Get neighbors count

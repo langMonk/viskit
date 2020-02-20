@@ -15,15 +15,20 @@ namespace ivhd::graph::generate
 	{
 		// public construction and destruction methods
 	public:
-		GraphGenerator(core::System& system, particles::ParticleSystem& ps);
+		GraphGenerator(core::System& system, particles::ParticleSystem& ps, Graph& graph);
 		virtual ~GraphGenerator() = default;
 
 		GraphGenerator(const GraphGenerator&) = delete;
 		GraphGenerator& operator=(const GraphGenerator&) = delete;
 
 	protected:
+		bool alreadyNeighbors(size_t index1, size_t index2) const;
+		
+	protected:
 		core::System& m_ext_system;
 
 		particles::ParticleSystem& m_ext_particleSystem;
+		
+		Graph& m_ext_graph;
 	};
 }

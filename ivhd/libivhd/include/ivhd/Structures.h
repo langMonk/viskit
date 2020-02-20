@@ -104,11 +104,19 @@ namespace ivhd
 		Approx
 	};
 
+	enum class OptimizerType
+	{
+		None,
+		SGD,
+		ForceDirected,
+		Adadelta,
+		Adam,
+		Nesterov
+	};
+	
 	enum class CasterType
 	{
-		MDS,
-		AB,
-		DpdMds,
+		IVHD,
 		LargeVis,
 		tSNE,
 		Random
@@ -124,7 +132,7 @@ namespace ivhd
 		float r;
 		NeighborsType type;
 
-		bool operator== (Neighbors& rhs)
+		bool operator== (Neighbors& rhs) const
 		{
 			if (i == rhs.i && j == rhs.j && r == rhs.r && type == rhs.type) { return true; }
 			else { return false; }

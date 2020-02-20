@@ -8,18 +8,20 @@
 
 namespace ivhd::graph::generate
 {
-
 	BruteForce::BruteForce(core::System& system, particles::ParticleSystem& ps)
-		: GraphGenerator(system, ps)
-		, m_graph(&ps.neighbourhoodGraph())
+		: GraphGenerator(system, ps, ps.neighbourhoodGraph())
 	{
 	}
 
-	void BruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors)
+	void BruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne)
 	{
+		m_ext_graph.generate(m_ext_particleSystem.countParticles());
+		
+		m_distancesEqualOne = distancesEqualOne;
+
 		// if there is cached graph for this dataset, then just load it and return from this method
 		auto path = m_ext_particleSystem.datasetInfo().path + m_ext_particleSystem.datasetInfo().fileName;
-		if (m_graph->loadFromCache(path))
+		if (m_ext_graph.loadFromCache(path))
 		{
 			m_ext_system.logger().logInfo("[BruteForce Generator] kNN Graph loaded from cache.");
 			return;
@@ -27,95 +29,100 @@ namespace ivhd::graph::generate
 
 		m_ext_system.logger().logInfo("[BruteForce Generator] Generating kNN Graph...");
 
-		Neighbors* near = new Neighbors[nearestNeighbors + 1];
-		Neighbors* far = new Neighbors[furthestNeighbors + 1];
-		Neighbors* rand = new Neighbors[randomNeighbors + 1];
+		std::vector<Neighbors> near(nearestNeighbors);
+		std::vector<Neighbors> far(furthestNeighbors);
+		std::vector<Neighbors> rand(randomNeighbors);
 
-		// nearest and furthest neighbors
 		if (nearestNeighbors || furthestNeighbors)
 		{
 			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
 			{
-				reset_tmp_dist_matrix(near, std::numeric_limits<float>::max(), nearestNeighbors);
-				reset_tmp_dist_matrix(far, -1.0f, furthestNeighbors);
+				std::generate(near.begin(), near.end(), []()->Neighbors
+				{
+					Neighbors neighbors;
+					neighbors.r = std::numeric_limits<float>::max();
+					return neighbors;
+				});
+				
+				std::generate(far.begin(), far.end(), []()->Neighbors
+				{
+					Neighbors neighbors;
+					neighbors.r = -1.0f;
+					return neighbors;
+				});
 
 				for (size_t j = 0; j < m_ext_particleSystem.countAwakeParticles(); j++)
 				{
 					if (i != j)
 					{
 						const auto distance = m_ext_particleSystem.vectorDistance(i, j);
-						add_min_dist(near, nearestNeighbors, distance, i, j, true);
-						add_max_dist(far, furthestNeighbors, distance, i, j, true);
+						if (nearestNeighbors) addMinDist(near, distance, i, j, true);
+						if (furthestNeighbors) addMaxDist(far, distance, i, j, true);
 					}
 				}
 
-				add_to_dist_matrix(near, nearestNeighbors);
-				add_to_dist_matrix(far, furthestNeighbors);
+				if (m_distancesEqualOne)
+				{
+					for(auto& element : near)
+					{
+						element.r = 1.0f;
+					}
+					for (auto& element : far)
+					{
+						element.r = 1.0f;
+					}
+				}
+
+				m_ext_graph.addNeighbors(i, near);
+				m_ext_graph.addNeighbors(i, far);
 			}
 		}
 
-		// random neighbors
 		if (randomNeighbors)
 		{
 			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
 			{
-				reset_tmp_dist_matrix(rand, 0.0f, randomNeighbors);
-				for (int l = 0; l < randomNeighbors; l++)
+				std::generate(rand.begin(), rand.end(), []()->Neighbors
 				{
-					size_t j;
-					do
+					Neighbors neighbors;
+					neighbors.r = 0.0f;;
+					return neighbors;
+				});
+				
+				for (auto random = 0; random < randomNeighbors; random++)
+				{
+					while(true)
 					{
-						j = math::randInt(0, m_ext_particleSystem.countAwakeParticles() - 1);
-						//check if j is not alread nearest neighbor
+						const auto j = math::randInt(0, m_ext_particleSystem.countAwakeParticles());
 						if (j != i)
-							for (int m = 0; m < nearestNeighbors; m++)
-								if ((near[m].j == j && near[m].i == i) || (near[m].j == i && near[m].i == j))
+						{
+							if(!alreadyNeighbors(i ,j))
+							{
+								auto distance = 1.0f;
+								if (!m_distancesEqualOne)
 								{
-									j = i;
-									break;
+									distance = m_ext_particleSystem.vectorDistance(i, j);
 								}
-
-						// check if j is not alread furthest neighbor
-						if (j != i)
-							for (int m = 0; m < furthestNeighbors; m++)
-								if ((far[m].j == j && far[m].i == i) || (far[m].j == i && far[m].i == j))
-								{
-									j = i;
-									break;
-								}
-
-					} while (i == j);
-
-					auto distance = m_ext_particleSystem.vectorDistance(i, j);
-					rand[l].i = i;
-					rand[l].j = j;
-					rand[l].r = distance;
-					rand[l].type = NeighborsType::Random;
+								
+								m_ext_graph.addNeighbors(i, Neighbors{ i, j, distance, NeighborsType::Random });
+								break;
+							}
+						}
+					}
 				}
-				add_to_dist_matrix(rand, randomNeighbors);
 			}
 		}
 
-		m_graph->saveToCache(path);
+		m_ext_graph.saveToCache(path);
 		m_ext_system.logger().logInfo("[BruteForce Generator] Finished. Graph cached.");
 	}
 
-	void BruteForce::useCache(bool useCache)
+	void BruteForce::addMinDist(std::vector<Neighbors>& n, float new_r, size_t pi, size_t pj, bool sort)
 	{
-		m_useCache = useCache;
-	}
-
-	void BruteForce::reset_tmp_dist_matrix(Neighbors* n, float initval, size_t elems)
-	{
-		for (int i = 0; i < elems; i++)
-			n[i].r = initval;
-	}
-
-	void BruteForce::add_min_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort)
-	{
+		auto const elems = n.size();
 		if (n[elems - 1].r < new_r) return;
 
-		for (int i = 0; i < elems; i++)
+		for (auto i = 0; i < elems; i++)
 		{
 			if (n[i].r >= new_r)
 			{
@@ -132,11 +139,12 @@ namespace ivhd::graph::generate
 		}
 	}
 
-	void BruteForce::add_max_dist(Neighbors* n, size_t elems, float new_r, size_t pi, size_t pj, bool sort)
+	void BruteForce::addMaxDist(std::vector<Neighbors>& n, float new_r, size_t pi, size_t pj, bool sort)
 	{
+		auto const elems = n.size();
 		if (n[elems - 1].r > new_r) return;
 
-		for (int i = 0; i < elems; i++)
+		for (auto i = 0; i < elems; i++)
 		{
 			if (n[i].r <= new_r)
 			{
@@ -157,19 +165,6 @@ namespace ivhd::graph::generate
 
 				return;
 			}
-		}
-	}
-
-	void BruteForce::add_to_dist_matrix(Neighbors* n, size_t elems)
-	{
-		for (int i = 0; i < elems; i++)
-		{
-			if (m_distancesEqualOne)
-			{
-				n->r = 1;
-			}
-
-			m_graph->addNeighbors(n[i]);
 		}
 	}
 }

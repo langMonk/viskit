@@ -91,6 +91,12 @@
     <Filter Include="Source Files\graph\generate">
       <UniqueIdentifier>{0a68a4b4-0966-4d64-b578-13327acd0b84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\embed\cast\ivhd">
+      <UniqueIdentifier>{cdf30541-3b26-4c1b-9483-103572652dfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\embed\cast\ivhd">
+      <UniqueIdentifier>{117b0f5e-6e34-4866-a877-d94427eab6e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core\Logger.h">
@@ -222,12 +228,6 @@
     <ClInclude Include="include\facade\FacadeResourceCollection.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
-    <ClInclude Include="include\embed\cast\CasterMDS.h">
-      <Filter>Header Files\embed\cast</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facade\FacadeCasterMDS.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
     <ClInclude Include="include\ivhd\IGraphGenerator.h">
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
@@ -261,10 +261,37 @@
     <ClInclude Include="include\graph\generate\GraphGenerator.h">
       <Filter>Header Files\graph\generate</Filter>
     </ClInclude>
-    <ClInclude Include="include\embed\cast\CasterAB.h">
-      <Filter>Header Files\embed\cast</Filter>
+    <ClInclude Include="include\facade\FacadeCasterSGD.h">
+      <Filter>Header Files\facade</Filter>
     </ClInclude>
-    <ClInclude Include="include\facade\FacadeCasterAB.h">
+    <ClInclude Include="include\embed\cast\ivhd\CasterSGD.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterForceDirected.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterForceDirected.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterAdadelta.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterAdam.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterNesterov.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterIVHD.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterAdadelta.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterAdam.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterNesterov.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
   </ItemGroup>
@@ -279,9 +306,6 @@
       <Filter>Source Files\parse</Filter>
     </ClCompile>
     <ClCompile Include="source\embed\cast\Caster.cpp">
-      <Filter>Source Files\embed\cast</Filter>
-    </ClCompile>
-    <ClCompile Include="source\embed\cast\CasterRandom.cpp">
       <Filter>Source Files\embed\cast</Filter>
     </ClCompile>
     <ClCompile Include="source\parse\Parser.cpp">
@@ -329,12 +353,6 @@
     <ClCompile Include="source\utils\RandomColor.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
-    <ClCompile Include="source\embed\cast\CasterMDS.cpp">
-      <Filter>Source Files\embed\cast</Filter>
-    </ClCompile>
-    <ClCompile Include="source\facade\FacadeCasterMDS.cpp">
-      <Filter>Source Files\facade</Filter>
-    </ClCompile>
     <ClCompile Include="source\facade\FacadeGraphGenerator.cpp">
       <Filter>Source Files\facade</Filter>
     </ClCompile>
@@ -359,10 +377,40 @@
     <ClCompile Include="source\graph\generate\GraphGenerator.cpp">
       <Filter>Source Files\graph\generate</Filter>
     </ClCompile>
-    <ClCompile Include="source\embed\cast\CasterAB.cpp">
+    <ClCompile Include="source\facade\FacadeCasterSGD.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\CasterRandom.cpp">
       <Filter>Source Files\embed\cast</Filter>
     </ClCompile>
-    <ClCompile Include="source\facade\FacadeCasterAB.cpp">
+    <ClCompile Include="source\embed\cast\ivhd\CasterSGD.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterForceDirected.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterForceDirected.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterIVHD.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterAdadelta.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterNesterov.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterAdam.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterAdadelta.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterAdam.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterNesterov.cpp">
       <Filter>Source Files\facade</Filter>
     </ClCompile>
   </ItemGroup>
