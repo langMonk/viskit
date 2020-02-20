@@ -2,6 +2,9 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+*.vcxproj.user
+*.graph
+*.txt
 /.vs/ivhd/v16
 /ivhd/.vs/ivhd/v16
 /ivhd/output/
@@ -13,7 +16,6 @@
 /ivhd/QtEditor/Intermediate
 /ivhd/QtEditor/GeneratedFiles
 /ivhd/packages/Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1
-*.vcxproj.user
 /ivhd/Approximate_kNN_generator/x64
 /ivhd/libivhd_tests/measurement.txt
 /ivhd/libivhd_tests/kNN_graph_kdd.txt
