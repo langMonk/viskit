@@ -16,15 +16,8 @@ namespace ivhd::embed::cast::ivhd
 	public:
 		CasterAdadelta(core::System& system, particles::ParticleSystem& ps);
 
-		// public methods
-	public:
-		void castParticle(size_t index) override;
-
-		void castParticleSystem() override;
-
-	private:
-		glm::vec4 calcGradient(size_t index, float& energy) const;
-
+		void calculatePositions() override;
+		
 	private:
 		std::vector<glm::vec4> decGrad;
 		
