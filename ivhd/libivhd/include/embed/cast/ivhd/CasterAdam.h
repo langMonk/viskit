@@ -1,6 +1,6 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 17.02.2020
+/// \date 19.02.2020
 ///
 
 #pragma once
@@ -16,19 +16,19 @@ namespace ivhd::embed::cast::ivhd
 	public:
 		CasterAdam(core::System& system, particles::ParticleSystem& ps);
 
-		// public methods
-	public:
-		void castParticle(size_t index) override;
-
-		void castParticleSystem() override;
-
+		void calculatePositions() override;
 
 	private:
 		std::vector<glm::vec4> decGrad;
 
 		std::vector<glm::vec4> decDelta;
 
-		float DECAYING_PARAM{ 0.9f };
+		float B1{ 0.9f };
+		
+		float B2{ 0.999 };
+		
 		float EPS{ 0.00000001f };
+		
+		float LEARNING_RATE{ 0.002f };
 	};
 }

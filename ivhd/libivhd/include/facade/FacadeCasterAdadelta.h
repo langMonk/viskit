@@ -1,6 +1,6 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 10.02.2020
+/// \date 19.02.2020
 ///
 
 #pragma once
