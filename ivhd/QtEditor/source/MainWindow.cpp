@@ -45,11 +45,13 @@ void MainWindow::initializeIVHDResources()
 	const auto casterForceDirected = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::ForceDirected);
 	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Adadelta);
 	const auto casterAdam = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Adam);
+	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Nesterov);
 
 	m_casters->add("Random", casterRandom);
 	m_casters->add("ForceDirected", casterForceDirected);
 	m_casters->add("Adadelta", casterAdadelta);
 	m_casters->add("Adam", casterAdam);
+	m_casters->add("Nesterov", casterNesterov);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
 	m_generators->add("Brute Force", bruteGenerator);

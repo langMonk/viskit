@@ -12,6 +12,7 @@
 #include "facade/FacadeCasterForceDirected.h"
 #include "facade/FacadeCasterAdadelta.h"
 #include "facade/FacadeCasterAdam.h"
+#include "facade/FacadeCasterNesterov.h"
 
 namespace ivhd::facade
 {
@@ -67,6 +68,10 @@ namespace ivhd::facade
 		else if (type == CasterType::Adam)
 		{
 			caster = std::make_shared < facade::FacadeCasterAdam>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+		}
+		else if (type == CasterType::Nesterov)
+		{
+			caster = std::make_shared < facade::FacadeCasterNesterov>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
 		return caster;
 	}
