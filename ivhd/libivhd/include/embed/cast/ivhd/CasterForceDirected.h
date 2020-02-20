@@ -16,11 +16,7 @@ namespace ivhd::embed::cast::ivhd
 	public:
 		CasterForceDirected(core::System& system, particles::ParticleSystem& ps);
 
-		// public methods
-	public:
-		void castParticle(size_t index) override;
-
-		void castParticleSystem() override;
+		void calculatePositions() override;
 		
 	};
 }

@@ -8,42 +8,13 @@ namespace ivhd::embed::cast::ivhd
 		
 	}
 
-	void CasterAdadelta::castParticle(size_t index)
-	{
-	}
-
-	void CasterAdadelta::castParticleSystem()
+	void CasterAdadelta::calculatePositions()
 	{
 		decGrad.resize(m_ext_particleSystem.countParticles(), glm::vec4{ 0.0f });
 		decDelta.resize(m_ext_particleSystem.countParticles(), glm::vec4{ 0.0f });
 			
-		m_ext_system.logger().logInfo("[Caster IVHD Adadelta] Casting particle system...");
-
 		auto& positions = m_ext_particleSystem.calculationData()->m_pos;
 		auto& forces = m_ext_particleSystem.calculationData()->m_force;
-
-		m_ext_particleSystem.resetForces();
-
-		float de;
-		for (auto index = 0; index < m_ext_graph.size(); index++)
-		{
-			if (auto neighbors = m_ext_graph.getNeighbors(index))
-			{
-				for (const auto neighbor : *neighbors)
-				{
-					auto df = calculateForces(neighbor, de);
-
-					switch (neighbor.type)
-					{
-					case NeighborsType::Random: df *= w_random;
-					default:;
-					}
-
-					forces[neighbor.i] += df;
-					forces[neighbor.j] -= df;
-				}
-			}
-		}
 		
 		for (auto i = 0; i < m_ext_particleSystem.countParticles(); i++)
 		{
@@ -62,7 +33,6 @@ namespace ivhd::embed::cast::ivhd
 		
 		
 		m_ext_particleSystem.increaseStep();
-		m_ext_system.logger().logInfo("[Caster IVHD Adadelta] Finished.");
 	}
 
 }
