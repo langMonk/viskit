@@ -23,20 +23,25 @@ void saveToPlainText(Graph& graph)
 
 	const auto kNN_count = graph.neighborsCount();
 	
-	for (auto i = 0; i < kNN_count; i++)
+	for (int i = 0; i < graph.size(); i++)
 	{
-		const auto neighbors = graph.getNeighbors(i);
-		if (neighbors.type == NeighborsType::Near)
+		if (const auto neighbors = graph.getNeighbors(i))
 		{
-			m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Near" << std::endl;
-		}
-		else if (neighbors.type == NeighborsType::Far)
-		{
-			m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Far" << std::endl;
-		}
-		else
-		{
-			m_file << neighbors.i << "," << neighbors.j << "," << neighbors.r << "," << "Random" << std::endl;
+			for (const auto neighbor : *neighbors)
+			{
+				if (neighbor.type == NeighborsType::Near)
+				{
+					m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Near" << std::endl;
+				}
+				else if (neighbor.type == NeighborsType::Far)
+				{
+					m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Far" << std::endl;
+				}
+				else
+				{
+					m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Random" << std::endl;
+				}
+			}
 		}
 	}
 }
@@ -69,14 +74,14 @@ namespace libivhd_test
 
 		auto profiler = utils::TimeProfiler(true);
 		profiler.start();
-		generator.generate(3, 0, 0);
+		generator.generate(3, 0, 0, true);
 		profiler.stop();
 		profiler.measurementMs();
 
 		auto graph = particleSystem.neighbourhoodGraph();
-		auto kNN_count = graph.neighborsCount();
 
-		EXPECT_EQ(kNN_count, 21000); //every point has 3 NN
+		EXPECT_EQ(graph.size(), 7000); // 7000 elements (size) and every has 3 NN 
+		EXPECT_EQ(graph.neighborsCount(), 21000); 
 	}
 
 	TEST(Graph, SaveLoad)
@@ -103,16 +108,18 @@ namespace libivhd_test
 		EXPECT_EQ(particleSystem.countParticles(), 7000);
 		EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);
 
-		generator.generate(3, 0, 0);
+		generator.generate(3, 0, 0, true);
 
 		auto graph = particleSystem.neighbourhoodGraph();
 		graph.saveToCache("MNIST7k");
 		graph.clear();
 
 		EXPECT_EQ(graph.size(), 0);
+		EXPECT_EQ(graph.neighborsCount(), 0);
 
 		graph.loadFromCache("MNIST7k");
 		
-		EXPECT_EQ(graph.size(), 21000);
+		EXPECT_EQ(graph.neighborsCount(), 21000);
+		EXPECT_EQ(graph.size(), 7000);
 	}
 }

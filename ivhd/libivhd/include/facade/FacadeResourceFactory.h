@@ -26,7 +26,7 @@ namespace ivhd::facade
 
 		std::shared_ptr<IGraphGenerator> createGraphGenerator(GraphGeneratorType type) override;
 
-		std::shared_ptr<ICaster> createCaster(CasterType type) override;
+		std::shared_ptr<ICaster> createCaster(CasterType type, OptimizerType optimizer) override;
 
 	private:
 		FacadeInteractiveVizualization& m_ext_ivhd;

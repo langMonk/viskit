@@ -1,28 +1,39 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 17.02.2020
+/// \date 15.07.2019
 ///
 
 #pragma once
 
-#include "Caster.h"
+#include "embed/cast/Caster.h"
 #include "particles/ParticleSystem.h"
-#include "CasterMDS.h"
 
-namespace ivhd::embed::cast
+namespace ivhd::embed::cast::ivhd
 {
-	class CasterAB : public Caster
+	struct SammonParameters
+	{
+		SammonParameters() : k(1), m(2), w(0) {};
+		int k, m, w;
+	};
+
+	struct distanceKernelParameters
+	{
+		distanceKernelParameters() : near(1.0f), random(0.01f), far(1.0f), reversed(-0.85f) {};
+		float near, random, far, reversed;
+	};
+
+	class CasterMDS : public Caster
 	{
 		// public construction and destruction methods
 	public:
-		CasterAB(core::System& system, particles::ParticleSystem& ps);
+		CasterMDS(core::System& system, particles::ParticleSystem& ps);
 
 		// public methods
 	public:
 		void castParticle(size_t index) override;
 
 		void castParticleSystem() override;
-
+		
 		// private methods
 	private:
 		glm::vec4 calculateForces(size_t pairIndex, size_t pi, size_t pj, float& energy) const;
@@ -31,9 +42,9 @@ namespace ivhd::embed::cast
 	private:
 		SammonParameters m_sammonParameters;
 		distanceKernelParameters m_distanceKernelParameters;
-		graph::Graph& m_ext_graph;
-
-		float a_factor { 0.990545f };
-		float b_factor { 0.000200945f };
+		Graph& m_ext_graph;
+		
+		int maxVelocity{ 1000 };
+		float dumpVelocity{ 0.95f };
 	};
 }

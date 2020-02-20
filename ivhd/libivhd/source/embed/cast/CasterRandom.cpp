@@ -9,7 +9,7 @@
 namespace ivhd::embed::cast
 {
 	CasterRandom::CasterRandom(core::System& system, particles::ParticleSystem& ps)
-		: Caster(system, ps)
+		: Caster(system, ps, ps.neighbourhoodGraph())
 		, m_maxEdge(1000)
 		, m_gen(new RandomGenerator())
 	{

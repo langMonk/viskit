@@ -9,8 +9,10 @@
 #include "facade/FacadeParserCSV.h"
 #include "facade/FacadeGraphGeneratorKDTree.h"
 #include "facade/FacadeGraphGeneratorBruteForce.h"
-#include "facade/FacadeCasterMDS.h"
-#include "facade/FacadeCasterAB.h"
+#include "facade/FacadeCasterForceDirected.h"
+#include "facade/FacadeCasterAdadelta.h"
+#include "facade/FacadeCasterAdam.h"
+#include "facade/FacadeCasterNesterov.h"
 
 namespace ivhd::facade
 {
@@ -47,7 +49,7 @@ namespace ivhd::facade
 		return generator;
 	}
 
-	std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(CasterType type)
+	std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(CasterType type, OptimizerType optimizer)
 	{
 		std::shared_ptr<ICaster> caster = nullptr;
 			
@@ -55,15 +57,22 @@ namespace ivhd::facade
 		{
 			caster = std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
-		else if (type == CasterType::MDS)
+		else if (type == CasterType::IVHD && optimizer == OptimizerType::ForceDirected)
 		{
-			caster = std::make_shared<facade::FacadeCasterMDS>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			caster = std::make_shared<facade::FacadeCasterForceDirected>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
-		else if (type == CasterType::AB)
+		else if (type == CasterType::IVHD && optimizer == OptimizerType::Adadelta)
 		{
-			caster = std::make_shared<facade::FacadeCasterAB>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			caster = std::make_shared < facade::FacadeCasterAdadelta> (m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
 		}
-		
+		else if (type == CasterType::IVHD && optimizer == OptimizerType::Adam)
+		{
+			caster = std::make_shared < facade::FacadeCasterAdam>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+		}
+		else if (type == CasterType::IVHD && optimizer == OptimizerType::Nesterov)
+		{
+			caster = std::make_shared < facade::FacadeCasterNesterov>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+		}
 		return caster;
 	}
 }

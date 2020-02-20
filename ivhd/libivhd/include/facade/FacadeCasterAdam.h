@@ -1,0 +1,42 @@
+///
+/// \author Bartosz Minch <minch@agh.edu.pl>
+/// \date 19.02.2020
+///
+
+#pragma once
+
+#include "facade/FacadeCaster.h"
+#include "embed/cast/ivhd/CasterAdam.h"
+
+namespace ivhd::facade
+{
+	/// <summary>
+	/// Implementation of ICaster interface.
+	/// </summary>
+	class FacadeCasterAdam : public FacadeCaster
+	{
+		// public construction and destruction methods
+	public:
+
+		explicit FacadeCasterAdam(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
+		~FacadeCasterAdam() = default;
+
+		FacadeCasterAdam(const FacadeCasterAdam&) = delete;
+		FacadeCasterAdam(FacadeCasterAdam&&) = delete;
+
+		FacadeCasterAdam& operator=(const FacadeCasterAdam&) = delete;
+		FacadeCasterAdam& operator=(FacadeCasterAdam&&) = delete;
+
+		// public methods
+	public:
+		void castParticleSystem() override;
+
+		void castParticle(size_t index) override;
+
+		CasterType type() override { return CasterType::IVHD; }
+		
+		// private members
+	private:
+		std::shared_ptr<embed::cast::ivhd::CasterAdam> m_internalCaster;
+	};
+}

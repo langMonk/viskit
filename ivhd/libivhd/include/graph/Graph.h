@@ -1,4 +1,12 @@
+///
+/// \author Bartosz Minch <minch@agh.edu.pl>
+/// \date 18.02.2020
+///
+///
+
 #pragma once
+
+#include <optional>
 
 #include "core/System.h"
 #include "ivhd/Structures.h"
@@ -13,18 +21,21 @@ namespace ivhd::graph
 
 		// public methods
 	public:
-		Neighbors getNeighbors(size_t idx);
+		void generate(size_t elements);
+		
+		std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
 
-		void addNeighbors(Neighbors neighbors);
-
-		size_t neighborsCount() { return m_data.size(); }
-		size_t neighborsCount() const { return m_data.size(); }
+		void addNeighbors(size_t index, std::vector<Neighbors> neighbors);
+		
+		void addNeighbors(size_t index, Neighbors neighbor);
+		
+		size_t neighborsCount();
 
 		void sort();
 		
 		void clear();
-		
-		size_t size() const;
+
+		[[nodiscard]] size_t size() const;
 
 		bool saveToCache(const std::string& fileName);
 
@@ -34,7 +45,7 @@ namespace ivhd::graph
 	private:
 		core::System& m_ext_system;
 
-		std::vector<Neighbors> m_data;
+		std::vector<std::vector<Neighbors>> m_data;
 	};
 }
 

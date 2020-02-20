@@ -16,7 +16,7 @@ namespace ivhd::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		Caster(core::System& system, particles::ParticleSystem& ps);
+		Caster(core::System& system, particles::ParticleSystem& ps, Graph& graph);
 		virtual ~Caster() = default;
 
 		Caster(const Caster&) = delete;
@@ -27,12 +27,6 @@ namespace ivhd::embed::cast
 		
 		particles::ParticleSystem& m_ext_particleSystem;
 		
-		threading::ThreadPool m_threadPool;
-		
-		bool m_casting{ false };
-
-		float dtFactor{ 1.0f };
-
-		float speedFactor{200};
+		Graph& m_ext_graph;
 	};
 }
