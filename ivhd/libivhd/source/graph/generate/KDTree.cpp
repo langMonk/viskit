@@ -2,17 +2,18 @@
 
 namespace ivhd::graph::generate
 { 
-	typename KDTree::Node* KDTree::deepcopyTree(typename KDTree::Node* root) {
-		if (root == NULL) return NULL;
+	KDTree::Node* KDTree::deepcopyTree(Node* root) {
+		if (root == nullptr) return nullptr;
 		Node* newRoot = new Node(*root);
 		newRoot->left = deepcopyTree(root->left);
 		newRoot->right = deepcopyTree(root->right);
 		return newRoot;
 	}
 
-	typename KDTree::Node* KDTree::buildTree(typename std::vector<std::pair<DataPoint, size_t>>::iterator start,
-		typename std::vector<std::pair<DataPoint, size_t>>::iterator end, int currLevel) {
-		if (start >= end) return NULL; // empty tree
+	KDTree::Node* KDTree::buildTree(std::vector<std::pair<DataPoint, size_t>>::iterator start,
+		std::vector<std::pair<DataPoint, size_t>>::iterator end, int currLevel) const
+	{
+		if (start >= end) return nullptr; // empty tree
 
 		int axis = currLevel % m_sizePoints; // the axis to split on
 		auto cmp = [axis](const std::pair<DataPoint, size_t>& p1, const std::pair<DataPoint, size_t>& p2) {
@@ -34,18 +35,21 @@ namespace ivhd::graph::generate
 		return newNode;
 	}
 
-	KDTree::KDTree(std::vector<std::pair<DataPoint, size_t>>& points, size_t dim) {
+	KDTree::KDTree(std::vector<std::pair<DataPoint, size_t>>& points, size_t dim)
+	{
 		m_root = buildTree(points.begin(), points.end(), 0);
 		m_size = points.size();
 		m_sizePoints = dim;
 	}
 
-	KDTree::KDTree(const KDTree& rhs) {
+	KDTree::KDTree(const KDTree& rhs)
+	{
 		m_root = deepcopyTree(rhs.m_root);
 		m_size = rhs.m_size;
 	}
 
-	KDTree& KDTree::operator=(const KDTree& rhs) {
+	KDTree& KDTree::operator=(const KDTree& rhs)
+	{
 		if (this != &rhs) { // make sure we don't self-assign
 			freeResource(m_root);
 			m_root = deepcopyTree(rhs.m_root);
@@ -54,64 +58,77 @@ namespace ivhd::graph::generate
 		return *this;
 	}
 
-	void KDTree::freeResource(typename KDTree::Node* currNode) {
-		if (currNode == NULL) return;
+	void KDTree::freeResource(Node* currNode)
+	{
+		if (currNode == nullptr) return;
 		freeResource(currNode->left);
 		freeResource(currNode->right);
 		delete currNode;
 	}
 
-	KDTree::~KDTree() {
+	KDTree::~KDTree()
+	{
 		freeResource(m_root);
 	}
 
-	std::size_t KDTree::dimension() const {
+	std::size_t KDTree::dimension() const
+	{
 		return m_sizePoints;
 	}
 
-	std::size_t KDTree::size() const {
+	std::size_t KDTree::size() const
+	{
 		return m_size;
 	}
 
-	bool KDTree::empty() const {
+	bool KDTree::empty() const
+	{
 		return m_size == 0;
 	}
 
-	typename KDTree::Node* KDTree::findNode(typename KDTree::Node* currNode, const DataPoint& pt) const {
-		if (currNode == NULL || currNode->point == pt) return currNode;
+	KDTree::Node* KDTree::findNode(Node* currNode, const DataPoint& pt) const
+	{
+		if (currNode == nullptr || currNode->point == pt) return currNode;
 
-		const DataPoint& currPoint = currNode->point;
-		int currLevel = currNode->level;
+		const auto& currPoint = currNode->point;
+		const auto currLevel = currNode->level;
 		if (pt[currLevel % m_sizePoints] < currPoint[currLevel % m_sizePoints]) { // recurse to the left side
-			return currNode->left == NULL ? currNode : findNode(currNode->left, pt);
+			return currNode->left == nullptr ? currNode : findNode(currNode->left, pt);
 		}
 		else { // recurse to the right side
-			return currNode->right == NULL ? currNode : findNode(currNode->right, pt);
+			return currNode->right == nullptr ? currNode : findNode(currNode->right, pt);
 		}
 	}
 
-	bool KDTree::contains(const DataPoint& pt) const {
-		auto node = findNode(m_root, pt);
-		return node != NULL && node->point == pt;
+	bool KDTree::contains(const DataPoint& pt) const
+	{
+		const auto node = findNode(m_root, pt);
+		return node != nullptr && node->point == pt;
 	}
 
-	void KDTree::insert(const DataPoint& pt, const size_t& value) {
+	void KDTree::insert(const DataPoint& pt, const size_t& value)
+	{
 		auto targetNode = findNode(m_root, pt);
-		if (targetNode == NULL) { // this means the tree is empty
+		if (targetNode == nullptr)  // this means the tree is empty
+		{ 
 			m_root = new Node(pt, 0, value);
 			m_size = 1;
 		}
 		else {
-			if (targetNode->point == pt) { // pt is already in the tree, simply update its value
+			if (targetNode->point == pt)  // pt is already in the tree, simply update its value
+			{ 
 				targetNode->value = value;
 			}
-			else { // construct a new node and insert it to the right place (child of targetNode)
-				int currLevel = targetNode->level;
+			else  // construct a new node and insert it to the right place (child of targetNode)
+			{ 
+				const auto currLevel = targetNode->level;
 				Node* newNode = new Node(pt, currLevel + 1, value);
-				if (pt[currLevel % m_sizePoints] < targetNode->point[currLevel % m_sizePoints]) {
+				if (pt[currLevel % m_sizePoints] < targetNode->point[currLevel % m_sizePoints]) 
+				{
 					targetNode->left = newNode;
 				}
-				else {
+				else 
+				{
 					targetNode->right = newNode;
 				}
 				++m_size;
@@ -119,64 +136,46 @@ namespace ivhd::graph::generate
 		}
 	}
 
-	const size_t& KDTree::at(const DataPoint& pt) const {
-		auto node = findNode(m_root, pt);
-		if (node == NULL || node->point != pt) {
+	const size_t& KDTree::at(const DataPoint& pt) const
+	{
+		const auto node = findNode(m_root, pt);
+		if (node == nullptr || node->point != pt) 
+		{
 			throw std::out_of_range("Point not found in the KD-Tree");
 		}
-		else {
+		else 
+		{
 			return node->value;
 		}
 	}
 
-	size_t& KDTree::at(const DataPoint& pt) {
+	size_t& KDTree::at(const DataPoint& pt)
+	{
 		const KDTree& constThis = *this;
 		return const_cast<size_t&>(constThis.at(pt));
 	}
 
-	size_t& KDTree::operator[](const DataPoint& pt) {
+	size_t& KDTree::operator[](const DataPoint& pt)
+	{
 		auto node = findNode(m_root, pt);
-		if (node != NULL && node->point == pt) { // pt is already in the tree
+		if (node != nullptr && node->point == pt) // pt is already in the tree
+		{ 
 			return node->value;
 		}
-		else { // insert pt with default size_t value, and return reference to the new size_t
-			insert(pt);
-			if (node == NULL) return m_root->value; // the new node is the root
-			else return (node->left != NULL && node->left->point == pt) ? node->left->value : node->right->value;
+
+		// insert pt with default size_t value, and return reference to the new size_t
+		insert(pt);
+		if (node == nullptr)  // the new node is the root
+		{
+			return m_root->value;
 		}
+		return (node->left != nullptr && node->left->point == pt) ? node->left->value : node->right->value;
 	}
 
-	void KDTree::nearestNeighborValueRecurse(const typename KDTree::Node* currNode, const DataPoint& key, BoundedPQueue& pQueue) const
+	void KDTree::nearestNeighborRecurse(const Node* currNode, const DataPoint& key, BoundedPQueue& pQueue) const
 	{
-		if (currNode == NULL) return;
-		const DataPoint& currPoint = currNode->point;
-
-		// Add the current point to the BPQ if it is closer to 'key' that some point in the BPQ
-		pQueue.enqueue(currNode->value, Distance(currPoint, key));
-
-		// Recursively search the half of the tree that contains Point 'key'
-		int currLevel = currNode->level;
-		bool isLeftTree;
-		if (key[currLevel % m_sizePoints] < currPoint[currLevel % m_sizePoints]) {
-			nearestNeighborRecurse(currNode->left, key, pQueue);
-			isLeftTree = true;
-		}
-		else {
-			nearestNeighborRecurse(currNode->right, key, pQueue);
-			isLeftTree = false;
-		}
-
-		if (pQueue.size() < pQueue.maxSize() || fabs(key[currLevel % m_sizePoints] - currPoint[currLevel % m_sizePoints]) < pQueue.worst()) {
-			// Recursively search the other half of the tree if necessary
-			if (isLeftTree) nearestNeighborRecurse(currNode->right, key, pQueue);
-			else nearestNeighborRecurse(currNode->left, key, pQueue);
-		}
-	}
-
-	void KDTree::nearestNeighborRecurse(const typename KDTree::Node* currNode, const DataPoint& key, BoundedPQueue& pQueue) const
-	{
-		if (currNode == NULL) return;
-		const DataPoint& currPoint = currNode->point;
+		if (currNode == nullptr) return;
+		const auto& currPoint = currNode->point;
 
 		// Add the current point to the BPQ if it is closer to 'key' that some point in the BPQ
 		// and point is not the same
@@ -186,9 +185,10 @@ namespace ivhd::graph::generate
 		}
 		
 		// Recursively search the half of the tree that contains Point 'key'
-		int currLevel = currNode->level;
+		const auto currLevel = currNode->level;
 		bool isLeftTree;
-		if (key[currLevel % m_sizePoints] < currPoint[currLevel % m_sizePoints]) {
+		if (key[currLevel % m_sizePoints] < currPoint[currLevel % m_sizePoints]) 
+		{
 			nearestNeighborRecurse(currNode->left, key, pQueue);
 			isLeftTree = true;
 		}
@@ -197,38 +197,12 @@ namespace ivhd::graph::generate
 			isLeftTree = false;
 		}
 
-		if (pQueue.size() < pQueue.maxSize() || fabs(key[currLevel % m_sizePoints] - currPoint[currLevel % m_sizePoints]) < pQueue.worst()) {
+		if (pQueue.size() < pQueue.maxSize() || fabs(key[currLevel % m_sizePoints] - currPoint[currLevel % m_sizePoints]) < pQueue.worst()) 
+		{
 			// Recursively search the other half of the tree if necessary
 			if (isLeftTree) nearestNeighborRecurse(currNode->right, key, pQueue);
 			else nearestNeighborRecurse(currNode->left, key, pQueue);
 		}
-	}
-
-	size_t KDTree::kNNValue(const DataPoint& key, std::size_t k) const
-	{
-		BoundedPQueue pQueue(k); // BPQ with maximum size k
-		if (empty()) return size_t(); // default return value if KD-tree is empty
-
-		// Recursively search the KD-tree with pruning
-		nearestNeighborValueRecurse(m_root, key, pQueue);
-
-		// Count occurrences of all size_t in the kNN set
-		std::unordered_map<size_t, int> counter;
-		while (!pQueue.empty()) {
-			++counter[pQueue.dequeueMin()];
-		}
-
-		// Return the most frequent element in the kNN set
-		size_t result;
-		int cnt = -1;
-		for (const auto& p : counter) {
-			if (p.second > cnt) {
-				result = p.first;
-				cnt = p.second;
-			}
-		}
-
-		return result;
 	}
 
 	std::vector<std::pair<float, DataPoint>> KDTree::kNN(const DataPoint& key, std::size_t k) const

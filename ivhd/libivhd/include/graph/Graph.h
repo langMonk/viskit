@@ -25,9 +25,9 @@ namespace ivhd::graph
 		
 		std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
 
-		void addNeighbors(size_t index, std::vector<Neighbors> neighbors);
+		void addNeighbors(const std::vector<Neighbors>& neighbors);
 		
-		void addNeighbors(size_t index, Neighbors neighbor);
+		void addNeighbors(Neighbors neighbor);
 		
 		size_t neighborsCount();
 

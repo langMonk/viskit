@@ -30,7 +30,7 @@ namespace libivhd_test
 		ivhd::embed::cast::CasterRandom caster{ core.system(), particleSystem };
 		ivhd::parse::ParserCSV parser{ core.system() };
 
-		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
+		auto csvFile = utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
 
 		parser.loadFile(csvFile, particleSystem);
 

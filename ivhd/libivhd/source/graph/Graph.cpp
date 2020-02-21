@@ -29,16 +29,16 @@ namespace ivhd::graph
 		}
 	}
 
-	void Graph::addNeighbors(size_t index, Neighbors neighbor)
+	void Graph::addNeighbors(Neighbors neighbor)
 	{
-		m_data[index].emplace_back(neighbor);
+		m_data[neighbor.i].emplace_back(neighbor);
 	}
 	
-	void Graph::addNeighbors(size_t index, std::vector<Neighbors> neighbors)
+	void Graph::addNeighbors(const std::vector<Neighbors>& neighbors)
 	{
 		for(const auto& neighbor : neighbors)
 		{
-			m_data[index].emplace_back(neighbor);
+			m_data[neighbor.i].emplace_back(neighbor);
 		}
 	}
 
