@@ -32,9 +32,9 @@ namespace ivhd::facade
 	public:
 		std::vector<Neighbors> getNeighbors(size_t idx) override;
 	
-		void addNeighbors(size_t index, Neighbors neighbor) override;
+		void addNeighbors(Neighbors neighbor) override;
 		
-		void addNeighbors(size_t index, std::vector<Neighbors> neighbors) override;
+		void addNeighbors(std::vector<Neighbors> neighbors) override;
 
 		size_t neighborsCount() override;
 

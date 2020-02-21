@@ -31,11 +31,11 @@ namespace ivhd::facade
 		return {};
 	}
 
-	void FacadeGraph::addNeighbors(size_t index, Neighbors neighbors)
+	void FacadeGraph::addNeighbors(Neighbors neighbors)
 	{
 		try
 		{
-			m_ext_graph.addNeighbors(index, neighbors);
+			m_ext_graph.addNeighbors(neighbors);
 		}
 		catch (std::exception& exception)
 		{
@@ -45,11 +45,11 @@ namespace ivhd::facade
 		}
 	}
 
-	void FacadeGraph::addNeighbors(size_t index, std::vector<Neighbors> neighbors)
+	void FacadeGraph::addNeighbors(std::vector<Neighbors> neighbors)
 	{
 		try
 		{
-			m_ext_graph.addNeighbors(index, neighbors);
+			m_ext_graph.addNeighbors(neighbors);
 		}
 		catch (std::exception& exception)
 		{

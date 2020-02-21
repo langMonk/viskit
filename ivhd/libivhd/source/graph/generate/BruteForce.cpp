@@ -19,13 +19,13 @@ namespace ivhd::graph::generate
 		
 		m_distancesEqualOne = distancesEqualOne;
 
-		// if there is cached graph for this dataset, then just load it and return from this method
-		auto path = m_ext_particleSystem.datasetInfo().path + m_ext_particleSystem.datasetInfo().fileName;
-		if (m_ext_graph.loadFromCache(path))
-		{
-			m_ext_system.logger().logInfo("[BruteForce Generator] kNN Graph loaded from cache.");
-			return;
-		}
+		//// if there is cached graph for this dataset, then just load it and return from this method
+		//auto path = m_ext_particleSystem.datasetInfo().path + m_ext_particleSystem.datasetInfo().fileName;
+		//if (m_ext_graph.loadFromCache(path))
+		//{
+		//	m_ext_system.logger().logInfo("[BruteForce Generator] kNN Graph loaded from cache.");
+		//	return;
+		//}
 
 		m_ext_system.logger().logInfo("[BruteForce Generator] Generating kNN Graph...");
 
@@ -73,8 +73,8 @@ namespace ivhd::graph::generate
 					}
 				}
 
-				m_ext_graph.addNeighbors(i, near);
-				m_ext_graph.addNeighbors(i, far);
+				m_ext_graph.addNeighbors(near);
+				m_ext_graph.addNeighbors(far);
 			}
 		}
 
@@ -104,7 +104,7 @@ namespace ivhd::graph::generate
 									distance = m_ext_particleSystem.vectorDistance(i, j);
 								}
 								
-								m_ext_graph.addNeighbors(i, Neighbors{ i, j, distance, NeighborsType::Random });
+								m_ext_graph.addNeighbors(Neighbors{ i, j, distance, NeighborsType::Random });
 								break;
 							}
 						}
@@ -113,7 +113,7 @@ namespace ivhd::graph::generate
 			}
 		}
 
-		m_ext_graph.saveToCache(path);
+		//m_ext_graph.saveToCache(path);
 		m_ext_system.logger().logInfo("[BruteForce Generator] Finished. Graph cached.");
 	}
 

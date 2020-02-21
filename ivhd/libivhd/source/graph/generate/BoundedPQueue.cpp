@@ -12,7 +12,7 @@ namespace ivhd::graph::generate
 		elems.insert(std::make_pair(priority, value));
 
 		if (size() > maxSize()) {
-			typename std::multimap<float, size_t>::iterator last = elems.end();
+			auto last = elems.end();
 			--last;
 			elems.erase(last);
 		}
@@ -24,7 +24,7 @@ namespace ivhd::graph::generate
 
 		if (pointSize() > maxSize())
 		{
-			typename std::multimap<float, DataPoint>::iterator last = points.end();
+			auto last = points.end();
 			--last;
 			points.erase(last);
 		}

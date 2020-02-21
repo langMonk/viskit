@@ -1,3 +1,8 @@
+///
+/// \author Bartosz Minch <minch@agh.edu.pl>
+/// \date 12.05.2019
+///
+
 #pragma once
 
 #include <map>

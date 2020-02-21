@@ -66,22 +66,24 @@ namespace libivhd_test
 		particles::ParticleSystem particleSystem{ core.system() };
 		generate::BruteForce generator{ core.system(), particleSystem };
 
-		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
+		auto csvFile = utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);
 
 		EXPECT_EQ(particleSystem.countParticles(), 7000);
 		EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);
 
-		auto profiler = utils::TimeProfiler(true);
+		auto profiler = ivhd::utils::TimeProfiler(true);
 		profiler.start();
-		generator.generate(3, 0, 0, true);
+		generator.generate(3, 1, 1, true);
 		profiler.stop();
 		profiler.measurementMs();
 
 		auto graph = particleSystem.neighbourhoodGraph();
 
 		EXPECT_EQ(graph.size(), 7000); // 7000 elements (size) and every has 3 NN 
-		EXPECT_EQ(graph.neighborsCount(), 21000); 
+		EXPECT_EQ(graph.neighborsCount(), 28000);
+
+		utils::dump(graph, "D:\\Repositories\\ivhd", "test_brute");
 	}
 
 	TEST(Graph, SaveLoad)
@@ -102,13 +104,13 @@ namespace libivhd_test
 		particles::ParticleSystem particleSystem{ core.system() };
 		generate::BruteForce generator{ core.system(), particleSystem };
 
-		auto csvFile = test_utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
+		auto csvFile = utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);
 
 		EXPECT_EQ(particleSystem.countParticles(), 7000);
 		EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);
 
-		generator.generate(3, 0, 0, true);
+		generator.generate(3, 1, 1, true);
 
 		auto graph = particleSystem.neighbourhoodGraph();
 		graph.saveToCache("MNIST7k");
