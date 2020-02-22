@@ -11,24 +11,24 @@
 
 namespace ivhd::graph::generate
 {
-	class GraphGenerator : public virtual IGraphGenerator
+	class GraphGenerator
 	{
 		// public construction and destruction methods
 	public:
-		GraphGenerator(core::System& system, particles::ParticleSystem& ps, Graph& graph);
+		GraphGenerator(core::System& system);
 		virtual ~GraphGenerator() = default;
 
 		GraphGenerator(const GraphGenerator&) = delete;
 		GraphGenerator& operator=(const GraphGenerator&) = delete;
 
+		virtual void generateRandomNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k = 0, bool distancesEqualOne = true) {};
+
+		virtual void generateNearestNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k = 0, bool distancesEqualOne = true) {};
+
 	protected:
-		bool alreadyNeighbors(size_t index1, size_t index2) const;
+		bool alreadyNeighbors(size_t index1, size_t index2, Graph& graph) const;
 		
 	protected:
 		core::System& m_ext_system;
-
-		particles::ParticleSystem& m_ext_particleSystem;
-		
-		Graph& m_ext_graph;
 	};
 }

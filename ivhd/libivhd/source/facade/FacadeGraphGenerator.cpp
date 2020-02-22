@@ -7,9 +7,8 @@
 
 namespace ivhd::facade
 {
-	FacadeGraphGenerator::FacadeGraphGenerator(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
+	FacadeGraphGenerator::FacadeGraphGenerator(std::shared_ptr<core::Core> core)
 		: m_ext_core(core)
-		, m_ext_particleSystem(ps)
 	{
 	}
 }

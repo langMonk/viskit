@@ -7,9 +7,9 @@
 
 namespace ivhd::facade
 {
-	FacadeGraph::FacadeGraph(core::Core& core, graph::Graph& graph)
+	FacadeGraph::FacadeGraph(core::Core& core)
 		: m_ext_core(core)
-		, m_ext_graph(graph)
+		, m_internalGraph(std::make_shared<graph::Graph>(core.system()))
 	{
 	}
 
@@ -17,7 +17,7 @@ namespace ivhd::facade
 	{
 		try
 		{
-			if(const auto neighbors = m_ext_graph.getNeighbors(idx))
+			if(const auto neighbors = m_internalGraph->getNeighbors(idx))
 			{
 				return *neighbors;
 			}
@@ -35,7 +35,7 @@ namespace ivhd::facade
 	{
 		try
 		{
-			m_ext_graph.addNeighbors(neighbors);
+			m_internalGraph->addNeighbors(neighbors);
 		}
 		catch (std::exception& exception)
 		{
@@ -49,7 +49,7 @@ namespace ivhd::facade
 	{
 		try
 		{
-			m_ext_graph.addNeighbors(neighbors);
+			m_internalGraph->addNeighbors(neighbors);
 		}
 		catch (std::exception& exception)
 		{
@@ -63,7 +63,7 @@ namespace ivhd::facade
 	{
 		try
 		{
-			return m_ext_graph.neighborsCount();
+			return m_internalGraph->neighborsCount();
 		}
 		catch (std::exception& exception)
 		{
@@ -71,18 +71,61 @@ namespace ivhd::facade
 			message += exception.what();
 			m_ext_core.logger().logWarning(message);
 		}
-		return 0;
+		return size_t{};
+	}
+
+	size_t FacadeGraph::size()
+	{
+		try
+		{
+			return m_internalGraph->size();
+		}
+		catch (std::exception & exception)
+		{
+			std::string message = "Failed to get the size of graph: ";
+			message += exception.what();
+			m_ext_core.logger().logWarning(message);
+		}
+		return size_t{};
 	}
 
 	void FacadeGraph::sort()
 	{
 		try
 		{
-			m_ext_graph.sort();
+			m_internalGraph->sort();
 		}
 		catch (std::exception& exception)
 		{
 			std::string message = "Failed to sort the graph: ";
+			message += exception.what();
+			m_ext_core.logger().logWarning(message);
+		}
+	}
+
+	bool FacadeGraph::saveToCache(const std::string& fileName)
+	{
+		try
+		{
+			return m_internalGraph->saveToCache(fileName);
+		}
+		catch (std::exception & exception)
+		{
+			std::string message = "Failed to save graph to cache: ";
+			message += exception.what();
+			m_ext_core.logger().logWarning(message);
+		}
+	}
+
+	bool FacadeGraph::loadFromCache(const std::string& fileName)
+	{
+		try
+		{
+			return m_internalGraph->loadFromCache(fileName);
+		}
+		catch (std::exception & exception)
+		{
+			std::string message = "Failed to load graph from cache: ";
 			message += exception.what();
 			m_ext_core.logger().logWarning(message);
 		}
@@ -95,9 +138,9 @@ namespace ivhd::facade
 		try
 		{
 			m_file.open(filePath + "\\" + fileName + ".txt");
-			for (int i = 0; i < m_ext_graph.size(); i++)
+			for (int i = 0; i < m_internalGraph->size(); i++)
 			{
-				if(const auto neighbors = m_ext_graph.getNeighbors(i))
+				if(const auto neighbors = m_internalGraph->getNeighbors(i))
 				{
 					for(const auto neighbor : *neighbors)
 					{

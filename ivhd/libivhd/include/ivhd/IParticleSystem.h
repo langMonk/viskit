@@ -27,22 +27,28 @@ namespace ivhd
 		virtual std::vector<std::pair<DataPoint, size_t>> originalCoordinates() = 0;
 
 		/// <summary>
-		/// Returns current positions (after transformations).
+		/// Returns current positions.
 		/// </summary>
 		/// <returns> Container with current particle positions.</returns>
 		virtual std::vector<glm::vec4> positions() = 0;
 
 		/// <summary>
-		/// Returns colors of each particle.
+		/// Returns current forces.
 		/// </summary>
-		/// <returns> Container with colors for each particle.</returns>
-		virtual std::vector<glm::vec4> colors() = 0;
-		
+		/// <returns> Container with current particle forces.</returns>
+		virtual std::vector<glm::vec4> forces() = 0;
+
 		/// <summary>
-		/// Get already calculated with kNNGenerator Graph (based on this particle system).
+		/// Returns current velocities.
 		/// </summary>
-		/// <returns> Calculated kNN Graph. </returns>
-		virtual IGraph& kNNGraph() = 0;
+		/// <returns> Container with current particle velocities.</returns>
+		virtual std::vector<glm::vec4> velocities() = 0;
+
+		/// <summary>
+		/// Returns colors associated with each particle.
+		/// </summary>
+		/// <returns> Container with colors.</returns>
+		virtual std::vector<glm::vec4> colors() = 0;
 		
 		/// <summary>
 		/// Counts alive particles.
@@ -61,11 +67,6 @@ namespace ivhd
 		/// </summary>
 		virtual void clear() = 0;
 
-		/// <summary>
-		/// Casts the particle system (if not empty).
-		/// </summary>
-		virtual void castParticleSystem(ICaster& caster) = 0;
-		
 		/// <summary>
 		/// Checks if particles system is empty.
 		/// </summary>

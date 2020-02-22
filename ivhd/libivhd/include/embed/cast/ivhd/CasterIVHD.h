@@ -15,22 +15,15 @@ namespace ivhd::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		CasterIVHD(core::System& system, particles::ParticleSystem& ps, Graph& graph);
-		virtual ~CasterIVHD() = default;
+		CasterIVHD(core::System& system);
 
-		CasterIVHD(const CasterIVHD&) = delete;
-		CasterIVHD& operator=(const CasterIVHD&) = delete;
+		void castParticleSystem(particles::ParticleSystem& ps, graph::Graph& graph) override;
+			
+		virtual void calculateForces(float& energy, particles::ParticleSystem& ps, graph::Graph& graph);
 
-		void castParticle(size_t index) override;
+		virtual void calculatePositions(particles::ParticleSystem& ps) {};
 
-		void castParticleSystem() override;
-		
-		// protected methods
 	protected:
-		virtual void calculateForces(float& energy);;
-
-		virtual void calculatePositions();;
-
 		float w_random{ 0.01f };
 		
 		float a_factor{ 0.99f };

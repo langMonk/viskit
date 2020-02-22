@@ -67,8 +67,6 @@ namespace ivhd::particles
 
 		ParticleData* calculationData();
 
-		Graph& neighbourhoodGraph() { return m_neighbourhoodGraph; }
-
 		void setMetric(MetricType type) { m_currentMetric = type; };
 
 		size_t step() { return m_step; }
@@ -94,8 +92,6 @@ namespace ivhd::particles
 		// private members
 	private:
 		core::System& m_ext_system;
-
-		Graph m_neighbourhoodGraph;
 
 		Dataset m_originalDataset;
 
