@@ -11,7 +11,7 @@ namespace ivhd::graph
 
 	}
 
-	void Graph::generate(size_t elements)
+	void Graph::initialize(size_t elements)
 	{
 		m_data.resize(elements);
 	}

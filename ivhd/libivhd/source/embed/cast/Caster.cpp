@@ -8,10 +8,8 @@
 
 namespace ivhd::embed::cast
 {
-	Caster::Caster(core::System& system, particles::ParticleSystem& ps, Graph& graph)
+	Caster::Caster(core::System& system)
 		: m_ext_system(system)
-		, m_ext_particleSystem(ps)
-		, m_ext_graph(graph)
 	{
 
 	}

@@ -2,33 +2,37 @@
 
 namespace ivhd::facade
 {
-	FacadeCasterForceDirected::FacadeCasterForceDirected(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
-		: FacadeCaster(core, ps)
-		, m_internalCaster(std::make_shared<ivhd::embed::cast::ivhd::CasterForceDirected>(core->system(), ps))
+	FacadeCasterForceDirected::FacadeCasterForceDirected(std::shared_ptr<core::Core> core)
+		: FacadeCaster(core)
+		, m_internalCaster(std::make_shared<ivhd::embed::cast::ivhd::CasterForceDirected>(core->system()))
 	{
 	}
 
-	void FacadeCasterForceDirected::castParticleSystem()
+	void FacadeCasterForceDirected::calculatePositions(IParticleSystem& ps)
 	{
 		try
 		{
-			m_internalCaster->castParticleSystem();
+			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			dynamic_cast<ivhd::embed::cast::ivhd::CasterForceDirected*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
 		}
-		catch (std::exception& ex)
+		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterForceDirected.castParticleSystem. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using CasterAdadelta.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 
-	void FacadeCasterForceDirected::castParticle(size_t index)
+	void FacadeCasterForceDirected::calculateForces(IParticleSystem & ps, IGraph & graph)
 	{
 		try
 		{
-			m_internalCaster->castParticle(index);
+			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
+			float energy = 0.1f;
+			dynamic_cast<ivhd::embed::cast::ivhd::CasterForceDirected*>(m_internalCaster.get())->calculateForces(energy, facadePs->internalSystem(), facadeGraph->internalGraph());
 		}
-		catch (std::exception& ex)
+		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterForceDirected.castParticle. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using CasterAdadelta.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 }

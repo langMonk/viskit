@@ -2,20 +2,20 @@
 
 namespace ivhd::embed::cast::ivhd
 {
-	CasterForceDirected::CasterForceDirected(core::System& system, particles::ParticleSystem& ps)
-		: CasterIVHD(system, ps, ps.neighbourhoodGraph())
+	CasterForceDirected::CasterForceDirected(core::System& system)
+		: CasterIVHD(system)
 	{
 		
 	}
 
-	void CasterForceDirected::calculatePositions()
+	void CasterForceDirected::calculatePositions(particles::ParticleSystem& ps)
 	{
-		auto& awake = m_ext_particleSystem.calculationData()->m_alive;
-		auto& forces = m_ext_particleSystem.calculationData()->m_force;
-		auto& velocities = m_ext_particleSystem.calculationData()->m_vel;
-		auto& positions = m_ext_particleSystem.calculationData()->m_pos;
+		auto& awake = ps.calculationData()->m_alive;
+		auto& forces = ps.calculationData()->m_force;
+		auto& velocities = ps.calculationData()->m_vel;
+		auto& positions = ps.calculationData()->m_pos;
 
-		for (auto i = 0; i < m_ext_particleSystem.countParticles(); i++)
+		for (auto i = 0; i < ps.countParticles(); i++)
 		{
 			if (awake[i])
 			{
@@ -24,6 +24,6 @@ namespace ivhd::embed::cast::ivhd
 			}
 		}
 
-		m_ext_particleSystem.increaseStep();
+		ps.increaseStep();
 	}
 }

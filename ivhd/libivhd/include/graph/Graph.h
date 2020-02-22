@@ -21,7 +21,7 @@ namespace ivhd::graph
 
 		// public methods
 	public:
-		void generate(size_t elements);
+		void initialize(size_t elements);
 		
 		std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
 

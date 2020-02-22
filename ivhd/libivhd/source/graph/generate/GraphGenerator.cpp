@@ -2,16 +2,14 @@
 
 namespace ivhd::graph::generate
 { 
-	GraphGenerator::GraphGenerator(core::System& system, particles::ParticleSystem& ps, Graph& graph)
+	GraphGenerator::GraphGenerator(core::System& system)
 		: m_ext_system(system)
-		, m_ext_particleSystem(ps)
-		, m_ext_graph(graph)
 	{
 	}
 
-	bool GraphGenerator::alreadyNeighbors(size_t index1, size_t index2) const
+	bool GraphGenerator::alreadyNeighbors(size_t index1, size_t index2, Graph& graph) const
 	{
-		if(const auto neighbors = m_ext_graph.getNeighbors(index1))
+		if(const auto neighbors = graph.getNeighbors(index1))
 		{
 			for (const auto neighbor : *neighbors)
 			{

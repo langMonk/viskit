@@ -2,23 +2,23 @@
 
 namespace ivhd::embed::cast::ivhd
 {
-	CasterAdam::CasterAdam(core::System& system, particles::ParticleSystem& ps)
-		: CasterIVHD(system, ps, ps.neighbourhoodGraph())
+	CasterAdam::CasterAdam(core::System& system)
+		: CasterIVHD(system)
 	{
 
 	}
 
-	void CasterAdam::calculatePositions()
+	void CasterAdam::calculatePositions(particles::ParticleSystem& ps)
 	{
-		decGrad.resize(m_ext_particleSystem.countParticles(), glm::vec4{ 0.0f });
-		decDelta.resize(m_ext_particleSystem.countParticles(), glm::vec4{ 0.0f });
+		decGrad.resize(ps.countParticles(), glm::vec4{ 0.0f });
+		decDelta.resize(ps.countParticles(), glm::vec4{ 0.0f });
 
-		auto& positions = m_ext_particleSystem.calculationData()->m_pos;
-		auto& forces = m_ext_particleSystem.calculationData()->m_force;
+		auto& positions = ps.calculationData()->m_pos;
+		auto& forces = ps.calculationData()->m_force;
 
-		const auto it = m_ext_particleSystem.step();
+		const auto it = ps.step();
 
-		for (auto i = 0; i < m_ext_particleSystem.countParticles(); i++)
+		for (auto i = 0; i < ps.countParticles(); i++)
 		{
 			decGrad[i].x = decGrad[i].x * B2 + (1.0f - powf(B2, static_cast<float>(it))) * forces[i].x * forces[i].x;
 			decGrad[i].y = decGrad[i].y * B2 + (1.0f - powf(B2, static_cast<float>(it))) * forces[i].y * forces[i].y;
@@ -34,7 +34,7 @@ namespace ivhd::embed::cast::ivhd
 		}
 
 
-		m_ext_particleSystem.increaseStep();
+		ps.increaseStep();
 	}
 
 }

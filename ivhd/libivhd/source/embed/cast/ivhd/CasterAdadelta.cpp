@@ -2,21 +2,21 @@
 
 namespace ivhd::embed::cast::ivhd
 {
-	CasterAdadelta::CasterAdadelta(core::System& system, particles::ParticleSystem& ps)
-		: CasterIVHD(system, ps, ps.neighbourhoodGraph())
+	CasterAdadelta::CasterAdadelta(core::System& system)
+		: CasterIVHD(system)
 	{
 		
 	}
 
-	void CasterAdadelta::calculatePositions()
+	void CasterAdadelta::calculatePositions(particles::ParticleSystem& ps)
 	{
-		decGrad.resize(m_ext_particleSystem.countParticles(), glm::vec4{ 0.0f });
-		decDelta.resize(m_ext_particleSystem.countParticles(), glm::vec4{ 0.0f });
+		decGrad.resize(ps.countParticles(), glm::vec4{ 0.0f });
+		decDelta.resize(ps.countParticles(), glm::vec4{ 0.0f });
 			
-		auto& positions = m_ext_particleSystem.calculationData()->m_pos;
-		auto& forces = m_ext_particleSystem.calculationData()->m_force;
+		auto& positions = ps.calculationData()->m_pos;
+		auto& forces = ps.calculationData()->m_force;
 		
-		for (auto i = 0; i < m_ext_particleSystem.countParticles(); i++)
+		for (auto i = 0; i < ps.countParticles(); i++)
 		{
 			decGrad[i].x = decGrad[i].x * DECAYING_PARAM + (1.0f - DECAYING_PARAM) * forces[i].x * forces[i].x;
 			decGrad[i].y = decGrad[i].y * DECAYING_PARAM + (1.0f - DECAYING_PARAM) * forces[i].y * forces[i].y;
@@ -32,7 +32,7 @@ namespace ivhd::embed::cast::ivhd
 		}
 		
 		
-		m_ext_particleSystem.increaseStep();
+		ps.increaseStep();
 	}
 
 }

@@ -8,114 +8,106 @@
 
 namespace ivhd::graph::generate
 {
-	BruteForce::BruteForce(core::System& system, particles::ParticleSystem& ps)
-		: GraphGenerator(system, ps, ps.neighbourhoodGraph())
+	BruteForce::BruteForce(core::System& system)
+		: GraphGenerator(system)
 	{
 	}
 
-	void BruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne)
+	void BruteForce::generateRandomNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne)
 	{
-		m_ext_graph.generate(m_ext_particleSystem.countParticles());
-		
-		m_distancesEqualOne = distancesEqualOne;
+		std::vector<Neighbors> rand(k);
 
-		//// if there is cached graph for this dataset, then just load it and return from this method
-		//auto path = m_ext_particleSystem.datasetInfo().path + m_ext_particleSystem.datasetInfo().fileName;
-		//if (m_ext_graph.loadFromCache(path))
-		//{
-		//	m_ext_system.logger().logInfo("[BruteForce Generator] kNN Graph loaded from cache.");
-		//	return;
-		//}
-
-		m_ext_system.logger().logInfo("[BruteForce Generator] Generating kNN Graph...");
-
-		std::vector<Neighbors> near(nearestNeighbors);
-		std::vector<Neighbors> far(furthestNeighbors);
-		std::vector<Neighbors> rand(randomNeighbors);
-
-		if (nearestNeighbors || furthestNeighbors)
+		for (size_t i = 0; i < ps.countAwakeParticles(); i++)
 		{
-			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
+			std::generate(rand.begin(), rand.end(), []()->Neighbors
 			{
-				std::generate(near.begin(), near.end(), []()->Neighbors
-				{
-					Neighbors neighbors;
-					neighbors.r = std::numeric_limits<float>::max();
-					return neighbors;
-				});
-				
-				std::generate(far.begin(), far.end(), []()->Neighbors
-				{
-					Neighbors neighbors;
-					neighbors.r = -1.0f;
-					return neighbors;
-				});
+				Neighbors neighbors;
+				neighbors.r = 0.0f;;
+				return neighbors;
+			});
 
-				for (size_t j = 0; j < m_ext_particleSystem.countAwakeParticles(); j++)
-				{
-					if (i != j)
-					{
-						const auto distance = m_ext_particleSystem.vectorDistance(i, j);
-						if (nearestNeighbors) addMinDist(near, distance, i, j, true);
-						if (furthestNeighbors) addMaxDist(far, distance, i, j, true);
-					}
-				}
-
-				if (m_distancesEqualOne)
-				{
-					for(auto& element : near)
-					{
-						element.r = 1.0f;
-					}
-					for (auto& element : far)
-					{
-						element.r = 1.0f;
-					}
-				}
-
-				m_ext_graph.addNeighbors(near);
-				m_ext_graph.addNeighbors(far);
-			}
-		}
-
-		if (randomNeighbors)
-		{
-			for (size_t i = 0; i < m_ext_particleSystem.countAwakeParticles(); i++)
+			for (auto random = 0; random < k; random++)
 			{
-				std::generate(rand.begin(), rand.end(), []()->Neighbors
+				while (true)
 				{
-					Neighbors neighbors;
-					neighbors.r = 0.0f;;
-					return neighbors;
-				});
-				
-				for (auto random = 0; random < randomNeighbors; random++)
-				{
-					while(true)
+					const auto j = math::randInt(0, ps.countAwakeParticles());
+					if (j != i)
 					{
-						const auto j = math::randInt(0, m_ext_particleSystem.countAwakeParticles());
-						if (j != i)
+						if (!alreadyNeighbors(i, j, graph))
 						{
-							if(!alreadyNeighbors(i ,j))
+							auto distance = 1.0f;
+							if (!m_distancesEqualOne)
 							{
-								auto distance = 1.0f;
-								if (!m_distancesEqualOne)
-								{
-									distance = m_ext_particleSystem.vectorDistance(i, j);
-								}
-								
-								m_ext_graph.addNeighbors(Neighbors{ i, j, distance, NeighborsType::Random });
-								break;
+								distance = ps.vectorDistance(i, j);
 							}
+
+							graph.addNeighbors(Neighbors{ i, j, distance, NeighborsType::Random });
+							break;
 						}
 					}
 				}
 			}
 		}
-
-		//m_ext_graph.saveToCache(path);
-		m_ext_system.logger().logInfo("[BruteForce Generator] Finished. Graph cached.");
 	}
+
+	void BruteForce::generateNearestNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne)
+	{
+		graph.initialize(ps.countParticles());
+		m_distancesEqualOne = distancesEqualOne;
+
+		m_ext_system.logger().logInfo("[BruteForce Generator] Generating kNN Graph...");
+
+		std::vector<Neighbors> near(k);
+
+
+		for (size_t i = 0; i < ps.countAwakeParticles(); i++)
+		{
+			std::generate(near.begin(), near.end(), []()->Neighbors
+			{
+				Neighbors neighbors;
+				neighbors.r = std::numeric_limits<float>::max();
+				return neighbors;
+			});
+
+			for (size_t j = 0; j < ps.countAwakeParticles(); j++)
+			{
+				if (i != j)
+				{
+					const auto distance = ps.vectorDistance(i, j);
+					addMinDist(near, distance, i, j, true);
+				}
+			}
+
+			if (m_distancesEqualOne)
+			{
+				for (auto& element : near)
+				{
+					element.r = 1.0f;
+				}
+			}
+
+			graph.addNeighbors(near);
+		}
+	}
+
+	//void BruteForce::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne)
+	//{
+	//	// if there is cached graph for this dataset, then just load it and return from this method
+	//	auto path = m_ext_particleSystem.datasetInfo().path + m_ext_particleSystem.datasetInfo().fileName;
+	//	if (m_ext_graph.loadFromCache(path))
+	//	{
+	//		m_ext_system.logger().logInfo("[BruteForce Generator] kNN Graph loaded from cache.");
+	//		return;
+	//	}
+
+	//	if (randomNeighbors)
+	//	{
+	//		
+	//	}
+
+	//	m_ext_graph.saveToCache(path);
+	//	m_ext_system.logger().logInfo("[BruteForce Generator] Finished. Graph cached.");
+	//}
 
 	void BruteForce::addMinDist(std::vector<Neighbors>& n, float new_r, size_t pi, size_t pj, bool sort)
 	{

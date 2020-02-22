@@ -18,7 +18,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterNesterov(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
+		explicit FacadeCasterNesterov(std::shared_ptr<core::Core> core);
 		~FacadeCasterNesterov() = default;
 
 		FacadeCasterNesterov(const FacadeCasterNesterov&) = delete;
@@ -29,9 +29,9 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		void castParticleSystem() override;
+		void calculatePositions(IParticleSystem& ps) override;
 
-		void castParticle(size_t index) override;
+		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
 
 		CasterType type() override { return CasterType::IVHD; }
 		

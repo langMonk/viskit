@@ -2,13 +2,13 @@
 
 namespace ivhd::embed::cast::ivhd
 {
-	CasterSGD::CasterSGD(core::System& system, particles::ParticleSystem& ps)
-		: CasterIVHD(system, ps, ps.neighbourhoodGraph())
+	CasterSGD::CasterSGD(core::System& system)
+		: CasterIVHD(system)
 	{
 		
 	}
 
-	void CasterSGD::calculatePositions()
+	void CasterSGD::calculatePositions(particles::ParticleSystem& ps)
 	{
 	}
 }

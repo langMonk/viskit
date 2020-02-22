@@ -14,9 +14,9 @@ namespace ivhd::embed::cast::ivhd
 	{
 		// public construction and destruction methods
 	public:
-		CasterAdam(core::System& system, particles::ParticleSystem& ps);
+		CasterAdam(core::System& system);
 
-		void calculatePositions() override;
+		void calculatePositions(particles::ParticleSystem& ps) override;
 
 	private:
 		std::vector<glm::vec4> decGrad;
