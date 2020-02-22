@@ -11,7 +11,6 @@ namespace ivhd::particles
 	ParticleSystem::ParticleSystem(core::System& system)
 		: m_ext_system(system)
 		, m_particles(ParticleData())
-		, m_neighbourhoodGraph(system)
 		, m_currentMetric(MetricType::Euclidean)
 	{
 		
@@ -70,7 +69,6 @@ namespace ivhd::particles
 		{
 			m_originalDataset.clear();
 			m_particles.clear();
-			m_neighbourhoodGraph.clear();
 		}
 	}
 

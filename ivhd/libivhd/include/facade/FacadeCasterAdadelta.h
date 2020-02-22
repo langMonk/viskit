@@ -18,7 +18,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterAdadelta(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
+		explicit FacadeCasterAdadelta(std::shared_ptr<core::Core> core);
 		~FacadeCasterAdadelta() = default;
 
 		FacadeCasterAdadelta(const FacadeCasterAdadelta&) = delete;
@@ -29,14 +29,14 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		void castParticleSystem() override;
+		void calculatePositions(IParticleSystem& ps) override;
 
-		void castParticle(size_t index) override;
+		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
 
 		CasterType type() override { return CasterType::IVHD; }
 
-		// private members
 	private:
-		std::shared_ptr<embed::cast::ivhd::CasterAdadelta> m_internalCaster;
+		float energy{ 0.1f };
+
 	};
 }

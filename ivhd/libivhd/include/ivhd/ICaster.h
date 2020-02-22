@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "Structures.h"
+
 namespace ivhd
 {
 	class IParticleSystem;

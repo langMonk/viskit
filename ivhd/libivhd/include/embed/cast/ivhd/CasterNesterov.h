@@ -14,11 +14,11 @@ namespace ivhd::embed::cast::ivhd
 	{
 		// public construction and destruction methods
 	public:
-		CasterNesterov(core::System& system, particles::ParticleSystem& ps);
+		CasterNesterov(core::System& system);
 
-		void calculatePositions() override;
+		void calculatePositions(particles::ParticleSystem& ps) override;
 		
-		void calculateForces(float& energy) override;
+		void calculateForces(float& energy, particles::ParticleSystem& ps, graph::Graph& graph) override;
 
 	};
 }

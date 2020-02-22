@@ -19,9 +19,14 @@ namespace ivhd::facade
 	class FacadeGraphGeneratorKDTree : public FacadeGraphGenerator
 	{
 	public:
-		FacadeGraphGeneratorKDTree(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps);
+		FacadeGraphGeneratorKDTree(std::shared_ptr<core::Core> core);
 		
-		void generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne) override;
+		void generate(IParticleSystem& ps, IGraph& graph, size_t nn, size_t rn = 0, bool distancesEqualOne = true) override {};
+
+		void generateNearestNeighbors(IParticleSystem& ps, IGraph& graph, size_t k = 0, bool distancesEqualOne = true) override {};
+
+		void generateRandomNeighbors(IParticleSystem& ps, IGraph& graph, size_t k = 0, bool distancesEqualOne = true) override {};
+
 		
 	private:
 		static void kNNQueryThread(int start, int end, bool setDistancesToOne, const graph::generate::KDTree& kd, size_t k, const particles::Dataset& data, graph::Graph& graph);
