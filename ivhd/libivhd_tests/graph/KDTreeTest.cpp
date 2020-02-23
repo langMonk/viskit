@@ -102,13 +102,13 @@ namespace libivhd_test
 
 		core::Core core{ handler };
 		parse::ParserCSV parser{ core.system() };
-		graph::Graph graph{ core.system() };
+		Graph graph{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
 
 		auto csvFile = utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);
 
-		graph.generate(particleSystem.countParticles());
+		graph.initialize(particleSystem.countParticles());
 		
 		// Part responsible for creating a tree
 		auto data = particleSystem.originalCoordinates();
