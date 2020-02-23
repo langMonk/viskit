@@ -22,3 +22,5 @@
 /ivhd/libivhd_tests/kNN_graph.txt
 /ivhd/assets/resources
 /ivhd/ivhd.sln.DotSettings.user
+/ivhd/libivhd_cuda/x64/Release
+/ivhd/x64/Release
