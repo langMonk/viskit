@@ -33,7 +33,7 @@
     <ClInclude Include="include\distance_container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\CasterFactory.h">
+    <ClInclude Include="include\caster_factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,10 +44,5 @@
     <CudaCompile Include="source\caster\caster_cuda_ab.cu">
       <Filter>Source Files\caster</Filter>
     </CudaCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="source\CasterFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
