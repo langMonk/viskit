@@ -75,4 +75,14 @@ namespace ivhd::facade
 		}
 		return caster;
 	}
+
+	std::shared_ptr<IParticleSystem> FacadeResourceFactory::createParticleSystem()
+	{
+		return std::make_shared<FacadeParticleSystem>(m_ext_ivhd.core());
+	}
+
+	std::shared_ptr<IGraph> FacadeResourceFactory::createGraph()
+	{
+		return std::make_shared<FacadeGraph>(m_ext_ivhd.core());
+	}
 }

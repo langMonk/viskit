@@ -30,7 +30,7 @@ namespace ivhd::facade
 
 		// public methods
 	public:
-		void calculatePositions(IParticleSystem& ps) override {};
+		void calculatePositions(IParticleSystem& ps) override;
 
 		void calculateForces(IParticleSystem& ps, IGraph& graph) override {};
 

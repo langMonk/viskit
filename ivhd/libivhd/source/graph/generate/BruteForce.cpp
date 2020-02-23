@@ -130,33 +130,4 @@ namespace ivhd::graph::generate
 			}
 		}
 	}
-
-	void BruteForce::addMaxDist(std::vector<Neighbors>& n, float new_r, size_t pi, size_t pj, bool sort)
-	{
-		auto const elems = n.size();
-		if (n[elems - 1].r > new_r) return;
-
-		for (auto i = 0; i < elems; i++)
-		{
-			if (n[i].r <= new_r)
-			{
-				for (size_t j = elems - 1; j > i; j--)
-					n[j] = n[j - 1];
-				n[i].r = new_r;
-				if (!sort || pi < pj)
-				{
-					n[i].i = pi;
-					n[i].j = pj;
-				}
-				else
-				{
-					n[i].i = pj;
-					n[i].j = pi;
-				}
-				n[i].type = NeighborsType::Far;
-
-				return;
-			}
-		}
-	}
 }

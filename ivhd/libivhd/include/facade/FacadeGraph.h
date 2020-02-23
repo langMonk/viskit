@@ -20,7 +20,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeGraph(core::Core& core);
+		explicit FacadeGraph(const std::shared_ptr<core::Core>& core);
 		~FacadeGraph() = default;
 
 		FacadeGraph(const FacadeGraph&) = delete;
@@ -29,7 +29,7 @@ namespace ivhd::facade
 		FacadeGraph& operator=(const FacadeGraph&) = delete;
 		FacadeGraph& operator=(FacadeGraph&&) = delete;
 
-		graph::Graph& internalGraph() { return *m_internalGraph.get(); }
+		[[nodiscard]] graph::Graph& internalGraph() const { return *m_internalGraph; }
 
 	public:
 		std::vector<Neighbors> getNeighbors(size_t idx) override;
@@ -52,7 +52,7 @@ namespace ivhd::facade
 
 		// private members
 	private:
-		core::Core& m_ext_core;
+		std::shared_ptr<core::Core> m_ext_core;
 
 		std::shared_ptr<graph::Graph> m_internalGraph;
 		

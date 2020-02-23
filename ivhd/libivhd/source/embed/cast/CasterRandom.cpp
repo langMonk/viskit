@@ -16,7 +16,7 @@ namespace ivhd::embed::cast
 
 	}
 
-	void CasterRandom::castParticleSystem(particles::ParticleSystem& ps, Graph& graph)
+	void CasterRandom::calculatePositions(particles::ParticleSystem& ps)
 	{
 		m_ext_system.logger().logInfo("[CasterRandom] Casting particle system...");
 

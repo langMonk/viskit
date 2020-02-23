@@ -17,11 +17,9 @@ namespace ivhd::embed::cast
 	public:
 		CasterIVHD(core::System& system);
 
-		void castParticleSystem(particles::ParticleSystem& ps, graph::Graph& graph) override;
+		void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) override;
 			
-		virtual void calculateForces(float& energy, particles::ParticleSystem& ps, graph::Graph& graph);
-
-		virtual void calculatePositions(particles::ParticleSystem& ps) {};
+		virtual void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph);
 
 	protected:
 		float w_random{ 0.01f };

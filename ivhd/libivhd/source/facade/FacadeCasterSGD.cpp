@@ -2,33 +2,37 @@
 
 namespace ivhd::facade
 {
-	FacadeCasterSGD::FacadeCasterSGD(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
-		: FacadeCaster(core, ps)
-		, m_internalCaster(std::make_shared<ivhd::embed::cast::ivhd::CasterSGD>(core->system(), ps))
+	FacadeCasterSGD::FacadeCasterSGD(std::shared_ptr<core::Core> core)
+		: FacadeCaster(core)
+		, m_internalCaster(std::make_shared<ivhd::embed::cast::ivhd::CasterSGD>(core->system()))
 	{
 	}
 
-	void FacadeCasterSGD::castParticleSystem()
+	void FacadeCasterSGD::calculatePositions(IParticleSystem& ps)
 	{
 		try
 		{
-			m_internalCaster->castParticleSystem();
+			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			dynamic_cast<ivhd::embed::cast::ivhd::CasterSGD*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterSGD.castParticleSystem. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterSGD.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 
-	void FacadeCasterSGD::castParticle(size_t index)
+	void FacadeCasterSGD::calculateForces(IParticleSystem& ps, IGraph& graph)
 	{
 		try
 		{
-			m_internalCaster->castParticle(index);
+			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
+			float energy = 0.1f;
+			dynamic_cast<ivhd::embed::cast::ivhd::CasterSGD*>(m_internalCaster.get())->calculateForces(energy, facadePs->internalSystem(), facadeGraph->internalGraph());
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterSGD.castParticle. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterSGD.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 }

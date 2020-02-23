@@ -14,6 +14,7 @@ namespace ivhd
 	class ICaster;
 	class IParticleSystem;
 	class IGraphGenerator;
+	class IGraph;
 
 	class IResourceFactory
 	{
@@ -45,6 +46,12 @@ namespace ivhd
 		/// Creates a new particle system
 		/// </summary>
 		/// <returns>The created system.</returns>
-		//virtual std::shared_ptr<IParticleSystem> createParticleSystem() = 0;
+		virtual std::shared_ptr<IParticleSystem> createParticleSystem() = 0;
+
+		/// <summary>
+		/// Creates a new graph structure
+		/// </summary>
+		/// <returns>The created graph.</returns>
+		virtual std::shared_ptr<IGraph> createGraph() = 0;
 	};
 }
