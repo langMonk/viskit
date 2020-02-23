@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtEditor", "QtEditor\QtEdit
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Approximate_kNN_generator", "Approximate_kNN_generator\Approximate_kNN_generator.vcxproj", "{3DEB05C2-60C3-4F49-803D-C1752A606E21}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libivhd_cuda", "libivhd_cuda\libivhd_cuda.vcxproj", "{FDB0E147-48BC-419D-B54A-2280DBE85BB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -53,6 +55,12 @@ Global
 		{3DEB05C2-60C3-4F49-803D-C1752A606E21}.Release|x64.ActiveCfg = Release|x64
 		{3DEB05C2-60C3-4F49-803D-C1752A606E21}.Release|x64.Build.0 = Release|x64
 		{3DEB05C2-60C3-4F49-803D-C1752A606E21}.Release|x86.ActiveCfg = Release|x64
+		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Debug|x64.ActiveCfg = Debug|x64
+		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Debug|x64.Build.0 = Debug|x64
+		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Debug|x86.ActiveCfg = Debug|x64
+		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Release|x64.ActiveCfg = Release|x64
+		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Release|x64.Build.0 = Release|x64
+		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
