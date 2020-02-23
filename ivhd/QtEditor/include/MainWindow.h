@@ -27,7 +27,7 @@ public:
 		return s;
 	}
 
-	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return m_ivhd->particleSystem(); }
+	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return *m_particleSystem.get(); }
 
 	void setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster);
 	void setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator);
@@ -71,5 +71,7 @@ private:
 
 	std::shared_ptr<ivhd::ICaster> m_currentCaster{ nullptr };
 	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator{ nullptr };
+	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem{ nullptr };
+	std::shared_ptr<ivhd::IGraph> m_graph{ nullptr };
 
 };

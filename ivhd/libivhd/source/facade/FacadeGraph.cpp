@@ -7,9 +7,9 @@
 
 namespace ivhd::facade
 {
-	FacadeGraph::FacadeGraph(core::Core& core)
+	FacadeGraph::FacadeGraph(const std::shared_ptr<core::Core>& core)
 		: m_ext_core(core)
-		, m_internalGraph(std::make_shared<graph::Graph>(core.system()))
+		, m_internalGraph(std::make_shared<graph::Graph>(core->system()))
 	{
 	}
 
@@ -26,7 +26,7 @@ namespace ivhd::facade
 		{
 			std::string message = "Failed to get the neighbors from the graph: ";
 			message += exception.what();
-			m_ext_core.logger().logWarning(message);
+			m_ext_core->logger().logWarning(message);
 		}
 		return {};
 	}
@@ -41,7 +41,7 @@ namespace ivhd::facade
 		{
 			std::string message = "Failed to add the neighbor to the graph: ";
 			message += exception.what();
-			m_ext_core.logger().logWarning(message);
+			m_ext_core->logger().logWarning(message);
 		}
 	}
 
@@ -55,7 +55,7 @@ namespace ivhd::facade
 		{
 			std::string message = "Failed to add the neighbors to the graph: ";
 			message += exception.what();
-			m_ext_core.logger().logWarning(message);
+			m_ext_core->logger().logWarning(message);
 		}
 	}
 
@@ -69,7 +69,7 @@ namespace ivhd::facade
 		{
 			std::string message = "Failed to get the number of neighbors currently in the graph: ";
 			message += exception.what();
-			m_ext_core.logger().logWarning(message);
+			m_ext_core->logger().logWarning(message);
 		}
 		return size_t{};
 	}
@@ -84,7 +84,7 @@ namespace ivhd::facade
 		{
 			std::string message = "Failed to get the size of graph: ";
 			message += exception.what();
-			m_ext_core.logger().logWarning(message);
+			m_ext_core->logger().logWarning(message);
 		}
 		return size_t{};
 	}
@@ -99,7 +99,7 @@ namespace ivhd::facade
 		{
 			std::string message = "Failed to sort the graph: ";
 			message += exception.what();
-			m_ext_core.logger().logWarning(message);
+			m_ext_core->logger().logWarning(message);
 		}
 	}
 
@@ -113,8 +113,9 @@ namespace ivhd::facade
 		{
 			std::string message = "Failed to save graph to cache: ";
 			message += exception.what();
-			m_ext_core.logger().logWarning(message);
+			m_ext_core->logger().logWarning(message);
 		}
+		return false;
 	}
 
 	bool FacadeGraph::loadFromCache(const std::string& fileName)
@@ -127,8 +128,9 @@ namespace ivhd::facade
 		{
 			std::string message = "Failed to load graph from cache: ";
 			message += exception.what();
-			m_ext_core.logger().logWarning(message);
+			m_ext_core->logger().logWarning(message);
 		}
+		return false;
 	}
 
 	void FacadeGraph::dump(std::string filePath, std::string fileName)
@@ -166,7 +168,7 @@ namespace ivhd::facade
 		{
 			std::string message = "Failed to dump graph to plain text file: ";
 			message += exception.what();
-			m_ext_core.logger().logWarning(message);
+			m_ext_core->logger().logWarning(message);
 			m_file.close();
 		}
 	}
