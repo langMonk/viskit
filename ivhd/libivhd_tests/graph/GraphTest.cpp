@@ -64,7 +64,8 @@ namespace libivhd_test
 		core::Core core{ handler };
 		parse::ParserCSV parser{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
-		generate::BruteForce generator{ core.system(), particleSystem };
+		generate::BruteForce generator{ core.system() };
+		Graph graph{ core.system() };
 
 		auto csvFile = utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);
@@ -74,14 +75,12 @@ namespace libivhd_test
 
 		auto profiler = ivhd::utils::TimeProfiler(true);
 		profiler.start();
-		generator.generate(3, 1, 1, true);
+		generator.generateNearestNeighbors(particleSystem, graph, 3);
 		profiler.stop();
 		profiler.measurementMs();
 
-		auto graph = particleSystem.neighbourhoodGraph();
-
 		EXPECT_EQ(graph.size(), 7000); // 7000 elements (size) and every has 3 NN 
-		EXPECT_EQ(graph.neighborsCount(), 28000);
+		EXPECT_EQ(graph.neighborsCount(), 21000);
 
 		utils::dump(graph, "D:\\Repositories\\ivhd", "test_brute");
 	}
@@ -102,17 +101,19 @@ namespace libivhd_test
 		core::Core core{ handler };
 		parse::ParserCSV parser{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
-		generate::BruteForce generator{ core.system(), particleSystem };
-
+		generate::BruteForce generator{ core.system() };
+		Graph graph{ core.system() };
+		
 		auto csvFile = utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 		parser.loadFile(csvFile, particleSystem);
 
 		EXPECT_EQ(particleSystem.countParticles(), 7000);
 		EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);
 
-		generator.generate(3, 1, 1, true);
+		generator.generateNearestNeighbors(particleSystem, graph, 3);
+		generator.generateRandomNeighbors(particleSystem, graph, 1);
+		
 
-		auto graph = particleSystem.neighbourhoodGraph();
 		graph.saveToCache("MNIST7k");
 		graph.clear();
 
@@ -121,7 +122,7 @@ namespace libivhd_test
 
 		graph.loadFromCache("MNIST7k");
 		
-		EXPECT_EQ(graph.neighborsCount(), 21000);
+		EXPECT_EQ(graph.neighborsCount(), 28000);
 		EXPECT_EQ(graph.size(), 7000);
 	}
 }
