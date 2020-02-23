@@ -7,7 +7,6 @@
 
 #include "core/System.h"
 #include "particles/ParticleSystem.h"
-#include "threading/ThreadPool.h"
 
 namespace ivhd::embed::cast
 {
@@ -23,6 +22,8 @@ namespace ivhd::embed::cast
 
 		virtual void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) {};
 
+		virtual void calculatePositions(particles::ParticleSystem& ps) {};
+		
 	protected:
 		core::System& m_ext_system;
 	};

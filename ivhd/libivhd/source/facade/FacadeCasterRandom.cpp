@@ -12,4 +12,17 @@ namespace ivhd::facade
 		, m_internalCaster(std::make_shared<ivhd::embed::cast::CasterRandom>(core->system()))
 	{
 	}
+
+	void FacadeCasterRandom::calculatePositions(IParticleSystem& ps)
+	{
+		try
+		{
+			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			dynamic_cast<ivhd::embed::cast::CasterRandom*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
+		}
+		catch (std::exception& ex)
+		{
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterNesterov.calculatePositions. Error message: " + *ex.what());
+		}
+	}
 }

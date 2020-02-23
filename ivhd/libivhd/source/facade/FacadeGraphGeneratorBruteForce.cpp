@@ -43,7 +43,7 @@ namespace ivhd::facade
 			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
 			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
 			dynamic_cast<ivhd::graph::generate::BruteForce*> (m_graphGenerator.get())->
-				generateNearestNeighbors(facadePs->internalSystem(), facadeGraph->internalGraph(), k, distancesEqualOne);
+				generateRandomNeighbors(facadePs->internalSystem(), facadeGraph->internalGraph(), k, distancesEqualOne);
 		}
 		catch (std::exception & ex)
 		{

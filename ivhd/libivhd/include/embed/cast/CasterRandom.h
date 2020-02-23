@@ -9,6 +9,7 @@
 
 #include "Caster.h"
 #include "particles/ParticleSystem.h"
+#include "threading/ThreadPool.h"
 
 using Engine = boost::mt19937;
 using Dist = boost::uniform_real<float>;
@@ -22,8 +23,8 @@ namespace ivhd::embed::cast
 		CasterRandom(core::System& system);
 
 		// public methods
-	public:
-		void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) override;
+	public:		
+		void calculatePositions(particles::ParticleSystem& ps) override;
 
 		int maxEdge() { return m_maxEdge; };
 		
