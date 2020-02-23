@@ -62,6 +62,14 @@ __global__ void calcForceComponents(int compNumber, DistElem* distances,  Sample
 	return;
 }
 
+void CasterCudaAB::calculateForces(ivhd::IParticleSystem& ps, ivhd::IGraph& graph)
+{
+}
+
+void CasterCudaAB::calculatePositions(ivhd::IParticleSystem& ps)
+{
+}
+
 void CasterCudaAB::simul_step_cuda()
 {
 	calcForceComponents<<<256, 256>>> (distances.size(), d_distances, d_samples);

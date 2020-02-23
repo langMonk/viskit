@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\CasterFactory.h" />
+    <ClInclude Include="include\caster_factory.h" />
     <ClInclude Include="include\caster\caster.h" />
     <ClInclude Include="include\caster\caster_cuda.cuh" />
     <ClInclude Include="include\caster\caster_cuda_ab.cuh" />
@@ -22,9 +22,6 @@
   <ItemGroup>
     <CudaCompile Include="source\caster\caster_cuda.cu" />
     <CudaCompile Include="source\caster\caster_cuda_ab.cu" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="source\CasterFactory.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FDB0E147-48BC-419D-B54A-2280DBE85BB2}</ProjectGuid>
