@@ -52,7 +52,7 @@ namespace ivhd
 		DataPointId m_id;
 		size_t N;
 		float* coords;
-		inline static size_t m_currentId {0};
+		size_t m_currentId = 0;
 
 	};
 
