@@ -4,6 +4,8 @@
 #include <thrust/execution_policy.h>
 #include <thrust/device_ptr.h>
 #include <thrust/reduce.h>
+#include <ivhd/IGraph.h>
+#include <ivhd/IParticleSystem.h>
 #include "constants.h"
 #include "caster/caster_cuda.cuh"
 #include <math.h>
@@ -180,6 +182,36 @@ __global__ void copyPosRelease(int N, Sample* samples, float2* positions)
 	{
 		positions[i] = samples[i].pos;
 		free(samples[i].components);
+	}
+}
+
+void CasterCuda::loadDistances(ivhd::IGraph& graph)
+{
+	for (auto i = 0; i < graph.size(); i++)
+	{
+		auto neighbors = graph.getNeighbors(i);
+		for (const auto neighbor : neighbors)
+		{
+			if (neighbor.type == ivhd::NeighborsType::Near)
+			{ 
+				distances.push_back(DistElem(neighbor.i, neighbor.j)); 
+			}
+			else if (neighbor.type == ivhd::NeighborsType::Random)
+			{ 
+				distances.push_back(DistElem(neighbor.i, neighbor.j, DistElemType::etNear, neighbor.r)); 
+			}
+		}
+	}
+
+}
+
+void CasterCuda::loadPositions(ivhd::IParticleSystem& ps)
+{
+	auto internalPositions = ps.positions();
+	for (auto i = 0; i < ps.countParticles(); i++)
+	{
+		positions[i].x = internalPositions[i].x;
+		positions[i].y = internalPositions[i].y;
 	}
 }
 

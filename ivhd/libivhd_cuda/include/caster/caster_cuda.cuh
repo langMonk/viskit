@@ -26,6 +26,9 @@ public:
 	Sample* d_samples;
 	float* d_errors;
 
+	void loadDistances(ivhd::IGraph& graph);
+	void loadPositions(ivhd::IParticleSystem& ps);
+
 	void prepare(vector<int>& labels) override;
 	void finish() override;
 	void simul_step() override;

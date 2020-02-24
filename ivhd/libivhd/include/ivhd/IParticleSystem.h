@@ -6,7 +6,6 @@
 #pragma once
 
 #include <vector>
-
 #include "particles/ParticleData.h"
 #include "ivhd/Structures.h"
 
