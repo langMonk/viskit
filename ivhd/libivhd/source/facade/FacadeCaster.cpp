@@ -7,7 +7,7 @@ namespace ivhd::facade
 	{
 	}
 
-	void FacadeCaster::castParticleSystem(IParticleSystem& ps, Graph& graph)
+	void FacadeCaster::step(IParticleSystem& ps, IGraph& graph)
 	{
 		try
 		{

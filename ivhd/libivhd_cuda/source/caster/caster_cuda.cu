@@ -91,16 +91,16 @@ void CasterCuda::initializeHelperVectors()
  * index i or j to utilize cache better. After sorting samples, their indexes
  * change so we have to update distances once more
  */
-void CasterCuda::sortHostSamples(vector<int>& labels)
+void CasterCuda::sortHostSamples(std::vector<int>& labels)
 {
 	// create array of sorted indexes
-	vector<short> sampleFreq(positions.size());
+	std::vector<short> sampleFreq(positions.size());
 	for (unsigned i = 0; i < positions.size(); i++) 
 	{
 		sampleFreq[i] = 0;
 	}
 
-	vector<int> sampleIndexes(positions.size());
+	std::vector<int> sampleIndexes(positions.size());
 	for (unsigned i = 0; i < positions.size(); i++) 
 	{
 		sampleIndexes[i] = i;
@@ -120,15 +120,15 @@ void CasterCuda::sortHostSamples(vector<int>& labels)
 	});
 
 	// create mapping index->new index
-	vector<int> newIndexes(positions.size());
+	std::vector<int> newIndexes(positions.size());
 	for (unsigned i = 0; i < positions.size(); i++)
 	{
 		newIndexes[sampleIndexes[i]] = i;
 	}
 
 	// sort positions
-	vector<float2> positionsCopy = positions;
-	vector<int> labelsCopy = labels;
+	std::vector<float2> positionsCopy = positions;
+	std::vector<int> labelsCopy = labels;
 	for (unsigned i = 0; i < positions.size(); i++) 
 	{
 		positions[i] = positionsCopy[sampleIndexes[i]];
@@ -215,7 +215,7 @@ void CasterCuda::loadPositions(ivhd::IParticleSystem& ps)
 	}
 }
 
-void CasterCuda::prepare(vector<int>& labels)
+void CasterCuda::prepare(std::vector<int>& labels)
 {
 	sortHostSamples(labels);
 	allocateInitializeDeviceMemory();
@@ -279,14 +279,14 @@ float CasterCuda::getError()
 	return thrust::reduce(err_ptr, err_ptr + distances.size(), 0.0, thrust::plus<float>());
 }
 
-void CasterCuda::simul_step()
+void CasterCuda::step(ivhd::IParticleSystem& ps, ivhd::IGraph& graph)
 {
 	if (!it++) 
 	{
 		initializeHelperVectors();
 	}
 
-	simul_step_cuda();
+	simul_step_cuda(ps, graph);
 
 	if (it % 100 == 0) 
 	{
@@ -304,4 +304,10 @@ void CasterCuda::simul_step()
 		itToPosReady = 5;
 		cudaDeviceSynchronize();
 	}
-};
+}
+
+void CasterCuda::prepareFromIvhdResources(ivhd::IParticleSystem& ps, ivhd::IGraph& graph)
+{
+	loadDistances(graph);
+	loadPositions(ps);
+}
