@@ -8,7 +8,7 @@
 #include <ivhd/IResourceCollection.h>
 #include <ivhd/IResourceFactory.h>
 #include <ivhd/IParticleSystem.h>
-
+#include <caster/caster_cuda_ab.cuh>
 #include "ui_MainWindow.h"
 
 class OpenGLRenderer;

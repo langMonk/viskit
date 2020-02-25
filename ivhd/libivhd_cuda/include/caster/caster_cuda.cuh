@@ -3,8 +3,6 @@
 #include <vector>
 #include "caster/caster.h"
 
-using namespace std;
-
 struct Sample
 {
 	float2 pos;
@@ -16,10 +14,10 @@ struct Sample
 class CasterCuda : public Caster
 {
 public:
-	CasterCuda(int n, function<void(float)> onErr, function<void(vector<float2>&)> onPos)
+	CasterCuda(int n, std::function<void(float)> onErr, std::function<void(std::vector<float2>&)> onPos)
 		: Caster(n, onErr, onPos) {}
 
-	void sortHostSamples(vector<int>& labels);
+	void sortHostSamples(std::vector<int>& labels);
 
 	float2* d_positions;
 	DistElem* d_distances;
@@ -29,16 +27,17 @@ public:
 	void loadDistances(ivhd::IGraph& graph);
 	void loadPositions(ivhd::IParticleSystem& ps);
 
-	void prepare(vector<int>& labels) override;
+	void prepare(std::vector<int>& labels) override;
 	void finish() override;
-	void simul_step() override;
+	void step(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) override;
+	void prepareFromIvhdResources(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) override;
 
 	bool allocateInitializeDeviceMemory();
 	bool copyResultsToHost();
 
 protected:
 	void initializeHelperVectors();
-	virtual void simul_step_cuda() = 0;
+	virtual void simul_step_cuda(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) = 0;
 	virtual float getError();
 	void copyPositions();
 	int itToPosReady = -1;
