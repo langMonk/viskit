@@ -18,7 +18,6 @@ public:
 		onPositions = onPositionsCallback;
 	};
 
-	virtual void prepare(std::vector<int>& labels) {};
 	virtual void prepareFromIvhdResources(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) {};
 	virtual void finish() {};
 

@@ -84,79 +84,6 @@ void CasterCuda::initializeHelperVectors()
 	delete dstIndexes;
 }
 
-/*
- * This function performs the preprocessing on the CPU that is optional
- *
- * Sorts samples by number of their distances and sorts distances by
- * index i or j to utilize cache better. After sorting samples, their indexes
- * change so we have to update distances once more
- */
-void CasterCuda::sortHostSamples(std::vector<int>& labels)
-{
-	// create array of sorted indexes
-	std::vector<short> sampleFreq(positions.size());
-	for (unsigned i = 0; i < positions.size(); i++) 
-	{
-		sampleFreq[i] = 0;
-	}
-
-	std::vector<int> sampleIndexes(positions.size());
-	for (unsigned i = 0; i < positions.size(); i++) 
-	{
-		sampleIndexes[i] = i;
-	}
-
-	sort(sampleIndexes.begin(), sampleIndexes.end(),
-		[&sampleFreq](const int& a, const int& b) -> bool 
-	{
-		if (sampleFreq[a] != sampleFreq[b]) 
-		{
-			return sampleFreq[a] < sampleFreq[b];
-		}
-		else 
-		{
-			return a < b;
-		}
-	});
-
-	// create mapping index->new index
-	std::vector<int> newIndexes(positions.size());
-	for (unsigned i = 0; i < positions.size(); i++)
-	{
-		newIndexes[sampleIndexes[i]] = i;
-	}
-
-	// sort positions
-	std::vector<float2> positionsCopy = positions;
-	std::vector<int> labelsCopy = labels;
-	for (unsigned i = 0; i < positions.size(); i++) 
-	{
-		positions[i] = positionsCopy[sampleIndexes[i]];
-		labels[i] = labelsCopy[sampleIndexes[i]];
-	}
-
-	// update indexes in distances
-	for (unsigned i = 0; i < distances.size(); i++) 
-	{
-		distances[i].i = newIndexes[distances[i].i];
-		distances[i].j = newIndexes[distances[i].j];
-	}
-
-	// sort distances
-	sort(distances.begin(), distances.end(),
-		[](const DistElem& a, const DistElem& b) -> bool 
-	{
-		if (a.i != b.i) 
-		{
-			return a.i < b.i;
-		}
-		else 
-		{
-			return a.j <= b.j;
-		}
-	});
-}
-
 bool CasterCuda::allocateInitializeDeviceMemory()
 {
 	cuCall(cudaMalloc(&d_positions, positions.size() * sizeof(float2)));
@@ -213,12 +140,6 @@ void CasterCuda::loadPositions(ivhd::IParticleSystem& ps)
 		positions[i].x = internalPositions[i].x;
 		positions[i].y = internalPositions[i].y;
 	}
-}
-
-void CasterCuda::prepare(std::vector<int>& labels)
-{
-	sortHostSamples(labels);
-	allocateInitializeDeviceMemory();
 }
 
 void CasterCuda::finish()
