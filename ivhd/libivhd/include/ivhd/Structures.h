@@ -117,6 +117,7 @@ namespace ivhd
 	enum class CasterType
 	{
 		IVHD,
+		CUDA,
 		LargeVis,
 		tSNE,
 		Random

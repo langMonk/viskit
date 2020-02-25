@@ -17,8 +17,6 @@ public:
 	CasterCuda(int n, std::function<void(float)> onErr, std::function<void(std::vector<float2>&)> onPos)
 		: Caster(n, onErr, onPos) {}
 
-	void sortHostSamples(std::vector<int>& labels);
-
 	float2* d_positions;
 	DistElem* d_distances;
 	Sample* d_samples;
@@ -27,13 +25,14 @@ public:
 	void loadDistances(ivhd::IGraph& graph);
 	void loadPositions(ivhd::IParticleSystem& ps);
 
-	void prepare(std::vector<int>& labels) override;
 	void finish() override;
 	void step(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) override;
 	void prepareFromIvhdResources(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) override;
 
 	bool allocateInitializeDeviceMemory();
 	bool copyResultsToHost();
+
+	ivhd::CasterType type() override { return ivhd::CasterType::CUDA; }
 
 protected:
 	void initializeHelperVectors();

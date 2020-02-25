@@ -26,8 +26,7 @@ namespace ivhd::facade
 		m_core->enqueueToThreadPool([&]() {
 			while(m_castingRunning)
 			{
-				caster.calculatePositions(ps);
-				caster.calculateForces(ps, graph);
+				caster.step(ps, graph);
 				m_onCastingStepFinished();
 			}
 		});
