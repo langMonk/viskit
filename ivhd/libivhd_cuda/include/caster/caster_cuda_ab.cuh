@@ -5,7 +5,7 @@
 class CasterCudaAB : public CasterCuda
 {
 public:
-	CasterCudaAB(int n, function<void(float)> onErr, function<void(vector<float2>&)> onPos)
+	CasterCudaAB(int n, std::function<void(float)> onErr, std::function<void(std::vector<float2>&)> onPos)
 		: CasterCuda(n, onErr, onPos) {}
 
 	void calculateForces(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) override;
@@ -13,5 +13,5 @@ public:
 	void calculatePositions(ivhd::IParticleSystem& ps) override;
 
 protected:
-	void simul_step_cuda() override;
+	void simul_step_cuda(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) override;
 };
