@@ -42,6 +42,16 @@ namespace ivhd::facade
 		return m_internalParticleSystem->calculationData()->m_col;
 	}
 
+	std::vector<size_t> FacadeParticleSystem::labels()
+	{
+		return m_internalParticleSystem->labels();
+	}
+
+	void FacadeParticleSystem::setPositon(size_t index, float x, float y)
+	{
+		m_internalParticleSystem->calculationData()->m_pos[index] = glm::vec4{ x, y, 0.0f, 1.0f };
+	}
+
 	size_t FacadeParticleSystem::countAlive()
 	{
 		return m_internalParticleSystem->countAwakeParticles();

@@ -25,10 +25,11 @@ public:
 	void loadDistances(ivhd::IGraph& graph);
 	void loadPositions(ivhd::IParticleSystem& ps);
 
+	void prepare(std::vector<int>& labels) override;
 	void finish() override;
 	void step(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) override;
 	void prepareFromIvhdResources(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) override;
-
+	
 	bool allocateInitializeDeviceMemory();
 	bool copyResultsToHost();
 

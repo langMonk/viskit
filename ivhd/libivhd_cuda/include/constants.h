@@ -3,9 +3,9 @@
 #include <cuda_runtime.h>
 #include <iostream>
 
-#define a_factor 0.9
-#define b_factor 0.002
-#define w_random 0.01
+constexpr auto w_random = 0.01f;
+constexpr auto b_factor = 0.002f;
+constexpr auto a_factor = 0.9f;
 
 inline bool cudaCheck(cudaError_t ret, const char* fileName,
 	unsigned int lineNo) {

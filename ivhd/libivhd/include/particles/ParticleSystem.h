@@ -51,6 +51,8 @@ namespace ivhd::particles
 
 		void setDataset(Dataset dataset, std::vector<DataPointLabel> labels);
 
+		std::vector<DataPointLabel> labels() { return m_labels; };
+
 		void resetForces();
 
 		void resetVelocities();
@@ -96,6 +98,8 @@ namespace ivhd::particles
 		Dataset m_originalDataset;
 
 		ParticleData m_particles;
+
+		std::vector<DataPointLabel> m_labels;
 
 		std::map<DataPointLabel, Color> m_colorsMap;
 

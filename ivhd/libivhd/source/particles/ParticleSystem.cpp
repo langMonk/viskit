@@ -30,6 +30,8 @@ namespace ivhd::particles
 	
 	void ParticleSystem::setDataset(Dataset dataset, std::vector<DataPointLabel> labels)
 	{
+		m_labels = labels;
+
 		utils::RandomColor color;
 		if (!dataset.empty())
 		{
