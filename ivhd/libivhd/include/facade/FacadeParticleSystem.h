@@ -46,7 +46,11 @@ namespace ivhd::facade
 		std::vector<glm::vec4> forces() override;
 
 		std::vector<glm::vec4> colors() override;
+
+		std::vector<size_t> labels() override;
 	
+		void setPositon(size_t index, float x, float y) override;
+
 		size_t countAlive() override;
 
 		size_t countParticles() override;
