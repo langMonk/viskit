@@ -118,13 +118,13 @@ void MainWindow::on_pushButton_Exit_clicked()
 
 void MainWindow::on_pushButton_CastingRun_clicked()
 {
-	std::ofstream errFile;
+	std::ofstream m_file;
 
 	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 	long start = std::chrono::time_point_cast<std::chrono::milliseconds>(now).time_since_epoch().count();
 	long offset = 0;
 
-	errFile.open("mnist_error");
+	m_file.open("mnist_error.txt");
 	float minError = std::numeric_limits<float>::max();
 	auto onError = [&](float err) -> void 
 	{
@@ -133,20 +133,19 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 		auto time = std::chrono::time_point_cast<std::chrono::milliseconds>(now).time_since_epoch().count() -
 			start - offset;
 
-		errFile << time << " " << err << endl;
+		//m_file << time << " " << err << std::endl;
 	};
 
-	auto onPos = [&](std::vector<float2>& positions) -> void 
+	auto onPos = [&](std::vector<float2>& positions) mutable -> void
 	{
-		auto positions_ivhd = m_particleSystem->positions();
-		for (unsigned i = 0; i < positions.size(); i++) 
+		for (auto i = 0; i < positions.size(); i++) 
 		{
-			positions_ivhd[i].x = positions[i].x;
-			positions_ivhd[i].y = positions[i].y;
+			m_particleSystem->setPositon(i, positions[i].x, positions[i].y);
 		}
 	};
 
 	auto casterCUDA = std::make_shared<CasterCudaAB>(m_particleSystem->countParticles(), onError, onPos);
+
 	casterCUDA->loadDistances(*m_graph);
 	casterCUDA->loadPositions(*m_particleSystem);
 	casterCUDA->allocateInitializeDeviceMemory();

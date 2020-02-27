@@ -134,12 +134,18 @@ void CasterCuda::loadDistances(ivhd::IGraph& graph)
 
 void CasterCuda::loadPositions(ivhd::IParticleSystem& ps)
 {
-	auto internalPositions = ps.positions();
+	auto& internalPositions = ps.positions();
 	for (auto i = 0; i < ps.countParticles(); i++)
 	{
 		positions[i].x = internalPositions[i].x;
 		positions[i].y = internalPositions[i].y;
 	}
+}
+
+void CasterCuda::prepare(std::vector<int>& labels)
+{
+	//sortHostSamples(labels);
+	allocateInitializeDeviceMemory();
 }
 
 void CasterCuda::finish()

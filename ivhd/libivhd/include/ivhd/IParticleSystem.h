@@ -26,6 +26,12 @@ namespace ivhd
 		virtual std::vector<std::pair<DataPoint, size_t>> originalCoordinates() = 0;
 
 		/// <summary>
+		/// Returns labels assiociated with this dataset.
+		/// </summary>
+		/// <returns> Container with current particle labels.</returns>
+		virtual std::vector<size_t> labels() = 0;
+
+		/// <summary>
 		/// Returns current positions.
 		/// </summary>
 		/// <returns> Container with current particle positions.</returns>
@@ -49,6 +55,14 @@ namespace ivhd
 		/// <returns> Container with colors.</returns>
 		virtual std::vector<glm::vec4> colors() = 0;
 		
+		/// <summary>
+		/// Sets the specified particle position.
+		/// </summary>
+		/// <param="index"> Index of particle for which we want to set new coorinates. </param>
+		/// <param="x"> X coordinate. </param>
+		/// <param="y"> Y coordinate. </param>
+		virtual void setPositon(size_t index, float x, float y) = 0;
+
 		/// <summary>
 		/// Counts alive particles.
 		/// </summary>

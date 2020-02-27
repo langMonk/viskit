@@ -46,9 +46,11 @@ __global__ void calcForceComponents(int compNumber, DistElem* distances,  Sample
 			(posI.y - posJ.y) * (posI.y - posJ.y) + 0.00001f);
 		float D = distance.r;
 
-		float energy = (r - D) / r;
-		rv.x *= -energy;
-		rv.y *= -energy;
+		if (distance.type == DistElemType::etNear) D *= 0;
+
+		float energy = (D - r) / r;
+		rv.x *= energy;
+		rv.y *= energy;
 
 		// distances are sorted by their type
 		if (distance.type == etRandom) 
@@ -56,6 +58,7 @@ __global__ void calcForceComponents(int compNumber, DistElem* distances,  Sample
 			rv.x *= w_random;
 			rv.y *= w_random;
 		}
+
 		*distance.comp1 = rv;
 		*distance.comp2 = { -rv.x, -rv.y };
 	}
