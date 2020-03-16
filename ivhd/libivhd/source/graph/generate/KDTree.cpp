@@ -1,12 +1,7 @@
-#include <algorithm>
-#include <cmath>
-#include <stdexcept>
-
 #include "graph/generate/KDTree.h"
 
-
 namespace ivhd::graph::generate
-{ 
+{
 	KDTree::Node* KDTree::deepcopyTree(Node* root) {
 		if (root == nullptr) return nullptr;
 		Node* newRoot = new Node(*root);
@@ -16,16 +11,15 @@ namespace ivhd::graph::generate
 	}
 
 	KDTree::Node* KDTree::buildTree(std::vector<std::pair<DataPoint, size_t>>::iterator start,
-	                                const std::vector<std::pair<DataPoint, size_t>>::iterator end, 
-									const int currLevel) const
+		std::vector<std::pair<DataPoint, size_t>>::iterator end, int currLevel) const
 	{
 		if (start >= end) return nullptr; // empty tree
 
-		auto axis = currLevel % m_sizePoints; // the axis to split on
+		int axis = currLevel % m_sizePoints; // the axis to split on
 		auto cmp = [axis](const std::pair<DataPoint, size_t>& p1, const std::pair<DataPoint, size_t>& p2) {
 			return p1.first[axis] < p2.first[axis];
 		};
-		const std::size_t len = end - start;
+		std::size_t len = end - start;
 		auto mid = start + len / 2;
 		std::nth_element(start, mid, end, cmp); // linear time partition
 
@@ -116,24 +110,24 @@ namespace ivhd::graph::generate
 	{
 		auto targetNode = findNode(m_root, pt);
 		if (targetNode == nullptr)  // this means the tree is empty
-		{ 
+		{
 			m_root = new Node(pt, 0, value);
 			m_size = 1;
 		}
 		else {
 			if (targetNode->point == pt)  // pt is already in the tree, simply update its value
-			{ 
+			{
 				targetNode->value = value;
 			}
 			else  // construct a new node and insert it to the right place (child of targetNode)
-			{ 
+			{
 				const auto currLevel = targetNode->level;
 				Node* newNode = new Node(pt, currLevel + 1, value);
-				if (pt[currLevel % m_sizePoints] < targetNode->point[currLevel % m_sizePoints]) 
+				if (pt[currLevel % m_sizePoints] < targetNode->point[currLevel % m_sizePoints])
 				{
 					targetNode->left = newNode;
 				}
-				else 
+				else
 				{
 					targetNode->right = newNode;
 				}
@@ -145,11 +139,11 @@ namespace ivhd::graph::generate
 	const size_t& KDTree::at(const DataPoint& pt) const
 	{
 		const auto node = findNode(m_root, pt);
-		if (node == nullptr || node->point != pt) 
+		if (node == nullptr || node->point != pt)
 		{
 			throw std::out_of_range("Point not found in the KD-Tree");
 		}
-		else 
+		else
 		{
 			return node->value;
 		}
@@ -165,7 +159,7 @@ namespace ivhd::graph::generate
 	{
 		auto node = findNode(m_root, pt);
 		if (node != nullptr && node->point == pt) // pt is already in the tree
-		{ 
+		{
 			return node->value;
 		}
 
@@ -189,11 +183,11 @@ namespace ivhd::graph::generate
 		{
 			pQueue.enqueuePoint(currNode->point, Distance(currPoint, key));
 		}
-		
+
 		// Recursively search the half of the tree that contains Point 'key'
 		const auto currLevel = currNode->level;
 		bool isLeftTree;
-		if (key[currLevel % m_sizePoints] < currPoint[currLevel % m_sizePoints]) 
+		if (key[currLevel % m_sizePoints] < currPoint[currLevel % m_sizePoints])
 		{
 			nearestNeighborRecurse(currNode->left, key, pQueue);
 			isLeftTree = true;
@@ -203,8 +197,7 @@ namespace ivhd::graph::generate
 			isLeftTree = false;
 		}
 
-		if (pQueue.size() < pQueue.maxSize() || std::fabs(
-			key[currLevel % m_sizePoints] - currPoint[currLevel % m_sizePoints]) < pQueue.worst()) 
+		if (pQueue.size() < pQueue.maxSize() || fabs(key[currLevel % m_sizePoints] - currPoint[currLevel % m_sizePoints]) < pQueue.worst())
 		{
 			// Recursively search the other half of the tree if necessary
 			if (isLeftTree) nearestNeighborRecurse(currNode->right, key, pQueue);
@@ -214,7 +207,7 @@ namespace ivhd::graph::generate
 
 	std::vector<std::pair<float, DataPoint>> KDTree::kNN(const DataPoint& key, std::size_t k) const
 	{
-		BoundedPQueue pQueue(k); 
+		BoundedPQueue pQueue(k);
 		if (empty()) return std::vector<std::pair<float, DataPoint>>{};
 
 		nearestNeighborRecurse(m_root, key, pQueue);
