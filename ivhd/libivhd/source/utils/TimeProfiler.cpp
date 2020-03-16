@@ -2,18 +2,13 @@
 
 namespace ivhd::utils
 {
-	TimeProfiler::TimeProfiler(bool saveToFile)
+	TimeProfiler::TimeProfiler(const bool saveToFile)
 	{
 		m_useFile = saveToFile;
 		if (m_useFile)
 		{
 			m_file.open("measurement.txt");
 		}
-	}
-
-	TimeProfiler::~TimeProfiler()
-	{
-		m_file.close();
 	}
 
 	void TimeProfiler::start()
@@ -28,7 +23,7 @@ namespace ivhd::utils
 
 	size_t TimeProfiler::measurementNs()
 	{
-		auto delta = duration_cast<nanoseconds>(m_stopTime - m_startTime).count();
+		const auto delta = duration_cast<nanoseconds>(m_stopTime - m_startTime).count();
 		if (m_useFile)
 		{
 			m_file << delta << std::endl;
@@ -38,7 +33,7 @@ namespace ivhd::utils
 
 	size_t TimeProfiler::measurementMs()
 	{
-		auto delta = duration_cast<milliseconds>(m_stopTime - m_startTime).count();
+		const auto delta = duration_cast<milliseconds>(m_stopTime - m_startTime).count();
 		if (m_useFile)
 		{
 			m_file << delta << std::endl;

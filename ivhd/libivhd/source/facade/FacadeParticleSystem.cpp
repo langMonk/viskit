@@ -3,8 +3,6 @@
 /// \date 04.05.2019
 ///
 
-#include <exception>
-
 #include "facade/FacadeParticleSystem.h"
 #include "facade/FacadeGraph.h"
 #include <memory>

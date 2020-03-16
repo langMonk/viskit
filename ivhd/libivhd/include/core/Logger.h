@@ -5,9 +5,7 @@
 
 #pragma once
 
-#include <iostream>
 #include <functional>
-
 #include "ivhd/LogLevel.h"
 
 namespace ivhd::core
@@ -16,7 +14,7 @@ namespace ivhd::core
 
 	/// <summary>
 	/// A logger used for logging messages of different levels (warning, info, error etc.).
-	/// <!summary>
+	/// </summary>
 	class Logger
 	{
 		// public construction and destruction methods
@@ -32,13 +30,13 @@ namespace ivhd::core
 
 		// public methods
 	public:
-		void logInfo(std::string message);
+		void logInfo(std::string message) const;
 
-		void logWarning(std::string message);
+		void logWarning(std::string message) const;
 
-		void logError(std::string message);
+		void logError(std::string message) const;
 
-		void logDebug(std::string message);
+		void logDebug(std::string message) const;
 
 	private:
 

@@ -25,12 +25,9 @@ namespace ivhd::facade
 	{
 		if (type == ParserType::Csv)
 		{
-			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.core());
+			return std::make_shared<FacadeParserCSV>(m_ext_ivhd.core());
 		}
-		else
-		{
-			return nullptr;
-		}
+		return nullptr;
 	}
 
 	std::shared_ptr<IGraphGenerator> FacadeResourceFactory::createGraphGenerator(GraphGeneratorType type)
@@ -39,11 +36,11 @@ namespace ivhd::facade
 		
 		if (type == GraphGeneratorType::KDTreeBased)
 		{
-			generator = std::make_shared<facade::FacadeGraphGeneratorKDTree>(m_ext_ivhd.core());
+			generator = std::make_shared<FacadeGraphGeneratorKDTree>(m_ext_ivhd.core());
 		}
 		else if (type == GraphGeneratorType::BruteForce)
 		{
-			generator = std::make_shared<facade::FacadeGraphGeneratorBruteForce>(m_ext_ivhd.core());
+			generator = std::make_shared<FacadeGraphGeneratorBruteForce>(m_ext_ivhd.core());
 		}
 
 		return generator;
@@ -55,23 +52,23 @@ namespace ivhd::facade
 			
 		if (type == CasterType::Random)
 		{
-			caster = std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterRandom>(m_ext_ivhd.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::ForceDirected)
 		{
-			caster = std::make_shared<facade::FacadeCasterForceDirected>(m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterForceDirected>(m_ext_ivhd.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Adadelta)
 		{
-			caster = std::make_shared < facade::FacadeCasterAdadelta> (m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterAdadelta>(m_ext_ivhd.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Adam)
 		{
-			caster = std::make_shared < facade::FacadeCasterAdam>(m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterAdam>(m_ext_ivhd.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Nesterov)
 		{
-			caster = std::make_shared < facade::FacadeCasterNesterov>(m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterNesterov>(m_ext_ivhd.core());
 		}
 		return caster;
 	}
