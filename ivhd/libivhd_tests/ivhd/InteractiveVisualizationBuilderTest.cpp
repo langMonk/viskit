@@ -11,14 +11,14 @@ namespace libivhd_test
 {
 	TEST(InteractiveVisualizationBuilderTest, createIVHD)
 	{
-		std::shared_ptr<ivhd::IInteractiveVizualization> ivhd = ivhd::createIVHD();
+		const auto ivhd = ivhd::createIVHD();
 		EXPECT_NE(ivhd, nullptr);
 	}
 
 	TEST(InteractiveVisualizationBuilderTest, createTwoInstances)
 	{
-		std::shared_ptr<ivhd::IInteractiveVizualization> ivhd1 = ivhd::createIVHD();
-		std::shared_ptr<ivhd::IInteractiveVizualization> ivhd2 = ivhd::createIVHD();
+		auto ivhd1 = ivhd::createIVHD();
+		auto ivhd2 = ivhd::createIVHD();
 
 		EXPECT_NE(ivhd1, nullptr);
 		EXPECT_NE(ivhd2, nullptr);

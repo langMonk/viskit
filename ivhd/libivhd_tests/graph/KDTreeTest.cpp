@@ -14,6 +14,7 @@
 #include <ivhd/Structures.h>
 #include "TestUtils.h"
 #include "utils/Math.h"
+#include "utils/TimeProfiler.h"
 
 using namespace ivhd;
 
@@ -40,7 +41,7 @@ namespace libivhd_test
 		return false;
 	}
 	
-	static void kNNQueryThread(size_t start, size_t end, const generate::KDTree& kd, size_t k, size_t k_r, particles::ParticleSystem& ps, Graph& graph) {
+	static void kNNQueryThread(const size_t start, const size_t end, const generate::KDTree& kd, size_t k, size_t k_r, particles::ParticleSystem& ps, Graph& graph) {
 		for (size_t i = start; i < end; i++)
 		{
 			const auto& p = ps.originalCoordinates()[i];
@@ -94,9 +95,9 @@ namespace libivhd_test
 		std::vector<Logs> logs{};
 		size_t count = 0;
 
-		auto handler = [&logs, &count](ivhd::LogLevel level, std::string message)
+		auto handler = [&logs, &count](LogLevel level, const std::string& message)
 		{
-			logs.push_back(std::make_pair(level, message));
+			logs.emplace_back(level, message);
 			count++;
 		};
 
@@ -123,7 +124,7 @@ namespace libivhd_test
 		size_t queriesPerThread = particleSystem.countParticles() / kNumThreads;
 		std::vector<std::thread> threads;
 
-		for (int i = 0; i < kNumThreads; i++)
+		for (auto i = 0; i < kNumThreads; i++)
 		{
 			size_t start = i * queriesPerThread;
 			size_t end = (i == kNumThreads - 1) ? particleSystem.countParticles() : start + queriesPerThread;
@@ -132,7 +133,7 @@ namespace libivhd_test
 
 		auto profiler = ivhd::utils::TimeProfiler(true);
 		profiler.start();
-		for (std::thread& t : threads)
+		for (auto& t : threads)
 		{
 			t.join();
 		}
