@@ -2,32 +2,28 @@
 
 namespace ivhd::embed::cast
 {
-	CasterIVHD::CasterIVHD(core::System& system, particles::ParticleSystem& ps, Graph& graph)
-		: Caster(system, ps, graph)
+	CasterIVHD::CasterIVHD(core::System& system)
+		: Caster(system)
 	{
 	}
 
-	void CasterIVHD::castParticle(size_t index)
-	{
-	}
-
-	void CasterIVHD::castParticleSystem()
+	void CasterIVHD::castParticleSystem(particles::ParticleSystem& ps, Graph& graph)
 	{
 		float energy = 0.1f;
-		calculateForces(energy);
-		calculatePositions();
+		calculateForces(energy, ps, graph);
+		calculatePositions(ps);
 	}
 
-	void CasterIVHD::calculateForces(float& energy)
+	void CasterIVHD::calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph)
 	{
-		auto& pos = m_ext_particleSystem.calculationData()->m_pos;
-		auto& forces = m_ext_particleSystem.calculationData()->m_force;
+		auto& pos = ps.calculationData()->m_pos;
+		auto& forces = ps.calculationData()->m_force;
 
-		m_ext_particleSystem.resetForces();
+		ps.resetForces();
 		
-		for (auto index = 0; index < m_ext_graph.size(); index++)
+		for (auto index = 0; index < graph.size(); index++)
 		{
-			if (auto neighbors = m_ext_graph.getNeighbors(index))
+			if (auto neighbors = graph.getNeighbors(index))
 			{
 				for (const auto neighbor : *neighbors)
 				{
@@ -56,10 +52,5 @@ namespace ivhd::embed::cast
 				}
 			}
 		}
-	}
-
-	void CasterIVHD::calculatePositions()
-	{
-		
 	}
 }

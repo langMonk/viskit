@@ -7,33 +7,22 @@
 
 namespace ivhd::facade
 {
-	FacadeCasterRandom::FacadeCasterRandom(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
-		: FacadeCaster(core, ps)
-		, m_internalCaster(std::make_shared<ivhd::embed::cast::CasterRandom>(core->system(), ps))
+	FacadeCasterRandom::FacadeCasterRandom(std::shared_ptr<core::Core> core)
+		: FacadeCaster(core)
 	{
+		m_internalCaster = std::make_shared<embed::cast::CasterRandom>(core->system());
 	}
 
-	void FacadeCasterRandom::castParticleSystem()
+	void FacadeCasterRandom::calculatePositions(IParticleSystem& ps)
 	{
 		try
 		{
-			m_internalCaster->castParticleSystem();
+			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			dynamic_cast<embed::cast::CasterRandom*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterRandom.castParticleSystem. Error message: " + *ex.what());
-		}
-	}
-
-	void FacadeCasterRandom::castParticle(size_t index)
-	{
-		try
-		{
-			m_internalCaster->castParticle(index);
-		}
-		catch (std::exception& ex)
-		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterRandom.castParticle. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterNesterov.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 }

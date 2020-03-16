@@ -7,26 +7,24 @@
 
 #include "core/System.h"
 #include "particles/ParticleSystem.h"
-#include "threading/ThreadPool.h"
-#include "ICaster.h"
 
 namespace ivhd::embed::cast
 {
-	class Caster : public virtual ICaster
+	class Caster
 	{
 		// public construction and destruction methods
 	public:
-		Caster(core::System& system, particles::ParticleSystem& ps, Graph& graph);
+		Caster(core::System& system);
 		virtual ~Caster() = default;
 
 		Caster(const Caster&) = delete;
 		Caster& operator=(const Caster&) = delete;
 
+		virtual void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) {};
+
+		virtual void calculatePositions(particles::ParticleSystem& ps) {};
+		
 	protected:
 		core::System& m_ext_system;
-		
-		particles::ParticleSystem& m_ext_particleSystem;
-		
-		Graph& m_ext_graph;
 	};
 }

@@ -2,33 +2,36 @@
 
 namespace ivhd::facade
 {
-	FacadeCasterAdadelta::FacadeCasterAdadelta(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
-		: FacadeCaster(core, ps)
-		, m_internalCaster(std::make_shared<ivhd::embed::cast::ivhd::CasterAdadelta>(core->system(), ps))
+	FacadeCasterAdadelta::FacadeCasterAdadelta(std::shared_ptr<core::Core> core)
+		: FacadeCaster(core)
 	{
+		m_internalCaster = std::make_shared<embed::cast::ivhd::CasterAdadelta>(core->system());
 	}
 
-	void FacadeCasterAdadelta::castParticleSystem()
+	void FacadeCasterAdadelta::calculatePositions(IParticleSystem& ps)
 	{
 		try
 		{
-			m_internalCaster->castParticleSystem();
+			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			dynamic_cast<embed::cast::ivhd::CasterAdadelta*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
 		}
-		catch (std::exception& ex)
+		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterAdadelta.castParticleSystem. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using CasterAdadelta.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 
-	void FacadeCasterAdadelta::castParticle(size_t index)
+	void FacadeCasterAdadelta::calculateForces(IParticleSystem& ps, IGraph& graph)
 	{
 		try
 		{
-			m_internalCaster->castParticle(index);
+			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
+			dynamic_cast<embed::cast::ivhd::CasterAdadelta*>(m_internalCaster.get())->calculateForces(energy, facadePs->internalSystem(), facadeGraph->internalGraph());
 		}
-		catch (std::exception& ex)
+		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterAdadelta.castParticle. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using CasterAdadelta.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 }

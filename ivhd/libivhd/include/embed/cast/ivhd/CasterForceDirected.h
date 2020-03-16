@@ -14,9 +14,9 @@ namespace ivhd::embed::cast::ivhd
 	{
 		// public construction and destruction methods
 	public:
-		CasterForceDirected(core::System& system, particles::ParticleSystem& ps);
+		CasterForceDirected(core::System& system);
 
-		void calculatePositions() override;
+		void calculatePositions(particles::ParticleSystem& ps) override;
 		
 	};
 }

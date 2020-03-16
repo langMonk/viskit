@@ -11,7 +11,7 @@ namespace ivhd::graph
 
 	}
 
-	void Graph::generate(size_t elements)
+	void Graph::initialize(size_t elements)
 	{
 		m_data.resize(elements);
 	}
@@ -29,16 +29,16 @@ namespace ivhd::graph
 		}
 	}
 
-	void Graph::addNeighbors(size_t index, Neighbors neighbor)
+	void Graph::addNeighbors(Neighbors neighbor)
 	{
-		m_data[index].emplace_back(neighbor);
+		m_data[neighbor.i].emplace_back(neighbor);
 	}
 	
-	void Graph::addNeighbors(size_t index, std::vector<Neighbors> neighbors)
+	void Graph::addNeighbors(const std::vector<Neighbors>& neighbors)
 	{
 		for(const auto& neighbor : neighbors)
 		{
-			m_data[index].emplace_back(neighbor);
+			m_data[neighbor.i].emplace_back(neighbor);
 		}
 	}
 
@@ -128,6 +128,8 @@ namespace ivhd::graph
 
 	bool Graph::saveToCache(const std::string& fileName)
 	{
+		m_ext_system.logger().logInfo("[Graph] Saving graph to cache.");
+
 		std::ofstream file(fileName + ".graph", std::ios::out | std::ios::binary);
 
 		if (!file) {
@@ -139,10 +141,10 @@ namespace ivhd::graph
 		file.write(reinterpret_cast<char*>(&testNum), sizeof(long));
 		
 		auto graphSize = size();
-		file.write(reinterpret_cast<char*>(&graphSize), sizeof(size_t));
+		file.write(reinterpret_cast<char*>(&graphSize), sizeof(long));
 
 		auto graphNeighborsCount = neighborsCount();
-		file.write(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(size_t));
+		file.write(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(long));
 
 		for (auto& neighbors : m_data)
 		{
@@ -164,7 +166,9 @@ namespace ivhd::graph
 
 	bool Graph::loadFromCache(const std::string& fileName)
 	{
-		std::ifstream file(fileName + ".graph", std::ios::in | std::ios::binary);
+		m_ext_system.logger().logInfo("[Graph] Loading graph from cache.");
+
+		std::ifstream file(fileName, std::ios::in | std::ios::binary);
 
 		if (!file) {
 			m_ext_system.logger().logError("[Graph] File to read graph couldn't be opened!");
@@ -176,11 +180,11 @@ namespace ivhd::graph
 		assert(testNum == 0x01020304);
 		
 		auto graphSize = 0;
-		file.read(reinterpret_cast<char*>(&graphSize), sizeof(size_t));
+		file.read(reinterpret_cast<char*>(&graphSize), sizeof(long));
 		m_data.resize(graphSize);
 
 		auto graphNeighborsCount = 0;
-		file.read(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(size_t));
+		file.read(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(long));
 
 		const auto neighborsCount = graphNeighborsCount / graphSize;
 
@@ -197,7 +201,7 @@ namespace ivhd::graph
 		file.close();
 
 		if (!file.good()) {
-			m_ext_system.logger().logError("[Graph] Error occurred while saving graph to file.");
+			m_ext_system.logger().logError("[Graph] Error occurred while loading graph from file.");
 			return false;
 		}
 

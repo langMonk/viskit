@@ -6,37 +6,40 @@
 #pragma once
 
 #include <vector>
-#include "math/glm_adapter.h"
+#include "math\glm_adapter.h"
 
-namespace ivhd::particles
+namespace ivhd
 { 
-	class ParticleData
+	namespace particles
 	{
-		// public construction and destruction methods
-	public:
-		ParticleData(){}
-		~ParticleData() {};
+		class ParticleData
+		{
+			// public construction and destruction methods
+		public:
+			ParticleData(){}
+			~ParticleData() {};
 
-		ParticleData(const ParticleData&) = delete;
-		ParticleData& operator=(const ParticleData&) = delete;
+			ParticleData(const ParticleData&) = delete;
+			ParticleData& operator=(const ParticleData&) = delete;
 
-		void generate(size_t maxSize);
-		void kill(size_t id);
-		void wake(size_t id);
-		void swapData(size_t a, size_t b);
-		bool empty();
-		void clear();
+			void generate(size_t maxSize);
+			void kill(size_t id);
+			void wake(size_t id);
+			void swapData(size_t a, size_t b);
+			bool empty();
+			void clear();
 
-		// public members
-	public:
-		std::vector<glm::vec4> m_pos;
-		std::vector<glm::vec4> m_acc;
-		std::vector<glm::vec4> m_force;
-		std::vector<glm::vec4> m_vel;
-		std::vector<glm::vec4> m_col;
-		std::vector<bool> m_alive;
+			// public members
+		public:
+			std::vector<glm::vec4> m_pos;
+			std::vector<glm::vec4> m_acc;
+			std::vector<glm::vec4> m_force;
+			std::vector<glm::vec4> m_vel;
+			std::vector<glm::vec4> m_col;
+			std::vector<bool> m_alive;
 
-		size_t m_count{ 0 };
-		size_t m_countAlive{ 0 };
-	};
+			size_t m_count{ 0 };
+			size_t m_countAlive{ 0 };
+		};
+	}
 }

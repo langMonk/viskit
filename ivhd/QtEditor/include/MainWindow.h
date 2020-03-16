@@ -8,12 +8,11 @@
 #include <ivhd/IResourceCollection.h>
 #include <ivhd/IResourceFactory.h>
 #include <ivhd/IParticleSystem.h>
-
 #include "ui_MainWindow.h"
 
 class OpenGLRenderer;
 
-class MainWindow : public QMainWindow
+class MainWindow final : public QMainWindow
 {
 	Q_OBJECT
 
@@ -27,7 +26,7 @@ public:
 		return s;
 	}
 
-	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return m_ivhd->particleSystem(); }
+	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return *m_particleSystem; }
 
 	void setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster);
 	void setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator);
@@ -45,10 +44,11 @@ private slots:
 	void on_pushButton_Exit_clicked();
 	void on_pushButton_CastingRun_clicked();
 	void on_pushButton_CastingStop_clicked();
-	void on_pushButton_GraphRun_clicked() const;
+	void on_pushButton_GraphGenerate_clicked() const;
 	void on_comboBox_CastingSetup_activated();
 	void on_comboBox_GraphSetup_activated();
 	void on_actionReset_View_clicked();
+	void on_pushButton_GraphOpen_clicked();
 	void calculateBoundingBox();
 
 	// Qt resources
@@ -71,5 +71,7 @@ private:
 
 	std::shared_ptr<ivhd::ICaster> m_currentCaster{ nullptr };
 	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator{ nullptr };
+	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem{ nullptr };
+	std::shared_ptr<ivhd::IGraph> m_graph{ nullptr };
 
 };

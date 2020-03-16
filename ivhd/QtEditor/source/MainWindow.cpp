@@ -1,5 +1,7 @@
 #include <QFileDialog>
-
+#include <chrono>
+#include <fstream>
+#include <iostream>
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
 
@@ -18,13 +20,14 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 
 void MainWindow::setupIVHD()
 {
-	auto handler = [&](ivhd::LogLevel level, std::string message)
+	auto handler = [&](ivhd::LogLevel level, const std::string message)
 	{
 		switch (level)
 		{
 		case ivhd::LogLevel::Info: ui.textBrowser_log->append("Info: " + QString::fromStdString(message)); break;
 		case ivhd::LogLevel::Warning: ui.textBrowser_log->append("Warning: " + QString::fromStdString(message)); break;
 		case ivhd::LogLevel::Error: ui.textBrowser_log->append("Error: " + QString::fromStdString(message)); break;
+		default: ;
 		}
 	};
 
@@ -36,6 +39,11 @@ void MainWindow::setupIVHD()
 
 void MainWindow::initializeIVHDResources()
 {
+
+	// create particle system and graph
+	m_particleSystem = m_ivhd->resourceFactory().createParticleSystem();
+	m_graph = m_ivhd->resourceFactory().createGraph();
+	
 	// create collections
 	m_casters = ivhd::createResourceCollection<ivhd::ICaster>();
 	m_generators = ivhd::createResourceCollection<ivhd::IGraphGenerator>();
@@ -77,11 +85,9 @@ void MainWindow::initializeEditorElements()
 
 void MainWindow::on_pushButton_Open_clicked()
 {
-	ivhd::IParticleSystem& particleSystem = m_ivhd->particleSystem();
-
-	if (!particleSystem.empty())
+	if (!m_particleSystem->empty())
 	{
-		particleSystem.clear();
+		m_particleSystem->clear();
 	}
 
 	QString fileName = QFileDialog::getOpenFileName(this,
@@ -95,10 +101,11 @@ void MainWindow::on_pushButton_Open_clicked()
 	else
 	{
 		auto parser = m_ivhd->resourceFactory().createParser(ivhd::ParserType::Csv);
-		parser->loadFile(fileName.toUtf8().constData());
+		parser->loadFile(fileName.toUtf8().constData(), *m_particleSystem);
 	}
 
-	m_casters->find("Random")->castParticleSystem();
+	m_casters->find("Random")->calculateForces(*m_particleSystem, *m_graph);
+	m_casters->find("Random")->calculatePositions(*m_particleSystem);
 
 	m_renderer = new OpenGLRenderer();
 	setCentralWidget(m_renderer);
@@ -113,19 +120,19 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 {
 	if (m_currentCaster != nullptr)
 	{
-		m_ivhd->currentCaster(m_currentCaster);
 		m_ivhd->subscribeOnCastingStepFinish([&]()
 		{
 
 		});
 
-		m_ivhd->startCasting();
+		m_ivhd->startCasting(*m_particleSystem, *m_graph, *m_currentCaster);
 		m_running = true;
 	}
 	else
 	{
 
 	}
+
 }
 
 void MainWindow::on_pushButton_CastingStop_clicked()
@@ -138,20 +145,44 @@ void MainWindow::on_pushButton_CastingStop_clicked()
 	m_running = false;
 }
 
-void MainWindow::on_pushButton_GraphRun_clicked() const
+void MainWindow::on_pushButton_GraphGenerate_clicked() const
 {
 	if (m_currentGraphGenerator != nullptr)
 	{
-		if (true)
+		if constexpr (true)
 		{
-			m_currentGraphGenerator->generate(3, 0, 1, true);
-			m_ivhd->particleSystem().kNNGraph().dump("D:\\Repositories\\ivhd\\", "test");
+			m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph");
+
+			/*if(!m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph"))
+			{
+				m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 3);
+				m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1);
+				m_graph->saveToCache("D:\\Repositories\\ivhd\\graph");
+			}*/
 		}
 	}
 	else
 	{
 
 	}
+}
+
+void MainWindow::on_pushButton_GraphOpen_clicked()
+{
+	if (!m_particleSystem->empty())
+	{
+		m_particleSystem->clear();
+	}
+
+	QString fileName = QFileDialog::getOpenFileName(this,
+		tr("Choose graph file"), "",
+		tr("graph format(*.graph);;All Files (*)"));
+
+	if (fileName.isEmpty())
+	{
+		return;
+	}
+	m_graph->loadFromCache(fileName.toUtf8().constData());
 }
 
 void MainWindow::on_comboBox_CastingSetup_activated()
@@ -172,8 +203,8 @@ void MainWindow::on_actionReset_View_clicked()
 
 void MainWindow::calculateBoundingBox()
 {
-	auto positions = m_ivhd->particleSystem().positions();
-	const auto countParticles = m_ivhd->particleSystem().countParticles();
+	auto positions = m_particleSystem->positions();
+	const auto countParticles = m_particleSystem->countParticles();
 	
 	bool first = true;
 	for (int i = 0; i < countParticles; i++)

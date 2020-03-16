@@ -51,6 +51,8 @@ namespace ivhd::particles
 
 		void setDataset(Dataset dataset, std::vector<DataPointLabel> labels);
 
+		std::vector<DataPointLabel> labels() { return m_labels; };
+
 		void resetForces();
 
 		void resetVelocities();
@@ -66,8 +68,6 @@ namespace ivhd::particles
 		MetricType* currentMetric() { return &m_currentMetric; };
 
 		ParticleData* calculationData();
-
-		Graph& neighbourhoodGraph() { return m_neighbourhoodGraph; }
 
 		void setMetric(MetricType type) { m_currentMetric = type; };
 
@@ -95,11 +95,11 @@ namespace ivhd::particles
 	private:
 		core::System& m_ext_system;
 
-		Graph m_neighbourhoodGraph;
-
 		Dataset m_originalDataset;
 
 		ParticleData m_particles;
+
+		std::vector<DataPointLabel> m_labels;
 
 		std::map<DataPointLabel, Color> m_colorsMap;
 

@@ -6,10 +6,11 @@
 #pragma once
 
 #include <string>
-#include "ivhd/IParticleSystem.h"
 
 namespace ivhd
 {
+	class IParticleSystem;
+
 	class IParser
 	{
 		// public methods
@@ -19,7 +20,7 @@ namespace ivhd
 		/// </summary>
 		/// <param name="filePath"> Path, where the file (to read) is located.</param>
 		/// <param name="ps"> Particle system which should be casted by this caster.</param>
-		virtual void loadFile(std::string filePath) = 0;
+		virtual void loadFile(std::string filePath, IParticleSystem& ps) = 0;
 
 	};
 }

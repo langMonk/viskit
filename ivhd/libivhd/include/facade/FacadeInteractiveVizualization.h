@@ -29,18 +29,12 @@ namespace ivhd::facade
 		// public methods
 	public:
 		IResourceFactory& resourceFactory() override;
-
-		IParticleSystem& particleSystem() override;
 		
-		particles::ParticleSystem& internalParticleSystem();
-
 		[[nodiscard]] auto core() const -> std::shared_ptr<core::Core>;
 
 		void subscribeOnCastingStepFinish(CasterEventHandler handler) override;
 		
-		void currentCaster(std::shared_ptr<ivhd::ICaster> caster) override;
-
-		void startCasting() override;
+		void startCasting(IParticleSystem& ps, IGraph& graph, ICaster& caster) override;
 		
 		void stopCasting() override;
 
@@ -54,12 +48,8 @@ namespace ivhd::facade
 		
 		std::shared_ptr<core::Core> m_core;
 
-		particles::ParticleSystem m_internalParticleSystem{ m_core->system() };
-		
-		FacadeParticleSystem m_particleSystem{ m_core, m_internalParticleSystem };
 		FacadeResourceFactory m_resourceFactory {*this};
 
-		std::shared_ptr<ivhd::ICaster> m_currentCaster { nullptr };
 		CastingStepFinishedCallback m_onCastingStepFinished;
 		
 		bool m_castingRunning {false};

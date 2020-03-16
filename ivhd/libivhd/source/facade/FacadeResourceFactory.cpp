@@ -25,7 +25,7 @@ namespace ivhd::facade
 	{
 		if (type == ParserType::Csv)
 		{
-			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			return std::make_shared<facade::FacadeParserCSV>(m_ext_ivhd.core());
 		}
 		else
 		{
@@ -39,11 +39,11 @@ namespace ivhd::facade
 		
 		if (type == GraphGeneratorType::KDTreeBased)
 		{
-			generator = std::make_shared<facade::FacadeGraphGeneratorKDTree>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			generator = std::make_shared<facade::FacadeGraphGeneratorKDTree>(m_ext_ivhd.core());
 		}
 		else if (type == GraphGeneratorType::BruteForce)
 		{
-			generator = std::make_shared<facade::FacadeGraphGeneratorBruteForce>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			generator = std::make_shared<facade::FacadeGraphGeneratorBruteForce>(m_ext_ivhd.core());
 		}
 
 		return generator;
@@ -55,24 +55,34 @@ namespace ivhd::facade
 			
 		if (type == CasterType::Random)
 		{
-			caster = std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			caster = std::make_shared<facade::FacadeCasterRandom>(m_ext_ivhd.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::ForceDirected)
 		{
-			caster = std::make_shared<facade::FacadeCasterForceDirected>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			caster = std::make_shared<facade::FacadeCasterForceDirected>(m_ext_ivhd.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Adadelta)
 		{
-			caster = std::make_shared < facade::FacadeCasterAdadelta> (m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			caster = std::make_shared < facade::FacadeCasterAdadelta> (m_ext_ivhd.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Adam)
 		{
-			caster = std::make_shared < facade::FacadeCasterAdam>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			caster = std::make_shared < facade::FacadeCasterAdam>(m_ext_ivhd.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Nesterov)
 		{
-			caster = std::make_shared < facade::FacadeCasterNesterov>(m_ext_ivhd.core(), m_ext_ivhd.internalParticleSystem());
+			caster = std::make_shared < facade::FacadeCasterNesterov>(m_ext_ivhd.core());
 		}
 		return caster;
+	}
+
+	std::shared_ptr<IParticleSystem> FacadeResourceFactory::createParticleSystem()
+	{
+		return std::make_shared<FacadeParticleSystem>(m_ext_ivhd.core());
+	}
+
+	std::shared_ptr<IGraph> FacadeResourceFactory::createGraph()
+	{
+		return std::make_shared<FacadeGraph>(m_ext_ivhd.core());
 	}
 }
