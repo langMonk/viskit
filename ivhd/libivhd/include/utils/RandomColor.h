@@ -112,8 +112,8 @@ namespace ivhd::utils
 		int pickSaturation(const ColorInfo&, Luminosity);
 		int pickBrightness(int s, const ColorInfo&, Luminosity);
 
-		Range getBrightnessRange(int s, const ColorInfo&) const;
-		const ColorInfo& getColorInfo(int h) const;
+		static Range getBrightnessRange(int s, const ColorInfo&);
+		static const ColorInfo& getColorInfo(int h);
 		int randomWithin(const Range&);
 		glm::vec4 HSBtoRGB(double h, double s, double b) const;
 

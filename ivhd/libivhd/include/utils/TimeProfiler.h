@@ -6,7 +6,7 @@
 
 using namespace std::chrono;
 
-using Clock =  std::chrono::high_resolution_clock;
+using Clock = high_resolution_clock;
 
 namespace ivhd::utils
 {
@@ -15,8 +15,8 @@ namespace ivhd::utils
 	{
 		// public construction and destruction methods
 	public:
-		TimeProfiler(bool saveToFile);
-		~TimeProfiler();
+		explicit TimeProfiler(bool saveToFile);
+		~TimeProfiler() = default;
 
 		// public methods
 		void start();

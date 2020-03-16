@@ -9,7 +9,6 @@
 
 #include "Caster.h"
 #include "particles/ParticleSystem.h"
-#include "threading/ThreadPool.h"
 
 using Engine = boost::mt19937;
 using Dist = boost::uniform_real<float>;
@@ -26,7 +25,7 @@ namespace ivhd::embed::cast
 	public:		
 		void calculatePositions(particles::ParticleSystem& ps) override;
 
-		int maxEdge() { return m_maxEdge; };
+		int maxEdge() const { return m_maxEdge; };
 		
 		// Helper structures
 	private:

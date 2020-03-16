@@ -5,8 +5,6 @@
 
 #pragma once
 
-#include "particles/ParticleSystem.h"
-
 namespace ivhd::graph::generate
 {
 	class IGraphGenerator
@@ -16,6 +14,9 @@ namespace ivhd::graph::generate
 		virtual void generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors) = 0;
 		
 		virtual void useCache(bool useCache) = 0;
-		
+
+	public:
+		virtual ~IGraphGenerator() = default;
+
 	};
 }

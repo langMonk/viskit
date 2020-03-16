@@ -7,12 +7,8 @@
 
 #pragma once
 
-#include <stdexcept>
-#include <cmath>
 #include <vector>
-#include <unordered_map>
 #include <utility>
-#include <algorithm>
 
 #include "ivhd/Structures.h"
 #include "graph/generate/BoundedPQueue.h"
@@ -65,8 +61,8 @@ namespace ivhd::graph::generate
 
 		// private methods
 	private:
-		[[nodiscard]] Node* buildTree(typename std::vector<std::pair<DataPoint, size_t>>::iterator start,
-		                              typename std::vector<std::pair<DataPoint, size_t>>::iterator end, int currLevel) const;
+		[[nodiscard]] Node* buildTree(std::vector<std::pair<DataPoint, size_t>>::iterator start,
+		                              std::vector<std::pair<DataPoint, size_t>>::iterator end, int currLevel) const;
 
 		Node* findNode(Node* currNode, const DataPoint& pt) const;
 
@@ -74,13 +70,13 @@ namespace ivhd::graph::generate
 
 		Node* deepcopyTree(Node* root);
 
-		void freeResource(Node* currNode);
+		static void freeResource(Node* currNode);
 
 		//private members
 	private:
 		Node* m_root;
 
-		std::size_t m_sizePoints;
+		std::size_t m_sizePoints{};
 
 		std::size_t m_size;
 

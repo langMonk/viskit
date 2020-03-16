@@ -7,7 +7,7 @@ namespace ivhd::graph::generate
 	{
 	}
 
-	bool GraphGenerator::alreadyNeighbors(size_t index1, size_t index2, Graph& graph) const
+	bool GraphGenerator::alreadyNeighbors(size_t index1, size_t index2, Graph& graph)
 	{
 		if(const auto neighbors = graph.getNeighbors(index1))
 		{

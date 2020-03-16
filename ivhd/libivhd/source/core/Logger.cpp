@@ -12,7 +12,7 @@ namespace ivhd::core
 	{
 	}
 
-	void Logger::logInfo(std::string message)
+	void Logger::logInfo(std::string message) const
 	{
 		if (m_onLogAddedHandler)
 		{
@@ -20,7 +20,7 @@ namespace ivhd::core
 		}
 	}
 
-	void Logger::logWarning(std::string message)
+	void Logger::logWarning(std::string message) const
 	{
 		if (m_onLogAddedHandler)
 		{
@@ -28,7 +28,7 @@ namespace ivhd::core
 		}
 	}
 
-	void Logger::logError(std::string message)
+	void Logger::logError(std::string message) const
 	{
 		if (m_onLogAddedHandler)
 		{
@@ -36,7 +36,7 @@ namespace ivhd::core
 		}
 	}
 
-	void Logger::logDebug(std::string message)
+	void Logger::logDebug(std::string message) const
 	{
 		if (m_onLogAddedHandler)
 		{

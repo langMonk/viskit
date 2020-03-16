@@ -5,6 +5,7 @@
 
 #include "embed/cast/CasterRandom.h"
 #include "math/IvhdMath.h"
+#include "threading/ThreadPool.h"
 
 namespace ivhd::embed::cast
 {

@@ -14,5 +14,8 @@ namespace ivhd::embed::cast
 		virtual void castParticle(size_t index) = 0;
 
 		virtual void castParticleSystem() = 0;
+
+	public:
+		virtual ~ICaster() = default;
 	};
 }

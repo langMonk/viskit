@@ -74,5 +74,9 @@ namespace ivhd
 		/// <param name="filePath"> Filepath, where graph should be dumped.</param>
 		/// <param name="fileName"> Filename.</param>
 		void virtual dump(std::string filePath, std::string fileName) = 0;
+
+	public:
+		virtual ~IGraph() = default;
+
 	};
 }

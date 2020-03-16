@@ -10,7 +10,6 @@
 #include "core/Core.h"
 #include "graph/DataPoint.h"
 #include "particles/ParticleSystem.h"
-#include "FacadeGraph.h"
 
 namespace ivhd::facade
 {
@@ -32,8 +31,8 @@ namespace ivhd::facade
 		FacadeParticleSystem& operator=(FacadeParticleSystem&&) = delete;
 
 		~FacadeParticleSystem() = default;
-		
-		particles::ParticleSystem& internalSystem() { return *m_internalParticleSystem.get(); }
+
+		[[nodiscard]] particles::ParticleSystem& internalSystem() const { return *m_internalParticleSystem; }
 
 		// public methods
 	public:

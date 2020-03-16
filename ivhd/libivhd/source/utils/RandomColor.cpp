@@ -59,17 +59,17 @@ namespace ivhd::utils
 		// Each color will have probability = color.hRange.size() / totalRangeSize,
 		// so calculate totalRangeSize
 		double totalRangeSize = 0;
-		for (Color color : colors) {
+		for (auto color : colors) {
 			totalRangeSize += colorMap[color].hRange.size();
 		}
 
 		// Generate a number within [0; 1) and select a color according with the
 		// cumulative distribution function f(i) = f(i - 1) + colorProbability(i)
-		std::uniform_real_distribution<double> probability(0, 1);
-		double p = probability(randomEngine);
+		const std::uniform_real_distribution<double> probability(0, 1);
+		const auto p = probability(randomEngine);
 		double f = 0;
-		for (Color color : colors) {
-			const double colorProbability = colorMap[color].hRange.size() / totalRangeSize;
+		for (auto color : colors) {
+			const auto colorProbability = colorMap[color].hRange.size() / totalRangeSize;
 			f += colorProbability;
 			if (f >= p) {
 				return generate(color, luminosity);
@@ -78,7 +78,7 @@ namespace ivhd::utils
 
 		// This place can be reached due to rounding (if p ~ 1 and f < p even
 		// for the last color). Then return the last color.
-		Color lastColor = *(colors.end() - 1);
+		const Color lastColor = *(colors.end() - 1);
 		return generate(lastColor, luminosity);
 	}
 
@@ -136,16 +136,16 @@ namespace ivhd::utils
 			break;
 
 		case Light:
-			bRange[0] = static_cast<int>(bRange[1] - std::min(bRangeSize * 0.3f, 15.0f));
+			bRange[0] = static_cast<int>(bRange[1] - std::min(bRangeSize * 0.3, 15.0));
 			break;
 
 		case Bright:
-			bRange[0] = static_cast<int>(bRange[1] - std::min(bRangeSize * 0.3f, 10.0f));
+			bRange[0] = static_cast<int>(bRange[1] - std::min(bRangeSize * 0.3, 10.0));
 			break;
 
 		case Normal:
-			bRange[0] += static_cast<int>(bRangeSize * 0.5f);
-			bRange[1] -= static_cast<int>(bRangeSize * 0.125f);
+			bRange[0] += static_cast<int>(bRangeSize * 0.5);
+			bRange[1] -= static_cast<int>(bRangeSize * 0.125);
 			break;
 
 		case RandomLuminosity:
@@ -155,7 +155,7 @@ namespace ivhd::utils
 		return randomWithin(bRange);
 	}
 
-	RandomColor::Range RandomColor::getBrightnessRange(int s, const ColorInfo& info) const
+	RandomColor::Range RandomColor::getBrightnessRange(int s, const ColorInfo& info)
 	{
 		const std::vector<SBRange>& sbRanges = info.sbRanges;
 
@@ -163,12 +163,12 @@ namespace ivhd::utils
 		// brightness range proportionally to s
 		for (int i = static_cast<int>(sbRanges.size() - 2); i >= 0; --i) {
 			if (s >= sbRanges[i].s) {
-				const SBRange& r1 = sbRanges[i];
-				const SBRange& r2 = sbRanges[i + 1];
-				const double sRangeSize = r2.s - r1.s;
-				const double sFraction = sRangeSize ? (s - r1.s) / sRangeSize : 0;
-				const int bMin = static_cast<int>(r1.bMin + sFraction * (r2.bMin - r1.bMin));
-				const int bMax = static_cast<int>(r1.bMax + sFraction * (r2.bMax - r1.bMax));
+				const auto& r1 = sbRanges[i];
+				const auto& r2 = sbRanges[1 + i];
+				const auto sRangeSize = static_cast<double>(r2.s - r1.s);
+				const auto sFraction = static_cast<bool>(sRangeSize ? (s - r1.s) / sRangeSize : 0);
+				const auto bMin = static_cast<int>(r1.bMin + sFraction * (r2.bMin - r1.bMin));
+				const auto bMax = static_cast<int>(r1.bMax + sFraction * (r2.bMax - r1.bMax));
 				return { bMin, bMax };
 			}
 		}
@@ -178,13 +178,13 @@ namespace ivhd::utils
 		return { 0, 100 };
 	}
 
-	const RandomColor::ColorInfo& RandomColor::getColorInfo(int h) const
+	const RandomColor::ColorInfo& RandomColor::getColorInfo(int h)
 	{
 		if (h < 0) h += 360;
 
 		// Find the narrowest range containing h
-		const ColorInfo* found = &colorMap[RandomHue];
-		for (const ColorInfo& info : colorMap) {
+		auto found = &colorMap[RandomHue];
+		for (const auto& info : colorMap) {
 			if ((info.hRange[0] <= h && h <= info.hRange[1]) ||
 				(info.hRange[0] <= 0 && h >= 360 + info.hRange[0])) {
 				if (info.hRange.size() < found->hRange.size() && info.color <= RandomHue) {
@@ -197,11 +197,11 @@ namespace ivhd::utils
 
 	int RandomColor::randomWithin(const Range& range)
 	{
-		std::uniform_int_distribution<int> d(range[0], range[1]);
+		const std::uniform_int_distribution<int> d(range[0], range[1]);
 		return d(randomEngine);
 	}
 
-	void RandomColor::setSeed(int seed)
+	void RandomColor::setSeed(const int seed)
 	{
 		randomEngine.seed(seed);
 	}

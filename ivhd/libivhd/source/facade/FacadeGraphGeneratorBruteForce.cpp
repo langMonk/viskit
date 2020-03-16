@@ -1,4 +1,5 @@
-#include "facade\FacadeGraphGeneratorBruteForce.h"
+#include "facade/FacadeGraphGeneratorBruteForce.h"
+#include "facade/FacadeGraph.h"
 
 namespace ivhd::facade
 {
@@ -29,9 +30,9 @@ namespace ivhd::facade
 	{
 		try
 		{
-			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
-			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
-			dynamic_cast<ivhd::graph::generate::BruteForce*> (m_graphGenerator.get())->
+			const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			const auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
+			dynamic_cast<generate::BruteForce*> (m_graphGenerator.get())->
 				generateNearestNeighbors(facadePs->internalSystem(), facadeGraph->internalGraph(), k, distancesEqualOne);
 		}
 		catch (std::exception & ex)
@@ -44,9 +45,9 @@ namespace ivhd::facade
 	{
 		try
 		{
-			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
-			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
-			dynamic_cast<ivhd::graph::generate::BruteForce*> (m_graphGenerator.get())->
+			const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			const auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
+			dynamic_cast<generate::BruteForce*> (m_graphGenerator.get())->
 				generateRandomNeighbors(facadePs->internalSystem(), facadeGraph->internalGraph(), k, distancesEqualOne);
 		}
 		catch (std::exception & ex)
