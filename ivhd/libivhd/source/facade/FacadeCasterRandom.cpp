@@ -9,8 +9,8 @@ namespace ivhd::facade
 {
 	FacadeCasterRandom::FacadeCasterRandom(std::shared_ptr<core::Core> core)
 		: FacadeCaster(core)
-		, m_internalCaster(std::make_shared<ivhd::embed::cast::CasterRandom>(core->system()))
 	{
+		m_internalCaster = std::make_shared<embed::cast::CasterRandom>(core->system());
 	}
 
 	void FacadeCasterRandom::calculatePositions(IParticleSystem& ps)
@@ -18,7 +18,7 @@ namespace ivhd::facade
 		try
 		{
 			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
-			dynamic_cast<ivhd::embed::cast::CasterRandom*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
+			dynamic_cast<embed::cast::CasterRandom*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
 		}
 		catch (std::exception& ex)
 		{

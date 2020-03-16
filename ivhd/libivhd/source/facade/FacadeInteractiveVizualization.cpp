@@ -28,6 +28,10 @@ namespace ivhd::facade
 			{
 				caster.step(ps, graph);
 				m_onCastingStepFinished();
+				if(caster.type() == CasterType::Random)
+				{
+					break;
+				}
 			}
 		});
 	}

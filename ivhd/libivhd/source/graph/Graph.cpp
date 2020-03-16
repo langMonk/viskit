@@ -139,10 +139,10 @@ namespace ivhd::graph
 		file.write(reinterpret_cast<char*>(&testNum), sizeof(long));
 		
 		auto graphSize = size();
-		file.write(reinterpret_cast<char*>(&graphSize), sizeof(size_t));
+		file.write(reinterpret_cast<char*>(&graphSize), sizeof(long));
 
 		auto graphNeighborsCount = neighborsCount();
-		file.write(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(size_t));
+		file.write(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(long));
 
 		for (auto& neighbors : m_data)
 		{
@@ -176,11 +176,11 @@ namespace ivhd::graph
 		assert(testNum == 0x01020304);
 		
 		auto graphSize = 0;
-		file.read(reinterpret_cast<char*>(&graphSize), sizeof(size_t));
+		file.read(reinterpret_cast<char*>(&graphSize), sizeof(long));
 		m_data.resize(graphSize);
 
 		auto graphNeighborsCount = 0;
-		file.read(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(size_t));
+		file.read(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(long));
 
 		const auto neighborsCount = graphNeighborsCount / graphSize;
 

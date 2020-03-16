@@ -6,7 +6,6 @@
 #pragma once
 
 #include "ivhd/ICaster.h"
-#include "ivhd/IParticleSystem.h"
 #include "facade/FacadeParticleSystem.h"
 #include "embed/cast/CasterRandom.h"
 
