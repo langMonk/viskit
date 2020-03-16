@@ -11,7 +11,6 @@ namespace ivhd::particles
 	ParticleSystem::ParticleSystem(core::System& system)
 		: m_ext_system(system)
 		, m_particles(ParticleData())
-		, m_neighbourhoodGraph(system)
 		, m_currentMetric(MetricType::Euclidean)
 	{
 		
@@ -31,6 +30,8 @@ namespace ivhd::particles
 	
 	void ParticleSystem::setDataset(Dataset dataset, std::vector<DataPointLabel> labels)
 	{
+		m_labels = labels;
+
 		utils::RandomColor color;
 		if (!dataset.empty())
 		{
@@ -70,7 +71,6 @@ namespace ivhd::particles
 		{
 			m_originalDataset.clear();
 			m_particles.clear();
-			m_neighbourhoodGraph.clear();
 		}
 	}
 

@@ -12,13 +12,12 @@
 #include <boost/gil/color_convert.hpp>
 #include <boost/gil/rgba.hpp>
 #include <boost/gil/typedefs.hpp>
-
-#include <boost/mpl/vector.hpp>
+#include <boost/gil/detail/mp11.hpp>
 
 namespace boost{ namespace gil {
 
 /// \ingroup ColorSpaceModel
-using cmyka_t = mpl::vector5<cyan_t, magenta_t, yellow_t, black_t, alpha_t>;
+using cmyka_t = mp11::mp_list<cyan_t, magenta_t, yellow_t, black_t, alpha_t>;
 
 /// \ingroup LayoutModel
 using cmyka_layout_t = layout<cmyka_t>;
@@ -37,7 +36,7 @@ GIL_DEFINE_ALL_TYPEDEFS(32f, float32_t, cmyka)
 //struct default_color_converter_impl<cmyka_t,C2> {
 //    template <typename P1, typename P2>
 //    void operator()(const P1& src, P2& dst) const {
-//        typedef typename channel_type<P1>::type T1;
+//        using T1 = typename channel_type<P1>::type;
 //        default_color_converter_impl<cmyk_t,C2>()(
 //            pixel<T1,cmyk_layout_t>(channel_multiply(get_color(src,cyan_t()),  get_color(src,alpha_t())),
 //                                    channel_multiply(get_color(src,magenta_t()),get_color(src,alpha_t())),
@@ -50,7 +49,7 @@ template <>
 struct default_color_converter_impl<cmyka_t,rgba_t> {
     template <typename P1, typename P2>
     void operator()(const P1& src, P2& dst) const {
-        typedef typename channel_type<P1>::type T1;
+        using T1 = typename channel_type<P1>::type;
         default_color_converter_impl<cmyk_t,rgba_t>()(
             pixel<T1,cmyk_layout_t>(get_color(src,cyan_t()),
                                     get_color(src,magenta_t()),

@@ -19,23 +19,19 @@ namespace ivhd::facade
 		m_onCastingStepFinished = handler;
 	}
 
-	void FacadeInteractiveVizualization::currentCaster(std::shared_ptr<ivhd::ICaster> caster)
-	{
-		if(caster != nullptr)
-		{
-			m_currentCaster = caster;
-		}
-	}
-
-	void FacadeInteractiveVizualization::startCasting()
+	void FacadeInteractiveVizualization::startCasting(IParticleSystem& ps, IGraph& graph, ICaster& caster)
 	{
 		m_castingRunning = true;
 		
 		m_core->enqueueToThreadPool([&]() {
 			while(m_castingRunning)
 			{
-				m_currentCaster->castParticleSystem();
+				caster.step(ps, graph);
 				m_onCastingStepFinished();
+				if(caster.type() == CasterType::Random)
+				{
+					break;
+				}
 			}
 		});
 	}
@@ -58,16 +54,6 @@ namespace ivhd::facade
 		return vec;
 	}
 
-	IParticleSystem& FacadeInteractiveVizualization::particleSystem()
-	{
-		return m_particleSystem;
-	}
-
-	particles::ParticleSystem& FacadeInteractiveVizualization::internalParticleSystem()
-	{
-		return m_internalParticleSystem;
-	}
-	
 	IResourceFactory& FacadeInteractiveVizualization::resourceFactory()
 	{
 		return m_resourceFactory;

@@ -21,13 +21,13 @@ namespace ivhd::graph
 
 		// public methods
 	public:
-		void generate(size_t elements);
+		void initialize(size_t elements);
 		
 		std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
 
-		void addNeighbors(size_t index, std::vector<Neighbors> neighbors);
+		void addNeighbors(const std::vector<Neighbors>& neighbors);
 		
-		void addNeighbors(size_t index, Neighbors neighbor);
+		void addNeighbors(Neighbors neighbor);
 		
 		size_t neighborsCount();
 
