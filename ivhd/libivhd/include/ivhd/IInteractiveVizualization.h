@@ -11,6 +11,7 @@ namespace ivhd
 	class IParser;
 	class ICaster;
 	class IParticleSystem;
+	class IGraph;
 
 	/// <summary>
 	/// The main interface for controlling IVHD.
@@ -22,12 +23,7 @@ namespace ivhd
 		using CasterEventHandler = std::function<void(void)>;
 		
 		// public methods
-	public:
-		/// <summary>
-		/// Obtains particle system.
-		/// </summary>
-		virtual IParticleSystem& particleSystem() = 0;
-		
+	public:	
 		/// <summary>
 		/// Obtains resource factory, that enables creation of IVHD objects.
 		/// </summary>
@@ -36,7 +32,10 @@ namespace ivhd
 		/// <summary>
 		/// Starts casting process.
 		/// </summary>
-		virtual void startCasting() = 0;
+		/// <param name="ps"> Particle system to casting.</param>
+		/// <param name="graph"> Graph used for casting.</param>
+		/// <param name="caster"> Caster used for casting.</param>
+		virtual void startCasting(IParticleSystem& ps, IGraph& graph, ICaster& caster) = 0;
 
 		/// <summary>
 		/// Stops casting process.
@@ -53,15 +52,11 @@ namespace ivhd
 		/// </summary>
 		/// </return> Vector of pairs, where min x,y are first and max x,y second values
 		virtual std::vector<std::pair<float, float>> calculateBoundingBox() = 0;
-		
-		/// <summary>
-		/// Sets caster that is currently used.
-		/// </summary>
-		virtual void currentCaster(std::shared_ptr<ivhd::ICaster> caster) = 0;
 
 		/// <summary>
-		/// Subscribe to event on casting step finished.
+		/// Subscribe to event fired, when casting step finishes.
 		/// </summary>
+		/// <param name="handler"> Handler for the event. </param>
 		virtual void subscribeOnCastingStepFinish(CasterEventHandler handler) = 0;
 		
 		// protected construction and destruction methods

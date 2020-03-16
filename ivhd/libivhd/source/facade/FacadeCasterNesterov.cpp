@@ -2,33 +2,37 @@
 
 namespace ivhd::facade
 {
-	FacadeCasterNesterov::FacadeCasterNesterov(std::shared_ptr<core::Core> core, particles::ParticleSystem& ps)
-		: FacadeCaster(core, ps)
-		, m_internalCaster(std::make_shared<ivhd::embed::cast::ivhd::CasterNesterov>(core->system(), ps))
+	FacadeCasterNesterov::FacadeCasterNesterov(std::shared_ptr<core::Core> core)
+		: FacadeCaster(core)
 	{
+		m_internalCaster = std::make_shared<embed::cast::ivhd::CasterNesterov>(core->system());
 	}
 
-	void FacadeCasterNesterov::castParticleSystem()
+	void FacadeCasterNesterov::calculatePositions(IParticleSystem& ps)
 	{
 		try
 		{
-			m_internalCaster->castParticleSystem();
+			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			dynamic_cast<embed::cast::ivhd::CasterNesterov*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
 		}
-		catch (std::exception& ex)
+		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterNesterov.castParticleSystem. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterNesterov.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 
-	void FacadeCasterNesterov::castParticle(size_t index)
+	void FacadeCasterNesterov::calculateForces(IParticleSystem& ps, IGraph& graph)
 	{
 		try
 		{
-			m_internalCaster->castParticle(index);
+			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
+			float energy = 0.1f;
+			dynamic_cast<embed::cast::ivhd::CasterNesterov*>(m_internalCaster.get())->calculateForces(energy, facadePs->internalSystem(), facadeGraph->internalGraph());
 		}
-		catch (std::exception& ex)
+		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterNesterov.castParticle. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterNesterov.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 }

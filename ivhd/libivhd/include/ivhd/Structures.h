@@ -52,14 +52,14 @@ namespace ivhd
 		DataPointId m_id;
 		size_t N;
 		float* coords;
-		inline static size_t m_currentId {0};
+		size_t m_currentId = 0;
 
 	};
 
 	inline float Distance(const DataPoint& one, const DataPoint& two)
 	{
 		assert(one.size() == two.size());
-		float result = 0.0;
+		auto result = 0.0f;
 		for (std::size_t i = 0; i < one.size(); ++i)
 			result += (one[i] - two[i]) * (one[i] - two[i]);
 		return result;
@@ -117,6 +117,7 @@ namespace ivhd
 	enum class CasterType
 	{
 		IVHD,
+		CUDA,
 		LargeVis,
 		tSNE,
 		Random

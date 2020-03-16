@@ -14,8 +14,8 @@ namespace ivhd::embed::cast::ivhd
 	{
 		// public construction and destruction methods
 	public:
-		CasterSGD(core::System& system, particles::ParticleSystem& ps);
+		CasterSGD(core::System& system);
 
-		void calculatePositions() override;
+		void calculatePositions(particles::ParticleSystem& ps) override;
 	};
 }

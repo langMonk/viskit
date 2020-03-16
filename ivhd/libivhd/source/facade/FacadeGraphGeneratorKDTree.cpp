@@ -3,9 +3,8 @@
 namespace ivhd::facade
 {
 
-	FacadeGraphGeneratorKDTree::FacadeGraphGeneratorKDTree(std::shared_ptr<core::Core> core,
-		particles::ParticleSystem& ps)
-		: FacadeGraphGenerator(core, ps)
+	FacadeGraphGeneratorKDTree::FacadeGraphGeneratorKDTree(std::shared_ptr<core::Core> core)
+		: FacadeGraphGenerator(core)
 	{
 	}
 	
@@ -33,8 +32,8 @@ namespace ivhd::facade
 		}*/
 	}
 
-	void FacadeGraphGeneratorKDTree::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne)
-	{
+	// void FacadeGraphGeneratorKDTree::generate(size_t nearestNeighbors, size_t furthestNeighbors, size_t randomNeighbors, bool distancesEqualOne)
+	// {
 		// Part responsible for creating a tree
 	//	auto data = m_ext_particleSystem.originalCoordinates();
 
@@ -66,5 +65,5 @@ namespace ivhd::facade
 	//	}
 	//	profiler.stop();
 	//	profiler.measurementMs();
-	}
+	// }
 }

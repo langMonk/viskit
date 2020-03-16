@@ -19,9 +19,6 @@
     <Filter Include="graph">
       <UniqueIdentifier>{a4333917-5a55-4d0f-a77b-e0dc49c0d9e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="utils">
-      <UniqueIdentifier>{b151d21c-2274-47e7-a754-2348b0513f78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="threading">
       <UniqueIdentifier>{a8f0cc19-c17e-4cae-bd48-d005de9a3b67}</UniqueIdentifier>
     </Filter>

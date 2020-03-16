@@ -2,23 +2,23 @@
 
 namespace ivhd::embed::cast::ivhd
 {
-	CasterNesterov::CasterNesterov(core::System& system, particles::ParticleSystem& ps)
-		: CasterIVHD(system, ps, ps.neighbourhoodGraph())
+	CasterNesterov::CasterNesterov(core::System& system)
+		: CasterIVHD(system)
 	{
 
 	}
 
-	void CasterNesterov::calculateForces(float& energy)
+	void CasterNesterov::calculateForces(float& energy, particles::ParticleSystem& ps, graph::Graph& graph)
 	{
-		auto& pos = m_ext_particleSystem.calculationData()->m_pos;
-		auto& forces = m_ext_particleSystem.calculationData()->m_force;
-		auto& velocities = m_ext_particleSystem.calculationData()->m_vel;
+		auto& pos = ps.calculationData()->m_pos;
+		auto& forces = ps.calculationData()->m_force;
+		auto& velocities = ps.calculationData()->m_vel;
 
-		m_ext_particleSystem.resetForces();
+		ps.resetForces();
 
-		for (auto index = 0; index < m_ext_graph.size(); index++)
+		for (auto index = 0; index < graph.size(); index++)
 		{
-			if (auto neighbors = m_ext_graph.getNeighbors(index))
+			if (auto neighbors = graph.getNeighbors(index))
 			{
 				for (const auto neighbor : *neighbors)
 				{
@@ -58,14 +58,14 @@ namespace ivhd::embed::cast::ivhd
 		}
 	}
 	
-	void CasterNesterov::calculatePositions()
+	void CasterNesterov::calculatePositions(particles::ParticleSystem& ps)
 	{
-		auto& awake = m_ext_particleSystem.calculationData()->m_alive;
-		auto& forces = m_ext_particleSystem.calculationData()->m_force;
-		auto& velocities = m_ext_particleSystem.calculationData()->m_vel;
-		auto& positions = m_ext_particleSystem.calculationData()->m_pos;
+		auto& awake = ps.calculationData()->m_alive;
+		auto& forces = ps.calculationData()->m_force;
+		auto& velocities = ps.calculationData()->m_vel;
+		auto& positions = ps.calculationData()->m_pos;
 
-		for (auto i = 0; i < m_ext_particleSystem.countParticles(); i++)
+		for (auto i = 0; i < ps.countParticles(); i++)
 		{
 			if (awake[i])
 			{
@@ -74,7 +74,7 @@ namespace ivhd::embed::cast::ivhd
 			}
 		}
 
-		m_ext_particleSystem.increaseStep();
+		ps.increaseStep();
 	}
 
 

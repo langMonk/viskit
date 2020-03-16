@@ -261,9 +261,6 @@
     <ClInclude Include="include\graph\generate\GraphGenerator.h">
       <Filter>Header Files\graph\generate</Filter>
     </ClInclude>
-    <ClInclude Include="include\facade\FacadeCasterSGD.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
     <ClInclude Include="include\embed\cast\ivhd\CasterSGD.h">
       <Filter>Header Files\embed\cast\ivhd</Filter>
     </ClInclude>
@@ -323,9 +320,6 @@
     <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp">
       <Filter>Source Files\ivhd</Filter>
     </ClCompile>
-    <ClCompile Include="source\facade\FacadeCasterRandom.cpp">
-      <Filter>Source Files\facade</Filter>
-    </ClCompile>
     <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp">
       <Filter>Source Files\facade</Filter>
     </ClCompile>
@@ -377,9 +371,6 @@
     <ClCompile Include="source\graph\generate\GraphGenerator.cpp">
       <Filter>Source Files\graph\generate</Filter>
     </ClCompile>
-    <ClCompile Include="source\facade\FacadeCasterSGD.cpp">
-      <Filter>Source Files\facade</Filter>
-    </ClCompile>
     <ClCompile Include="source\embed\cast\CasterRandom.cpp">
       <Filter>Source Files\embed\cast</Filter>
     </ClCompile>
@@ -408,6 +399,9 @@
       <Filter>Source Files\facade</Filter>
     </ClCompile>
     <ClCompile Include="source\facade\FacadeCasterAdam.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterRandom.cpp">
       <Filter>Source Files\facade</Filter>
     </ClCompile>
     <ClCompile Include="source\facade\FacadeCasterNesterov.cpp">

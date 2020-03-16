@@ -37,7 +37,6 @@
     <ClInclude Include="include\facade\FacadeCasterForceDirected.h" />
     <ClInclude Include="include\facade\FacadeCasterNesterov.h" />
     <ClInclude Include="include\facade\FacadeCasterRandom.h" />
-    <ClInclude Include="include\facade\FacadeCasterSGD.h" />
     <ClInclude Include="include\facade\FacadeGraph.h" />
     <ClInclude Include="include\facade\FacadeGraphGenerator.h" />
     <ClInclude Include="include\facade\FacadeGraphGeneratorBruteForce.h" />
@@ -103,7 +102,6 @@
     <ClCompile Include="source\facade\FacadeCasterForceDirected.cpp" />
     <ClCompile Include="source\facade\FacadeCasterNesterov.cpp" />
     <ClCompile Include="source\facade\FacadeCasterRandom.cpp" />
-    <ClCompile Include="source\facade\FacadeCasterSGD.cpp" />
     <ClCompile Include="source\facade\FacadeGraph.cpp" />
     <ClCompile Include="source\facade\FacadeGraphGenerator.cpp" />
     <ClCompile Include="source\facade\FacadeGraphGeneratorBruteForce.cpp" />
@@ -161,8 +159,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -180,7 +177,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
+    <IncludePath>$(CUDA_PATH)\include;$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -188,17 +185,17 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
+    <IncludePath>$(CUDA_PATH)\include;$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
+    <IncludePath>$(CUDA_PATH)\include;$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
+    <IncludePath>$(CUDA_PATH)\include;$(ProjectDir)include;$(SolutionDir)libraries;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -279,6 +276,5 @@
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
