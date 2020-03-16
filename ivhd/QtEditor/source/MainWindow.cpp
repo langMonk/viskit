@@ -145,7 +145,7 @@ void MainWindow::on_pushButton_CastingStop_clicked()
 	m_running = false;
 }
 
-void MainWindow::on_pushButton_GraphRun_clicked() const
+void MainWindow::on_pushButton_GraphGenerate_clicked() const
 {
 	if (m_currentGraphGenerator != nullptr)
 	{
@@ -165,6 +165,24 @@ void MainWindow::on_pushButton_GraphRun_clicked() const
 	{
 
 	}
+}
+
+void MainWindow::on_pushButton_GraphOpen_clicked()
+{
+	if (!m_particleSystem->empty())
+	{
+		m_particleSystem->clear();
+	}
+
+	QString fileName = QFileDialog::getOpenFileName(this,
+		tr("Choose graph file"), "",
+		tr("graph format(*.graph);;All Files (*)"));
+
+	if (fileName.isEmpty())
+	{
+		return;
+	}
+	m_graph->loadFromCache(fileName.toUtf8().constData());
 }
 
 void MainWindow::on_comboBox_CastingSetup_activated()
