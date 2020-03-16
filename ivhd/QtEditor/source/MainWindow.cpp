@@ -118,42 +118,8 @@ void MainWindow::on_pushButton_Exit_clicked()
 
 void MainWindow::on_pushButton_CastingRun_clicked()
 {
-	std::ofstream m_file;
-
-	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-	long start = std::chrono::time_point_cast<std::chrono::milliseconds>(now).time_since_epoch().count();
-	long offset = 0;
-
-	m_file.open("mnist_error.txt");
-	float minError = std::numeric_limits<float>::max();
-	auto onError = [&](float err) -> void 
-	{
-		now = std::chrono::system_clock::now();
-		minError = std::min(minError, err);
-		auto time = std::chrono::time_point_cast<std::chrono::milliseconds>(now).time_since_epoch().count() -
-			start - offset;
-
-		//m_file << time << " " << err << std::endl;
-	};
-
-	auto onPos = [&](std::vector<float2>& positions) mutable -> void
-	{
-		for (auto i = 0; i < positions.size(); i++) 
-		{
-			m_particleSystem->setPositon(i, positions[i].x, positions[i].y);
-		}
-	};
-
-	auto casterCUDA = std::make_shared<CasterCudaAB>(m_particleSystem->countParticles(), onError, onPos);
-
-	casterCUDA->loadDistances(*m_graph);
-	casterCUDA->loadPositions(*m_particleSystem);
-	casterCUDA->allocateInitializeDeviceMemory();
-
-	m_currentCaster = casterCUDA;
-
 	if (m_currentCaster != nullptr)
-	{	
+	{
 		m_ivhd->subscribeOnCastingStepFinish([&]()
 		{
 
@@ -166,6 +132,7 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 	{
 
 	}
+
 }
 
 void MainWindow::on_pushButton_CastingStop_clicked()
@@ -182,12 +149,16 @@ void MainWindow::on_pushButton_GraphRun_clicked() const
 {
 	if (m_currentGraphGenerator != nullptr)
 	{
-		if (true)
+		if constexpr (true)
 		{
 			m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph");
-			//m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 3);
-			//m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1);
-			//m_graph->saveToCache("D:\\Repositories\\ivhd\\graph");
+
+			/*if(!m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph"))
+			{
+				m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 3);
+				m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1);
+				m_graph->saveToCache("D:\\Repositories\\ivhd\\graph");
+			}*/
 		}
 	}
 	else
