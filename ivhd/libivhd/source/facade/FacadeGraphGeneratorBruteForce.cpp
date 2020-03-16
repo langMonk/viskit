@@ -13,7 +13,11 @@ namespace ivhd::facade
 		try
 		{
 			generateNearestNeighbors(ps, graph, nn, distancesEqualOne);
-			if (rn) generateRandomNeighbors(ps, graph, rn, distancesEqualOne);
+			if (rn)
+			{
+				generateRandomNeighbors(ps, graph, rn, distancesEqualOne);
+
+			}
 		}
 		catch (std::exception & ex)
 		{
