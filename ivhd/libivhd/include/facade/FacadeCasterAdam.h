@@ -35,8 +35,5 @@ namespace ivhd::facade
 
 		CasterType type() override { return CasterType::IVHD; }
 		
-		// private members
-	private:
-		std::shared_ptr<embed::cast::ivhd::CasterAdam> m_internalCaster;
 	};
 }
