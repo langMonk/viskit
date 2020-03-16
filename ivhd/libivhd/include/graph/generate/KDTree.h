@@ -7,8 +7,12 @@
 
 #pragma once
 
+#include <stdexcept>
+#include <cmath>
 #include <vector>
+#include <unordered_map>
 #include <utility>
+#include <algorithm>
 
 #include "ivhd/Structures.h"
 #include "graph/generate/BoundedPQueue.h"
@@ -48,12 +52,12 @@ namespace ivhd::graph::generate
 
 		// internal sub-types
 	private:
-		struct Node 
+		struct Node
 		{
 			DataPoint point;
 			Node* left;
 			Node* right;
-			int level; 
+			int level;
 			size_t value;
 			Node(const DataPoint& _pt, int _level, const size_t& _value = size_t()) :
 				point(_pt), left(nullptr), right(nullptr), level(_level), value(_value) {}
@@ -61,8 +65,8 @@ namespace ivhd::graph::generate
 
 		// private methods
 	private:
-		[[nodiscard]] Node* buildTree(std::vector<std::pair<DataPoint, size_t>>::iterator start,
-		                              std::vector<std::pair<DataPoint, size_t>>::iterator end, int currLevel) const;
+		[[nodiscard]] Node* buildTree(typename std::vector<std::pair<DataPoint, size_t>>::iterator start,
+			typename std::vector<std::pair<DataPoint, size_t>>::iterator end, int currLevel) const;
 
 		Node* findNode(Node* currNode, const DataPoint& pt) const;
 
@@ -70,13 +74,13 @@ namespace ivhd::graph::generate
 
 		Node* deepcopyTree(Node* root);
 
-		static void freeResource(Node* currNode);
+		void freeResource(Node* currNode);
 
 		//private members
 	private:
 		Node* m_root;
 
-		std::size_t m_sizePoints{};
+		std::size_t m_sizePoints;
 
 		std::size_t m_size;
 

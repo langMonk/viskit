@@ -16,13 +16,13 @@ namespace libivhd_test
 		std::vector<Logs> logs{};
 		size_t count = 0;
 
-		auto handler = [&logs, &count](ivhd::LogLevel level, std::string message)
+		auto handler = [&logs, &count](ivhd::LogLevel level, const std::string& message)
 		{
-			logs.push_back(std::make_pair(level, message));
+			logs.emplace_back(level, message);
 			count++;
 		};
 
-		ivhd::core::Logger logger{ handler };
+		const ivhd::core::Logger logger{ handler };
 
 		logger.logInfo("Info: 1");
 		EXPECT_EQ(logs.size(), count);

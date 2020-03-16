@@ -7,7 +7,7 @@
 #include <core/Core.h>
 #include <particles/ParticleSystem.h>
 #include <graph/Graph.h>
-#include <parse/ParserCsv.h>
+#include <parse/ParserCSV.h>
 #include <graph/generate/BruteForce.h>
 #include <graph/DataPoint.h>
 #include <ivhd/Structures.h>
@@ -20,10 +20,8 @@ void saveToPlainText(Graph& graph)
 {
 	std::ofstream m_file;
 	m_file.open("kNN_graph.txt");
-
-	const auto kNN_count = graph.neighborsCount();
 	
-	for (int i = 0; i < graph.size(); i++)
+	for (auto i = 0; i < graph.size(); i++)
 	{
 		if (const auto neighbors = graph.getNeighbors(i))
 		{
@@ -114,13 +112,13 @@ namespace libivhd_test
 		generator.generateRandomNeighbors(particleSystem, graph, 1);
 		
 
-		graph.saveToCache("MNIST7k");
+		graph.saveToCache("MNIST7k.graph");
 		graph.clear();
 
 		EXPECT_EQ(graph.size(), 0);
 		EXPECT_EQ(graph.neighborsCount(), 0);
 
-		graph.loadFromCache("MNIST7k");
+		graph.loadFromCache("MNIST7k.graph");
 		
 		EXPECT_EQ(graph.neighborsCount(), 28000);
 		EXPECT_EQ(graph.size(), 7000);

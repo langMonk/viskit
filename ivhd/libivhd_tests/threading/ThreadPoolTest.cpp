@@ -10,7 +10,7 @@ namespace libivhd_test
 {
 	int multiply(const int a, const int b)
 	{
-		const int res = a * b;
+		const auto res = a * b;
 		return res;
 	}
 	
@@ -21,8 +21,8 @@ namespace libivhd_test
 
 
 		// Submit (partial) multiplication table
-		for (int i = 1; i < 20; ++i) {
-			for (int j = 1; j < 40; ++j) {
+		for (auto i = 1; i < 20; ++i) {
+			for (auto j = 1; j < 40; ++j) {
 				auto result = pool.enqueue(multiply, i, j);
 				ASSERT_EQ(result.get(), i * j);
 			}
