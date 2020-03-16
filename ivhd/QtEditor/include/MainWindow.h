@@ -8,12 +8,11 @@
 #include <ivhd/IResourceCollection.h>
 #include <ivhd/IResourceFactory.h>
 #include <ivhd/IParticleSystem.h>
-#include <caster/caster_cuda_ab.cuh>
 #include "ui_MainWindow.h"
 
 class OpenGLRenderer;
 
-class MainWindow : public QMainWindow
+class MainWindow final : public QMainWindow
 {
 	Q_OBJECT
 
@@ -27,7 +26,7 @@ public:
 		return s;
 	}
 
-	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return *m_particleSystem.get(); }
+	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return *m_particleSystem; }
 
 	void setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster);
 	void setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator);

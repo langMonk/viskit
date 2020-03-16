@@ -12,13 +12,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libivhd_tests", "libivhd_te
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtEditor", "QtEditor\QtEditor.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 	ProjectSection(ProjectDependencies) = postProject
-		{FDB0E147-48BC-419D-B54A-2280DBE85BB2} = {FDB0E147-48BC-419D-B54A-2280DBE85BB2}
 		{87E69858-39B3-4F4B-BF96-3BE69995FBF5} = {87E69858-39B3-4F4B-BF96-3BE69995FBF5}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Approximate_kNN_generator", "Approximate_kNN_generator\Approximate_kNN_generator.vcxproj", "{3DEB05C2-60C3-4F49-803D-C1752A606E21}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libivhd_cuda", "libivhd_cuda\libivhd_cuda.vcxproj", "{FDB0E147-48BC-419D-B54A-2280DBE85BB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,18 +45,6 @@ Global
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.ActiveCfg = Release|x64
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.Build.0 = Release|x64
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x86.ActiveCfg = Release|x64
-		{3DEB05C2-60C3-4F49-803D-C1752A606E21}.Debug|x64.ActiveCfg = Debug|x64
-		{3DEB05C2-60C3-4F49-803D-C1752A606E21}.Debug|x64.Build.0 = Debug|x64
-		{3DEB05C2-60C3-4F49-803D-C1752A606E21}.Debug|x86.ActiveCfg = Debug|x64
-		{3DEB05C2-60C3-4F49-803D-C1752A606E21}.Release|x64.ActiveCfg = Release|x64
-		{3DEB05C2-60C3-4F49-803D-C1752A606E21}.Release|x64.Build.0 = Release|x64
-		{3DEB05C2-60C3-4F49-803D-C1752A606E21}.Release|x86.ActiveCfg = Release|x64
-		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Debug|x64.ActiveCfg = Debug|x64
-		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Debug|x64.Build.0 = Debug|x64
-		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Debug|x86.ActiveCfg = Debug|x64
-		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Release|x64.ActiveCfg = Release|x64
-		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Release|x64.Build.0 = Release|x64
-		{FDB0E147-48BC-419D-B54A-2280DBE85BB2}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
