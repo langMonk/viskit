@@ -13,7 +13,6 @@ namespace ivhd::core
 		, m_threadPool(threading::ThreadPool(1))
 	{
 
-
 	}
 
 	void Core::enqueueToThreadPool(std::function<void()> task)

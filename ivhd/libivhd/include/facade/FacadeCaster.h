@@ -7,6 +7,7 @@
 
 #include "ivhd/ICaster.h"
 #include "facade/FacadeParticleSystem.h"
+#include "facade/FacadeGraph.h"
 #include "embed/cast/CasterRandom.h"
 
 namespace ivhd::facade

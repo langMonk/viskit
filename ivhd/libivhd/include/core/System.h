@@ -6,7 +6,6 @@
 #pragma once
 
 #include "Logger.h"
-#include "utils/TimeProfiler.h"
 
 namespace ivhd::core
 {

@@ -7,7 +7,6 @@
 
 #include "graph/Graph.h"
 #include "core/Core.h"
-#include "facade/FacadeGraph.h"
 #include "ivhd/IGraph.h"
 
 namespace ivhd::facade

@@ -1,4 +1,9 @@
+#include <algorithm>
+#include <cmath>
+#include <stdexcept>
+
 #include "graph/generate/KDTree.h"
+
 
 namespace ivhd::graph::generate
 { 
@@ -11,15 +16,16 @@ namespace ivhd::graph::generate
 	}
 
 	KDTree::Node* KDTree::buildTree(std::vector<std::pair<DataPoint, size_t>>::iterator start,
-		std::vector<std::pair<DataPoint, size_t>>::iterator end, int currLevel) const
+	                                const std::vector<std::pair<DataPoint, size_t>>::iterator end, 
+									const int currLevel) const
 	{
 		if (start >= end) return nullptr; // empty tree
 
-		int axis = currLevel % m_sizePoints; // the axis to split on
+		auto axis = currLevel % m_sizePoints; // the axis to split on
 		auto cmp = [axis](const std::pair<DataPoint, size_t>& p1, const std::pair<DataPoint, size_t>& p2) {
 			return p1.first[axis] < p2.first[axis];
 		};
-		std::size_t len = end - start;
+		const std::size_t len = end - start;
 		auto mid = start + len / 2;
 		std::nth_element(start, mid, end, cmp); // linear time partition
 
@@ -197,7 +203,8 @@ namespace ivhd::graph::generate
 			isLeftTree = false;
 		}
 
-		if (pQueue.size() < pQueue.maxSize() || fabs(key[currLevel % m_sizePoints] - currPoint[currLevel % m_sizePoints]) < pQueue.worst()) 
+		if (pQueue.size() < pQueue.maxSize() || std::fabs(
+			key[currLevel % m_sizePoints] - currPoint[currLevel % m_sizePoints]) < pQueue.worst()) 
 		{
 			// Recursively search the other half of the tree if necessary
 			if (isLeftTree) nearestNeighborRecurse(currNode->right, key, pQueue);

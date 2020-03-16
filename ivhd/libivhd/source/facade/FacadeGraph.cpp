@@ -3,6 +3,8 @@
 /// \date 10.02.2020
 ///
 
+#include <fstream>
+
 #include "facade/FacadeGraph.h"
 
 namespace ivhd::facade

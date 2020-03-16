@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <string>
+#include <fstream>
 
 #include "graph\Graph.h"
 

@@ -6,7 +6,6 @@
 #pragma once
 
 #include "core/System.h"
-#include "ivhd/IGraphGenerator.h"
 #include "particles/ParticleSystem.h"
 
 namespace ivhd::graph::generate
@@ -26,7 +25,7 @@ namespace ivhd::graph::generate
 		virtual void generateNearestNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k = 0, bool distancesEqualOne = true) {};
 
 	protected:
-		bool alreadyNeighbors(size_t index1, size_t index2, Graph& graph) const;
+		static bool alreadyNeighbors(size_t index1, size_t index2, Graph& graph);
 		
 	protected:
 		core::System& m_ext_system;
