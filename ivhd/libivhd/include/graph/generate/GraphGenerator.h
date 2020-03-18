@@ -14,7 +14,7 @@ namespace ivhd::graph::generate
 	{
 		// public construction and destruction methods
 	public:
-		GraphGenerator(core::System& system);
+		explicit GraphGenerator(core::System& system);
 		virtual ~GraphGenerator() = default;
 
 		GraphGenerator(const GraphGenerator&) = delete;
