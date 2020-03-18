@@ -16,7 +16,7 @@ namespace ivhd
 	/// <summary>
 	/// The main interface for controlling IVHD.
 	/// </summary>
-	class IInteractiveVizualization
+	class IInteractiveVisualization
 	{
 		// public sub-types
 	public:
@@ -61,7 +61,7 @@ namespace ivhd
 		
 		// protected construction and destruction methods
 	protected:
-		virtual ~IInteractiveVizualization() = default;
+		virtual ~IInteractiveVisualization() = default;
 
 	};
 }

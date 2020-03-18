@@ -12,12 +12,12 @@ namespace ivhd::facade
 	{
 		try
 		{
-			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
 			dynamic_cast<embed::cast::ivhd::CasterAdam*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterAdam.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterAdam.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 
@@ -25,14 +25,14 @@ namespace ivhd::facade
 	{
 		try
 		{
-			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
-			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
-			float energy = 0.1f;
+			const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			const auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
+			auto energy = 0.1f;
 			dynamic_cast<embed::cast::ivhd::CasterAdam*>(m_internalCaster.get())->calculateForces(energy, facadePs->internalSystem(), facadeGraph->internalGraph());
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterAdam.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterAdam.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 }

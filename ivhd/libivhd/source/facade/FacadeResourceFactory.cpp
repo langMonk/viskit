@@ -4,11 +4,12 @@
 ///
 
 #include "facade/FacadeResourceFactory.h"
-#include "facade/FacadeInteractiveVizualization.h"
+#include "facade/FacadeInteractiveVisualization.h"
 #include "facade/FacadeCasterRandom.h"
 #include "facade/FacadeParserCSV.h"
 #include "facade/FacadeGraphGeneratorKDTree.h"
 #include "facade/FacadeGraphGeneratorBruteForce.h"
+#include "facade/FacadeCasterMomentum.h"
 #include "facade/FacadeCasterForceDirected.h"
 #include "facade/FacadeCasterAdadelta.h"
 #include "facade/FacadeCasterAdam.h"
@@ -16,12 +17,12 @@
 
 namespace ivhd::facade
 {
-	FacadeResourceFactory::FacadeResourceFactory(FacadeInteractiveVizualization& ivhd)
+	FacadeResourceFactory::FacadeResourceFactory(FacadeInteractiveVisualization& ivhd)
 		: m_ext_ivhd(ivhd)
 	{
 	}
 
-	std::shared_ptr<IParser> FacadeResourceFactory::createParser(ParserType type)
+	std::shared_ptr<IParser> FacadeResourceFactory::createParser(const ParserType type)
 	{
 		if (type == ParserType::Csv)
 		{
@@ -30,7 +31,7 @@ namespace ivhd::facade
 		return nullptr;
 	}
 
-	std::shared_ptr<IGraphGenerator> FacadeResourceFactory::createGraphGenerator(GraphGeneratorType type)
+	std::shared_ptr<IGraphGenerator> FacadeResourceFactory::createGraphGenerator(const GraphGeneratorType type)
 	{
 		std::shared_ptr<IGraphGenerator> generator = nullptr;
 		
@@ -46,13 +47,17 @@ namespace ivhd::facade
 		return generator;
 	}
 
-	std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(CasterType type, OptimizerType optimizer)
+	std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(const CasterType type, const OptimizerType optimizer)
 	{
 		std::shared_ptr<ICaster> caster = nullptr;
 			
 		if (type == CasterType::Random)
 		{
 			caster = std::make_shared<FacadeCasterRandom>(m_ext_ivhd.core());
+		}
+		else if (type == CasterType::IVHD && optimizer == OptimizerType::Momentum)
+		{
+			caster = std::make_shared<FacadeCasterMomentum>(m_ext_ivhd.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::ForceDirected)
 		{

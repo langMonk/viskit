@@ -10,11 +10,11 @@
 
 namespace ivhd::embed::cast::ivhd
 {
-	class CasterAdadelta : public CasterIVHD
+	class CasterAdadelta final : public CasterIVHD
 	{
 		// public construction and destruction methods
 	public:
-		CasterAdadelta(core::System& system);
+		explicit CasterAdadelta(core::System& system);
 
 		void calculatePositions(particles::ParticleSystem& ps) override;
 		

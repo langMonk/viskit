@@ -22,7 +22,7 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		FacadeParticleSystem(std::shared_ptr<core::Core> core);
+		FacadeParticleSystem(const std::shared_ptr<core::Core>& core);
 
 		FacadeParticleSystem(const FacadeParticleSystem&) = delete;
 		FacadeParticleSystem(FacadeParticleSystem&&) = delete;
@@ -48,7 +48,7 @@ namespace ivhd::facade
 
 		std::vector<size_t> labels() override;
 	
-		void setPositon(size_t index, float x, float y) override;
+		void setPosition(size_t index, float x, float y) override;
 
 		size_t countAlive() override;
 
