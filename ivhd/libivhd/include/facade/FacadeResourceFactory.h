@@ -9,7 +9,7 @@
 
 namespace ivhd::facade
 {
-	class FacadeInteractiveVizualization;
+	class FacadeInteractiveVisualization;
 
 	/// <summary>
 	/// Implementation of IVHD interface.
@@ -18,7 +18,7 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		FacadeResourceFactory(FacadeInteractiveVizualization& ivhd);
+		FacadeResourceFactory(FacadeInteractiveVisualization& ivhd);
 
 		// public methods
 	public:
@@ -33,6 +33,6 @@ namespace ivhd::facade
 		std::shared_ptr<IGraph> createGraph() override;
 
 	private:
-		FacadeInteractiveVizualization& m_ext_ivhd;
+		FacadeInteractiveVisualization& m_ext_ivhd;
 	};
 }

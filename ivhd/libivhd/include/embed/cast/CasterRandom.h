@@ -15,24 +15,24 @@ using Dist = boost::uniform_real<float>;
 
 namespace ivhd::embed::cast
 { 
-	class CasterRandom : public Caster
+	class CasterRandom final : public Caster
 	{
 		// public construction and destruction methods
 	public:
-		CasterRandom(core::System& system);
+		explicit CasterRandom(core::System& system);
 
 		// public methods
 	public:		
 		void calculatePositions(particles::ParticleSystem& ps) override;
 
-		int maxEdge() const { return m_maxEdge; };
+		[[nodiscard]] int maxEdge() const { return m_maxEdge; };
 		
 		// Helper structures
 	private:
 		class RandomGenerator
 		{
 		public:
-			RandomGenerator(float min = -0.5f, float max = 0.5f)
+			explicit RandomGenerator(float min = -0.5f, float max = 0.5f)
 				: m_dist(min, max)
 			{
 			};

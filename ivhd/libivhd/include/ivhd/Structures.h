@@ -109,6 +109,7 @@ namespace ivhd
 		None,
 		SGD,
 		ForceDirected,
+		Momentum,
 		Adadelta,
 		Adam,
 		Nesterov
