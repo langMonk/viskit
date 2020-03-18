@@ -3,16 +3,16 @@
 /// \date 28.04.2019
 ///
 
-#include "ivhd/InteractiveVizualizationBuilder.h"
-#include "facade/FacadeInteractiveVizualization.h"
+#include "ivhd/InteractiveVisualizationBuilder.h"
+#include "facade/FacadeInteractiveVisualization.h"
 
 namespace ivhd
 { 
-	std::shared_ptr<IInteractiveVizualization> createIVHD(LogHandler logHandler)
+	std::shared_ptr<IInteractiveVisualization> createIVHD(LogHandler logHandler)
 	{
 		try
 		{
-			return std::make_shared<facade::FacadeInteractiveVizualization>(logHandler);
+			return std::make_shared<facade::FacadeInteractiveVisualization>(logHandler);
 		}
 		catch(std::exception& exception)
 		{

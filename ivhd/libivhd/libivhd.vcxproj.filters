@@ -82,9 +82,6 @@
     <Filter Include="Header Files\threading">
       <UniqueIdentifier>{ab54262f-7742-4dc6-8b2f-f1712a8c581b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\facade">
-      <UniqueIdentifier>{8302e218-19af-4c98-aed4-5b9acdd98dd2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\graph\generate">
       <UniqueIdentifier>{49b54523-c2c8-4fc8-898b-3a5f8719d729}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,9 @@
     </Filter>
     <Filter Include="Header Files\embed\cast\ivhd">
       <UniqueIdentifier>{117b0f5e-6e34-4866-a877-d94427eab6e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\facade">
+      <UniqueIdentifier>{8302e218-19af-4c98-aed4-5b9acdd98dd2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,12 +138,6 @@
     <ClInclude Include="include\ivhd\IClusterer.h">
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
-    <ClInclude Include="include\ivhd\IInteractiveVizualization.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h">
-      <Filter>Header Files\ivhd</Filter>
-    </ClInclude>
     <ClInclude Include="include\ivhd\IParser.h">
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
@@ -175,9 +169,6 @@
       <Filter>Header Files\ivhd</Filter>
     </ClInclude>
     <ClInclude Include="include\facade\FacadeCasterRandom.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facade\FacadeInteractiveVizualization.h">
       <Filter>Header Files\facade</Filter>
     </ClInclude>
     <ClInclude Include="include\facade\FacadeMath.h">
@@ -264,12 +255,6 @@
     <ClInclude Include="include\embed\cast\ivhd\CasterSGD.h">
       <Filter>Header Files\embed\cast\ivhd</Filter>
     </ClInclude>
-    <ClInclude Include="include\embed\cast\ivhd\CasterForceDirected.h">
-      <Filter>Header Files\embed\cast\ivhd</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facade\FacadeCasterForceDirected.h">
-      <Filter>Header Files\facade</Filter>
-    </ClInclude>
     <ClInclude Include="include\embed\cast\ivhd\CasterAdadelta.h">
       <Filter>Header Files\embed\cast\ivhd</Filter>
     </ClInclude>
@@ -290,6 +275,27 @@
     </ClInclude>
     <ClInclude Include="include\facade\FacadeCasterNesterov.h">
       <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterMomentum.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterMomentum.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\embed\cast\ivhd\CasterForceDirected.h">
+      <Filter>Header Files\embed\cast\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeCasterForceDirected.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facade\FacadeInteractiveVisualization.h">
+      <Filter>Header Files\facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\IInteractiveVisualization.h">
+      <Filter>Header Files\ivhd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ivhd\InteractiveVisualizationBuilder.h">
+      <Filter>Header Files\ivhd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -316,12 +322,6 @@
     </ClCompile>
     <ClCompile Include="source\particles\ParticleSystem.cpp">
       <Filter>Source Files\particles</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp">
-      <Filter>Source Files\ivhd</Filter>
-    </ClCompile>
-    <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp">
-      <Filter>Source Files\facade</Filter>
     </ClCompile>
     <ClCompile Include="source\facade\FacadeParserCSV.cpp">
       <Filter>Source Files\facade</Filter>
@@ -377,12 +377,6 @@
     <ClCompile Include="source\embed\cast\ivhd\CasterSGD.cpp">
       <Filter>Source Files\embed\cast\ivhd</Filter>
     </ClCompile>
-    <ClCompile Include="source\embed\cast\ivhd\CasterForceDirected.cpp">
-      <Filter>Source Files\embed\cast\ivhd</Filter>
-    </ClCompile>
-    <ClCompile Include="source\facade\FacadeCasterForceDirected.cpp">
-      <Filter>Source Files\facade</Filter>
-    </ClCompile>
     <ClCompile Include="source\embed\cast\ivhd\CasterIVHD.cpp">
       <Filter>Source Files\embed\cast\ivhd</Filter>
     </ClCompile>
@@ -406,6 +400,24 @@
     </ClCompile>
     <ClCompile Include="source\facade\FacadeCasterNesterov.cpp">
       <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterMomentum.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterMomentum.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\embed\cast\ivhd\CasterForceDirected.cpp">
+      <Filter>Source Files\embed\cast\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeCasterForceDirected.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\facade\FacadeInteractiveVisualization.cpp">
+      <Filter>Source Files\facade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ivhd\InteractiveVisualizationBuilder.cpp">
+      <Filter>Source Files\ivhd</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

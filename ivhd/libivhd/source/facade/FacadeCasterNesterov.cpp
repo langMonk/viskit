@@ -12,7 +12,7 @@ namespace ivhd::facade
 	{
 		try
 		{
-			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
 			dynamic_cast<embed::cast::ivhd::CasterNesterov*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
 		}
 		catch (std::exception & ex)
@@ -25,9 +25,9 @@ namespace ivhd::facade
 	{
 		try
 		{
-			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
-			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
-			float energy = 0.1f;
+			const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+			const auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
+			auto energy = 0.1f;
 			dynamic_cast<embed::cast::ivhd::CasterNesterov*>(m_internalCaster.get())->calculateForces(energy, facadePs->internalSystem(), facadeGraph->internalGraph());
 		}
 		catch (std::exception & ex)

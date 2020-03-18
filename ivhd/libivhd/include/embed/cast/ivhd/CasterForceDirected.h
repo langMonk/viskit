@@ -1,6 +1,6 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 17.02.2020
+/// \date 18.03.2020
 ///
 
 #pragma once
@@ -10,13 +10,20 @@
 
 namespace ivhd::embed::cast::ivhd
 {
-	class CasterForceDirected : public CasterIVHD
+	class CasterForceDirected final : public CasterIVHD
 	{
 		// public construction and destruction methods
 	public:
-		CasterForceDirected(core::System& system);
+		explicit CasterForceDirected(core::System& system);
 
-		void calculatePositions(particles::ParticleSystem& ps) override;
+		void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) override;
 		
+		void calculatePositions(particles::ParticleSystem& ps) override;
+
+	private:
+		float m_speedFactor{ 200.0f };
+		
+		float m_dtFactor{ 1.0f };
+
 	};
 }

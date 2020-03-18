@@ -61,7 +61,7 @@ namespace ivhd
 		/// <param="index"> Index of particle for which we want to set new coorinates. </param>
 		/// <param="x"> X coordinate. </param>
 		/// <param="y"> Y coordinate. </param>
-		virtual void setPositon(size_t index, float x, float y) = 0;
+		virtual void setPosition(size_t index, float x, float y) = 0;
 
 		/// <summary>
 		/// Counts alive particles.

@@ -8,8 +8,8 @@
 #include <vector>
 
 #include "core/Core.h"
-#include "ivhd/IInteractiveVizualization.h"
-#include "ivhd/InteractiveVizualizationBuilder.h"
+#include "ivhd/IInteractiveVisualization.h"
+#include "ivhd/InteractiveVisualizationBuilder.h"
 #include "ivhd/ICaster.h"
 #include "facade/FacadeResourceFactory.h"
 #include "facade/FacadeParticleSystem.h"
@@ -20,11 +20,11 @@ namespace ivhd::facade
 	/// <summary>
 	/// Implementation of IVHD interface.
 	/// </summary>
-	class FacadeInteractiveVizualization : public IInteractiveVizualization
+	class FacadeInteractiveVisualization final : public IInteractiveVisualization
 	{
 		// public construction and destruction methods
 	public:
-		FacadeInteractiveVizualization(LogHandler logHandler);
+		explicit FacadeInteractiveVisualization(LogHandler logHandler);
 
 		// public methods
 	public:

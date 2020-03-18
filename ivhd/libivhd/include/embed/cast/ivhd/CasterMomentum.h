@@ -1,6 +1,6 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 19.02.2020
+/// \date 17.02.2020
 ///
 
 #pragma once
@@ -10,12 +10,13 @@
 
 namespace ivhd::embed::cast::ivhd
 {
-	class CasterSGD final : public CasterIVHD
+	class CasterMomentum final : public CasterIVHD
 	{
 		// public construction and destruction methods
 	public:
-		explicit CasterSGD(core::System& system);
+		explicit CasterMomentum(core::System& system);
 
 		void calculatePositions(particles::ParticleSystem& ps) override;
+		
 	};
 }
