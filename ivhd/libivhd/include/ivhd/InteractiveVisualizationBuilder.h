@@ -3,7 +3,7 @@
 #include <memory>
 #include <functional>
 
-#include "IInteractiveVizualization.h"
+#include "IInteractiveVisualization.h"
 #include "IResourceCollection.h"
 #include "ivhd/LogLevel.h"
 #include "facade/FacadeResourceCollection.h"
@@ -21,7 +21,7 @@ namespace ivhd
 	/// Creates the IVHD.
 	/// </summary>
 	/// <returns>The created IVHD resource or nullptr in case of an error.</returns>
-	std::shared_ptr<IInteractiveVizualization> createIVHD(LogHandler logHandler = LogHandler{});
+	std::shared_ptr<IInteractiveVisualization> createIVHD(LogHandler logHandler = LogHandler{});
 
 	/// <summary>
 	/// Creates the IVHD resource collection.

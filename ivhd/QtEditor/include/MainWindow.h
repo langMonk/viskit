@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ivhd/InteractiveVizualizationBuilder.h>
+#include <ivhd/InteractiveVisualizationBuilder.h>
 #include <ivhd/IParser.h>
 #include <ivhd/ICaster.h>
 #include <ivhd/IGraphGenerator.h>
@@ -63,7 +63,7 @@ private:
 	glm::vec4 bounding_box_min;
 	glm::vec4 bounding_box_max;
 	
-	std::shared_ptr<ivhd::IInteractiveVizualization> m_ivhd;
+	std::shared_ptr<ivhd::IInteractiveVisualization> m_ivhd;
 
 	// IVHD collections and current resources
 	std::shared_ptr<ivhd::IResourceCollection<ivhd::ICaster>> m_casters;

@@ -1,6 +1,6 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 10.02.2020
+/// \date 18.03.2020
 ///
 
 #pragma once
@@ -18,7 +18,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterForceDirected(std::shared_ptr<core::Core> core);
+		explicit FacadeCasterForceDirected(const std::shared_ptr<core::Core>& core);
 		~FacadeCasterForceDirected() = default;
 
 		FacadeCasterForceDirected(const FacadeCasterForceDirected&) = delete;
@@ -34,6 +34,6 @@ namespace ivhd::facade
 		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
 
 		CasterType type() override { return CasterType::IVHD; }
-		
+
 	};
 }

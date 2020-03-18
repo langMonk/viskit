@@ -18,7 +18,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeParserCSV(std::shared_ptr<core::Core> core);
+		explicit FacadeParserCSV(const std::shared_ptr<core::Core>& core);
 		~FacadeParserCSV() = default;
 
 		FacadeParserCSV(const FacadeParserCSV&) = delete;
