@@ -26,3 +26,5 @@
 /ivhd/x64/Release
 /ivhd/libivhd_cuda/x64/
 /ivhd/packages/*
+/.vs
+/ivhd/.vs
