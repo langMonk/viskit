@@ -15,7 +15,7 @@ namespace ivhd::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		CasterIVHD(core::System& system);
+		explicit CasterIVHD(core::System& system);
 
 		void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) override;
 			

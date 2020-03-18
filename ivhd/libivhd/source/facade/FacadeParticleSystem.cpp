@@ -9,7 +9,7 @@
 
 namespace ivhd::facade
 { 
-	FacadeParticleSystem::FacadeParticleSystem(std::shared_ptr<core::Core> core)
+	FacadeParticleSystem::FacadeParticleSystem(const std::shared_ptr<core::Core>& core)
 		: m_ext_core(core)
 		, m_internalParticleSystem(std::make_shared<particles::ParticleSystem>(core->system()))
 	{
@@ -45,7 +45,7 @@ namespace ivhd::facade
 		return m_internalParticleSystem->labels();
 	}
 
-	void FacadeParticleSystem::setPositon(size_t index, float x, float y)
+	void FacadeParticleSystem::setPosition(size_t index, float x, float y)
 	{
 		m_internalParticleSystem->calculationData()->m_pos[index] = glm::vec4{ x, y, 0.0f, 1.0f };
 	}

@@ -9,7 +9,7 @@ namespace ivhd::embed::cast
 
 	void CasterIVHD::castParticleSystem(particles::ParticleSystem& ps, Graph& graph)
 	{
-		float energy = 0.1f;
+		auto energy = 0.1f;
 		calculateForces(energy, ps, graph);
 		calculatePositions(ps);
 	}
