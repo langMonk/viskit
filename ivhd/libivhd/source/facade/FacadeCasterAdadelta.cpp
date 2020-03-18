@@ -17,7 +17,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterAdadelta.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterAdadelta.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 
@@ -31,7 +31,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using CasterAdadelta.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterAdadelta.calculatePositions. Error message: " + *ex.what());
 		}
 	}
 }

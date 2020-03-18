@@ -53,5 +53,9 @@ namespace ivhd
 		/// </summary>
 		/// <returns>The created graph.</returns>
 		virtual std::shared_ptr<IGraph> createGraph() = 0;
+
+	public:
+		virtual ~IResourceFactory() = default;
+
 	};
 }

@@ -28,6 +28,7 @@
     <ClInclude Include="include\embed\cast\ivhd\CasterAdadelta.h" />
     <ClInclude Include="include\embed\cast\ivhd\CasterAdam.h" />
     <ClInclude Include="include\embed\cast\ivhd\CasterForceDirected.h" />
+    <ClInclude Include="include\embed\cast\ivhd\CasterMomentum.h" />
     <ClInclude Include="include\embed\cast\ivhd\CasterIVHD.h" />
     <ClInclude Include="include\embed\cast\ivhd\CasterNesterov.h" />
     <ClInclude Include="include\embed\cast\ivhd\CasterSGD.h" />
@@ -35,13 +36,14 @@
     <ClInclude Include="include\facade\FacadeCasterAdadelta.h" />
     <ClInclude Include="include\facade\FacadeCasterAdam.h" />
     <ClInclude Include="include\facade\FacadeCasterForceDirected.h" />
+    <ClInclude Include="include\facade\FacadeCasterMomentum.h" />
     <ClInclude Include="include\facade\FacadeCasterNesterov.h" />
     <ClInclude Include="include\facade\FacadeCasterRandom.h" />
     <ClInclude Include="include\facade\FacadeGraph.h" />
     <ClInclude Include="include\facade\FacadeGraphGenerator.h" />
     <ClInclude Include="include\facade\FacadeGraphGeneratorBruteForce.h" />
     <ClInclude Include="include\facade\FacadeGraphGeneratorKDTree.h" />
-    <ClInclude Include="include\facade\FacadeInteractiveVizualization.h" />
+    <ClInclude Include="include\facade\FacadeInteractiveVisualization.h" />
     <ClInclude Include="include\facade\FacadeMath.h" />
     <ClInclude Include="include\facade\FacadeParser.h" />
     <ClInclude Include="include\facade\FacadeParserCSV.h" />
@@ -60,8 +62,8 @@
     <ClInclude Include="include\ivhd\IClusterer.h" />
     <ClInclude Include="include\ivhd\IGraph.h" />
     <ClInclude Include="include\ivhd\IGraphGenerator.h" />
-    <ClInclude Include="include\ivhd\IInteractiveVizualization.h" />
-    <ClInclude Include="include\ivhd\InteractiveVizualizationBuilder.h" />
+    <ClInclude Include="include\ivhd\IInteractiveVisualization.h" />
+    <ClInclude Include="include\ivhd\InteractiveVisualizationBuilder.h" />
     <ClInclude Include="include\ivhd\IParser.h" />
     <ClInclude Include="include\ivhd\IParticleSystem.h" />
     <ClInclude Include="include\ivhd\IReducer.h" />
@@ -93,6 +95,7 @@
     <ClCompile Include="source\embed\cast\ivhd\CasterAdadelta.cpp" />
     <ClCompile Include="source\embed\cast\ivhd\CasterAdam.cpp" />
     <ClCompile Include="source\embed\cast\ivhd\CasterForceDirected.cpp" />
+    <ClCompile Include="source\embed\cast\ivhd\CasterMomentum.cpp" />
     <ClCompile Include="source\embed\cast\ivhd\CasterIVHD.cpp" />
     <ClCompile Include="source\embed\cast\ivhd\CasterNesterov.cpp" />
     <ClCompile Include="source\embed\cast\ivhd\CasterSGD.cpp" />
@@ -100,13 +103,14 @@
     <ClCompile Include="source\facade\FacadeCasterAdadelta.cpp" />
     <ClCompile Include="source\facade\FacadeCasterAdam.cpp" />
     <ClCompile Include="source\facade\FacadeCasterForceDirected.cpp" />
+    <ClCompile Include="source\facade\FacadeCasterMomentum.cpp" />
     <ClCompile Include="source\facade\FacadeCasterNesterov.cpp" />
     <ClCompile Include="source\facade\FacadeCasterRandom.cpp" />
     <ClCompile Include="source\facade\FacadeGraph.cpp" />
     <ClCompile Include="source\facade\FacadeGraphGenerator.cpp" />
     <ClCompile Include="source\facade\FacadeGraphGeneratorBruteForce.cpp" />
     <ClCompile Include="source\facade\FacadeGraphGeneratorKDTree.cpp" />
-    <ClCompile Include="source\facade\FacadeInteractiveVizualization.cpp" />
+    <ClCompile Include="source\facade\FacadeInteractiveVisualization.cpp" />
     <ClCompile Include="source\facade\FacadeParser.cpp" />
     <ClCompile Include="source\facade\FacadeParserCSV.cpp" />
     <ClCompile Include="source\facade\FacadeParticleSystem.cpp" />
@@ -116,7 +120,7 @@
     <ClCompile Include="source\graph\generate\GraphGenerator.cpp" />
     <ClCompile Include="source\graph\generate\KDTree.cpp" />
     <ClCompile Include="source\graph\Graph.cpp" />
-    <ClCompile Include="source\ivhd\InteractiveVizualizationBuilder.cpp" />
+    <ClCompile Include="source\ivhd\InteractiveVisualizationBuilder.cpp" />
     <ClCompile Include="source\parse\Parser.cpp" />
     <ClCompile Include="source\parse\ParserCSV.cpp" />
     <ClCompile Include="source\particles\ParticleData.cpp" />
