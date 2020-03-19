@@ -4,8 +4,8 @@
 ///
 
 #include <gtest/gtest.h>
-#include <ivhd/InteractiveVizualizationBuilder.h>
-#include <ivhd/IInteractiveVizualization.h>
+#include <ivhd/InteractiveVisualizationBuilder.h>
+#include <ivhd/IInteractiveVisualization.h>
 
 namespace libivhd_test
 {

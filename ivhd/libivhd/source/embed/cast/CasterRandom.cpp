@@ -38,7 +38,9 @@ namespace ivhd::embed::cast
 			auto end = (i == math::threads<> -1) ? ps.countParticles() : start + queriesPerThread;
 
 			auto gen = m_gen;
-			auto future = threadPool.enqueue([&ps, &gen, start, end]()
+
+			// enqueue and store future
+			auto result = threadPool.enqueue([&ps, &gen, start, end]()
 			{
 				auto& positions = ps.calculationData()->m_pos;
 
@@ -48,6 +50,9 @@ namespace ivhd::embed::cast
 					positions[i].y = gen->gen();
 				}
 			});
+
+			// get result from future
+			result.get();
 		}
 	}
 

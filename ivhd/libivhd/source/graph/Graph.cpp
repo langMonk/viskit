@@ -131,7 +131,7 @@ namespace ivhd::graph
 	{
 		m_ext_system.logger().logInfo("[Graph] Saving graph to cache.");
 
-		std::ofstream file(fileName + ".graph", std::ios::out | std::ios::binary);
+		std::ofstream file(fileName, std::ios::out | std::ios::binary);
 
 		if (!file) {
 			m_ext_system.logger().logError("[Graph] File to save graph couldn't be created!");
