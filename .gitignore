@@ -5,6 +5,7 @@
 *.vcxproj.user
 *.graph
 *.txt
+
 /.vs/ivhd/v16
 /ivhd/.vs/ivhd/v16
 /ivhd/output/
@@ -14,16 +15,10 @@
 /ivhd/libivhd_tests/Intermediate
 /ivhd/QtEditor/Intermediate
 /ivhd/QtEditor/GeneratedFiles
-/ivhd/packages/Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1
 /ivhd/Approximate_kNN_generator/x64
-/ivhd/libivhd_tests/measurement.txt
-/ivhd/libivhd_tests/kNN_graph_kdd.txt
-/ivhd/libivhd_tests/kNN_graph.txt
 /ivhd/assets/resources
 /ivhd/ivhd.sln.DotSettings.user
-/ivhd/libivhd_cuda/x64/Release
-/ivhd/x64/Release
-/ivhd/libivhd_cuda/x64/
+/ivhd/x64/
 /ivhd/packages/*
 /.vs
 /ivhd/.vs
