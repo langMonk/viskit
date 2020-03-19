@@ -70,13 +70,13 @@
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)libraries;$(SolutionDir)libraries\glew\include;$(SolutionDir)libivhd_cuda\include;$(SolutionDir)libivhd\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)output\$(Platform)\$(Configuration);$(QTDIR)\lib;$(Platform);$(SolutionDir)libraries\SOIL;$(SolutionDir)libraries\glew\lib\Release\$(Platform);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)output\$(Platform)\$(Configuration);$(Platform);$(SolutionDir)libraries\SOIL;$(SolutionDir)libraries\glew\lib\Release\$(Platform);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)libraries;$(SolutionDir)libraries\glew\include;$(SolutionDir)libivhd_cuda\include;$(SolutionDir)libivhd\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)output\$(Platform)\$(Configuration);$(QTDIR)\lib;$(Platform);$(SolutionDir)libraries\SOIL;$(SolutionDir)libraries\glew\lib\Release\$(Platform);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)output\$(Platform)\$(Configuration);$(Platform);$(SolutionDir)libraries\SOIL;$(SolutionDir)libraries\glew\lib\Release\$(Platform);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
@@ -108,7 +108,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SOIL2_x64.lib;libivhd.lib;glew32.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;Qt53DCored.lib;Qt53DAnimationd.lib;Qt53DExtrasd.lib;Qt53DInputd.lib;Qt53DLogicd.lib;Qt53DRenderd.lib;Qt53DQuickd.lib;Qt53DQuickAnimationd.lib;Qt53DQuickExtrasd.lib;Qt53DQuickInputd.lib;Qt53DQuickRenderd.lib;Qt53DQuickScene2Dd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -141,7 +141,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalDependencies>SOIL2_x64.lib;libivhd.lib;glew32.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;opengl32.lib;glu32.lib;Qt5Widgets.lib;Qt53DCore.lib;Qt53DAnimation.lib;Qt53DExtras.lib;Qt53DInput.lib;Qt53DLogic.lib;Qt53DRender.lib;Qt53DQuick.lib;Qt53DQuickAnimation.lib;Qt53DQuickExtras.lib;Qt53DQuickInput.lib;Qt53DQuickRender.lib;Qt53DQuickScene2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>true</Profile>
