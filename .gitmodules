@@ -1,6 +1,3 @@
 [submodule "ivhd/libraries/glm"]
 	path = ivhd/libraries/glm
 	url = https://github.com/g-truc/glm.git
-[submodule "ivhd/libraries/glew"]
-	path = ivhd/libraries/glew
-	url = https://github.com/nigels-com/glew.git
