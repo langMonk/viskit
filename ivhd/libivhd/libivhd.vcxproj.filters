@@ -97,6 +97,9 @@
     <Filter Include="Header Files\facade">
       <UniqueIdentifier>{8302e218-19af-4c98-aed4-5b9acdd98dd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\threading">
+      <UniqueIdentifier>{87a5d71d-0ac2-4e8a-a182-6bdd8f95f5ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core\Logger.h">
@@ -418,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="source\ivhd\InteractiveVisualizationBuilder.cpp">
       <Filter>Source Files\ivhd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\threading\ThreadPool.cpp">
+      <Filter>Source Files\threading</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
