@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-Shader::Shader(Type type) 
+Shader::Shader(Type type)
 	: m_type(type)
 	, m_id(0)
 {
@@ -25,18 +25,18 @@ void Shader::logShaderInfo()
 const char* readAllTextFromFile(const char* fname)
 {
 	FILE* fp;
-	char* content = NULL;
+	char* content = nullptr;
 
 	int count = 0;
 
-	if (fname == NULL) return NULL;
+	if (fname == nullptr) return nullptr;
 
-	fopen_s(&fp, fname, "rt");
+	fopen(reinterpret_cast<const char *>(&fp), fname);
 
-	if (fp == NULL) return NULL;
+	if (fp == nullptr) return nullptr;
 
 	fseek(fp, 0, SEEK_END);
-	count = ftell(fp);
+	count = static_cast<int>(ftell(fp));
 	rewind(fp);
 
 	if (count > 0)
@@ -57,7 +57,7 @@ bool Shader::loadFromFile(const char* fileName, const char* name)
 {
 	const char* vs = readAllTextFromFile(fileName);
 
-	if (vs == NULL)
+	if (vs == nullptr)
 	{
 		//LOG_ERROR("cannot load shader from file %s", logger::fileNameFromPath((char*)fileName));
 		return false;
@@ -67,12 +67,12 @@ bool Shader::loadFromFile(const char* fileName, const char* name)
 		glDeleteShader(m_id);
 
 	m_id = glCreateShader(static_cast<GLenum>(m_type));
-	glShaderSource(m_id, 1, &vs, NULL);
+	glShaderSource(m_id, 1, &vs, nullptr);
 
 	free((void*)vs);
 
 	// assign name:
-	if (name == NULL)
+	if (name == nullptr)
 	{
 		//m_name = std::string(logger::fileNameFromPath((char*)fileName));
 	}
@@ -91,10 +91,10 @@ void Shader::loadFromSource(const char* source, const char* name)
 
 	m_id = glCreateShader(static_cast<GLenum>(m_type));
 
-	glShaderSource(m_id, 1, &source, NULL);
+	glShaderSource(m_id, 1, &source, nullptr);
 
 	// assign name:
-	if (name == NULL)
+	if (name == nullptr)
 		m_name = std::string("FROM SOURCE");
 	else
 		m_name = std::string(name);

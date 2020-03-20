@@ -8,6 +8,7 @@
 #include <ivhd/IResourceCollection.h>
 #include <ivhd/IResourceFactory.h>
 #include <ivhd/IParticleSystem.h>
+#include <QMainWindow>
 #include "ui_MainWindow.h"
 
 class OpenGLRenderer;
@@ -32,7 +33,7 @@ public:
 	void setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator);
 
 private:
-	MainWindow(QWidget* parent = Q_NULLPTR);
+	explicit MainWindow(QWidget* parent = Q_NULLPTR);
 	void keyPressEvent(QKeyEvent* event) override;
 	
 	void setupIVHD();

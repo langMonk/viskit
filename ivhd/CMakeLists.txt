@@ -9,3 +9,4 @@ enable_testing()
 
 add_subdirectory( libivhd )
 add_subdirectory( libivhd_tests )
+add_subdirectory( QtEditor )
