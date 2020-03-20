@@ -1,8 +1,8 @@
-#include "facade\FacadeCasterSGD.h"
+#include "facade/FacadeCasterSGD.h"
 
 namespace ivhd::facade
 {
-	FacadeCasterSGD::FacadeCasterSGD(std::shared_ptr<core::Core> core)
+	FacadeCasterSGD::FacadeCasterSGD(const std::shared_ptr<core::Core>& core)
 		: FacadeCaster(core)
 		, m_internalCaster(std::make_shared<ivhd::embed::cast::ivhd::CasterSGD>(core->system()))
 	{
@@ -17,7 +17,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterSGD.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterSGD.calculatePositions. Error message: " [ *ex.what()]);
 		}
 	}
 
@@ -32,7 +32,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterSGD.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterSGD.calculateForces. Error message: " [ *ex.what()]);
 		}
 	}
 }

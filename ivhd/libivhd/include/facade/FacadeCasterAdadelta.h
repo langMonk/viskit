@@ -18,7 +18,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterAdadelta(std::shared_ptr<core::Core> core);
+		explicit FacadeCasterAdadelta(const std::shared_ptr<core::Core>& core);
 		~FacadeCasterAdadelta() = default;
 
 		FacadeCasterAdadelta(const FacadeCasterAdadelta&) = delete;

@@ -6,18 +6,16 @@
 #pragma once
 
 #include <vector>
-#include "math\glm_adapter.h"
+#include "math/glm_adapter.h"
 
-namespace ivhd
-{ 
-	namespace particles
+namespace ivhd::particles
 	{
 		class ParticleData
 		{
 			// public construction and destruction methods
 		public:
-			ParticleData(){}
-			~ParticleData() {};
+			ParticleData()= default;
+			~ParticleData() = default;;
 
 			ParticleData(const ParticleData&) = delete;
 			ParticleData& operator=(const ParticleData&) = delete;
@@ -42,4 +40,3 @@ namespace ivhd
 			size_t m_countAlive{ 0 };
 		};
 	}
-}
