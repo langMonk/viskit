@@ -18,7 +18,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterSGD(std::shared_ptr<core::Core> core);
+		explicit FacadeCasterSGD(const std::shared_ptr<core::Core>& core);
 		~FacadeCasterSGD() = default;
 
 		FacadeCasterSGD(const FacadeCasterSGD&) = delete;

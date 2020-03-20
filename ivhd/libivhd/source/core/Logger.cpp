@@ -3,12 +3,14 @@
 /// \date 18.04.2019
 ///
 
-#include "core\Logger.h"
+#include <utility>
+
+#include "core/Logger.h"
 
 namespace ivhd::core
 {
 	Logger::Logger(OnLogAdded handler)
-		: m_onLogAddedHandler(handler)
+		: m_onLogAddedHandler(std::move(handler))
 	{
 	}
 
@@ -16,7 +18,7 @@ namespace ivhd::core
 	{
 		if (m_onLogAddedHandler)
 		{
-			m_onLogAddedHandler(LogLevel::Info, message);
+			m_onLogAddedHandler(LogLevel::Info, std::move(message));
 		}
 	}
 
@@ -24,7 +26,7 @@ namespace ivhd::core
 	{
 		if (m_onLogAddedHandler)
 		{
-			m_onLogAddedHandler(LogLevel::Warning, message);
+			m_onLogAddedHandler(LogLevel::Warning, std::move(message));
 		}
 	}
 
@@ -32,7 +34,7 @@ namespace ivhd::core
 	{
 		if (m_onLogAddedHandler)
 		{
-			m_onLogAddedHandler(LogLevel::Error, message);
+			m_onLogAddedHandler(LogLevel::Error, std::move(message));
 		}
 	}
 
@@ -40,7 +42,7 @@ namespace ivhd::core
 	{
 		if (m_onLogAddedHandler)
 		{
-			m_onLogAddedHandler(LogLevel::Debug, message);
+			m_onLogAddedHandler(LogLevel::Debug, std::move(message));
 		}
 	}
 }

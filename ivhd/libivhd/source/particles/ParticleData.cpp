@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "particles\ParticleData.h"
+#include "particles/ParticleData.h"
 
 namespace ivhd::particles
 {
@@ -51,12 +51,12 @@ namespace ivhd::particles
 		std::swap(m_acc[a], m_acc[b]);
 		std::swap(m_col[a], m_col[b]);
 		std::swap(m_vel[a], m_vel[b]);
-		m_alive.swap(m_alive[a], m_alive[b]);
+		std::vector<bool>::swap(m_alive[a], m_alive[b]);
 	}
 	
 	bool ParticleData::empty()
 	{
-		return m_count != 0 ? true : false;
+		return m_count != 0;
 	}
 
 	void ParticleData::clear()

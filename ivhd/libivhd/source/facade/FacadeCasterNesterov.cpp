@@ -1,8 +1,8 @@
-#include "facade\FacadeCasterNesterov.h"
+#include "facade/FacadeCasterNesterov.h"
 
 namespace ivhd::facade
 {
-	FacadeCasterNesterov::FacadeCasterNesterov(std::shared_ptr<core::Core> core)
+	FacadeCasterNesterov::FacadeCasterNesterov(const std::shared_ptr<core::Core>& core)
 		: FacadeCaster(core)
 	{
 		m_internalCaster = std::make_shared<embed::cast::ivhd::CasterNesterov>(core->system());
@@ -17,7 +17,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterNesterov.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterNesterov.calculatePositions. Error message: " [ *ex.what()]);
 		}
 	}
 
@@ -32,7 +32,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterNesterov.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterNesterov.calculateForces. Error message: " [ *ex.what()]);
 		}
 	}
 }

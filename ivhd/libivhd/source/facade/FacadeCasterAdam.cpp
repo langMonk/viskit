@@ -1,8 +1,8 @@
-#include "facade\FacadeCasterAdam.h"
+#include "facade/FacadeCasterAdam.h"
 
 namespace ivhd::facade
 {
-	FacadeCasterAdam::FacadeCasterAdam(std::shared_ptr<core::Core> core)
+	FacadeCasterAdam::FacadeCasterAdam(const std::shared_ptr<core::Core>& core)
 		: FacadeCaster(core)
 	{
 		m_internalCaster = std::make_shared<embed::cast::ivhd::CasterAdam>(core->system());
@@ -17,7 +17,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterAdam.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterAdam.calculatePositions. Error message: " [ *ex.what()]);
 		}
 	}
 
@@ -32,7 +32,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterAdam.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterAdam.calculateForces. Error message: " [ *ex.what()]);
 		}
 	}
 }

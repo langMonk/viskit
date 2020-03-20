@@ -5,20 +5,3 @@
 *.vcxproj.user
 *.graph
 
-/.vs/ivhd/v16
-/ivhd/.vs/ivhd/v16
-/ivhd/output/
-/ivhd/libraries/boost
-/ivhd/libraries/glm
-/ivhd/libivhd/Intermediate
-/ivhd/libivhd_tests/Intermediate
-/ivhd/QtEditor/Intermediate
-/ivhd/QtEditor/GeneratedFiles
-/ivhd/assets/resources
-/ivhd/ivhd.sln.DotSettings.user
-/ivhd/x64/
-/ivhd/packages/*
-/.vs
-/ivhd/.vs
-test*.txt
-/ivhd/out

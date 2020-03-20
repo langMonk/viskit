@@ -15,7 +15,7 @@ namespace ivhd::core
 	{
 		// public construction and destruction methods
 	public:
-		Core(OnLogAdded handler);
+		explicit Core(const OnLogAdded& handler);
 
 		// public methods
 	public:
@@ -23,7 +23,7 @@ namespace ivhd::core
 
 		System& system() { return m_system; }
 
-		void enqueueToThreadPool(std::function<void()> task);
+		void enqueueToThreadPool(const std::function<void()>& task);
 
 	private:
 		OnLogAdded m_logHandler;

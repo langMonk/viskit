@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <cstddef>
+
 namespace ivhd
 {
 	class IParticleSystem;
@@ -26,7 +28,7 @@ namespace ivhd
 		/// <param name="nn"> Number of nearest neighbors, which should be calculated for this graph.</param>
 		/// <param name="rn"> Number of random neighbors, which should be calculated for this graph.</param>
 		/// <param name="distancesEqualOne"> If true all distances while generating graph are set to 1.</param>
-		virtual void generate(IParticleSystem& ps, IGraph& graph, size_t nn, size_t rn = 0, bool distancesEqualOne = true) = 0;
+		virtual void generate(IParticleSystem& ps, IGraph& graph, size_t nn, size_t rn, bool distancesEqualOne) = 0;
 		
 		/// <summary>
 		/// Generates a nearest neighbors for specified graph.
@@ -35,7 +37,7 @@ namespace ivhd
 		/// <param name="graph"> Graph used for generation. </param>
 		/// <param name="k"> Number of nearest neighbors, which should be calculated in this graph.</param>
 		/// <param name="distancesEqualOne"> If true all distances while generating graph are set to 1.</param>
-		virtual void generateNearestNeighbors(IParticleSystem& ps, IGraph& graph, size_t k = 0, bool distancesEqualOne = true) = 0;
+		virtual void generateNearestNeighbors(IParticleSystem& ps, IGraph& graph, size_t k , bool distancesEqualOne) = 0;
 
 		/// <summary>
 		/// Generates a graph.
@@ -44,7 +46,7 @@ namespace ivhd
 		/// <param name="graph"> Graph used for generation. </param>
 		/// <param name="k"> Number of random neighbors, which should be calculated in this graph.</param>
 		/// <param name="distancesEqualOne"> If true all distances while generating graph are set to 1.</param>
-		virtual void generateRandomNeighbors(IParticleSystem& ps, IGraph& graph, size_t k = 0, bool distancesEqualOne = true) = 0;
+		virtual void generateRandomNeighbors(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne) = 0;
 
 	};
 }

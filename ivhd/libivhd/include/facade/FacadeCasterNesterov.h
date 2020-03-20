@@ -18,7 +18,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterNesterov(std::shared_ptr<core::Core> core);
+		explicit FacadeCasterNesterov(const std::shared_ptr<core::Core>& core);
 		~FacadeCasterNesterov() = default;
 
 		FacadeCasterNesterov(const FacadeCasterNesterov&) = delete;

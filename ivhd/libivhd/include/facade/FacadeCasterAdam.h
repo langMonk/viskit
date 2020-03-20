@@ -18,7 +18,7 @@ namespace ivhd::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterAdam(std::shared_ptr<core::Core> core);
+		explicit FacadeCasterAdam(const std::shared_ptr<core::Core>& core);
 		~FacadeCasterAdam() = default;
 
 		FacadeCasterAdam(const FacadeCasterAdam&) = delete;

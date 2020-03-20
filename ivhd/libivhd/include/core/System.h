@@ -13,11 +13,11 @@ namespace ivhd::core
 	{
 		// public construction and destruction methods
 	public:
-		System(OnLogAdded logHandler);
+		explicit System(OnLogAdded logHandler);
 
 		// public methods
 	public:
-		const Logger& logger() const { return m_logger; }
+		[[nodiscard]] const Logger& logger() const { return m_logger; }
 		Logger& logger() { return m_logger; }
 
 		// private properties

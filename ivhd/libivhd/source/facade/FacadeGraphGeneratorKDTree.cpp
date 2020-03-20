@@ -1,10 +1,12 @@
-#include "facade\FacadeGraphGeneratorKDTree.h"
+#include "facade/FacadeGraphGeneratorKDTree.h"
+
+#include <utility>
 
 namespace ivhd::facade
 {
 
 	FacadeGraphGeneratorKDTree::FacadeGraphGeneratorKDTree(std::shared_ptr<core::Core> core)
-		: FacadeGraphGenerator(core)
+		: FacadeGraphGenerator(std::move(core))
 	{
 	}
 	

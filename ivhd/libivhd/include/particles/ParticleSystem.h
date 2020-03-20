@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <utility>
 #include <vector>
 #include <map>
 #include <mutex>
@@ -38,7 +39,7 @@ namespace ivhd::particles
 		// public construction and destruction methods
 	public:
 		explicit ParticleSystem(core::System& system);
-		~ParticleSystem() {}
+		~ParticleSystem() = default;
 
 		ParticleSystem(const ParticleSystem&) = delete;
 		ParticleSystem& operator=(const ParticleSystem&) = delete;
@@ -49,7 +50,7 @@ namespace ivhd::particles
 
 		virtual size_t countAwakeParticles();
 
-		void setDataset(Dataset dataset, std::vector<DataPointLabel> labels);
+		void setDataset(Dataset dataset, const std::vector<DataPointLabel>& labels);
 
 		std::vector<DataPointLabel> labels() { return m_labels; };
 
@@ -77,7 +78,7 @@ namespace ivhd::particles
 
 		[[nodiscard]] DatasetInfo datasetInfo() const { return m_datasetFileName; }
 
-		void datasetInfo(DatasetInfo info) { m_datasetFileName = info; }
+		void datasetInfo(DatasetInfo info) { m_datasetFileName = std::move(info); }
 
 		// add emitters, casters, etc.
 	public:

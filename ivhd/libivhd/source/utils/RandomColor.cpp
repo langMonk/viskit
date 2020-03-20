@@ -2,31 +2,6 @@
 
 namespace ivhd::utils
 {
-	const std::vector<RandomColor::ColorInfo> RandomColor::colorMap =
-	{
-		//    color       hue range            saturation/brightness ranges as {s, bMin, bMax = 100}, s must increase
-		{ Red,            {-5, 10},    {{20, 100}, {30, 95}, {40, 90}, {50, 88}, {60, 80}, {70, 70}, {80, 60}, {90, 58}, {100, 55}} },
-		{ RedOrange,      {11, 19},    {{20, 100}, {30, 95}, {40, 90}, {50, 85}, {60, 80}, {70, 70}, {80, 60}, {90, 60}, {100, 55}} },
-		{ Orange,         {20, 41},    {{25, 100}, {30, 93}, {40, 88}, {50, 86}, {60, 85}, {70, 70}, {100, 70}} },
-		{ OrangeYellow,   {42, 50},    {{25, 100}, {30, 93}, {40, 88}, {50, 86}, {60, 85}, {70, 70}, {100, 70}} },
-		{ Yellow,         {51, 61},    {{28, 100}, {40, 98}, {50, 95}, {60, 93}, {70, 85}, {80, 82}, {90, 78}, {100, 75}} },
-		{ YellowGreen,    {62, 75},    {{30, 100}, {40, 94}, {50, 90}, {60, 86}, {70, 84}, {80, 82}, {90, 78}, {100, 75}} },
-		{ Green,          {76, 140},   {{30, 100}, {40, 95}, {50, 85}, {60, 75}, {70, 60}, {80, 54}, {90, 48}, {100, 45}} },
-		{ GreenCyan,      {141, 171},  {{20, 100}, {30, 95}, {40, 90}, {50, 85}, {60, 80}, {70, 60}, {80, 55}, {90, 52}, {100, 45}} },
-		{ Cyan,           {172, 200},  {{20, 100}, {30, 90}, {40, 80}, {50, 74}, {60, 58}, {70, 52}, {90, 52}, {100, 50}} },
-		{ CyanBlue,       {201, 215},  {{20, 100}, {30, 90}, {40, 80}, {50, 74}, {60, 58}, {70, 52}, {90, 52}, {100, 50}} },
-		{ Blue,           {216, 240},  {{20, 100}, {30, 90}, {40, 85}, {50, 76}, {60, 65}, {70, 64}, {80, 60}, {90, 55}, {100, 55}} },
-		{ BlueMagenta,    {241, 280},  {{20, 100}, {30, 90}, {40, 85}, {50, 76}, {60, 65}, {70, 64}, {80, 60}, {90, 55}, {100, 55}} },
-		{ Magenta,        {281, 315},  {{20, 100}, {30, 85}, {40, 80}, {50, 70}, {60, 60}, {70, 55}, {100, 55}} },
-		{ MagentaPink,    {316, 330},  {{20, 100}, {30, 95}, {40, 92}, {50, 87}, {60, 84}, {80, 70}, {90, 65}, {100, 65}} },
-		{ Pink,           {331, 340},  {{20, 100}, {30, 95}, {40, 92}, {50, 87}, {60, 84}, {80, 80}, {90, 75}, {100, 73}} },
-		{ PinkRed,        {341, 354},  {{20, 100}, {30, 95}, {40, 90}, {50, 85}, {60, 80}, {70, 70}, {80, 60}, {90, 58}, {100, 55}} },
-
-		{ RandomHue,      {0, 359},    {{20, 100}, {100, 50}} },
-		{ BlackAndWhite,  {0, 359},    {{0, 0, 100}} },
-		{ Brown,          {15, 30},    {{20, 90, 95}, {30, 80, 90}, {40, 60, 90}, {50, 50, 90}, {60, 50, 90}, {70, 50, 90}, {80, 45, 85}, {90, 45, 85}, {100, 40, 85}} }
-	};
-
 	using ColorList = RandomColor::ColorList;
 	const ColorList RandomColor::AnyRed = { PinkRed, Red, RedOrange };
 	const ColorList RandomColor::AnyOrange = { RedOrange, Orange, OrangeYellow };
@@ -35,12 +10,6 @@ namespace ivhd::utils
 	const ColorList RandomColor::AnyBlue = { Cyan, CyanBlue, Blue, BlueMagenta };
 	const ColorList RandomColor::AnyMagenta = { BlueMagenta, Magenta, MagentaPink };
 	const ColorList RandomColor::AnyPink = { MagentaPink, Pink, PinkRed };
-
-
-	inline RandomColor::SBRange::SBRange(int s_, int bMin_, int bMax_)
-		: s(s_), bMin(bMin_), bMax(bMax_)
-	{}
-
 
 	glm::vec4 RandomColor::generate(Color color, Luminosity luminosity)
 	{
@@ -65,7 +34,7 @@ namespace ivhd::utils
 
 		// Generate a number within [0; 1) and select a color according with the
 		// cumulative distribution function f(i) = f(i - 1) + colorProbability(i)
-		const std::uniform_real_distribution<double> probability(0, 1);
+		std::uniform_real_distribution<double> probability(0, 1);
 		const auto p = probability(randomEngine);
 		double f = 0;
 		for (auto color : colors) {
@@ -98,8 +67,8 @@ namespace ivhd::utils
 
 	int RandomColor::pickSaturation(const ColorInfo& info, Luminosity luminosity)
 	{
-		Range sRange = { info.sbRanges[0].s, info.sbRanges.back().s };
-		const int sRangeSize = sRange.size();
+		Range sRange = Range(info.sbRanges[0].s, info.sbRanges.back().s);
+		int sRangeSize = sRange.size();
 
 		switch (luminosity) {
 		case Dark:
@@ -166,7 +135,7 @@ namespace ivhd::utils
 				const auto& r1 = sbRanges[i];
 				const auto& r2 = sbRanges[1 + i];
 				const auto sRangeSize = static_cast<double>(r2.s - r1.s);
-				const auto sFraction = static_cast<bool>(sRangeSize ? (s - r1.s) / sRangeSize : 0);
+				const auto sFraction = static_cast<bool>(sRangeSize ? (s - r1.s) / sRangeSize : false);
 				const auto bMin = static_cast<int>(r1.bMin + sFraction * (r2.bMin - r1.bMin));
 				const auto bMax = static_cast<int>(r1.bMax + sFraction * (r2.bMax - r1.bMax));
 				return { bMin, bMax };
@@ -180,24 +149,24 @@ namespace ivhd::utils
 
 	const RandomColor::ColorInfo& RandomColor::getColorInfo(int h)
 	{
-		if (h < 0) h += 360;
+        if (h < 0) h += 360;
 
-		// Find the narrowest range containing h
-		auto found = &colorMap[RandomHue];
-		for (const auto& info : colorMap) {
-			if ((info.hRange[0] <= h && h <= info.hRange[1]) ||
-				(info.hRange[0] <= 0 && h >= 360 + info.hRange[0])) {
-				if (info.hRange.size() < found->hRange.size() && info.color <= RandomHue) {
-					found = &info;
-				}
-			}
-		}
-		return *found;
+        // Find the narrowest range containing h
+        auto found = &colorMap[RandomHue];
+        for (const auto& info : colorMap) {
+            if ((info.hRange[0] <= h && h <= info.hRange[1]) ||
+                (info.hRange[0] <= 0 && h >= 360 + info.hRange[0])) {
+                if (info.hRange.size() < found->hRange.size() && info.color <= RandomHue) {
+                    found = &info;
+                }
+            }
+        }
+        return *found;
 	}
 
 	int RandomColor::randomWithin(const Range& range)
 	{
-		const std::uniform_int_distribution<int> d(range[0], range[1]);
+		std::uniform_int_distribution<int> d(range[0], range[1]);
 		return d(randomEngine);
 	}
 
