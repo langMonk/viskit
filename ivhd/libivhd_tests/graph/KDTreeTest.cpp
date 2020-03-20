@@ -145,9 +145,3 @@ namespace libivhd_test
 		utils::dump(graph, "D:\\Repositories\\ivhd", "test_kd");
 	}
 }
-
-//int main(int argc, char** argv) {
-//	::testing::InitGoogleTest(&argc, argv);
-//	::testing::GTEST_FLAG(filter) = "KDTree*";
-//	return RUN_ALL_TESTS();
-//}
