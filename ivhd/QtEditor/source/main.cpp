@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 #include <QApplication>
-#include <QMainWindow>
+#include <QtWidgets>
 #include <QFile>
 
 int main(int argc, char *argv[])
@@ -18,5 +18,5 @@ int main(int argc, char *argv[])
 	auto w = MainWindow::instance();
 	w->show();
 
-	return app.exec();
+	return QApplication::exec();
 }
