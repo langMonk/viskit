@@ -28,7 +28,7 @@ namespace ivhd::particles
 		return m_particles.m_countAlive;
 	}
 	
-	void ParticleSystem::setDataset(Dataset dataset, std::vector<DataPointLabel> labels)
+	void ParticleSystem::setDataset(Dataset dataset, const std::vector<DataPointLabel>& labels)
 	{
 		m_labels = labels;
 
@@ -76,7 +76,7 @@ namespace ivhd::particles
 
 	bool ParticleSystem::empty()
 	{
-		return (m_originalDataset.empty() && m_particles.empty()) ? true : false;
+		return m_originalDataset.empty() && m_particles.empty();
 	}
 
 	ParticleData* ParticleSystem::calculationData()
@@ -88,9 +88,9 @@ namespace ivhd::particles
 	float ParticleSystem::vectorDistance(size_t i, size_t j)
 	{
 		const auto ret = std::inner_product(m_originalDataset[i].first.begin(), m_originalDataset[i].first.end(),
-		                                    m_originalDataset[j].first.begin(), 0.0f, std::plus<float>(),
+		                                    m_originalDataset[j].first.begin(), 0.0f, std::plus<>(),
 		                                    DiffSquared<float>());
 
-		return ret > 0.0f ? sqrt(ret) : 0.0f;
+		return ret > 0.0f ? static_cast<float>(sqrt(ret)) : 0.0f;
 	}
 }

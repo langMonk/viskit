@@ -1,8 +1,8 @@
-#include "facade\FacadeCasterAdadelta.h"
+#include "facade/FacadeCasterAdadelta.h"
 
 namespace ivhd::facade
 {
-	FacadeCasterAdadelta::FacadeCasterAdadelta(std::shared_ptr<core::Core> core)
+	FacadeCasterAdadelta::FacadeCasterAdadelta(const std::shared_ptr<core::Core>& core)
 		: FacadeCaster(core)
 	{
 		m_internalCaster = std::make_shared<embed::cast::ivhd::CasterAdadelta>(core->system());
@@ -17,7 +17,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterAdadelta.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterAdadelta.calculatePositions. Error message: " [ *ex.what()]);
 		}
 	}
 
@@ -31,7 +31,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterAdadelta.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterAdadelta.calculateForces. Error message: " [ *ex.what()]);
 		}
 	}
 }

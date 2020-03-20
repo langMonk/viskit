@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 
-#include "graph\Graph.h"
+#include "graph/Graph.h"
 
 namespace ivhd::graph
 {

@@ -26,8 +26,8 @@ namespace ivhd::utils
 
 		// private members
 	private:
-		time_point<steady_clock> m_startTime;
-		time_point<steady_clock> m_stopTime;
+        high_resolution_clock::time_point m_startTime;
+        high_resolution_clock::time_point m_stopTime;
 		bool m_useFile{ false };
 		std::ofstream m_file{};
 	};
