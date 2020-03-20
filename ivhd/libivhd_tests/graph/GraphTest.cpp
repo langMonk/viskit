@@ -9,7 +9,6 @@
 #include <graph/Graph.h>
 #include <parse/ParserCSV.h>
 #include <graph/generate/BruteForce.h>
-#include <graph/DataPoint.h>
 #include <ivhd/Structures.h>
 #include <utils/TimeProfiler.h>
 #include "TestUtils.h"
@@ -123,4 +122,10 @@ namespace libivhd_test
 		EXPECT_EQ(graph.neighborsCount(), 28000);
 		EXPECT_EQ(graph.size(), 7000);
 	}
+}
+
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
