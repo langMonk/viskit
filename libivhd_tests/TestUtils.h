@@ -1,0 +1,64 @@
+///
+/// \author Bartosz Minch <minch@agh.edu.pl>
+/// \date 14.05.2019
+///
+
+#pragma once
+
+#include <filesystem>
+
+namespace libivhd_test::utils
+{
+	inline void dump(Graph graph, std::string filePath, std::string fileName)
+	{
+		std::ofstream m_file;
+
+		m_file.open(filePath + "\\" + fileName + ".txt");
+		for (int i = 0; i < graph.size(); i++)
+		{
+			if (const auto neighbors = graph.getNeighbors(i))
+			{
+				for (const auto neighbor : *neighbors)
+				{
+					if (neighbor.type == ivhd::NeighborsType::Near)
+					{
+						m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Near" << std::endl;
+					}
+					else if (neighbor.type == ivhd::NeighborsType::Far)
+					{
+						m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Far" << std::endl;
+					}
+					else
+					{
+						m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Random" << std::endl;
+					}
+				}
+			}
+		}
+
+		m_file.close();
+	}
+	
+	static std::filesystem::path assetsDirectory()
+	{
+		std::filesystem::path currentPath = std::filesystem::current_path();
+		while (true)
+		{
+			if (currentPath.empty())
+			{
+				return currentPath;
+			}
+			if (currentPath.stem() == "ivhd")
+			{
+				return currentPath / "assets";
+			}
+
+			currentPath = currentPath.parent_path();
+		}
+	}
+
+	static std::filesystem::path resourcesDirectory()
+	{
+		return assetsDirectory() / "resources";
+	}
+}
