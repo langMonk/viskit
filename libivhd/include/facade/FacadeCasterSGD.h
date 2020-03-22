@@ -1,0 +1,42 @@
+///
+/// \author Bartosz Minch <minch@agh.edu.pl>
+/// \date 18.02.2020
+///
+
+#pragma once
+
+#include "facade/FacadeCaster.h"
+#include "embed/cast/ivhd/CasterSGD.h"
+
+namespace ivhd::facade
+{
+	/// <summary>
+	/// Implementation of ICaster interface.
+	/// </summary>
+	class FacadeCasterSGD : public FacadeCaster
+	{
+		// public construction and destruction methods
+	public:
+
+		explicit FacadeCasterSGD(const std::shared_ptr<core::Core>& core);
+		~FacadeCasterSGD() = default;
+
+		FacadeCasterSGD(const FacadeCasterSGD&) = delete;
+		FacadeCasterSGD(FacadeCasterSGD&&) = delete;
+
+		FacadeCasterSGD& operator=(const FacadeCasterSGD&) = delete;
+		FacadeCasterSGD& operator=(FacadeCasterSGD&&) = delete;
+
+		// public methods
+	public:
+		void calculatePositions(IParticleSystem& ps) override;
+
+		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
+
+		CasterType type() override { return CasterType::IVHD; }
+		
+		// private members
+	private:
+		std::shared_ptr<embed::cast::ivhd::CasterSGD> m_internalCaster;
+	};
+}
