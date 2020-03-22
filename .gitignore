@@ -5,6 +5,6 @@
 *.vcxproj.user
 *.graph
 
-/ivhd/cmake-build-*
-/ivhd/libivhd/cmake-build-*
-/ivhd/libivhd_tests/cmake-build-*
+/.idea
+/.vs
+/cmake-build-*
