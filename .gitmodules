@@ -1,6 +1,6 @@
-[submodule "ivhd/libraries/glm"]
-	path = ivhd/libraries/glm
+[submodule "libraries/glm"]
+	path = libraries/glm
 	url = https://github.com/g-truc/glm.git
-[submodule "ivhd/libivhd_tests/googletest"]
-	path = ivhd/libivhd_tests/googletest
+[submodule "libivhd_tests/googletest"]
+	path = libivhd_tests/googletest
 	url = https://github.com/google/googletest.git
