@@ -8,3 +8,11 @@
 /.idea
 /.vs
 /cmake-build-*
+/libraries/
+/packages/
+/libivhd/cmake-build-*/
+/libivhd/Intermediate/
+/libivhd_test/cmake-build-*/
+/libivhd_test/Intermediate/
+/QtEditor/cmake-build-*/
+/QtEditor/Intermediate/
