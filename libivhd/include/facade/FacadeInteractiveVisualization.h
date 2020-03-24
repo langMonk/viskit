@@ -13,7 +13,7 @@
 #include "ivhd/ICaster.h"
 #include "facade/FacadeResourceFactory.h"
 #include "facade/FacadeParticleSystem.h"
-#include "facade/FacadeParserCsv.h"
+#include "facade/FacadeParserCSV.h"
 
 namespace ivhd::facade
 {
