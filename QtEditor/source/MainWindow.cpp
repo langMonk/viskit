@@ -151,17 +151,16 @@ void MainWindow::on_pushButton_GraphGenerate_clicked() const
 {
 	if (m_currentGraphGenerator != nullptr)
 	{
-		if constexpr (true)
-		{
-			m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph");
+        m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 3, true);
+        m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
+        m_graph->saveToCache(R"(./graph)");
 
-			/*if(!m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph"))
+        /*if(!m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph"))
 			{
 				m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 3);
 				m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1);
 				m_graph->saveToCache("D:\\Repositories\\ivhd\\graph");
 			}*/
-		}
 	}
 	else
 	{
