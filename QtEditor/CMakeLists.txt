@@ -21,7 +21,7 @@ if (UNIX)
 endif (UNIX)
 
 set(project_ui
-        include/mainwindow.ui)
+        include/MainWindow.ui)
 
 set(project_headers
         include/Camera.h
@@ -59,6 +59,7 @@ if (MSVC)
     target_link_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/)
     target_link_libraries(${PROJECT_NAME} Threads::Threads soil/SOIL2_x64 glew/lib/Release/x64/GLEW32 opengl32 Qt5::Widgets Qt5::Gui Qt5::Core libivhd)
 else (UNIX)
+    target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/cmake-build-${CMAKE_BUILD_TYPE})
     target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libivhd)
 endif()
 

@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "Shader.h"
 
 Shader::Shader(Type type)
@@ -22,21 +23,35 @@ void Shader::logShaderInfo()
 	}
 }
 
+error_t fopen_s(FILE **f, const char *name, const char *mode)
+{
+    error_t ret = 0;
+    assert(f);
+    *f = fopen(name, mode);
+
+    if (!*f)
+        ret = errno;
+    return ret;
+}
+
 const char* readAllTextFromFile(const char* fname)
 {
 	FILE* fp;
-	char* content = NULL;
+	char* content = nullptr;
 
 	int count = 0;
 
-	if (fname == NULL) return NULL;
+	if (fname == nullptr) return nullptr;
 
-	fopen_s(&fp, fname, "rt");
+    fopen_s(&fp, fname, "rt");
 
-	if (fp == NULL) return NULL;
+	if (fp == nullptr)
+    {
+	    return nullptr;
+    }
 
 	fseek(fp, 0, SEEK_END);
-	count = ftell(fp);
+	count = static_cast<int>(ftell(fp));
 	rewind(fp);
 
 	if (count > 0)

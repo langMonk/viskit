@@ -1,5 +1,5 @@
 #include "TextureLoader.h"
-#include "SOIL/SOIL2.h"
+#include "SOIL/SOIL.h"
 
 namespace textureLoader
 {

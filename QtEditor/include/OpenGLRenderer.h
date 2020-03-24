@@ -41,8 +41,8 @@ private:
 	
 	Camera m_camera { glm::vec3(0.0f, 0.0f, 3.0f) };
 	
-	float lastX;
-	float lastY;
+	float lastX{};
+	float lastY{};
 	bool firstMouse = true;
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
