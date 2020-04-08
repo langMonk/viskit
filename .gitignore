@@ -7,12 +7,18 @@
 
 /.idea
 /.vs
+/.vscode
 /cmake-build-*
 /libraries/
 /packages/
+
+# for clion and VS
 /libivhd/cmake-build-*/
 /libivhd/Intermediate/
 /libivhd_test/cmake-build-*/
 /libivhd_test/Intermediate/
 /QtEditor/cmake-build-*/
 /QtEditor/Intermediate/
+
+# for VSCode
+build/*

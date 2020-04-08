@@ -27,7 +27,6 @@ namespace ivhd::embed::cast
 			{
 				for (const auto neighbor : *neighbors)
 				{
-
 					const auto pi = neighbor.i;
 					const auto pj = neighbor.j;
 
