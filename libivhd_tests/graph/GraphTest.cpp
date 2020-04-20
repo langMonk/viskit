@@ -79,7 +79,7 @@ namespace libivhd_test
 		EXPECT_EQ(graph.size(), 7000); // 7000 elements (size) and every has 3 NN 
 		EXPECT_EQ(graph.neighborsCount(), 21000);
 
-		utils::dump(graph, "D:\\Repositories\\ivhd", "test_brute");
+		utils::dump(graph, "./", "test_brute");
 	}
 
 	TEST(Graph, SaveLoad)
