@@ -45,9 +45,9 @@ namespace ivhd::graph
 
 		int nearestNeighborsCount(){return m_nearestNeighborsCount;}
 
-		void randomNeighborsCount(int nn){m_nearestNeighborsCount = nn;}
+		void randomNeighborsCount(int rn){m_randomNeighborsCount = rn;}
 
-		int randomNeighborsCount(){return m_nearestNeighborsCount;}
+		int randomNeighborsCount(){return m_randomNeighborsCount;}
 
 		// private members
 	private:

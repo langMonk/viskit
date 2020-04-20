@@ -10,6 +10,8 @@ namespace ivhd::graph::generate
 
 	void GraphGenerator::generateRandomNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne)
 	{
+		m_ext_system.logger().logInfo("[kNN Generator] Searching for random neighbors...");
+
 		for (size_t i = 0; i < ps.countAwakeParticles(); i++)
 		{
 			for (auto random = 0; random < k; random++)
