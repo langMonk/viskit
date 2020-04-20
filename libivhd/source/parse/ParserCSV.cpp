@@ -48,56 +48,70 @@ namespace ivhd::parse
 		auto count = std::count(std::istreambuf_iterator<char>(input),
 			std::istreambuf_iterator<char>(), '\n') + 1;
 
-		m_ext_system.logger().logInfo("Loaded dataset with  " + std::to_string(count) + " points was loaded.");
 		data->generate(count);
 
 		input.clear();
 		input.seekg(0, std::ios::beg);
 		if (!input.good())
 		{
-			m_ext_system.logger().logError("Problems while opening the file : " + filePath);
+			m_ext_system.logger().logError("[CSV Parser] Problems while opening the file : " + filePath);
 		}
 		else
 		{
-			m_ext_system.logger().logInfo("Loading data from file: " + filePath);
+			m_ext_system.logger().logInfo("[CSV Parser] Loading dataset from file: " + filePath);
 		}
 
-		bool firstLine = true;
+		bool firstLine = true, secondLine = true;
 		std::string line = "";
 
 		particles::Dataset dataset;
 		std::vector<particles::DataPointLabel> labels;
 		while (std::getline(input, line))
 		{
-			std::vector<std::string> stringVector;
-			boost::algorithm::split(stringVector, line, boost::is_any_of(","));
-
 			if (firstLine)
 			{
-				m_ext_system.logger().logInfo("Data dimensionality: " + std::to_string(stringVector.size() - 1));
-				info.count = stringVector.size() - 1;
+				line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
+				line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+				m_ext_system.logger().logInfo("[CSV Parser] Dataset size: " + line);
+				info.count = std::stoi(line);
 				firstLine = false;
 			}
-
-			std::vector<float> floatVector(stringVector.size() - 1);
-
-			std::transform(stringVector.begin(), stringVector.end() - 1, floatVector.begin(), [](const std::string& val)
+			else if (secondLine)
 			{
-				return std::stof(val);
-			});
-
-			particles::DataPointLabel label = std::stoi(stringVector.back());
-			dataset.push_back(std::make_pair(DataPoint(floatVector), label));
-
-			if (std::find(labels.begin(), labels.end(), label) == labels.end())
-			{
-				labels.emplace_back(label);
+				line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
+				line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+				m_ext_system.logger().logInfo("[CSV Parser] Dataset dimensionality: " + line);
+				info.dimensionality = std::stoi(line);
+				secondLine = false;
 			}
+			else
+			{
+				std::vector<std::string> stringVector;
+				boost::algorithm::split(stringVector, line, boost::is_any_of(","));
+
+				std::vector<float> floatVector(stringVector.size() - 1);
+
+				std::transform(stringVector.begin(), stringVector.end() - 1, floatVector.begin(), [](const std::string& val)
+				{
+					return std::stof(val);
+				});
+
+				particles::DataPointLabel label = std::stoi(stringVector.back());
+				dataset.push_back(std::make_pair(DataPoint(floatVector), label));
+
+				if (std::find(labels.begin(), labels.end(), label) == labels.end())
+				{
+					labels.emplace_back(label);
+				}
+			}			
 		}
 
 		ps.setDataset(dataset, labels);
 		ps.datasetInfo(info);
 		finalize(ps);
+
+		m_ext_system.logger().logInfo("[CSV Parser] Finished.");
+
 		input.close();
 	}
 }

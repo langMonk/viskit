@@ -120,3 +120,6 @@ add_library(libivhd
 
 target_include_directories(libivhd PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(libivhd PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
+
+target_link_libraries( libivhd pthread )
