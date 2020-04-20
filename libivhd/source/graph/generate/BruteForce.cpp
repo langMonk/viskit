@@ -17,7 +17,7 @@ namespace ivhd::graph::generate
 	{
 		graph.initialize(ps.countParticles());
 
-		m_ext_system.logger().logInfo("[BruteForce Generator] Generating kNN Graph...");
+		m_ext_system.logger().logInfo("[BruteForce kNN Generator] Searching for nearest neighbors...");
 
 		std::vector<Neighbors> near(k);
 

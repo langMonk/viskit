@@ -44,9 +44,9 @@ namespace ivhd::parse
 		info.fileName = remove_extension(base_name(filePath));
 		info.path = base_path(filePath);
 
-		// count+1, because the last line of csv file won't contain '\n'
+		// count-2, because first 2 lines are count and dimensionality
 		auto count = std::count(std::istreambuf_iterator<char>(input),
-			std::istreambuf_iterator<char>(), '\n') + 1;
+			std::istreambuf_iterator<char>(), '\n')-2;
 
 		data->generate(count);
 

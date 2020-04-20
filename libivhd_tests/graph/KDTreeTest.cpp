@@ -41,7 +41,8 @@ namespace libivhd_test
 		return false;
 	}
 	
-	static void kNNQueryThread(const size_t start, const size_t end, const generate::KDTree& kd, size_t k, size_t k_r, particles::ParticleSystem& ps, Graph& graph) {
+	static void kNNQueryThread(const size_t start, const size_t end, const generate::KDTree& kd, size_t k, size_t k_r, particles::ParticleSystem& ps, Graph& graph) 
+	{
 		for (size_t i = start; i < end; i++)
 		{
 			const auto& p = ps.originalCoordinates()[i];
@@ -62,6 +63,7 @@ namespace libivhd_test
 				}
 			}
 		}
+
 		for (size_t i = start; i < end; i++)
 		{
 			for (auto random = 0; random < k_r; random++)
@@ -142,6 +144,6 @@ namespace libivhd_test
 
 		graph.sort();
 
-		utils::dump(graph, "D:\\Repositories\\ivhd", "test_kd");
+		utils::dump(graph, "./", "test_kd");
 	}
 }

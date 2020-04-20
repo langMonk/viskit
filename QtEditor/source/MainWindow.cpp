@@ -151,9 +151,9 @@ void MainWindow::on_pushButton_GraphGenerate_clicked() const
 {
 	if (m_currentGraphGenerator != nullptr)
 	{
-        m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 3, true);
+        m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
         m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
-        m_graph->saveToCache(R"(./knn)");
+        m_graph->saveToCache(R"(./knn.knn)");
 
         /*if(!m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph"))
 			{
@@ -185,6 +185,7 @@ void MainWindow::on_pushButton_GraphOpen_clicked()
 	}
 	
 	m_graph->loadFromCache(fileName.toUtf8().constData());
+	m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
 }
 
 void MainWindow::on_comboBox_CastingSetup_activated()
