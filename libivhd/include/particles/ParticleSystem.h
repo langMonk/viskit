@@ -30,6 +30,7 @@ namespace ivhd::particles
 		std::string path;
 		std::string fileName;
 		size_t count{};
+		size_t dimensionality{};
 	};
 
 	enum class MetricType { Euclidean, Cosine };

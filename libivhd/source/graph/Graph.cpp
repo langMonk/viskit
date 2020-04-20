@@ -129,7 +129,7 @@ namespace ivhd::graph
 
 	bool Graph::saveToCache(const std::string& fileName)
 	{
-		m_ext_system.logger().logInfo("[Graph] Saving graph to cache.");
+		m_ext_system.logger().logInfo("[Graph] Saving graph to cache...");
 
 		std::ofstream file(fileName, std::ios::out | std::ios::binary);
 
@@ -162,12 +162,14 @@ namespace ivhd::graph
 			return false;
 		}
 
+		m_ext_system.logger().logInfo("[Graph] Finished.");
+
 		return true;
 	}
 
 	bool Graph::loadFromCache(const std::string& fileName)
 	{
-		m_ext_system.logger().logInfo("[Graph] Loading graph from cache.");
+		m_ext_system.logger().logInfo("[Graph] Loading graph from cache...");
 
 		std::ifstream file(fileName, std::ios::in | std::ios::binary);
 
@@ -201,11 +203,13 @@ namespace ivhd::graph
 
 		file.close();
 
-		if (!file.good()) {
-			m_ext_system.logger().logError("[Graph] Error occurred while loading graph from file.");
-			return false;
-		}
+		// if (!file.good()) {
+		// 	m_ext_system.logger().logError("[Graph] Error occurred while loading graph from file.");
+		// 	return false;
+		// }
 
+		m_ext_system.logger().logInfo("[Graph] Finished.");
+		
 		return true;
 	}
 }

@@ -8,7 +8,9 @@
 #include <vector>
 #include "math/glm_adapter.h"
 
-namespace ivhd::particles
+namespace ivhd
+{
+	namespace particles
 	{
 		class ParticleData
 		{
@@ -40,3 +42,4 @@ namespace ivhd::particles
 			size_t m_countAlive{ 0 };
 		};
 	}
+}

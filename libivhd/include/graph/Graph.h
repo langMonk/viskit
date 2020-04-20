@@ -41,11 +41,21 @@ namespace ivhd::graph
 
 		bool loadFromCache(const std::string& fileName);
 		
+		void nearestNeighborsCount(int nn){m_nearestNeighborsCount = nn;}
+
+		int nearestNeighborsCount(){return m_nearestNeighborsCount;}
+
+		void randomNeighborsCount(int nn){m_nearestNeighborsCount = nn;}
+
+		int randomNeighborsCount(){return m_nearestNeighborsCount;}
+
 		// private members
 	private:
 		core::System& m_ext_system;
 
 		std::vector<std::vector<Neighbors>> m_data;
+
+		int m_nearestNeighborsCount, m_randomNeighborsCount;
 	};
 }
 

@@ -153,7 +153,7 @@ void MainWindow::on_pushButton_GraphGenerate_clicked() const
 	{
         m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 3, true);
         m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
-        m_graph->saveToCache(R"(./graph)");
+        m_graph->saveToCache(R"(./knn)");
 
         /*if(!m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph"))
 			{
@@ -176,13 +176,14 @@ void MainWindow::on_pushButton_GraphOpen_clicked()
 	}
 
 	QString fileName = QFileDialog::getOpenFileName(this,
-		tr("Choose graph file"), "",
-		tr("graph format(*.graph);;All Files (*)"));
+		tr("Choose knn file"), "",
+		tr("knn format(*.knn);;All Files (*)"));
 
 	if (fileName.isEmpty())
 	{
 		return;
 	}
+	
 	m_graph->loadFromCache(fileName.toUtf8().constData());
 }
 
