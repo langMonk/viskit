@@ -72,12 +72,12 @@ namespace libivhd_test
 
 		auto profiler = ivhd::utils::TimeProfiler(true);
 		profiler.start();
-		generator.generateNearestNeighbors(particleSystem, graph, 3);
+		generator.generateNearestNeighbors(particleSystem, graph, 2);
 		profiler.stop();
 		profiler.measurementMs();
 
 		EXPECT_EQ(graph.size(), 7000); // 7000 elements (size) and every has 3 NN 
-		EXPECT_EQ(graph.neighborsCount(), 21000);
+		EXPECT_EQ(graph.neighborsCount(), 14000);
 
 		utils::dump(graph, "./", "test_brute");
 	}

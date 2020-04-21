@@ -50,6 +50,8 @@ namespace libivhd_test
 
 		EXPECT_EQ(graph.size(), 7000); // 7000 elements (size) and every has 2 NN 
 		EXPECT_EQ(graph.neighborsCount(), 14000);
+
+		utils::dump(graph, "./", "test_faiss");
 	}
 }
 
