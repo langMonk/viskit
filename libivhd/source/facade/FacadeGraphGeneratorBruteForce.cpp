@@ -9,23 +9,6 @@ namespace ivhd::facade
 	{
 	}
 
-	void FacadeGraphGeneratorBruteForce::generate(IParticleSystem& ps, IGraph& graph, size_t nn, size_t rn, bool distancesEqualOne)
-	{
-		try
-		{
-			generateNearestNeighbors(ps, graph, nn, distancesEqualOne);
-			if (rn)
-			{
-				generateRandomNeighbors(ps, graph, rn, distancesEqualOne);
-
-			}
-		}
-		catch (std::exception & ex)
-		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeGraphGeneratorBruteForce.generate. Error message: " + *ex.what());
-		}
-	}
-
 	void FacadeGraphGeneratorBruteForce::generateNearestNeighbors(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne)
 	{
 		try

@@ -102,7 +102,7 @@ namespace ivhd
 	{
 		BruteForce,
 		KDTreeBased,
-		FAISS,
+		Faiss,
 		Approx
 	};
 
