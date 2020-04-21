@@ -18,18 +18,7 @@ namespace ivhd
 	class IGraphGenerator
 	{
 		// public methods 
-	public:
-		/// <summary>
-		/// Generates a kNN graph based on specified particle system and saves it to graph structure.
-		/// This method should usually just call generateNearestNeighbors() and generateRandomNeighbors() accordingly.
-		/// </summary>
-		/// <param name="ps"> Particle system, for which graph will be generated. </param>
-		/// <param name="graph"> Graph used for generation. </param>
-		/// <param name="nn"> Number of nearest neighbors, which should be calculated for this graph.</param>
-		/// <param name="rn"> Number of random neighbors, which should be calculated for this graph.</param>
-		/// <param name="distancesEqualOne"> If true all distances while generating graph are set to 1.</param>
-		virtual void generate(IParticleSystem& ps, IGraph& graph, size_t nn, size_t rn, bool distancesEqualOne) = 0;
-		
+	public:		
 		/// <summary>
 		/// Generates a nearest neighbors for specified graph.
 		/// </summary>
