@@ -31,6 +31,7 @@ add_library(libivhd
         include/facade/FacadeGraph.h
         include/facade/FacadeGraphGenerator.h
         include/facade/FacadeGraphGeneratorBruteForce.h
+        include/facade/FacadeGraphGeneratorFaiss.h
         include/facade/FacadeGraphGeneratorKDTree.h
         include/facade/FacadeInteractiveVisualization.h
         include/facade/FacadeMath.h
@@ -100,6 +101,7 @@ add_library(libivhd
         source/facade/FacadeGraph.cpp
         source/facade/FacadeGraphGenerator.cpp
         source/facade/FacadeGraphGeneratorBruteForce.cpp
+        source/facade/FacadeGraphGeneratorFaiss.cpp
         source/facade/FacadeGraphGeneratorKDTree.cpp
         source/facade/FacadeInteractiveVisualization.cpp
         source/facade/FacadeParser.cpp

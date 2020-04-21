@@ -25,7 +25,7 @@ namespace ivhd::graph::generate
 
 		const auto nb = count;  // size of database
 
-		float* xb = new float[d * nb]; 
+		std::vector<float> xb;
 
 		const auto coordinates = ps.originalCoordinates();
 
@@ -33,32 +33,31 @@ namespace ivhd::graph::generate
 		{
 			for(auto j = 0; j < d; j++)
 			{
-				auto value = coordinates[i].first[j];
-				xb[d*i + j] = value;
+				xb.push_back(coordinates[i].first[j]);
 			}
-			xb[d*i] += i / 1000.;
 		}
 
 		m_ext_system.logger().logInfo("[FAISS kNN Generator] Searching for nearest neighbors...");
 
 		faiss::gpu::StandardGpuResources res;
 		
-		faiss::gpu::GpuIndexIVFFlat index_ivf(&res, d, static_cast<int>(sqrt(count)), faiss::METRIC_L2);
+		faiss::gpu::GpuIndexFlatL2 index_flat(&res, d);
+		//faiss::gpu::GpuIndexIVFFlat index_ivf(&res, d, static_cast<int>(sqrt(count)), faiss::METRIC_L2);
 
 		assert(!index_ivf.is_trained);
-		index_ivf.train(nb, xb);
+		index_flat.train(nb, xb.data());
 		assert(index_ivf.is_trained);
-		index_ivf.add(nb, xb);  // add vectors to the index
+		index_flat.add(nb, xb.data());  // add vectors to the index
 
-		printf("is_trained = %s\n", index_ivf.is_trained ? "true" : "false");
-		printf("ntotal = %ld\n", index_ivf.ntotal);
+		printf("is_trained = %s\n", index_flat.is_trained ? "true" : "false");
+		printf("ntotal = %ld\n", index_flat.ntotal);
 
-		k += 1;
+		k+=1;
 		{ 
 			long *I = new long[k * count];
 			float *D = new float[k * count];
 
-			index_ivf.search(nb, xb, k, D, I);
+			index_flat.search(nb, xb.data(), k, D, I);
 
 			for (int i = 0; i < count; i++)
 			{
@@ -67,16 +66,23 @@ namespace ivhd::graph::generate
 					const auto index = I[i * k + j];
 					if (i != index)
 					{
-						graph.addNeighbors(Neighbors(i, index, 1.0f, NeighborsType::Near));
+						if (!distancesEqualOne)
+						{
+							graph.addNeighbors(Neighbors(i, index, D[i * k + j], NeighborsType::Near));
+						}
+						else
+						{
+							graph.addNeighbors(Neighbors(i, index, 1.0f, NeighborsType::Near));
+						}
 					}
 				}
 			}
 
-			delete [] I;
-			delete [] D;
+			delete[] I;
+			delete[] D;
 		}
-
-		delete [] xb;
+		
+		xb.clear();
 
 		m_ext_system.logger().logInfo("[FAISS kNN Generator] Finished.");
 	}

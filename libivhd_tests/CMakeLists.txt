@@ -27,4 +27,4 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/googletest/)
 
 target_link_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/faiss)
 
-target_link_libraries(libivhd_tests gtest gmock libivhd )
+target_link_libraries(libivhd_tests gtest gmock libivhd)
