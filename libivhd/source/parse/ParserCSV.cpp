@@ -44,12 +44,6 @@ namespace ivhd::parse
 		info.fileName = remove_extension(base_name(filePath));
 		info.path = base_path(filePath);
 
-		// count-2, because first 2 lines are count and dimensionality
-		auto count = std::count(std::istreambuf_iterator<char>(input),
-			std::istreambuf_iterator<char>(), '\n')-2;
-
-		data->generate(count);
-
 		input.clear();
 		input.seekg(0, std::ios::beg);
 		if (!input.good())
@@ -66,6 +60,8 @@ namespace ivhd::parse
 
 		particles::Dataset dataset;
 		std::vector<particles::DataPointLabel> labels;
+					
+		size_t i = 0;
 		while (std::getline(input, line))
 		{
 			if (firstLine)
@@ -73,8 +69,11 @@ namespace ivhd::parse
 				line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
 				line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
 				m_ext_system.logger().logInfo("[CSV Parser] Dataset size: " + line);
-				info.count = std::stoi(line);
+				auto count = std::stoi(line);
+				info.count = count;
 				firstLine = false;
+
+				data->generate(count);
 			}
 			else if (secondLine)
 			{
@@ -97,12 +96,13 @@ namespace ivhd::parse
 				});
 
 				particles::DataPointLabel label = std::stoi(stringVector.back());
-				dataset.push_back(std::make_pair(DataPoint(floatVector), label));
+				dataset.push_back(std::make_pair(DataPoint(floatVector, i), label));
 
 				if (std::find(labels.begin(), labels.end(), label) == labels.end())
 				{
 					labels.emplace_back(label);
 				}
+				i++;
 			}			
 		}
 

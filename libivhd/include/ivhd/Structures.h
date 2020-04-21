@@ -21,12 +21,12 @@ namespace ivhd
 
 		// construction and destruction methods
 	public:
-		DataPoint(size_t size) : m_id(m_currentId++), N(size)
+		DataPoint(size_t size, DataPointId id) : m_id(id), N(size)
 		{
 			coords = new float[size];
 		}
 		
-		DataPoint(std::vector<float> vec) : m_id(m_currentId++), N(vec.size())
+		DataPoint(std::vector<float> vec, DataPointId id) : m_id(id), N(vec.size())
 		{
 			coords = new float[N];
 			std::copy(vec.begin(), vec.end(), coords);
@@ -36,7 +36,11 @@ namespace ivhd
 	public:
 		std::size_t size() const { return N; };
 
-		float& operator[](std::size_t index) { return coords[index]; };
+		float& operator[](std::size_t index) 
+		{ 
+			return coords[index];
+		};
+
 		float operator[](std::size_t index) const { return coords[index]; };
 
 		iterator begin() { return coords; };
@@ -52,8 +56,6 @@ namespace ivhd
 		DataPointId m_id;
 		size_t N;
 		float* coords;
-		size_t m_currentId = 0;
-
 	};
 
 	inline float Distance(const DataPoint& one, const DataPoint& two)
