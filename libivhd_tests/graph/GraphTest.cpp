@@ -110,22 +110,16 @@ namespace libivhd_test
 		generator.generateNearestNeighbors(particleSystem, graph, 3);
 		generator.generateRandomNeighbors(particleSystem, graph, 1);
 		
-
-		graph.saveToCache("MNIST7k.graph");
+		graph.saveToCache("MNIST7k.knn");
 		graph.clear();
 
 		EXPECT_EQ(graph.size(), 0);
 		EXPECT_EQ(graph.neighborsCount(), 0);
 
-		graph.loadFromCache("MNIST7k.graph");
+		graph.loadFromCache("MNIST7k.knn");
 		
-		EXPECT_EQ(graph.neighborsCount(), 28000);
+		// we are loading only nearest neighbors from cache (random must be generated if needed)
+		EXPECT_EQ(graph.neighborsCount(), 21000);
 		EXPECT_EQ(graph.size(), 7000);
 	}
-}
-
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }

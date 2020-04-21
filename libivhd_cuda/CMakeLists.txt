@@ -3,7 +3,6 @@ project(libivhd_cuda CUDA)
 
 set(CMAKE_CXX_STANDARD 17)
 
-
 add_library(libivhd_cuda
         include/caster_factory.h
         include/constants.h
@@ -18,7 +17,5 @@ add_library(libivhd_cuda
 target_include_directories(libivhd_cuda PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(libivhd_cuda PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/include)
 target_include_directories(libivhd_cuda PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
-
-target_link_directories(libivhd_cuda PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/cmake-build-debug)
 
 target_link_libraries(libivhd_cuda libivhd)

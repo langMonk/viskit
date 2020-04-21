@@ -106,7 +106,6 @@ void MainWindow::on_pushButton_Open_clicked()
 		parser->loadFile(fileName.toUtf8().constData(), *m_particleSystem);
 	}
 
-	m_casters->find("Random")->calculateForces(*m_particleSystem, *m_graph);
 	m_casters->find("Random")->calculatePositions(*m_particleSystem);
 
 	m_renderer = new OpenGLRenderer();

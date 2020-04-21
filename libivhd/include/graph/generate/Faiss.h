@@ -11,12 +11,12 @@
 
 namespace ivhd::graph::generate
 {
-	class BruteForce final : public GraphGenerator
+	class Faiss final : public GraphGenerator
 	{
 		// public construction and destruction methods
 	public:
 
-		explicit BruteForce(core::System& system);
+		explicit Faiss(core::System& system);
 
 		// public methods
 	public:

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(libivhd)
+project(libivhd CUDA)
+
+find_package(CUDA REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -43,6 +45,7 @@ add_library(libivhd
         include/graph/generate/GraphGenerator.h
         include/graph/generate/IGraphGenerator.h
         include/graph/generate/KDTree.h
+        include/graph/generate/Faiss.h
         include/graph/DataPoint.h
         include/graph/Graph.h
         include/graph/IGraph.h
@@ -107,6 +110,7 @@ add_library(libivhd
         source/graph/generate/BruteForce.cpp
         source/graph/generate/GraphGenerator.cpp
         source/graph/generate/KDTree.cpp
+        source/graph/generate/Faiss.cpp
         source/graph/DataPoint.cpp
         source/graph/Graph.cpp
         source/ivhd/InteractiveVisualizationBuilder.cpp
@@ -120,6 +124,6 @@ add_library(libivhd
 
 target_include_directories(libivhd PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(libivhd PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(libivhd PRIVATE ${CUDA_INCLUDE_DIRS})
 
-
-target_link_libraries( libivhd pthread )
+target_link_libraries( libivhd pthread faiss )

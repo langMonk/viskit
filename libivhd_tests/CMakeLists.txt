@@ -7,6 +7,7 @@ add_executable(libivhd_tests
         core/LoggerTest.cpp
         embed/CasterTest.cpp
         graph/GraphTest.cpp
+        graph/FaissTest.cpp
         graph/KDTreeTest.cpp
         ivhd/InteractiveVisualizationBuilderTest.cpp
         particles/ParticleData.cpp
@@ -24,7 +25,6 @@ target_include_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../google
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/googletest/)
 
-target_link_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/cmake-build-debug)
-target_link_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/googletest/cmake-build-debug/lib)
+target_link_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/faiss)
 
-target_link_libraries(libivhd_tests gtest gmock libivhd)
+target_link_libraries(libivhd_tests gtest gmock libivhd )

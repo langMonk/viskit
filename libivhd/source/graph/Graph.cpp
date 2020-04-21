@@ -133,7 +133,7 @@ namespace ivhd::graph
 
 		std::ofstream file(fileName, std::ios::out | std::ios::binary);
 
-		if (!file) {
+		if (!file.good()) {
 			m_ext_system.logger().logError("[Graph] File to save graph couldn't be created!");
 			return false;
 		}
@@ -144,23 +144,21 @@ namespace ivhd::graph
 		auto graphSize = size();
 		file.write(reinterpret_cast<char*>(&graphSize), sizeof(long));
 
-		auto graphNeighborsCount = neighborsCount();
+		auto graphNeighborsCount = neighborsCount() - m_randomNeighborsCount * size();
 		file.write(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(long));
 
 		for (auto& neighbors : m_data)
 		{
 			for (auto& neighbor : neighbors)
 			{
-				file.write(reinterpret_cast<char*>(&neighbor), sizeof(Neighbors));
+				if(neighbor.type!=NeighborsType::Random)
+				{
+					file.write(reinterpret_cast<char*>(&neighbor), sizeof(Neighbors));
+				}
 			}
 		}
 
 		file.close();
-
-		if (!file.good()) {
-			m_ext_system.logger().logError("[Graph] Error occurred while saving graph to file.");
-			return false;
-		}
 
 		m_ext_system.logger().logInfo("[Graph] Finished.");
 
@@ -173,7 +171,7 @@ namespace ivhd::graph
 
 		std::ifstream file(fileName, std::ios::in | std::ios::binary);
 
-		if (!file) {
+		if (!file.good()) {
 			m_ext_system.logger().logError("[Graph] File to read graph couldn't be opened!");
 			return false;
 		}
@@ -189,24 +187,19 @@ namespace ivhd::graph
 		auto graphNeighborsCount = 0;
 		file.read(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(long));
 
-		const auto neighborsCount = graphNeighborsCount / graphSize;
+		m_nearestNeighborsCount = graphNeighborsCount / graphSize;
 
-		for (auto& element : m_data) { element.resize(neighborsCount); }
+		for (auto& element : m_data) { element.resize(m_nearestNeighborsCount); }
 		
 		for (auto i = 0; i < graphSize; i++)
 		{
-			for (auto j = 0; j < neighborsCount; j++)
+			for (auto j = 0; j < m_nearestNeighborsCount; j++)
 			{
 				file.read(reinterpret_cast<char*>(&m_data[i][j]), sizeof(Neighbors));
 			}
 		}
 
 		file.close();
-
-		// if (!file.good()) {
-		// 	m_ext_system.logger().logError("[Graph] Error occurred while loading graph from file.");
-		// 	return false;
-		// }
 
 		m_ext_system.logger().logInfo("[Graph] Finished.");
 		
