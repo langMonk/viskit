@@ -64,7 +64,10 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("Nesterov", casterNesterov);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
+	const auto faissGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::Faiss);
+
 	m_generators->add("Brute Force", bruteGenerator);
+	m_generators->add("FAISS", faissGenerator);
 
 	// set default resources
 	setCurrentCaster(casterRandom);
@@ -152,7 +155,7 @@ void MainWindow::on_pushButton_GraphGenerate_clicked() const
 	{
         m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
         m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
-        m_graph->saveToCache(R"(./knn.knn)");
+        m_graph->saveToCache(R"(./mnist.knn)");
 
         /*if(!m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph"))
 			{
