@@ -9,15 +9,15 @@
 #include "facade/FacadeParticleSystem.h"
 #include "graph/generate/Faiss.h"
 
-namespace ivhd::facade
+namespace ivhd::facade::gpu
 {
 	/// <summary>
 	/// Implementation of IGraphGenerator interface.
 	/// </summary>
-	class FacadeGraphGeneratorFaiss : public FacadeGraphGenerator
+	class FacadeGpuGraphGeneratorFaiss : public FacadeGraphGenerator
 	{
 	public:
-		FacadeGraphGeneratorFaiss(std::shared_ptr<core::Core> core);
+		FacadeGpuGraphGeneratorFaiss(std::shared_ptr<core::Core> core);
 
 		void generateNearestNeighbors(IParticleSystem& ps, IGraph& graph, size_t k = 0, bool distancesEqualOne = true) override;
 
