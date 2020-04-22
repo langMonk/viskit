@@ -9,11 +9,13 @@
 #include "facade/FacadeParserCSV.h"
 #include "facade/FacadeGraphGeneratorKDTree.h"
 #include "facade/FacadeGraphGeneratorBruteForce.h"
+#include "facade/gpu/FacadeGpuGraphGeneratorFaiss.h"
 #include "facade/FacadeCasterMomentum.h"
 #include "facade/FacadeCasterForceDirected.h"
 #include "facade/FacadeCasterAdadelta.h"
 #include "facade/FacadeCasterAdam.h"
 #include "facade/FacadeCasterNesterov.h"
+#include "facade/gpu/FacadeGpuCasterMomentum.h"
 
 namespace ivhd::facade
 {
@@ -28,6 +30,7 @@ namespace ivhd::facade
 		{
 			return std::make_shared<FacadeParserCSV>(m_ext_ivhd.core());
 		}
+
 		return nullptr;
 	}
 
@@ -43,7 +46,32 @@ namespace ivhd::facade
 		{
 			generator = std::make_shared<FacadeGraphGeneratorBruteForce>(m_ext_ivhd.core());
 		}
+
 		return generator;
+	}
+
+	std::shared_ptr<IGraphGenerator> FacadeResourceFactory::createGraphGeneratorGPU(const GraphGeneratorType type)
+	{
+		std::shared_ptr<IGraphGenerator> generator = nullptr;
+
+		if (type == GraphGeneratorType::Faiss)
+		{
+			generator = std::make_shared<gpu::FacadeGpuGraphGeneratorFaiss>(m_ext_ivhd.core());
+		}
+		
+		return generator;
+	}
+
+	std::shared_ptr<ICaster> FacadeResourceFactory::createCasterGPU(const CasterType type, const OptimizerType optimizer)
+	{
+		std::shared_ptr<ICaster> caster = nullptr;
+
+		if (type == CasterType::IVHD && optimizer == OptimizerType::Momentum)
+		{
+			caster = std::make_shared<gpu::FacadeGpuCasterMomentum>(m_ext_ivhd.core());
+		}
+
+		return caster;
 	}
 
 	std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(const CasterType type, const OptimizerType optimizer)
@@ -74,6 +102,7 @@ namespace ivhd::facade
 		{
 			caster = std::make_shared<FacadeCasterNesterov>(m_ext_ivhd.core());
 		}
+
 		return caster;
 	}
 

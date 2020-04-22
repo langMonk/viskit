@@ -42,7 +42,6 @@ add_library(${PROJECT_NAME}
         include/facade/FacadeTransformer.h
         include/facade/gpu/FacadeGpuCaster.h
         include/facade/gpu/FacadeGpuCasterMomentum.h
-        include/facade/gpu/FacadeGpuResourceFactory.h
         include/facade/gpu/FacadeGpuGraphGeneratorFaiss.h
         include/graph/generate/BoundedPQueue.h
         include/graph/generate/BruteForce.h
@@ -54,7 +53,6 @@ add_library(${PROJECT_NAME}
         include/graph/Graph.h
         include/graph/IGraph.h
         include/ivhd/ICaster.h
-        include/ivhd/IGpuCaster.h
         include/ivhd/IClusterer.h
         include/ivhd/IGraph.h
         include/ivhd/IGraphGenerator.h
@@ -65,7 +63,6 @@ add_library(${PROJECT_NAME}
         include/ivhd/IReducer.h
         include/ivhd/IResourceCollection.h
         include/ivhd/IResourceFactory.h
-        include/ivhd/IGpuResourceFactory.h
         include/ivhd/ISetting.h
         include/ivhd/ITransformer.h
         include/ivhd/LogLevel.h
@@ -113,7 +110,6 @@ add_library(${PROJECT_NAME}
         source/facade/FacadeResourceFactory.cpp
         source/facade/gpu/FacadeGpuCaster.cpp
         source/facade/gpu/FacadeGpuCasterMomentum.cpp
-        source/facade/gpu/FacadeGpuResourceFactory.cpp
         source/facade/gpu/FacadeGpuGraphGeneratorFaiss.cpp
         source/graph/generate/BoundedPQueue.cpp
         source/graph/generate/BruteForce.cpp

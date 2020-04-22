@@ -5,17 +5,17 @@
 
 #pragma once
 
-#include "ivhd/IGpuCaster.h"
 #include "facade/FacadeParticleSystem.h"
 #include "facade/FacadeGraph.h"
+#include "ivhd/ICaster.h"
 #include "caster/caster_cuda.h"
 
 namespace ivhd::facade::gpu
 {
 	/// <summary>
-	/// Implementation of ICaster interface.
+	/// Implementation of ICaster interface for GPU casting.
 	/// </summary>
-	class FacadeGpuCaster : public virtual IGpuCaster
+	class FacadeGpuCaster : public virtual ICaster
 	{
 		// public construction and destruction methods
 	public:
@@ -30,8 +30,10 @@ namespace ivhd::facade::gpu
 		FacadeGpuCaster& operator=(const FacadeGpuCaster&) = delete;
 		FacadeGpuCaster& operator=(FacadeGpuCaster&&) = delete;
 
+		void calculatePositions(IParticleSystem& ps) override;
+		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
         void initialize(IParticleSystem& ps, IGraph& graph) override;
-		void step() override;
+		void step(IParticleSystem& ps, IGraph& graph) override;
 
 		// protected members
 	protected:

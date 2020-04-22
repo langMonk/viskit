@@ -16,6 +16,13 @@ namespace ivhd
 	{
 		// public methods 
 	public:
+	    /// <summary>
+		/// [Optional] Initialization process, which uses particle system and graph.
+		/// </summary>
+		/// <param name="ps"> Particle system, which should be casted by this caster. </param>
+		/// <param name="graph"> Graph used for force calculations. </param>
+		virtual void initialize(IParticleSystem& ps, IGraph& graph) = 0;
+
 		/// <summary>
 		/// Handles process of casting particle system between spaces
 		/// </summary>
