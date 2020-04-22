@@ -35,12 +35,27 @@ namespace ivhd
 		virtual std::shared_ptr<IGraphGenerator> createGraphGenerator(GraphGeneratorType type) = 0;
 
 		/// <summary>
+		/// Creates a new GPU kNN graph generator used for creating kNN Graph.
+		/// </summary>
+		/// <param name="type"> Type of graph generator, which will be created. </param>
+		/// <returns> The created generator. </returns>
+		virtual std::shared_ptr<IGraphGenerator> createGraphGeneratorGPU(GraphGeneratorType type) = 0;
+
+		/// <summary>
 		/// Creates a new caster, that might be used for data embedding.
 		/// </summary>
 		/// <param name="type"> Type of caster, which will be created. </param>
 		/// <param name="optimizer"> Type of optimizer, which will be used. </param>
 		/// <returns> The created caster. </returns>
 		virtual std::shared_ptr<ICaster> createCaster(CasterType type, OptimizerType optimizer = OptimizerType::None) = 0;
+
+		/// <summary>
+		/// Creates a new GPU caster, that might be used for data embedding.
+		/// </summary>
+		/// <param name="type"> Type of caster, which will be created. </param>
+		/// <param name="optimizer"> Type of optimizer, which will be used. </param>
+		/// <returns> The created caster. </returns>
+		virtual std::shared_ptr<ICaster> createCasterGPU(CasterType type, OptimizerType optimizer = OptimizerType::None) = 0;
 
 		/// <summary>
 		/// Creates a new particle system
