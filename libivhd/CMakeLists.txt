@@ -5,7 +5,7 @@ find_package(CUDA REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(libivhd
+add_library(${PROJECT_NAME}
         include/core/Core.h
         include/core/Logger.h
         include/core/System.h
@@ -41,6 +41,9 @@ add_library(libivhd
         include/facade/FacadeResourceCollection.h
         include/facade/FacadeResourceFactory.h
         include/facade/FacadeTransformer.h
+        include/facade/gpu/FacadeGpuCaster.h
+        include/facade/gpu/FacadeGpuCasterMomentum.h
+        include/facade/gpu/FacadeGpuResourceFactory.h
         include/graph/generate/BoundedPQueue.h
         include/graph/generate/BruteForce.h
         include/graph/generate/GraphGenerator.h
@@ -51,7 +54,7 @@ add_library(libivhd
         include/graph/Graph.h
         include/graph/IGraph.h
         include/ivhd/ICaster.h
-        include/ivhd/ICasterDpd.h
+        include/ivhd/IGpuCaster.h
         include/ivhd/IClusterer.h
         include/ivhd/IGraph.h
         include/ivhd/IGraphGenerator.h
@@ -62,6 +65,7 @@ add_library(libivhd
         include/ivhd/IReducer.h
         include/ivhd/IResourceCollection.h
         include/ivhd/IResourceFactory.h
+        include/ivhd/IGpuResourceFactory.h
         include/ivhd/ISetting.h
         include/ivhd/ITransformer.h
         include/ivhd/LogLevel.h
@@ -108,6 +112,9 @@ add_library(libivhd
         source/facade/FacadeParserCSV.cpp
         source/facade/FacadeParticleSystem.cpp
         source/facade/FacadeResourceFactory.cpp
+        source/facade/gpu/FacadeGpuCaster.cpp
+        source/facade/gpu/FacadeGpuCasterMomentum.cpp
+        source/facade/gpu/FacadeGpuResourceFactory.cpp
         source/graph/generate/BoundedPQueue.cpp
         source/graph/generate/BruteForce.cpp
         source/graph/generate/GraphGenerator.cpp
@@ -124,8 +131,11 @@ add_library(libivhd
         source/utils/RandomColor.cpp
         source/utils/TimeProfiler.cpp)
 
-target_include_directories(libivhd PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
-target_include_directories(libivhd PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(libivhd PRIVATE ${CUDA_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CUDA_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd_cuda/include)
 
-target_link_libraries( libivhd pthread faiss )
+target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../build/libivhd_cuda)
+
+target_link_libraries(${PROJECT_NAME} pthread faiss libivhd_cuda)

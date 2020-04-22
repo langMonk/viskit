@@ -12,7 +12,7 @@ namespace ivhd::facade
 	class FacadeInteractiveVisualization;
 
 	/// <summary>
-	/// Implementation of IVHD interface.
+	/// Implementation of IResourceFactory interface.
 	/// </summary>
 	class FacadeResourceFactory : public IResourceFactory
 	{
