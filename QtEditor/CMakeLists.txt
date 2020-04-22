@@ -60,9 +60,8 @@ if (MSVC)
     target_link_libraries(${PROJECT_NAME} Threads::Threads soil/SOIL2_x64 glew/lib/Release/x64/GLEW32 opengl32 Qt5::Widgets Qt5::Gui Qt5::Core libivhd)
 else (UNIX)
     target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../build/libivhd/)
-    target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../build/libivhd_cuda/)
     target_link_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/faiss)
 
-    target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libivhd_cuda libivhd)
+    target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libivhd)
 endif()
 
