@@ -29,6 +29,7 @@ namespace ivhd::facade
 		FacadeCaster& operator=(const FacadeCaster&) = delete;
 		FacadeCaster& operator=(FacadeCaster&&) = delete;
 
+		void initialize(IParticleSystem& ps, IGraph& graph) override {};
 		void step(IParticleSystem& ps, IGraph& graph) override;
 
 		// protected members

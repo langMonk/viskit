@@ -55,23 +55,25 @@ void MainWindow::initializeIVHDResources()
 	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adadelta);
 	const auto casterAdam = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adam);
 	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Nesterov);
-
+	const auto casterMomentumGpu = m_ivhd->resourceFactory().createCasterGPU(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
+	
 	m_casters->add("Random", casterRandom);
 	m_casters->add("Momentum", casterMomentum);
 	m_casters->add("Force Directed", casterForceDirected);
 	m_casters->add("Adadelta", casterAdadelta);
 	m_casters->add("Adam", casterAdam);
 	m_casters->add("Nesterov", casterNesterov);
+	m_casters->add("[GPU] Momentum", casterMomentumGpu);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
-	const auto faissGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::Faiss);
+	const auto faissGenerator = m_ivhd->resourceFactory().createGraphGeneratorGPU(ivhd::GraphGeneratorType::Faiss);
 
 	m_generators->add("Brute Force", bruteGenerator);
 	m_generators->add("FAISS", faissGenerator);
 
 	// set default resources
 	setCurrentCaster(casterRandom);
-	setCurrentGraphGenerator(bruteGenerator);
+	setCurrentGraphGenerator(bruteGenerator); 
 }
 
 void MainWindow::initializeEditorElements()
@@ -85,7 +87,6 @@ void MainWindow::initializeEditorElements()
 	m_generators->iterate([&](std::string name) {
 		ui.comboBox_GraphSetup->addItem(QString::fromStdString(name));
 	});
-
 }
 
 void MainWindow::on_pushButton_Open_clicked()
