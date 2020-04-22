@@ -17,9 +17,7 @@ namespace ivhd::facade::gpu
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeGpuCasterMomentum(std::shared_ptr<core::Core> core,
-                    std::function<void(float)> onError,
-                    std::function<void(vector<float2>&)> onPos);
+		explicit FacadeGpuCasterMomentum(std::shared_ptr<core::Core> core);
 
 		~FacadeGpuCasterMomentum() = default;
 

@@ -31,7 +31,6 @@ add_library(${PROJECT_NAME}
         include/facade/FacadeGraph.h
         include/facade/FacadeGraphGenerator.h
         include/facade/FacadeGraphGeneratorBruteForce.h
-        include/facade/FacadeGraphGeneratorFaiss.h
         include/facade/FacadeGraphGeneratorKDTree.h
         include/facade/FacadeInteractiveVisualization.h
         include/facade/FacadeMath.h
@@ -44,6 +43,7 @@ add_library(${PROJECT_NAME}
         include/facade/gpu/FacadeGpuCaster.h
         include/facade/gpu/FacadeGpuCasterMomentum.h
         include/facade/gpu/FacadeGpuResourceFactory.h
+        include/facade/gpu/FacadeGpuGraphGeneratorFaiss.h
         include/graph/generate/BoundedPQueue.h
         include/graph/generate/BruteForce.h
         include/graph/generate/GraphGenerator.h
@@ -105,7 +105,6 @@ add_library(${PROJECT_NAME}
         source/facade/FacadeGraph.cpp
         source/facade/FacadeGraphGenerator.cpp
         source/facade/FacadeGraphGeneratorBruteForce.cpp
-        source/facade/FacadeGraphGeneratorFaiss.cpp
         source/facade/FacadeGraphGeneratorKDTree.cpp
         source/facade/FacadeInteractiveVisualization.cpp
         source/facade/FacadeParser.cpp
@@ -115,6 +114,7 @@ add_library(${PROJECT_NAME}
         source/facade/gpu/FacadeGpuCaster.cpp
         source/facade/gpu/FacadeGpuCasterMomentum.cpp
         source/facade/gpu/FacadeGpuResourceFactory.cpp
+        source/facade/gpu/FacadeGpuGraphGeneratorFaiss.cpp
         source/graph/generate/BoundedPQueue.cpp
         source/graph/generate/BruteForce.cpp
         source/graph/generate/GraphGenerator.cpp

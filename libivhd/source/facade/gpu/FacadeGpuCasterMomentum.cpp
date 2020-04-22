@@ -3,12 +3,10 @@
 
 namespace ivhd::facade::gpu
 {
-	FacadeGpuCasterMomentum::FacadeGpuCasterMomentum(std::shared_ptr<core::Core> core,
-					std::function<void(float)> onError,
-                    std::function<void(vector<float2>&)> onPos)
-		: FacadeGpuCaster(core, onError, onPos)
+	FacadeGpuCasterMomentum::FacadeGpuCasterMomentum(std::shared_ptr<core::Core> core)
+		: FacadeGpuCaster(core)
 
 	{
-		m_internalCaster = std::make_shared<CasterCudaAB>(10, onError, onPos);
+		m_internalCaster = nullptr;
 	}
 }
