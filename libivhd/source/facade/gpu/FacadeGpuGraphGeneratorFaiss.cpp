@@ -1,15 +1,15 @@
-#include "facade/FacadeGraphGeneratorFaiss.h"
+#include "facade/gpu/FacadeGpuGraphGeneratorFaiss.h"
 #include "facade/FacadeGraph.h"
 
-namespace ivhd::facade
+namespace ivhd::facade::gpu
 {
-	FacadeGraphGeneratorFaiss::FacadeGraphGeneratorFaiss(std::shared_ptr<core::Core> core)
+	FacadeGpuGraphGeneratorFaiss::FacadeGpuGraphGeneratorFaiss(std::shared_ptr<core::Core> core)
 		: FacadeGraphGenerator(core)
 		, m_graphGenerator(std::make_shared<generate::Faiss>(core->system()))
 	{
 	}
 
-	void FacadeGraphGeneratorFaiss::generateNearestNeighbors(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne)
+	void FacadeGpuGraphGeneratorFaiss::generateNearestNeighbors(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne)
 	{
 		try
 		{
@@ -20,11 +20,11 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeGraphGeneratorFaiss.generateNearestNeighbors. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeGpuGraphGeneratorFaiss.generateNearestNeighbors. Error message: " + *ex.what());
 		}
 	}
 
-	void FacadeGraphGeneratorFaiss::generateRandomNeighbors(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne)
+	void FacadeGpuGraphGeneratorFaiss::generateRandomNeighbors(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne)
 	{
 		try
 		{
@@ -35,7 +35,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeGraphGeneratorFaiss.generateRandomNeighbors. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning("Failed to cast data using FacadeGpuGraphGeneratorFaiss.generateRandomNeighbors. Error message: " + *ex.what());
 		}
 	}
 }

@@ -20,9 +20,7 @@ namespace ivhd::facade::gpu
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeGpuCaster(std::shared_ptr<core::Core> core,
-                    std::function<void(float)> onError,
-                    std::function<void(vector<float2>&)> onPos);
+		explicit FacadeGpuCaster(std::shared_ptr<core::Core> core);
 
 		virtual ~FacadeGpuCaster() = default;
 
@@ -41,8 +39,6 @@ namespace ivhd::facade::gpu
 
 		std::shared_ptr<CasterCuda> m_internalCaster;
 
-		std::function<void(float)> m_onError;
-
-		std::function<void(vector<float2>&)> m_onPos;
+		bool m_initialized {false};
 	};
 }

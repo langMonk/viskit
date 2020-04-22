@@ -9,7 +9,6 @@
 #include "facade/FacadeParserCSV.h"
 #include "facade/FacadeGraphGeneratorKDTree.h"
 #include "facade/FacadeGraphGeneratorBruteForce.h"
-#include "facade/FacadeGraphGeneratorFaiss.h"
 #include "facade/FacadeCasterMomentum.h"
 #include "facade/FacadeCasterForceDirected.h"
 #include "facade/FacadeCasterAdadelta.h"
@@ -43,10 +42,6 @@ namespace ivhd::facade
 		else if (type == GraphGeneratorType::BruteForce)
 		{
 			generator = std::make_shared<FacadeGraphGeneratorBruteForce>(m_ext_ivhd.core());
-		}
-		else if (type == GraphGeneratorType::Faiss)
-		{
-			generator = std::make_shared<FacadeGraphGeneratorFaiss>(m_ext_ivhd.core());
 		}
 		return generator;
 	}
