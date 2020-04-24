@@ -30,6 +30,7 @@ namespace ivhd::facade::gpu
 		// public methods
 	public:
 		CasterType type() override { return CasterType::IVHD; }
-		
+
+		OptimizerType optimizerType() override { return OptimizerType::Momentum; }
 	};
 }

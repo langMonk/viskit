@@ -5,10 +5,12 @@
 
 #pragma once
 
+#include <caster_cuda.h>
+
 #include "facade/FacadeParticleSystem.h"
 #include "facade/FacadeGraph.h"
 #include "ivhd/ICaster.h"
-#include "caster/caster_cuda.h"
+#include "ivhd/Structures.h"
 
 namespace ivhd::facade::gpu
 {
@@ -17,9 +19,12 @@ namespace ivhd::facade::gpu
 	/// </summary>
 	class FacadeGpuCaster : public virtual ICaster
 	{
+	public:
+		using ErrorHandler = std::function<void(float)>;
+		using PositionHandler = std::function<void(vector<float2>&)>;
+
 		// public construction and destruction methods
 	public:
-
 		explicit FacadeGpuCaster(std::shared_ptr<core::Core> core);
 
 		virtual ~FacadeGpuCaster() = default;
@@ -34,6 +39,10 @@ namespace ivhd::facade::gpu
 		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
         void initialize(IParticleSystem& ps, IGraph& graph) override;
 		void step(IParticleSystem& ps, IGraph& graph) override;
+
+	private:
+		std::shared_ptr<CasterCuda> createCaster(int n, ErrorHandler onError, 
+									PositionHandler onPos, OptimizerType type);
 
 		// protected members
 	protected:
