@@ -1,13 +1,42 @@
 #include <utility>
+#include <memory>
+#include <caster_cuda_ab.h>
+#include <caster_cuda_adadelta.h>
+#include <caster_cuda_adam.h>
+#include <caster_cuda_nesterov.h>
 
 #include "facade/gpu/FacadeGpuCaster.h"
-
 
 namespace ivhd::facade::gpu
 {
 	FacadeGpuCaster::FacadeGpuCaster(std::shared_ptr<core::Core> core)
 		: m_ext_core(std::move(core))
 	{
+	}
+
+	std::shared_ptr<CasterCuda> FacadeGpuCaster::createCaster(int n, ErrorHandler onError, 
+												PositionHandler onPos, OptimizerType type)
+	{
+		std::shared_ptr<CasterCuda> cudaCaster;
+
+		if (type == OptimizerType::Momentum) 
+		{
+			cudaCaster = std::make_shared<CasterCudaAB>(n, onError, onPos);
+		} 
+		else if (type == OptimizerType::Nesterov) 
+		{
+			cudaCaster = std::make_shared<CasterCudaNesterov>(n, onError, onPos);
+		} 
+		else if (type == OptimizerType::Adadelta) 
+		{
+			cudaCaster = std::make_shared<CasterCudaAdadelta>(n, onError, onPos);
+		} 
+		else if (type == OptimizerType::Adam) 
+		{
+			cudaCaster = std::make_shared<CasterCudaAdam>(n, onError, onPos);
+		}
+
+		return cudaCaster;
 	}
 
 	void FacadeGpuCaster::calculatePositions(IParticleSystem& ps) 
@@ -39,15 +68,17 @@ namespace ivhd::facade::gpu
 		m_ext_core->logger().logInfo("[Gpu Caster] Initializing GPU resources...");
 
 		// set up error and positions callbacks 
-		auto onError = [&](float err) -> void {};		
+		ErrorHandler onError = [&](float err) -> void {};		
 
-		auto onPos = [&](vector<float2>& positions) -> void {
+		PositionHandler onPos = [&](vector<float2>& positions) -> void {
 			auto internalPositions = ps.positions();
 			for (unsigned i = 0; i < positions.size(); i++) {
 				internalPositions[i].x = positions[i].x;
 				internalPositions[i].y = positions[i].y;
 			}
 		};
+
+		m_internalCaster = createCaster(ps.countParticles(), onError, onPos, optimizerType());
 
 		// set up initial positions inside GPU caster
 		auto positions = ps.positions();

@@ -44,8 +44,13 @@ namespace ivhd
 		virtual void step(IParticleSystem& ps, IGraph& graph) = 0;
 
 		/// <summary>
-		/// Returns CasterType
+		/// Returns Caster Type
 		/// </summary>
 		virtual CasterType type() = 0;
+
+		/// <summary>
+		/// Returns Optimizer Type
+		/// </summary>
+		virtual OptimizerType optimizerType() = 0;
 	};
 }
