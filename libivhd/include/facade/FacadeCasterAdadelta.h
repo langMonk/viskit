@@ -35,6 +35,8 @@ namespace ivhd::facade
 
 		CasterType type() override { return CasterType::IVHD; }
 
+		OptimizerType optimizerType() override { return OptimizerType::Adadelta; }
+		
 	private:
 		float energy{ 0.1f };
 

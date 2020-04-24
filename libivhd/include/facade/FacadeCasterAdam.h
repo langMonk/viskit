@@ -35,5 +35,6 @@ namespace ivhd::facade
 
 		CasterType type() override { return CasterType::IVHD; }
 		
+		OptimizerType optimizerType() override { return OptimizerType::Adam; }
 	};
 }
