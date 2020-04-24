@@ -35,6 +35,8 @@ namespace ivhd::facade
 
 		CasterType type() override { return CasterType::IVHD; }
 		
+		OptimizerType optimizerType() override { return OptimizerType::SGD; }
+		
 		// private members
 	private:
 		std::shared_ptr<embed::cast::ivhd::CasterSGD> m_internalCaster;

@@ -34,6 +34,7 @@ namespace ivhd::facade
 		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
 
 		CasterType type() override { return CasterType::IVHD; }
-		
+
+		OptimizerType optimizerType() override { return OptimizerType::Momentum; }
 	};
 }
