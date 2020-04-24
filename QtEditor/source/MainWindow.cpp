@@ -130,6 +130,10 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 
 		});
 
+		if(ui.comboBox_CastingSetup->currentText().toStdString().find("[GPU]"))
+		{
+			m_currentCaster->initialize(*m_particleSystem, *m_graph);
+		}
 		m_ivhd->startCasting(*m_particleSystem, *m_graph, *m_currentCaster);
 		m_running = true;
 	}
