@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
 project(libivhd_tests)
 
+find_package(CUDA REQUIRED)
+
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(libivhd_tests
@@ -14,17 +16,19 @@ add_executable(libivhd_tests
         threading/ThreadPoolTest.cpp
         TestUtils.h)
 
+
+add_subdirectory(${PROJECT_SOURCE_DIR}/googletest/)
+
 # include ivhd
 target_include_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR})
 target_include_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/include)
+target_include_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd_cuda/include/)
 target_include_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 
 # include and link google test
 target_include_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../googletest/googletest/include)
 target_include_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../googletest/googlemock/include)
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/googletest/)
-
 target_link_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/faiss)
 
-target_link_libraries(libivhd_tests gtest gmock libivhd)
+target_link_libraries(libivhd_tests gtest gmock libivhd cuda)

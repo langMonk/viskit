@@ -15,7 +15,6 @@
 #include "facade/FacadeCasterAdadelta.h"
 #include "facade/FacadeCasterAdam.h"
 #include "facade/FacadeCasterNesterov.h"
-#include "facade/gpu/FacadeGpuCasterMomentum.h"
 
 namespace ivhd::facade
 {
@@ -60,18 +59,6 @@ namespace ivhd::facade
 		}
 		
 		return generator;
-	}
-
-	std::shared_ptr<ICaster> FacadeResourceFactory::createCasterGPU(const CasterType type, const OptimizerType optimizer)
-	{
-		std::shared_ptr<ICaster> caster = nullptr;
-
-		if (type == CasterType::IVHD && optimizer == OptimizerType::Momentum)
-		{
-			caster = std::make_shared<gpu::FacadeGpuCasterMomentum>(m_ext_ivhd.core());
-		}
-
-		return caster;
 	}
 
 	std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(const CasterType type, const OptimizerType optimizer)

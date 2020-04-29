@@ -29,8 +29,6 @@ namespace ivhd::facade
 		std::shared_ptr<IGraphGenerator> createGraphGeneratorGPU(GraphGeneratorType type) override;
 
 		std::shared_ptr<ICaster> createCaster(CasterType type, OptimizerType optimizer) override;
-
-		std::shared_ptr<ICaster> createCasterGPU(CasterType type, OptimizerType optimizer) override;
 		
 		std::shared_ptr<IParticleSystem> createParticleSystem() override;
 		

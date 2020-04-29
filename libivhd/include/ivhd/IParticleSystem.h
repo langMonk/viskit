@@ -8,7 +8,6 @@
 #include <vector>
 #include "particles/ParticleData.h"
 #include "ivhd/Structures.h"
-
 namespace ivhd
 {
 	class ICaster;
@@ -35,7 +34,7 @@ namespace ivhd
 		/// Returns current positions.
 		/// </summary>
 		/// <returns> Container with current particle positions.</returns>
-		virtual std::vector<glm::vec4> positions() = 0;
+		virtual std::vector<ivhd::vec4> positions() = 0;
 
 		/// <summary>
 		/// Returns current forces.
