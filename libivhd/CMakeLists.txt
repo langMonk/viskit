@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 project(libivhd CUDA)
 
-find_package(CUDA REQUIRED)
-
 set(CMAKE_CXX_STANDARD 17)
+
+find_package(CUDA REQUIRED)
 
 add_library(${PROJECT_NAME}
         include/core/Core.h
@@ -40,8 +40,6 @@ add_library(${PROJECT_NAME}
         include/facade/FacadeResourceCollection.h
         include/facade/FacadeResourceFactory.h
         include/facade/FacadeTransformer.h
-        include/facade/gpu/FacadeGpuCaster.h
-        include/facade/gpu/FacadeGpuCasterMomentum.h
         include/facade/gpu/FacadeGpuGraphGeneratorFaiss.h
         include/graph/generate/BoundedPQueue.h
         include/graph/generate/BruteForce.h
@@ -108,8 +106,6 @@ add_library(${PROJECT_NAME}
         source/facade/FacadeParserCSV.cpp
         source/facade/FacadeParticleSystem.cpp
         source/facade/FacadeResourceFactory.cpp
-        source/facade/gpu/FacadeGpuCaster.cpp
-        source/facade/gpu/FacadeGpuCasterMomentum.cpp
         source/facade/gpu/FacadeGpuGraphGeneratorFaiss.cpp
         source/graph/generate/BoundedPQueue.cpp
         source/graph/generate/BruteForce.cpp
@@ -130,8 +126,5 @@ add_library(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CUDA_INCLUDE_DIRS})
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd_cuda/include)
 
-target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../build/libivhd_cuda)
-
-target_link_libraries(${PROJECT_NAME} pthread faiss libivhd_cuda)
+target_link_libraries(${PROJECT_NAME} pthread faiss)

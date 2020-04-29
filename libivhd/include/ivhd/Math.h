@@ -7,6 +7,25 @@
 
 namespace ivhd
 {
+    struct vec2
+	{
+
+		// public construction methods
+	public:
+
+		vec2(float x = 0.0f, float y = 0.0f)
+			: x{ x }
+            , y{ y }
+		{
+		}
+
+		// public values
+	public:
+
+		float x;
+		float y;
+	};
+
 	struct vec3
 	{
 
@@ -14,7 +33,9 @@ namespace ivhd
 	public:
 
 		vec3(float x = 0.0f, float y = 0.0f, float z = 0.0f)
-			: x{ x }, y{ y }, z{ z }
+			: x{ x }
+            , y{ y }
+            , z{ z }
 		{
 		}
 
@@ -24,17 +45,19 @@ namespace ivhd
 		float x;
 		float y;
 		float z;
-
 	};
 
-	struct vec4
+    struct vec4
 	{
 
 		// public construction methods
 	public:
 
 		vec4(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f)
-			: x{ x }, y{ y }, z{ z }, w{ w }
+			: x{ x }
+            , y{ y }
+            , z{ z }
+            , w{ w }
 		{
 		}
 
@@ -44,7 +67,6 @@ namespace ivhd
 		float x;
 		float y;
 		float z;
-		float w;
-
+        float w;
 	};
 }
