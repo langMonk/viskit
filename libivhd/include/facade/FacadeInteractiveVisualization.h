@@ -26,6 +26,12 @@ namespace ivhd::facade
 	public:
 		explicit FacadeInteractiveVisualization(LogHandler logHandler);
 
+        FacadeInteractiveVisualization(const FacadeInteractiveVisualization&) = delete;
+        FacadeInteractiveVisualization(FacadeInteractiveVisualization&&) = delete;
+
+        FacadeInteractiveVisualization& operator=(const FacadeInteractiveVisualization&) = delete;
+        FacadeInteractiveVisualization& operator=(FacadeInteractiveVisualization&&) = delete;
+
 		// public methods
 	public:
 		IResourceFactory& resourceFactory() override;

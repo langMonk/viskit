@@ -1,16 +1,23 @@
 #pragma once
 
+#include <utility>
+
 #include "caster/CasterCuda.h"
 
-namespace ivhd_cuda
-{
-    class CasterCudaNesterov : public CasterCuda 
-    {
-    public:
-        CasterCudaNesterov(int n, std::function<void(float)> onErr, std::function<void(std::vector<vec2>&)> onPos)
-            : CasterCuda(n, onErr, onPos) {}
+namespace ivhd {
+    namespace cuda {
+        namespace caster {
+            class CasterCudaNesterov : public CasterCuda {
+            public:
+                explicit CasterCudaNesterov() : CasterCuda() {
 
-    protected:
-        virtual void simul_step_cuda() override;
-    };
+                }
+
+                ivhd::OptimizerType optimizerType() override { return ivhd::OptimizerType::Nesterov; }
+
+            protected:
+                void simul_step_cuda() override;
+            };
+        }
+    }
 }

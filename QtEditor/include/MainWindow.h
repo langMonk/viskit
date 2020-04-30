@@ -8,6 +8,9 @@
 #include <ivhd/IResourceCollection.h>
 #include <ivhd/IResourceFactory.h>
 #include <ivhd/IParticleSystem.h>
+
+#include <ivhd_cuda/IGpuFactory.h>
+
 #include <QMainWindow>
 #include "ui_MainWindow.h"
 

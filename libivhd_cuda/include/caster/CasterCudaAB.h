@@ -1,19 +1,27 @@
 #pragma once
 
+#include <utility>
+
 #include "caster/CasterCuda.h"
 
-namespace ivhd_cuda
-{
-    class CasterCudaAB : public CasterCuda 
-    {
-    public:
-        CasterCudaAB(int n, std::function<void(float)> onErr, std::function<void(std::vector<vec2>&)> onPos)
-        : CasterCuda(n, onErr, onPos) {}
+namespace ivhd {
+    namespace cuda {
+        namespace caster {
+            class CasterCudaAB : public CasterCuda {
+            public:
+                explicit CasterCudaAB() : CasterCuda() {
 
-        void setFinalizing(bool val) { finalizing = val; }
+                }
 
-    protected:
-        virtual void simul_step_cuda() override;
-        bool finalizing = false;
-    };
+                void setFinalizing(bool val) { finalizing = val; }
+
+                ivhd::OptimizerType optimizerType() override { return ivhd::OptimizerType::Momentum; }
+
+            protected:
+                void simul_step_cuda() override;
+
+                bool finalizing = false;
+            };
+        }
+    }
 }
