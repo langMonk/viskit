@@ -55,8 +55,12 @@ void MainWindow::initializeIVHDResources()
 	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adadelta);
 	const auto casterAdam = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adam);
 	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Nesterov);
-	const auto casterMomentumGpu = m_ivhd->resourceFactory().createCasterGPU(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
-	
+
+
+	//const auto casterMomentumGpu = m_ivhd->resourceFactory().createCasterGPU(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
+	const auto gpuFactory = ivhd::cuda::IGpuFactory::create();
+    const auto casterMomentumGpu = gpuFactory->createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
+    
 	m_casters->add("Random", casterRandom);
 	m_casters->add("Momentum", casterMomentum);
 	m_casters->add("Force Directed", casterForceDirected);

@@ -1,12 +1,13 @@
 #include <cuda.h>
+#include <device_launch_parameters.h>
 
 #include "caster/Constants.h"
 #include "caster/CasterCudaAB.h"
 
 using namespace std;
-using namespace ivhd_cuda;
+using namespace ivhd::cuda;
 
-__global__ void calcPositions(long n, ivhd_cuda::Sample *samples) 
+__global__ void calcPositions(long n, Sample *samples)
 {
     for (int i = blockIdx.x * blockDim.x + threadIdx.x; i < n;
     i += blockDim.x * gridDim.x) 
@@ -28,12 +29,10 @@ __global__ void calcPositions(long n, ivhd_cuda::Sample *samples)
 
         samples[i] = sample;
     }
-    
-    return;
 }
 
-__global__ void calcForceComponents(int compNumber, ivhd_cuda::DistElem *distances,
-    ivhd_cuda::Sample *samples, bool finalizing) 
+__global__ void calcForceComponents(int compNumber, DistElem *distances,
+    Sample *samples, bool finalizing)
 {
     for (int i = blockIdx.x * blockDim.x + threadIdx.x; i < compNumber;
         i += blockDim.x * gridDim.x) 
@@ -78,14 +77,15 @@ __global__ void calcForceComponents(int compNumber, ivhd_cuda::DistElem *distanc
         *distance.comp1 = rv;
         *distance.comp2 = {-rv.x, -rv.y};
     }
-    return;
 }
 
-namespace ivhd_cuda
-{    
-    void CasterCudaAB::simul_step_cuda() 
-    {
-        calcForceComponents<<<256, 256>>>(distances.size(), d_distances, d_samples, finalizing);
-        calcPositions<<<256, 256>>>(positions.size(), d_samples);
+namespace ivhd {
+    namespace cuda {
+        namespace caster {
+            void CasterCudaAB::simul_step_cuda() {
+                calcForceComponents << < 256, 256 >> > (distances.size(), d_distances, d_samples, finalizing);
+                calcPositions << < 256, 256 >> > (positions.size(), d_samples);
+            }
+        }
     }
 }

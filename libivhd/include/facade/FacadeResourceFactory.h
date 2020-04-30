@@ -18,7 +18,7 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		FacadeResourceFactory(FacadeInteractiveVisualization& ivhd);
+		explicit FacadeResourceFactory(FacadeInteractiveVisualization& ivhd);
 
 		// public methods
 	public:

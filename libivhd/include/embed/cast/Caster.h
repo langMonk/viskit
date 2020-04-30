@@ -14,7 +14,7 @@ namespace ivhd::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		Caster(core::System& system);
+		explicit Caster(core::System& system);
 		virtual ~Caster() = default;
 
 		Caster(const Caster&) = delete;

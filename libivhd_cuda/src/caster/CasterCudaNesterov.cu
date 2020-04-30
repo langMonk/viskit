@@ -1,10 +1,11 @@
 #include <cuda.h>
+#include <device_launch_parameters.h>
 
 #include "caster/Constants.h"
 #include "caster/CasterCudaNesterov.h"
 
 using namespace std;
-using namespace ivhd_cuda;
+using namespace ivhd::cuda;
 
 __global__ void calcPositionsNesterov(long n, Sample *samples) 
 {
@@ -28,7 +29,6 @@ __global__ void calcPositionsNesterov(long n, Sample *samples)
 
         samples[i] = sample;
     }
-  return;
 }
 
 __global__ void calcForceComponentsNesterov(int compNumber, DistElem *distances,
@@ -71,14 +71,15 @@ __global__ void calcForceComponentsNesterov(int compNumber, DistElem *distances,
         *distance.comp1 = rv;
         *distance.comp2 = {-rv.x, -rv.y};
     }
-    return;
 }
 
-namespace ivhd_cuda
-{
-    void CasterCudaNesterov::simul_step_cuda() 
-    {
-        calcForceComponentsNesterov<<<256, 256>>>(distances.size(), d_distances, d_samples);
-        calcPositionsNesterov<<<256, 256>>>(positions.size(), d_samples);
+namespace ivhd {
+    namespace cuda {
+        namespace caster {
+            void CasterCudaNesterov::simul_step_cuda() {
+                calcForceComponentsNesterov << < 256, 256 >> > (distances.size(), d_distances, d_samples);
+                calcPositionsNesterov << < 256, 256 >> > (positions.size(), d_samples);
+            }
+        }
     }
 }

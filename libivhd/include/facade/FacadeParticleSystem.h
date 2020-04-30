@@ -22,15 +22,13 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		FacadeParticleSystem(const std::shared_ptr<core::Core>& core);
+		explicit FacadeParticleSystem(const std::shared_ptr<core::Core>& core);
 
 		FacadeParticleSystem(const FacadeParticleSystem&) = delete;
 		FacadeParticleSystem(FacadeParticleSystem&&) = delete;
 
 		FacadeParticleSystem& operator=(const FacadeParticleSystem&) = delete;
 		FacadeParticleSystem& operator=(FacadeParticleSystem&&) = delete;
-
-		~FacadeParticleSystem() = default;
 
 		[[nodiscard]] particles::ParticleSystem& internalSystem() const { return *m_internalParticleSystem; }
 

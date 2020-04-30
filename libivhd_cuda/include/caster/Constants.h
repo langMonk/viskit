@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <driver_types.h>
+#include <cuda_runtime_api.h>
 
 //#define a_factor 0.990545
 //#define b_factor 0.000200945
