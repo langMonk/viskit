@@ -1,10 +1,11 @@
 #include <cuda.h>
+#include <device_launch_parameters.h>
 
 #include "caster/Constants.h"
 #include "caster/CasterCudaAdadelta.h"
 
 using namespace std;
-using namespace ivhd_cuda;
+using namespace ivhd::cuda;
 
 #define DECAYING_PARAM 0.1
 #define EPS 0.00000001f
@@ -39,7 +40,6 @@ __global__ void calcPositionsAdadelta(long n, Sample *samples, float4 *avarage_p
         samples[i] = sample;
         avarage_params[i] = avarage_param;
     }
-    return;
 }
 
 __global__ void calcForceComponentsAdadelta(int compNumber, DistElem *distances,
@@ -74,23 +74,23 @@ __global__ void calcForceComponentsAdadelta(int compNumber, DistElem *distances,
         *distance.comp1 = rv;
         *distance.comp2 = {-rv.x, -rv.y};
     }
-    return;
 }
 
-namespace ivhd_cuda
-{
-    void CasterCudaAdadelta::simul_step_cuda() 
-    {
-        calcForceComponentsAdadelta<<<256, 256>>>(distances.size(), d_distances, d_samples);
-        calcPositionsAdadelta<<<256, 256>>>(positions.size(), d_samples, d_average_params);
-    }
+namespace ivhd {
+    namespace cuda {
+        namespace caster {
+            void CasterCudaAdadelta::simul_step_cuda() {
+                calcForceComponentsAdadelta << < 256, 256 >> > (distances.size(), d_distances, d_samples);
+                calcPositionsAdadelta << < 256, 256 >> > (positions.size(), d_samples, d_average_params);
+            }
 
-    void CasterCudaAdadelta::initialize(IParticleSystem& ps, IGraph& graph)
-    {
-        CasterCuda::initialize(ps, graph);
+            void CasterCudaAdadelta::initialize(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) {
+                CasterCuda::initialize(ps, graph);
 
-        // TODO release this memory
-        cuCall(cudaMalloc(&d_average_params, positions.size() * sizeof(float4)));
-        cuCall(cudaMemset(d_average_params, 0, positions.size() * sizeof(float4)));
+                // TODO release this memory
+                cuCall(cudaMalloc(&d_average_params, positions.size() * sizeof(float4)));
+                cuCall(cudaMemset(d_average_params, 0, positions.size() * sizeof(float4)));
+            }
+        }
     }
 }

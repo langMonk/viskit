@@ -1,21 +1,28 @@
 #pragma once
 
+#include <utility>
+
 #include "caster/CasterCuda.h"
 
-namespace ivhd_cuda
-{
-    class CasterCudaAdadelta : public CasterCuda 
-    {
-    public:
-        CasterCudaAdadelta(int n, std::function<void(float)> onErr, std::function<void(std::vector<vec2>&)> onPos)
-            : CasterCuda(n, onErr, onPos) {}
+namespace ivhd {
+    namespace cuda {
+        namespace caster {
+            class CasterCudaAdadelta : public CasterCuda {
+            public:
+                explicit CasterCudaAdadelta() : CasterCuda() {
 
-        virtual void initialize(IParticleSystem& ps, IGraph& graph) override;
+                }
 
-    protected:
-        virtual void simul_step_cuda() override;
+                void initialize(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) override;
 
-    private:
-        float4 *d_average_params;
-    };
+                ivhd::OptimizerType optimizerType() override { return ivhd::OptimizerType::Adadelta; }
+
+            protected:
+                void simul_step_cuda() override;
+
+            private:
+                float4 *d_average_params{};
+            };
+        }
+    }
 }

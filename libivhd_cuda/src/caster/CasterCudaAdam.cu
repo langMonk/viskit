@@ -1,10 +1,11 @@
 #include <cuda.h>
+#include <device_launch_parameters.h>
 
 #include "caster/Constants.h"
 #include "caster/CasterCudaAdam.h"
 
 using namespace std;
-using namespace ivhd_cuda;
+using namespace ivhd::cuda;
 
 #define B1 0.9
 #define B2 0.999
@@ -41,7 +42,6 @@ __global__ void calcPositionsAdam(long n, unsigned it, Sample *samples, float4 *
         samples[i] = sample;
         avarage_params[i] = avarage_param;
     }
-    return;
 }
 
 __global__ void calcForceComponentsAdam(int compNumber, DistElem *distances,
@@ -75,22 +75,22 @@ __global__ void calcForceComponentsAdam(int compNumber, DistElem *distances,
         *distance.comp1 = rv;
         *distance.comp2 = {-rv.x, -rv.y};
     }
-    return;
 }
 
-namespace ivhd_cuda
-{
-    void CasterCudaAdam::simul_step_cuda() 
-    {
-        calcForceComponentsAdam<<<256, 256>>>(distances.size(), d_distances, d_samples);
-        calcPositionsAdam<<<256, 256>>>(positions.size(), it, d_samples, d_average_params);
-    }
+namespace ivhd {
+    namespace cuda {
+        namespace caster {
+            void CasterCudaAdam::simul_step_cuda() {
+                calcForceComponentsAdam << < 256, 256 >> > (distances.size(), d_distances, d_samples);
+                calcPositionsAdam << < 256, 256 >> > (positions.size(), it, d_samples, d_average_params);
+            }
 
-    void CasterCudaAdam::initialize(IParticleSystem& ps, IGraph& graph)
-    {
-        CasterCuda::initialize(ps, graph);
+            void CasterCudaAdam::initialize(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) {
+                CasterCuda::initialize(ps, graph);
 
-        cuCall(cudaMalloc(&d_average_params, positions.size() * sizeof(float4)));
-        cuCall(cudaMemset(d_average_params, 0, positions.size() * sizeof(float4)));
+                cuCall(cudaMalloc(&d_average_params, positions.size() * sizeof(float4)));
+                cuCall(cudaMemset(d_average_params, 0, positions.size() * sizeof(float4)));
+            }
+        }
     }
 }

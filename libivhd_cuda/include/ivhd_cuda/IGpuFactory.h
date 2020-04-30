@@ -4,16 +4,25 @@
 #include <functional>
 #include <ivhd/Math.h>
 #include <ivhd/Structures.h>
-#include "ICasterCuda.h"
 
-namespace ivhd_cuda
+namespace ivhd
 {
-    class IGpuFactory
-    {
-    public:
-        static std::unique_ptr<ICasterCuda> createCaster(int n, std::function<void(float)> onErr, 
-                                                std::function<void(std::vector<ivhd::vec2>&)> onPos,
-                                                ivhd::OptimizerType optimizer);
+    class ICaster;
+    class IInteractiveVisualization;
+    class IGraphGenerator;
+}
 
-    };
+namespace ivhd {
+    namespace cuda {
+        class IGpuFactory {
+        public:
+            static std::unique_ptr<IGpuFactory> create();
+
+        public:
+            virtual std::shared_ptr<ivhd::ICaster>
+            createCaster(ivhd::CasterType type, ivhd::OptimizerType optimizer) = 0;
+
+            virtual std::shared_ptr<ivhd::IGraphGenerator> createGraphGenerator(ivhd::GraphGeneratorType type) = 0;
+        };
+    }
 }
