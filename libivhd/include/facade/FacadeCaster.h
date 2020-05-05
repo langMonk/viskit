@@ -33,7 +33,7 @@ namespace ivhd::facade
 
         void initialize(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) override {};
 
-        void finish() override {};
+        void finalize() override {};
 
 		// protected members
 	protected:

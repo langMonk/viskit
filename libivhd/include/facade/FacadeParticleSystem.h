@@ -34,6 +34,8 @@ namespace ivhd::facade
 
 		// public methods
 	public:
+        DatasetInfo datasetInfo() override;
+
 		std::vector<std::pair<DataPoint, size_t>> originalCoordinates() override;
 
 		std::vector<glm::vec4> positions() override;

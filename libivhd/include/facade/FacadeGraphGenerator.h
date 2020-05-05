@@ -18,7 +18,6 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-
 		explicit FacadeGraphGenerator(std::shared_ptr<core::Core> core);
 		~FacadeGraphGenerator() = default;
 

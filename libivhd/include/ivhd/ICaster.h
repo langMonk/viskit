@@ -24,23 +24,23 @@ namespace ivhd
 		virtual void initialize(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) = 0;
 
 		/// <summary>
-		/// Handles process of casting particle system between spaces
+		/// Handles process of position calculation.
 		/// </summary>
-		/// <param name="ps"> Particle system, which should be casted by this caster. </param>
+		/// <param name="ps"> Particle system for which positions should be calculated. </param>
 		virtual void calculatePositions(IParticleSystem& ps) = 0;
 
 		/// <summary>
-		/// Handles process of casting specific particle between spaces
+		/// Handles process of force calculation.
 		/// </summary>
-		/// <param name="ps"> Particle system, which should be casted by this caster. </param>
-		/// <param name="graph"> Graph used for force calculations. </param>
+        /// <param name="ps"> Particle system for which forces should be calculated. </param>
+        /// <param name="graph"> kNN graph used for calculations. </param>
 		virtual void calculateForces(IParticleSystem& ps, IGraph& graph) = 0;
 
 		/// <summary>
-		/// Perform a step of casting (usally just calls calculate Positions and Forces)
+		/// Handles casting step (usually just call calculatePositions and calculateForces)
 		/// </summary>
-		/// <param name="ps"> Particle system, which should be casted by this caster. </param>
-		/// <param name="graph"> Graph used for force calculations. </param>
+		/// <param name="ps"> Particle system, which should be casted. </param>
+		/// <param name="graph"> Graph used for casting. </param>
 		virtual void step(IParticleSystem& ps, IGraph& graph) = 0;
 
 		/// <summary>
@@ -56,6 +56,6 @@ namespace ivhd
         /// <summary>
 		/// Process, which occurs when casting is finished.
 		/// </summary>
-		virtual void finish() = 0;
+		virtual void finalize() = 0;
 	};
 }

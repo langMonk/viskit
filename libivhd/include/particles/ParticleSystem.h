@@ -25,16 +25,6 @@ namespace ivhd::particles
 	using Color = glm::vec4;
 	using Dataset = std::vector<std::pair<DataPoint, DataPointLabel>>;
 
-	struct DatasetInfo
-	{
-		std::string path;
-		std::string fileName;
-		size_t count{};
-		size_t dimensionality{};
-	};
-
-	enum class MetricType { Euclidean, Cosine };
-
 	class ParticleSystem
 	{
 		// public construction and destruction methods

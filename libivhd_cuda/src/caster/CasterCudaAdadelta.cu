@@ -76,21 +76,17 @@ __global__ void calcForceComponentsAdadelta(int compNumber, DistElem *distances,
     }
 }
 
-namespace ivhd {
-    namespace cuda {
-        namespace caster {
-            void CasterCudaAdadelta::simul_step_cuda() {
-                calcForceComponentsAdadelta << < 256, 256 >> > (distances.size(), d_distances, d_samples);
-                calcPositionsAdadelta << < 256, 256 >> > (positions.size(), d_samples, d_average_params);
-            }
-
-            void CasterCudaAdadelta::initialize(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) {
-                CasterCuda::initialize(ps, graph);
-
-                // TODO release this memory
-                cuCall(cudaMalloc(&d_average_params, positions.size() * sizeof(float4)));
-                cuCall(cudaMemset(d_average_params, 0, positions.size() * sizeof(float4)));
-            }
-        }
+namespace ivhd { namespace cuda { namespace caster {
+    void CasterCudaAdadelta::simul_step_cuda() {
+        calcForceComponentsAdadelta <<< 256, 256 >>> (distances.size(), d_distances, d_samples);
+        calcPositionsAdadelta <<< 256, 256 >>> (positions.size(), d_samples, d_average_params);
     }
-}
+
+    void CasterCudaAdadelta::initialize(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) {
+        CasterCuda::initialize(ps, graph);
+
+        // TODO release this memory
+        cuCall(cudaMalloc(&d_average_params, positions.size() * sizeof(float4)));
+        cuCall(cudaMemset(d_average_params, 0, positions.size() * sizeof(float4)));
+    }
+} } }

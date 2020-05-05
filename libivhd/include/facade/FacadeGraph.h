@@ -20,7 +20,6 @@ namespace ivhd::facade
 	public:
 
 		explicit FacadeGraph(const std::shared_ptr<core::Core>& core);
-		~FacadeGraph() = default;
 
 		FacadeGraph(const FacadeGraph&) = delete;
 		FacadeGraph(FacadeGraph&&) = delete;
@@ -31,6 +30,8 @@ namespace ivhd::facade
 		[[nodiscard]] graph::Graph& internalGraph() const { return *m_internalGraph; }
 
 	public:
+	    void initialize(size_t size) override;
+
 		std::vector<Neighbors> getNeighbors(size_t idx) override;
 	
 		void addNeighbors(Neighbors neighbor) override;

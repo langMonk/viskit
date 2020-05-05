@@ -7,6 +7,7 @@
 
 #include <cassert>
 #include <vector>
+#include <string>
 
 namespace ivhd
 {
@@ -103,7 +104,6 @@ namespace ivhd
 		BruteForce,
 		KDTreeBased,
 		Faiss,
-		Approx
 	};
 
 	enum class OptimizerType
@@ -120,11 +120,20 @@ namespace ivhd
 	enum class CasterType
 	{
 		IVHD,
-		CUDA,
 		LargeVis,
 		tSNE,
 		Random
 	};
+
+    enum class MetricType { Euclidean, Cosine };
+
+    struct DatasetInfo
+    {
+        std::string path;
+        std::string fileName;
+        size_t count{};
+        size_t dimensionality{};
+    };
 
 	class Neighbors
 	{
@@ -138,8 +147,7 @@ namespace ivhd
 
 		bool operator== (Neighbors& rhs) const
 		{
-			if (i == rhs.i && j == rhs.j && r == rhs.r && type == rhs.type) { return true; }
-			else { return false; }
+            return i == rhs.i && j == rhs.j && r == rhs.r && type == rhs.type;
 		}
 
 	};

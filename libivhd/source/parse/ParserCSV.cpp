@@ -40,7 +40,7 @@ namespace ivhd::parse
 		auto data = ps.calculationData();
 		auto input = std::ifstream(filePath.c_str());
 
-		particles::DatasetInfo info;
+		ivhd::DatasetInfo info;
 		info.fileName = remove_extension(base_name(filePath));
 		info.path = base_path(filePath);
 
