@@ -9,7 +9,7 @@
 
 #include "graph/FaissGraphGenerator.h"
 
-namespace ivhd { namespace cuda { namespace caster {
+namespace ivhd { namespace cuda { namespace graph {
     void FaissGraphGenerator::generateNearestNeighbors(ivhd::IParticleSystem &ps, ivhd::IGraph &graph,
                                                                           size_t k, bool distancesEqualOne) {
         graph.initialize(ps.countParticles());

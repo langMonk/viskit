@@ -9,7 +9,7 @@
 #include <ivhd/IGraph.h>
 #include <ivhd/IParticleSystem.h>
 
-namespace ivhd { namespace cuda { namespace caster {
+namespace ivhd { namespace cuda { namespace graph {
     class FaissGraphGenerator : public ivhd::IGraphGenerator
     {
         FaissGraphGenerator() = default;
