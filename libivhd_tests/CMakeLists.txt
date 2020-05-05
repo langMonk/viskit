@@ -7,7 +7,6 @@ add_executable(libivhd_tests
         core/LoggerTest.cpp
         embed/CasterTest.cpp
         graph/GraphTest.cpp
-        graph/FaissTest.cpp
         graph/KDTreeTest.cpp
         ivhd/InteractiveVisualizationBuilderTest.cpp
         particles/ParticleData.cpp
@@ -17,7 +16,7 @@ add_executable(libivhd_tests
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/googletest/)
 
-# include ivhd
+# include ivhd and ivhd_cuda
 target_include_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR})
 target_include_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/include)
 target_include_directories(libivhd_tests PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
