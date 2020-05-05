@@ -174,4 +174,8 @@ namespace ivhd::facade
 			m_file.close();
 		}
 	}
+
+    void FacadeGraph::initialize(size_t size) {
+        m_internalGraph->initialize(size);
+    }
 }

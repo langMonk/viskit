@@ -70,4 +70,8 @@ namespace ivhd::facade
 	{
 		return m_internalParticleSystem->empty();
 	}
+
+    DatasetInfo FacadeParticleSystem::datasetInfo() {
+        return m_internalParticleSystem->datasetInfo();
+    }
 }

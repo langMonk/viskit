@@ -9,7 +9,7 @@ using namespace ivhd::cuda;
 
 __global__ void calcPositions(long n, Sample *samples)
 {
-    for (int i = blockIdx.x * blockDim.x + threadIdx.x; i < n;
+    for (auto i = blockIdx.x * blockDim.x + threadIdx.x; i < n;
     i += blockDim.x * gridDim.x) 
     {
         Sample sample = samples[i];
@@ -34,7 +34,7 @@ __global__ void calcPositions(long n, Sample *samples)
 __global__ void calcForceComponents(int compNumber, DistElem *distances,
     Sample *samples, bool finalizing)
 {
-    for (int i = blockIdx.x * blockDim.x + threadIdx.x; i < compNumber;
+    for (auto i = blockIdx.x * blockDim.x + threadIdx.x; i < compNumber;
         i += blockDim.x * gridDim.x) 
     {
         DistElem distance = distances[i];
@@ -79,13 +79,9 @@ __global__ void calcForceComponents(int compNumber, DistElem *distances,
     }
 }
 
-namespace ivhd {
-    namespace cuda {
-        namespace caster {
-            void CasterCudaAB::simul_step_cuda() {
-                calcForceComponents << < 256, 256 >> > (distances.size(), d_distances, d_samples, finalizing);
-                calcPositions << < 256, 256 >> > (positions.size(), d_samples);
-            }
-        }
+namespace ivhd { namespace cuda { namespace caster {
+    void CasterCudaAB::simul_step_cuda() {
+        calcForceComponents <<< 256, 256 >>> (distances.size(), d_distances, d_samples, finalizing);
+        calcPositions <<< 256, 256 >>> (positions.size(), d_samples);
     }
-}
+} } }

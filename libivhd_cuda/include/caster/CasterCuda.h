@@ -10,58 +10,54 @@
 
 #include "InternalStructures.h"
 
-namespace ivhd {
-    namespace cuda {
-        namespace caster {
-            class CasterCuda : public ivhd::ICaster {
-            public:
-                explicit CasterCuda() = default;;
+namespace ivhd { namespace cuda { namespace caster {
+    class CasterCuda : public ivhd::ICaster {
+    public:
+        explicit CasterCuda() = default;;
 
-            public:
-                void calculatePositions(ivhd::IParticleSystem &ps) override {};
+    public:
+        void calculatePositions(ivhd::IParticleSystem &ps) override {};
 
-                void calculateForces(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) override {};
+        void calculateForces(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) override {};
 
-                void initialize(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) override;
+        void initialize(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) override;
 
-                void step(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) override;
+        void step(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) override;
 
-                void finish() override;
+        void finalize() override;
 
-                ivhd::CasterType type() override { return ivhd::CasterType::IVHD; }
+        ivhd::CasterType type() override { return ivhd::CasterType::IVHD; }
 
-                ivhd::OptimizerType optimizerType() override { return ivhd::OptimizerType::None; }
+        ivhd::OptimizerType optimizerType() override { return ivhd::OptimizerType::None; }
 
-                virtual void simul_step_cuda() = 0;
+        virtual void simul_step_cuda() = 0;
 
-                bool allocateInitializeDeviceMemory();
+        bool allocateInitializeDeviceMemory();
 
-                bool copyResultsToHost();
+        bool copyResultsToHost();
 
-            protected:
-                void initializeHelperVectors();
+    protected:
+        void initializeHelperVectors();
 
-                virtual float getError();
+        virtual float getError();
 
-                void copyPositions();
+        void copyPositions();
 
-                int itToPosReady = -1;
-                unsigned it = 0;
+        int itToPosReady = -1;
+        unsigned it = 0;
 
-                // internal CUDA variables
-                float2 *d_positions{};
-                DistElem *d_distances{};
-                Sample *d_samples{};
-                float *d_errors{};
+        // internal CUDA variables
+        float2 *d_positions{};
+        ivhd::cuda::DistElem *d_distances{};
+        ivhd::cuda::Sample *d_samples{};
+        float *d_errors{};
 
-                std::vector<DistElem> distances{};
+        std::vector<ivhd::cuda::DistElem> distances{};
 
-                std::vector<float2> positions;
-                std::vector<glm::vec2> ivhdPositions;
-                std::function<void(float)> onError;
-                std::function<void(std::vector<glm::vec2> &)> onPositions;
+        std::vector<float2> positions;
+        std::vector<glm::vec2> ivhdPositions;
+        std::function<void(float)> onError;
+        std::function<void(std::vector<glm::vec2> &)> onPositions;
 
-            };
-        }
-    }
-}
+    };
+} } }

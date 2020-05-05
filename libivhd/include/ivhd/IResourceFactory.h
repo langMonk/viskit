@@ -35,13 +35,6 @@ namespace ivhd
 		virtual std::shared_ptr<IGraphGenerator> createGraphGenerator(GraphGeneratorType type) = 0;
 
 		/// <summary>
-		/// Creates a new GPU kNN graph generator used for creating kNN Graph.
-		/// </summary>
-		/// <param name="type"> Type of graph generator, which will be created. </param>
-		/// <returns> The created generator. </returns>
-		virtual std::shared_ptr<IGraphGenerator> createGraphGeneratorGPU(GraphGeneratorType type) = 0;
-
-		/// <summary>
 		/// Creates a new caster, that might be used for data embedding.
 		/// </summary>
 		/// <param name="type"> Type of caster, which will be created. </param>
