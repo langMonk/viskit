@@ -19,6 +19,12 @@ namespace ivhd
 	class IParticleSystem
 	{
 	public:
+        /// <summary>
+        /// Get basic information, that concerns dataset loaded to this particle system.
+        /// </summary>
+        /// <returns> Dataset information.</returns>
+        virtual DatasetInfo datasetInfo() = 0;
+
 		/// <summary>
 		/// Returns original coordinates.
 		/// </summary>

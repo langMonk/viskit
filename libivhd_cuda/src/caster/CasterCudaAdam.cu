@@ -7,14 +7,14 @@
 using namespace std;
 using namespace ivhd::cuda;
 
-#define B1 0.9
-#define B2 0.999
+#define B1 0.9f
+#define B2 0.999f
 #define EPS 0.00000001f
 #define LEARNING_RATE 0.002f
 
 __global__ void calcPositionsAdam(long n, unsigned it, Sample *samples, float4 *avarage_params) 
 {
-    for (int i = blockIdx.x * blockDim.x + threadIdx.x; i < n;
+    for (auto i = blockIdx.x * blockDim.x + threadIdx.x; i < n;
         i += blockDim.x * gridDim.x) 
     {
         Sample sample = samples[i];
@@ -47,7 +47,7 @@ __global__ void calcPositionsAdam(long n, unsigned it, Sample *samples, float4 *
 __global__ void calcForceComponentsAdam(int compNumber, DistElem *distances,
     Sample *samples) 
 {
-    for (int i = blockIdx.x * blockDim.x + threadIdx.x; i < compNumber;
+    for (auto i = blockIdx.x * blockDim.x + threadIdx.x; i < compNumber;
         i += blockDim.x * gridDim.x) 
     {
         DistElem distance = distances[i];
@@ -77,20 +77,16 @@ __global__ void calcForceComponentsAdam(int compNumber, DistElem *distances,
     }
 }
 
-namespace ivhd {
-    namespace cuda {
-        namespace caster {
-            void CasterCudaAdam::simul_step_cuda() {
-                calcForceComponentsAdam << < 256, 256 >> > (distances.size(), d_distances, d_samples);
-                calcPositionsAdam << < 256, 256 >> > (positions.size(), it, d_samples, d_average_params);
-            }
-
-            void CasterCudaAdam::initialize(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) {
-                CasterCuda::initialize(ps, graph);
-
-                cuCall(cudaMalloc(&d_average_params, positions.size() * sizeof(float4)));
-                cuCall(cudaMemset(d_average_params, 0, positions.size() * sizeof(float4)));
-            }
-        }
+namespace ivhd { namespace cuda { namespace caster {
+    void CasterCudaAdam::simul_step_cuda() {
+        calcForceComponentsAdam <<< 256, 256 >>> (distances.size(), d_distances, d_samples);
+        calcPositionsAdam <<< 256, 256 >>> (positions.size(), it, d_samples, d_average_params);
     }
-}
+
+    void CasterCudaAdam::initialize(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) {
+        CasterCuda::initialize(ps, graph);
+
+        cuCall(cudaMalloc(&d_average_params, positions.size() * sizeof(float4)));
+        cuCall(cudaMemset(d_average_params, 0, positions.size() * sizeof(float4)));
+    }
+} } }
