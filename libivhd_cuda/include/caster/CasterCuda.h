@@ -5,8 +5,8 @@
 #include <utility>
 #include <vector>
 #include <glm/glm/glm.hpp>
-#include <ivhd/ICaster.h>
-#include <ivhd/Math.h>
+#include <ICaster.h>
+#include <Math.h>
 
 #include "InternalStructures.h"
 

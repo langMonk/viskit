@@ -3,9 +3,9 @@
 //
 
 #include <vector>
-#include <utils/Math.h>
 #include <faiss/gpu/GpuIndexFlat.h>
 #include <faiss/gpu/StandardGpuResources.h>
+#include <Structures.h>
 
 #include "graph/FaissGraphGenerator.h"
 
@@ -36,9 +36,9 @@ namespace ivhd { namespace cuda { namespace graph {
         faiss::gpu::GpuIndexFlatL2 index_flat(&res, d);
         //faiss::gpu::GpuIndexIVFFlat index_ivf(&res, d, static_cast<int>(sqrt(count)), faiss::METRIC_L2);
 
-        assert(!index_flat.is_trained);
+        //assert(!index_flat.is_trained);
         index_flat.train(nb, xb.data());
-        assert(index_flat.is_trained);
+        //assert(index_flat.is_trained);
         index_flat.add(nb, xb.data());  // add vectors to the index
 
         k+=1;
@@ -67,8 +67,8 @@ namespace ivhd { namespace cuda { namespace graph {
                 }
             }
 
-            delete[] I;
-            delete[] D;
+            delete I;
+            delete D;
         }
 
         xb.clear();

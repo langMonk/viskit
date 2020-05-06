@@ -12,8 +12,8 @@
 #include "caster/Constants.h"
 #include "caster/CasterCuda.h"
 
-#include <ivhd/IParticleSystem.h>
-#include <ivhd/IGraph.h>
+#include <IParticleSystem.h>
+#include <IGraph.h>
 
 using namespace std;
 using namespace ivhd::cuda;
