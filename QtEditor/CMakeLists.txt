@@ -11,7 +11,6 @@ endif (MSVC)
 find_package(Qt5 REQUIRED Widgets Gui Core)
 find_package(OpenGL REQUIRED)
 find_package(Threads REQUIRED)
-find_package(CUDA REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -53,18 +52,14 @@ set(project_sources
 add_executable(${PROJECT_NAME} ${project_headers} ${project_sources} ${project_resources})
 
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/include)
-target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd_cuda/include)
+target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/include/ivhd)
+target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd_cuda/include/ivhd_cuda)
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/glew/include)
 
-if (MSVC)
-    target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/cmake-build-${CMAKE_BUILD_TYPE}-msvc-x64)
-    target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/)
-    target_link_libraries(${PROJECT_NAME} Threads::Threads soil/SOIL2_x64 glew/lib/Release/x64/GLEW32 opengl32 Qt5::Widgets Qt5::Gui Qt5::Core libivhd libivhd_cuda)
-else (UNIX)
-    target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../build/libivhd/)
-    target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/)
-    target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core faiss libivhd libivhd_cuda )
-endif()
+target_link_directories(${PROJECT_NAME} PRIVATE /usr/local/lib)
+target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../build/libivhd/)
+target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../build/libivhd_cuda/)
+
+target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libivhd libivhd_cuda)
 

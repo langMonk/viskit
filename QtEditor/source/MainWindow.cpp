@@ -45,8 +45,8 @@ void MainWindow::initializeIVHDResources()
 	m_graph = m_ivhd->resourceFactory().createGraph();
 	
 	// create collections
-	m_casters = ivhd::createResourceCollection<ivhd::ICaster>();
-	m_generators = ivhd::createResourceCollection<ivhd::IGraphGenerator>();
+	m_casters = std::make_shared<ivhd::ResourceCollection<ivhd::ICaster>>();
+    m_generators = std::make_shared<ivhd::ResourceCollection<ivhd::IGraphGenerator>>();
 
 	// add resources to collections
 	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
@@ -58,8 +58,8 @@ void MainWindow::initializeIVHDResources()
 
 
 	//const auto casterMomentumGpu = m_ivhd->resourceFactory().createCasterGPU(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
-	const auto gpuFactory = ivhd::cuda::IGpuFactory::create();
-    const auto casterMomentumGpu = gpuFactory->createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
+	m_gpuFactory = ivhd::cuda::IGpuFactory::create();
+    const auto casterMomentumGpu = m_gpuFactory->createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
     
 	m_casters->add("Random", casterRandom);
 	m_casters->add("Momentum", casterMomentum);
@@ -70,10 +70,11 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("[GPU] Momentum", casterMomentumGpu);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
-	const auto faissGenerator = m_ivhd->resourceFactory().createGraphGeneratorGPU(ivhd::GraphGeneratorType::Faiss);
+
+	const auto faissGenerator = m_gpuFactory->createGraphGenerator(ivhd::GraphGeneratorType::Faiss);
 
 	m_generators->add("Brute Force", bruteGenerator);
-	m_generators->add("FAISS", faissGenerator);
+	m_generators->add("[GPU] FAISS", faissGenerator);
 
 	// set default resources
 	setCurrentCaster(casterRandom);
@@ -158,12 +159,24 @@ void MainWindow::on_pushButton_CastingStop_clicked()
 	m_running = false;
 }
 
-void MainWindow::on_pushButton_GraphGenerate_clicked() const
-{
+void MainWindow::on_pushButton_GraphGenerate_clicked() {
 	if (m_currentGraphGenerator != nullptr)
 	{
-        m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
-        m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
+        if(ui.comboBox_GraphSetup->currentText().toStdString().find("[GPU]"))
+        {
+            m_currentCaster->initialize(*m_particleSystem, *m_graph);
+            m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
+            auto temp = m_currentGraphGenerator;
+            setCurrentGraphGenerator(m_generators->find("Brute Force"));
+            m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
+            setCurrentGraphGenerator(temp);
+        }
+        else
+        {
+            m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
+            m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
+        }
+
         m_graph->saveToCache(R"(./mnist.knn)");
 
         /*if(!m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph"))

@@ -1,18 +1,20 @@
 #pragma once
 
-#include <ivhd/InteractiveVisualizationBuilder.h>
-#include <ivhd/IParser.h>
-#include <ivhd/ICaster.h>
-#include <ivhd/IGraphGenerator.h>
-#include <ivhd/IGraph.h>
-#include <ivhd/IResourceCollection.h>
-#include <ivhd/IResourceFactory.h>
-#include <ivhd/IParticleSystem.h>
+#include <InteractiveVisualizationBuilder.h>
+#include <IParser.h>
+#include <ICaster.h>
+#include <IGraphGenerator.h>
+#include <IGraph.h>
+#include <ResourceCollection.h>
+#include <IResourceFactory.h>
+#include <IParticleSystem.h>
 
-#include <ivhd_cuda/IGpuFactory.h>
+#include <IGpuFactory.h>
 
 #include <QMainWindow>
 #include "ui_MainWindow.h"
+
+
 
 class OpenGLRenderer;
 
@@ -48,7 +50,7 @@ private slots:
 	void on_pushButton_Exit_clicked();
 	void on_pushButton_CastingRun_clicked();
 	void on_pushButton_CastingStop_clicked();
-	void on_pushButton_GraphGenerate_clicked() const;
+	void on_pushButton_GraphGenerate_clicked();
 	void on_comboBox_CastingSetup_activated();
 	void on_comboBox_GraphSetup_activated();
 	void on_actionReset_View_clicked();
@@ -68,10 +70,11 @@ private:
 	glm::vec4 bounding_box_max;
 	
 	std::shared_ptr<ivhd::IInteractiveVisualization> m_ivhd;
+    std::shared_ptr<ivhd::cuda::IGpuFactory> m_gpuFactory;
 
 	// IVHD collections and current resources
-	std::shared_ptr<ivhd::IResourceCollection<ivhd::ICaster>> m_casters;
-	std::shared_ptr<ivhd::IResourceCollection<ivhd::IGraphGenerator>> m_generators;
+	std::shared_ptr<ivhd::ResourceCollection<ivhd::ICaster>> m_casters;
+	std::shared_ptr<ivhd::ResourceCollection<ivhd::IGraphGenerator>> m_generators;
 
 	std::shared_ptr<ivhd::ICaster> m_currentCaster{ nullptr };
 	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator{ nullptr };

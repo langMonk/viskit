@@ -35,7 +35,6 @@ add_library(${PROJECT_NAME}
         include/facade/FacadeParser.h
         include/facade/FacadeParserCSV.h
         include/facade/FacadeParticleSystem.h
-        include/facade/FacadeResourceCollection.h
         include/facade/FacadeResourceFactory.h
         include/facade/FacadeTransformer.h
         include/graph/generate/BoundedPQueue.h
@@ -55,7 +54,7 @@ add_library(${PROJECT_NAME}
         include/ivhd/IParser.h
         include/ivhd/IParticleSystem.h
         include/ivhd/IReducer.h
-        include/ivhd/IResourceCollection.h
+        include/ivhd/ResourceCollection.h
         include/ivhd/IResourceFactory.h
         include/ivhd/ISetting.h
         include/ivhd/ITransformer.h
@@ -119,6 +118,7 @@ add_library(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include/ivhd)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CUDA_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} pthread)
