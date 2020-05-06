@@ -1,9 +1,11 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 18.04.2019
+/// \date 18.02.2019
 ///
 
 #pragma once
+
+#include <vector>
 
 namespace ivhd
 {

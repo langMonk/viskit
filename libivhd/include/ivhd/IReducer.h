@@ -1,5 +1,3 @@
-#pragma once
-
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
 /// \date 08.05.2019
