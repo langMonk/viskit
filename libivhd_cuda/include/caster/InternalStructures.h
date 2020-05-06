@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cuda_runtime.h>
-#include <ivhd/Structures.h>
+#include <Structures.h>
 
 namespace ivhd { namespace cuda {
     struct Sample {
