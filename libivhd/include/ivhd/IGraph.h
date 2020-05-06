@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <ivhd/Structures.h>
+#include <Structures.h>
 
 namespace ivhd
 {

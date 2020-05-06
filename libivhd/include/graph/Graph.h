@@ -17,7 +17,7 @@ namespace ivhd::graph
 	{
 		// public construction and destruction methods
 	public:
-		Graph(core::System& system);
+		explicit Graph(core::System& system);
 
 		// public methods
 	public:
@@ -55,7 +55,7 @@ namespace ivhd::graph
 
 		std::vector<std::vector<Neighbors>> m_data;
 
-		int m_nearestNeighborsCount, m_randomNeighborsCount;
+		int m_nearestNeighborsCount{}, m_randomNeighborsCount{};
 	};
 }
 

@@ -6,8 +6,8 @@
 #pragma once
 
 #include <vector>
-#include "particles/ParticleData.h"
-#include "ivhd/Structures.h"
+#include "Structures.h"
+#include "glm/glm/glm.hpp"
 
 namespace ivhd
 {
