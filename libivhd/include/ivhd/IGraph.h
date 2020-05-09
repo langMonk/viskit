@@ -41,6 +41,19 @@ namespace ivhd
 		/// <param name="neighbors"> Neighbors to add.</param>
         virtual void addNeighbors(std::vector<Neighbors> neighbors) = 0;
 
+        /// <summary>
+        /// Set random neighbors count
+        /// </summary>
+        /// <param name="rn"> Number of random neighbors generated for each .</param>
+        /// <returns> Number of neighbors in graph structure. </returns>
+        virtual void randomNeighborsCount(size_t rn) = 0;
+
+        /// <summary>
+        /// Set nearest neighbors count
+        /// </summary>
+        /// <returns> Number of neighbors in graph structure. </returns>
+        virtual void nearestNeighborsCount(size_t nn) = 0;
+
 		/// <summary>
 		/// Get overall neighbors count
         /// Eg. We have 7000 data points and we calculate 3 NN for each -> neighborsCount() = 7000, size() = 21000

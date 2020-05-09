@@ -44,7 +44,7 @@ namespace ivhd::graph::generate
 			{
 				for (auto& element : near)
 				{
-					element.r = 1.0f;
+					element.r = 0.0f;
 				}
 			}
 

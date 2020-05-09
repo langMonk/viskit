@@ -43,7 +43,7 @@ namespace ivhd::particles
 
 		void setDataset(Dataset dataset, const std::vector<DataPointLabel>& labels);
 
-		std::vector<DataPointLabel> labels() { return m_labels; };
+		std::vector<DataPointLabel> labels();
 
 		void resetForces();
 

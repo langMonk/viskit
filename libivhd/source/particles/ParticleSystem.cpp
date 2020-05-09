@@ -49,7 +49,19 @@ namespace ivhd::particles
 		}
 	}
 
-	void ParticleSystem::resetForces()
+    std::vector<size_t> ParticleSystem::labels()
+    {
+	    std::vector<DataPointLabel> labels;
+        labels.reserve(m_originalDataset.size());
+
+        for (auto& point : m_originalDataset)
+        {
+            labels.emplace_back(point.second);
+        }
+        return labels;
+    }
+
+    void ParticleSystem::resetForces()
 	{
 		for(auto i = 0; i < countParticles(); i++)
 		{
