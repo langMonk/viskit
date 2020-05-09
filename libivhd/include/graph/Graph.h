@@ -40,7 +40,7 @@ namespace ivhd::graph
 		bool saveToCache(const std::string& fileName);
 
 		bool loadFromCache(const std::string& fileName);
-		
+
 		void nearestNeighborsCount(int nn){m_nearestNeighborsCount = nn;}
 
 		int nearestNeighborsCount(){return m_nearestNeighborsCount;}

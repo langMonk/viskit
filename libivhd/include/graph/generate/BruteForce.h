@@ -20,7 +20,7 @@ namespace ivhd::graph::generate
 
 		// public methods
 	public:
-		void generateNearestNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k = 0, bool distancesEqualOne = true) override;
+		void generateNearestNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne) override;
 		
 	private:
 		static void addMinDist(std::vector<Neighbors>& n, float new_r, size_t pi, size_t pj, bool sort);
