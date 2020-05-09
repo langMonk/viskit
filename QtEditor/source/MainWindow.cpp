@@ -5,6 +5,8 @@
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
 
+#define HEAP_LIMIT 100000000
+
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -84,17 +86,17 @@ void MainWindow::initializeIVHDResources()
 void MainWindow::initializeEditorElements()
 {
 	// casters
-	m_casters->iterate([&](std::string name) {
+	m_casters->iterate([&](const std::string& name) {
 		ui.comboBox_CastingSetup->addItem(QString::fromStdString(name));
 	});
 
 	// graph generators
-	m_generators->iterate([&](std::string name) {
+	m_generators->iterate([&](const std::string& name) {
 		ui.comboBox_GraphSetup->addItem(QString::fromStdString(name));
 	});
 }
 
-void MainWindow::on_pushButton_Open_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_Open_clicked()
 {
 	if (!m_particleSystem->empty())
 	{
@@ -128,19 +130,18 @@ void MainWindow::on_pushButton_Exit_clicked()
 
 void MainWindow::on_pushButton_CastingRun_clicked()
 {
-	if (m_currentCaster != nullptr)
-	{
-		m_ivhd->subscribeOnCastingStepFinish([&]()
-		{
+	if (m_currentCaster != nullptr) {
+        m_currentCaster->initialize(*m_particleSystem, *m_graph);
 
-		});
+        for (int i = 0; i < 10400; i++)
+        {
+            m_currentCaster->step(*m_particleSystem, *m_graph);
+        }
 
-		if(ui.comboBox_CastingSetup->currentText().toStdString().find("[GPU]"))
-		{
-			m_currentCaster->initialize(*m_particleSystem, *m_graph);
-		}
-		m_ivhd->startCasting(*m_particleSystem, *m_graph, *m_currentCaster);
-		m_running = true;
+        m_currentCaster->finalize();
+
+//		m_ivhd->startCasting(*m_particleSystem, *m_graph, *m_currentCaster);
+//		m_running = true;
 	}
 	else
 	{
@@ -162,20 +163,23 @@ void MainWindow::on_pushButton_CastingStop_clicked()
 void MainWindow::on_pushButton_GraphGenerate_clicked() {
 	if (m_currentGraphGenerator != nullptr)
 	{
-        if(ui.comboBox_GraphSetup->currentText().toStdString().find("[GPU]"))
-        {
-            m_currentCaster->initialize(*m_particleSystem, *m_graph);
-            m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
-            auto temp = m_currentGraphGenerator;
-            setCurrentGraphGenerator(m_generators->find("Brute Force"));
-            m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
-            setCurrentGraphGenerator(temp);
-        }
-        else
-        {
-            m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
-            m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
-        }
+//        if(ui.comboBox_GraphSetup->currentText().toStdString().find("[GPU]"))
+//        {
+
+        m_currentCaster->initialize(*m_particleSystem, *m_graph);
+        m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
+        auto temp = m_currentGraphGenerator;
+        setCurrentGraphGenerator(m_generators->find("Brute Force"));
+        m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
+        m_graph->randomNeighborsCount(1);
+        setCurrentGraphGenerator(temp);
+
+//        }
+//        else
+//        {
+//            m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
+//            m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
+//        }
 
         m_graph->saveToCache(R"(./mnist.knn)");
 
