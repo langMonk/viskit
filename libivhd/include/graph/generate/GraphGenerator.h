@@ -20,9 +20,9 @@ namespace ivhd::graph::generate
 		GraphGenerator(const GraphGenerator&) = delete;
 		GraphGenerator& operator=(const GraphGenerator&) = delete;
 
-		virtual void generateRandomNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k = 0, bool distancesEqualOne = true);
+		virtual void generateRandomNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne);
 
-		virtual void generateNearestNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k = 0, bool distancesEqualOne = true) {};
+		virtual void generateNearestNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne) {};
 
 	protected:
 		static bool alreadyNeighbors(size_t index1, size_t index2, Graph& graph);

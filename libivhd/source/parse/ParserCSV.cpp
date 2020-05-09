@@ -35,7 +35,7 @@ namespace ivhd::parse
 
 	}
 
-	void ParserCSV::loadFile(std::string filePath, particles::ParticleSystem& ps)
+	void ParserCSV::loadFile(const std::string& filePath, particles::ParticleSystem& ps)
 	{
 		auto data = ps.calculationData();
 		auto input = std::ifstream(filePath.c_str());
@@ -56,7 +56,7 @@ namespace ivhd::parse
 		}
 
 		bool firstLine = true, secondLine = true;
-		std::string line = "";
+		std::string line;
 
 		particles::Dataset dataset;
 		std::vector<particles::DataPointLabel> labels;

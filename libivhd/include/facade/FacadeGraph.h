@@ -38,6 +38,10 @@ namespace ivhd::facade
 		
 		void addNeighbors(std::vector<Neighbors> neighbors) override;
 
+		void randomNeighborsCount(size_t rn) override { m_internalGraph->randomNeighborsCount(rn); }
+
+        void nearestNeighborsCount(size_t nn) override { m_internalGraph->nearestNeighborsCount(nn); }
+
 		size_t neighborsCount() override;
 
 		size_t size() override;
