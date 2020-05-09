@@ -9,7 +9,7 @@
 #include <IGraph.h>
 #include <IParticleSystem.h>
 
-namespace ivhd { namespace cuda { namespace graph {
+namespace ivhd::cuda::graph {
     class FaissGraphGenerator : public ivhd::IGraphGenerator
     {
     public:
@@ -21,4 +21,4 @@ namespace ivhd { namespace cuda { namespace graph {
         void generateRandomNeighbors(ivhd::IParticleSystem& ps, ivhd::IGraph& graph, size_t k,
                 bool distancesEqualOne) override;
     };
-} } }
+}
