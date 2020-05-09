@@ -9,7 +9,7 @@
 
 #include "graph/FaissGraphGenerator.h"
 
-namespace ivhd { namespace cuda { namespace graph {
+namespace ivhd::cuda::graph {
     void FaissGraphGenerator::generateNearestNeighbors(ivhd::IParticleSystem &ps, ivhd::IGraph &graph,
                                                                           size_t k, bool distancesEqualOne) {
         graph.initialize(ps.countParticles());
@@ -61,17 +61,18 @@ namespace ivhd { namespace cuda { namespace graph {
                         }
                         else
                         {
-                            graph.addNeighbors(Neighbors(i, index, 1.0f, NeighborsType::Near));
+                            graph.addNeighbors(Neighbors(i, index, 0.0f, NeighborsType::Near));
                         }
                     }
                 }
             }
 
-            delete I;
-            delete D;
+            delete[] I;
+            delete[] D;
         }
 
         xb.clear();
+        graph.nearestNeighborsCount(k);
     }
 
     void FaissGraphGenerator::generateRandomNeighbors(IParticleSystem &ps, IGraph &graph, size_t k,
@@ -79,4 +80,4 @@ namespace ivhd { namespace cuda { namespace graph {
 
 
     }
-} } }
+}
