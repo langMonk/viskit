@@ -47,17 +47,17 @@ namespace ivhd { namespace cuda { namespace caster {
         unsigned it = 0;
 
         // internal CUDA variables
-        float2 *d_positions{};
-        ivhd::cuda::DistElem *d_distances{};
-        ivhd::cuda::Sample *d_samples{};
-        float *d_errors{};
+        float2* d_positions{};
+        ivhd::cuda::DistElem* d_distances{};
+        ivhd::cuda::Sample* d_samples{};
+        float* d_errors{};
 
         std::vector<ivhd::cuda::DistElem> distances{};
 
-        std::vector<float2> positions;
-        std::vector<glm::vec2> ivhdPositions;
+        std::vector<float2> positions{};
+        std::vector<size_t> labels{};
         std::function<void(float)> onError;
-        std::function<void(std::vector<glm::vec2> &)> onPositions;
+        std::function<void(std::vector<float2> &)> onPositions;
 
     };
 } } }

@@ -19,6 +19,6 @@ namespace ivhd { namespace cuda { namespace caster {
         void simul_step_cuda() override;
 
     private:
-        float4 *d_average_params{};
+        float4* d_average_params{};
     };
 } } }

@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cstring>
 #include <iostream>
+#include <fstream>
 #include <unordered_map>
 #include <thrust/execution_policy.h>
 #include <thrust/device_ptr.h>
@@ -18,58 +19,59 @@
 using namespace std;
 using namespace ivhd::cuda;
 
-// initialize pos in Samples
-// initialize num_components
-__global__ void initializeSamples(int n, Sample *samples, float2 *positions,
-    const short *sampleFreq)
-{
-    unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
-    if (i < n) 
-    {
-        Sample sample{};
-        sample.pos = positions[i];
-        sample.v = {0, 0};
-        sample.num_components = sampleFreq[i];
-        // FIXME - malloc can return NULL
-        sample.components =
-            (float2 *)malloc(sample.num_components * sizeof(float2));
-        samples[i] = sample;
-    }
-}
+#define HEAP_LIMIT 100000000
 
-__global__ void initializeDistances(int nDst, DistElem *distances,
-    short2 *dstIndexes, Sample *samples) 
-{
-    unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
-    if (i < nDst) 
-    {
-        DistElem dst = distances[i];
-        dst.comp1 = &samples[dst.i].components[dstIndexes[i].x];
-        dst.comp2 = &samples[dst.j].components[dstIndexes[i].y];
-        distances[i] = dst;
-    }
-}
-
-__global__ void copyDevicePos(int N, Sample *samples, float2 *positions) 
-{
-    unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
-    if (i < N) 
-    {
-        positions[i] = samples[i].pos;
-    }
-}
-
-__global__ void copyPosRelease(int N, Sample *samples, float2 *positions) 
-{
-    unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
-    if (i < N) 
-    {
-        positions[i] = samples[i].pos;
-        free(samples[i].components);
-    }
-}
 
 namespace ivhd { namespace cuda { namespace caster {
+    __global__ void initializeSamples(int n, Sample *samples, float2 *positions,
+        const short *sampleFreq)
+    {
+        unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
+        if (i < n)
+        {
+            Sample sample{};
+            sample.pos = positions[i];
+            sample.v = {0, 0};
+            sample.num_components = sampleFreq[i];
+            // FIXME - malloc can return NULL
+            sample.components =
+                (float2*)malloc(sample.num_components * sizeof(float2));
+            samples[i] = sample;
+        }
+    }
+
+    __global__ void initializeDistances(int nDst, DistElem *distances,
+        short2 *dstIndexes, Sample *samples)
+    {
+        unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
+        if (i < nDst)
+        {
+            DistElem dst = distances[i];
+            dst.comp1 = &samples[dst.i].components[dstIndexes[i].x];
+            dst.comp2 = &samples[dst.j].components[dstIndexes[i].y];
+            distances[i] = dst;
+        }
+    }
+
+    __global__ void copyDevicePos(int N, Sample *samples, float2 *positions)
+    {
+        unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
+        if (i < N)
+        {
+            positions[i] = samples[i].pos;
+        }
+    }
+
+    __global__ void copyPosRelease(int N, Sample *samples, float2 *positions)
+    {
+        unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
+        if (i < N)
+        {
+            positions[i] = samples[i].pos;
+            free(samples[i].components);
+        }
+    }
+
     void CasterCuda::initializeHelperVectors() {
         /*
         * calculate number of distances for each sample and index of each distance
@@ -129,26 +131,54 @@ namespace ivhd { namespace cuda { namespace caster {
     }
 
     void CasterCuda::initialize(ivhd::IParticleSystem &ps, ivhd::IGraph &graph) {
-        auto internalPositions = ps.positions();
-        auto n = ps.countParticles();
+        cudaDeviceSetLimit(cudaLimitMallocHeapSize, HEAP_LIMIT);
 
-        positions.resize(n);
-        internalPositions.resize(n);
+        int nDevices;
+
+        cudaGetDeviceCount(&nDevices);
+        for (int i = 0; i < nDevices; i++) {
+            cudaDeviceProp prop{};
+            cudaGetDeviceProperties(&prop, i);
+            printf("Device Number: %d\n", i);
+            printf("Device name: %s\n", prop.name);
+            printf("Memory Clock Rate (KHz): %d\n",
+                   prop.memoryClockRate);
+            printf("Memory Bus Width (bits): %d\n",
+                   prop.memoryBusWidth);
+            printf("Peak Memory Bandwidth (GB/s): %f\n\n",
+                   2.0*prop.memoryClockRate*(prop.memoryBusWidth/8)/1.0e6);
+        }
+
+        labels = ps.labels();
 
         onError = [&](float err) -> void {
         };
 
-        onPositions = [&](vector<glm::vec2> &pos) -> void {
-            for (unsigned i = 0; i < pos.size(); i++) {
-                internalPositions[i].x = pos[i].x;
-                internalPositions[i].y = pos[i].y;
+//        onPositions = [&](vector<float2> &pos) -> void {
+//            auto ivhdPositions = ps.positions();
+//            for (unsigned i = 0; i < pos.size(); i++) {
+//                ivhdPositions[i].x = pos[i].x;
+//                ivhdPositions[i].y = pos[i].y;
+//            }
+//        };
+
+        onPositions = [&](vector<float2>& pos) -> void {
+            ofstream posFile;
+            posFile.open("mnist_positions");
+
+            for (auto& po : pos) {
+                posFile << po.x << " " << po.y << " " << endl;
             }
+            posFile.close();
         };
 
         // initialize positions
-        for (auto i = 0; i < internalPositions.size(); i++) {
-            positions[i].x = internalPositions[i].x;
-            positions[i].y = internalPositions[i].y;
+        auto ivhdPositions = ps.positions();
+        positions.resize(ps.countParticles());
+
+        for (auto i = 0; i < ivhdPositions.size(); i++) {
+            positions[i].x = ivhdPositions[i].x;
+            positions[i].y = ivhdPositions[i].y;
         }
 
         // initialize distances
@@ -156,15 +186,25 @@ namespace ivhd { namespace cuda { namespace caster {
             auto neighbors = graph.getNeighbors(index);
 
             for (auto neighbor : neighbors) {
-                distances.emplace_back(neighbor.i, neighbor.j, neighbor.type, neighbor.r);
+                distances.emplace_back(DistElem(neighbor.i, neighbor.j, neighbor.type, neighbor.r));
             }
         }
 
         allocateInitializeDeviceMemory();
+        cudaDeviceSynchronize();
     }
 
     void CasterCuda::finalize() {
         copyResultsToHost();
+        cudaDeviceSynchronize();
+
+        ofstream labelsFile;
+        labelsFile.open("mnist_labels");
+
+        for (auto& label : labels) {
+            labelsFile << label << endl;
+        }
+        labelsFile.close();
     }
 
     void CasterCuda::copyPositions() {
@@ -172,11 +212,6 @@ namespace ivhd { namespace cuda { namespace caster {
                 d_samples, d_positions);
         cuCall(cudaMemcpy(&positions[0], d_positions,
                           sizeof(float2) * positions.size(), cudaMemcpyDeviceToHost));
-
-        for (auto i = 0; i < positions.size(); i++) {
-            ivhdPositions[i].x = positions[i].x;
-            ivhdPositions[i].y = positions[i].y;
-        }
     }
 
     bool CasterCuda::copyResultsToHost() {
@@ -223,8 +258,7 @@ namespace ivhd { namespace cuda { namespace caster {
         }
 
         if ((itToPosReady--) == 0) {
-
-            onPositions(ivhdPositions);
+            onPositions(positions);
         }
 
         if (it % 2000 == 0) {
