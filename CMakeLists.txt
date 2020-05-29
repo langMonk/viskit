@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 enable_testing()
 
-add_subdirectory( libivhd )
-add_subdirectory( libivhd_tests )
+add_subdirectory(libviskit)
+add_subdirectory(libviskit_tests)
 add_subdirectory( libivhd_cuda )
 add_subdirectory( QtEditor )

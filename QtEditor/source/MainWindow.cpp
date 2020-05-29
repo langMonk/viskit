@@ -133,15 +133,13 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 	if (m_currentCaster != nullptr) {
         m_currentCaster->initialize(*m_particleSystem, *m_graph);
 
-        for (int i = 0; i < 10400; i++)
-        {
-            m_currentCaster->step(*m_particleSystem, *m_graph);
-        }
+//        for (int i = 0; i < 10400; i++)
+//        {
+//            m_currentCaster->step(*m_particleSystem, *m_graph);
+//        }
 
-        m_currentCaster->finalize();
-
-//		m_ivhd->startCasting(*m_particleSystem, *m_graph, *m_currentCaster);
-//		m_running = true;
+		m_ivhd->startCasting(*m_particleSystem, *m_graph, *m_currentCaster);
+		m_running = true;
 	}
 	else
 	{
@@ -155,6 +153,7 @@ void MainWindow::on_pushButton_CastingStop_clicked()
 	if(m_running)
 	{
 		m_ivhd->stopCasting();
+        m_currentCaster->finalize();
 	}
 
 	m_running = false;
@@ -166,7 +165,6 @@ void MainWindow::on_pushButton_GraphGenerate_clicked() {
 //        if(ui.comboBox_GraphSetup->currentText().toStdString().find("[GPU]"))
 //        {
 
-        m_currentCaster->initialize(*m_particleSystem, *m_graph);
         m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
         auto temp = m_currentGraphGenerator;
         setCurrentGraphGenerator(m_generators->find("Brute Force"));
