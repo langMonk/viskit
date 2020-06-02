@@ -50,6 +50,7 @@ private slots:
     [[maybe_unused]] void on_pushButton_Open_clicked();
     [[maybe_unused]] void on_pushButton_Exit_clicked();
     [[maybe_unused]] void on_pushButton_CastingRun_clicked();
+
     [[maybe_unused]] void on_pushButton_CastingStop_clicked();
     [[maybe_unused]] void on_pushButton_GraphGenerate_clicked();
     [[maybe_unused]] void on_comboBox_CastingSetup_activated();
@@ -60,15 +61,15 @@ private slots:
 
 	// Qt resources
 private:
-	Ui::MainWindow ui;
+	Ui::MainWindow ui{};
 	OpenGLRenderer* m_renderer{ nullptr };
 
 	bool m_running{ false };
 
 	// IVHD resources
 private:
-	glm::vec4 bounding_box_min;
-	glm::vec4 bounding_box_max;
+	glm::vec4 bounding_box_min{};
+	glm::vec4 bounding_box_max{};
 	
 	std::shared_ptr<ivhd::IInteractiveVisualization> m_ivhd;
     std::shared_ptr<ivhd::cuda::IGpuFactory> m_gpuFactory;

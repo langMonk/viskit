@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
-project(QtEditor CUDA)
+project(QtEditor)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -58,8 +58,8 @@ target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/glew/include)
 
 target_link_directories(${PROJECT_NAME} PRIVATE /usr/local/lib)
-target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../build/libviskit/)
-target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../build/libivhd_cuda/)
+target_link_directories(${PROJECT_NAME} PRIVATE /cmake-build-release/libivhd_cuda/)
+target_link_directories(${PROJECT_NAME} PRIVATE /cmake-build-release/libviskit/)
 
-target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libivhd libivhd_cuda)
+target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libviskit libivhd_cuda )
 
