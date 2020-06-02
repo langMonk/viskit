@@ -1,9 +1,6 @@
 #include <QFileDialog>
-#include <iostream>
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
-
-#define HEAP_LIMIT 100000000
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
@@ -44,10 +41,6 @@ void MainWindow::initializeIVHDResources()
 	m_particleSystem = m_ivhd->resourceFactory().createParticleSystem();
 	m_graph = m_ivhd->resourceFactory().createGraph();
 
-	// create GPU resource factory
-    m_gpuFactory = ivhd::cuda::IGpuFactory::create();
-
-
     // create collections
 	m_casters = std::make_shared<ivhd::ResourceCollection<ivhd::ICaster>>();
     m_generators = std::make_shared<ivhd::ResourceCollection<ivhd::IGraphGenerator>>();
@@ -60,7 +53,6 @@ void MainWindow::initializeIVHDResources()
 	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adadelta);
 	const auto casterAdam = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adam);
 	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Nesterov);
-    const auto casterMomentumGpu = m_gpuFactory->createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
 
 	m_casters->add("Random", casterRandom);
 	m_casters->add("Momentum", casterMomentum);
@@ -68,13 +60,10 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("Adadelta", casterAdadelta);
 	m_casters->add("Adam", casterAdam);
 	m_casters->add("Nesterov", casterNesterov);
-	m_casters->add("[GPU] Momentum", casterMomentumGpu);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
-	const auto faissGenerator = m_gpuFactory->createGraphGenerator(ivhd::GraphGeneratorType::Faiss);
 
 	m_generators->add("Brute Force", bruteGenerator);
-	m_generators->add("[GPU] FAISS", faissGenerator);
 
 	// set default resources
 	setCurrentCaster(casterRandom);
@@ -121,16 +110,23 @@ void MainWindow::initializeEditorElements()
 	setCentralWidget(m_renderer);
 }
 
-void MainWindow::on_pushButton_Exit_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_Exit_clicked()
 {
 	close();
 }
 
-void MainWindow::on_pushButton_CastingRun_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_CastingRun_clicked()
 {
 	if (m_currentCaster != nullptr) {
         m_currentCaster->initialize(*m_particleSystem, *m_graph);
+        m_running = true;
 
+        m_castingThread = std::thread([&]() {
+            while(m_running)
+            {
+                m_currentCaster->step(*m_particleSystem, *m_graph);
+            }
+        });
 	}
 	else
 	{
@@ -139,17 +135,18 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 
 }
 
-void MainWindow::on_pushButton_CastingStop_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_CastingStop_clicked()
 {
 	if(m_running)
 	{
+        m_castingThread.join();
         m_currentCaster->finalize();
 	}
 
 	m_running = false;
 }
 
-void MainWindow::on_pushButton_GraphGenerate_clicked() {
+[[maybe_unused]] void MainWindow::on_pushButton_GraphGenerate_clicked() {
 	if (m_currentGraphGenerator != nullptr)
 	{
 //        if(ui.comboBox_GraphSetup->currentText().toStdString().find("[GPU]"))
@@ -184,7 +181,7 @@ void MainWindow::on_pushButton_GraphGenerate_clicked() {
 	}
 }
 
-void MainWindow::on_pushButton_GraphOpen_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_GraphOpen_clicked()
 {
 	if (!m_particleSystem->empty())
 	{
@@ -204,18 +201,18 @@ void MainWindow::on_pushButton_GraphOpen_clicked()
 	m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
 }
 
-void MainWindow::on_comboBox_CastingSetup_activated()
+[[maybe_unused]] void MainWindow::on_comboBox_CastingSetup_activated()
 {
 
 	setCurrentCaster(m_casters->find(ui.comboBox_CastingSetup->currentText().toStdString()));
 }
 
-void MainWindow::on_comboBox_GraphSetup_activated()
+[[maybe_unused]] void MainWindow::on_comboBox_GraphSetup_activated()
 {
 	setCurrentGraphGenerator(m_generators->find(ui.comboBox_GraphSetup->currentText().toStdString()));
 }
 
-void MainWindow::on_actionReset_View_clicked()
+[[maybe_unused]] void MainWindow::on_actionReset_View_clicked()
 {
 	calculateBoundingBox();
 }
@@ -248,7 +245,7 @@ void MainWindow::calculateBoundingBox()
 	m_renderer->setBoundingBox(bounding_box_min, bounding_box_max);
 }
 
-void MainWindow::setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster)
+void MainWindow::setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster)
 {
 	if (caster != nullptr)
 	{
@@ -256,7 +253,7 @@ void MainWindow::setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster)
 	}
 }
 
-void MainWindow::setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator)
+void MainWindow::setCurrentGraphGenerator(const std::shared_ptr<ivhd::IGraphGenerator>& generator)
 {
 	if (generator != nullptr)
 	{
