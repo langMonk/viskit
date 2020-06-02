@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
-project(QtEditor LANGUAGES CXX)
+project(QtEditor)
+
+set(CMAKE_CXX_STANDARD 17)
 
 if (MSVC)
     message("You are compiling using WINDOWS OS" ...)
@@ -50,16 +52,12 @@ set(project_sources
 add_executable(${PROJECT_NAME} ${project_headers} ${project_sources} ${project_resources})
 
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/include)
+target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libviskit/include/ivhd)
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/glew/include)
 
-if (MSVC)
-    target_link_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/cmake-build-${CMAKE_BUILD_TYPE}-msvc-x64)
-    target_link_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/)
-    target_link_libraries(${PROJECT_NAME} Threads::Threads soil/SOIL2_x64 glew/lib/Release/x64/GLEW32 opengl32 Qt5::Widgets Qt5::Gui Qt5::Core libivhd)
-else (UNIX)
-    target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd/cmake-build-${CMAKE_BUILD_TYPE})
-    target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libivhd)
-endif()
+target_link_directories(${PROJECT_NAME} PRIVATE /usr/local/lib)
+target_link_directories(${PROJECT_NAME} PRIVATE /cmake-build-release/libviskit/)
+
+target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libviskit )
 
