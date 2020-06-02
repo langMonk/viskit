@@ -2,7 +2,7 @@
 
 #include "ShaderLoader.h"
 #include "MainWindow.h"
-#include <ivhd/IParticleSystem.h>
+#include <IParticleSystem.h>
 #include <QOpenGLWidget>
 #include <QDebug>
 #include "IRenderer.h"
