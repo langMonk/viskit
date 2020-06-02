@@ -30,7 +30,7 @@ void OpenGLRenderer::initializeGL()
 		qDebug() << "Shader not working!";
 	}
 
-	if (!textureLoader::loadTexture(&m_texture, "data/particle.png"))
+	if (!textureLoader::loadTexture(&m_texture, "images/particle.png"))
 	{
 		qDebug() << "Texture not loaded properly!";
 	}

@@ -13,8 +13,8 @@
 /packages/
 
 # for clion and VS
-/libivhd/cmake-build-*/
-/libivhd/Intermediate/
+/libviskit/cmake-build-*/
+/libviskit/Intermediate/
 /libivhd_test/cmake-build-*/
 /libivhd_test/Intermediate/
 /QtEditor/cmake-build-*/

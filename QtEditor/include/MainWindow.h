@@ -1,13 +1,14 @@
 #pragma once
 
-#include <ivhd/InteractiveVisualizationBuilder.h>
-#include <ivhd/IParser.h>
-#include <ivhd/ICaster.h>
-#include <ivhd/IGraphGenerator.h>
-#include <ivhd/IGraph.h>
-#include <ivhd/IResourceCollection.h>
-#include <ivhd/IResourceFactory.h>
-#include <ivhd/IParticleSystem.h>
+#include <InteractiveVisualizationBuilder.h>
+#include <IParser.h>
+#include <ICaster.h>
+#include <IGraphGenerator.h>
+#include <IGraph.h>
+#include <ResourceCollection.h>
+#include <IResourceFactory.h>
+#include <IParticleSystem.h>
+#include <thread>
 #include <QMainWindow>
 #include "ui_MainWindow.h"
 
@@ -29,8 +30,8 @@ public:
 
 	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return *m_particleSystem; }
 
-	void setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster);
-	void setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator);
+	void setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster);
+	void setCurrentGraphGenerator(const std::shared_ptr<ivhd::IGraphGenerator>& generator);
 
 private:
 	explicit MainWindow(QWidget* parent = Q_NULLPTR);
@@ -41,38 +42,42 @@ private:
 	void initializeEditorElements();
 	
 private slots:
-	void on_pushButton_Open_clicked();
-	void on_pushButton_Exit_clicked();
-	void on_pushButton_CastingRun_clicked();
-	void on_pushButton_CastingStop_clicked();
-	void on_pushButton_GraphGenerate_clicked() const;
-	void on_comboBox_CastingSetup_activated();
-	void on_comboBox_GraphSetup_activated();
-	void on_actionReset_View_clicked();
-	void on_pushButton_GraphOpen_clicked();
+
+    [[maybe_unused]] void on_pushButton_Open_clicked();
+    [[maybe_unused]] void on_pushButton_Exit_clicked();
+    [[maybe_unused]] void on_pushButton_CastingRun_clicked();
+
+    [[maybe_unused]] void on_pushButton_CastingStop_clicked();
+    [[maybe_unused]] void on_pushButton_GraphGenerate_clicked();
+    [[maybe_unused]] void on_comboBox_CastingSetup_activated();
+    [[maybe_unused]] void on_comboBox_GraphSetup_activated();
+    [[maybe_unused]] void on_actionReset_View_clicked();
+    [[maybe_unused]] void on_pushButton_GraphOpen_clicked();
 	void calculateBoundingBox();
 
 	// Qt resources
 private:
-	Ui::MainWindow ui;
+	Ui::MainWindow ui{};
 	OpenGLRenderer* m_renderer{ nullptr };
 
 	bool m_running{ false };
 
 	// IVHD resources
 private:
-	glm::vec4 bounding_box_min;
-	glm::vec4 bounding_box_max;
+	glm::vec4 bounding_box_min{};
+	glm::vec4 bounding_box_max{};
 	
 	std::shared_ptr<ivhd::IInteractiveVisualization> m_ivhd;
 
 	// IVHD collections and current resources
-	std::shared_ptr<ivhd::IResourceCollection<ivhd::ICaster>> m_casters;
-	std::shared_ptr<ivhd::IResourceCollection<ivhd::IGraphGenerator>> m_generators;
+	std::shared_ptr<ivhd::ResourceCollection<ivhd::ICaster>> m_casters;
+	std::shared_ptr<ivhd::ResourceCollection<ivhd::IGraphGenerator>> m_generators;
 
 	std::shared_ptr<ivhd::ICaster> m_currentCaster{ nullptr };
 	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator{ nullptr };
 	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem{ nullptr };
 	std::shared_ptr<ivhd::IGraph> m_graph{ nullptr };
+
+	std::thread m_castingThread{};
 
 };
