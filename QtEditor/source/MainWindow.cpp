@@ -1,6 +1,4 @@
 #include <QFileDialog>
-#include <chrono>
-#include <fstream>
 #include <iostream>
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
@@ -22,7 +20,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 
 void MainWindow::setupIVHD()
 {
-	auto handler = [&](ivhd::LogLevel level, const std::string message)
+	auto handler = [&](ivhd::LogLevel level, const std::string& message)
 	{
 		switch (level)
 		{
@@ -45,10 +43,15 @@ void MainWindow::initializeIVHDResources()
 	// create particle system and graph
 	m_particleSystem = m_ivhd->resourceFactory().createParticleSystem();
 	m_graph = m_ivhd->resourceFactory().createGraph();
-	
-	// create collections
+
+	// create GPU resource factory
+    m_gpuFactory = ivhd::cuda::IGpuFactory::create();
+
+
+    // create collections
 	m_casters = std::make_shared<ivhd::ResourceCollection<ivhd::ICaster>>();
     m_generators = std::make_shared<ivhd::ResourceCollection<ivhd::IGraphGenerator>>();
+
 
 	// add resources to collections
 	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
@@ -57,12 +60,8 @@ void MainWindow::initializeIVHDResources()
 	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adadelta);
 	const auto casterAdam = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adam);
 	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Nesterov);
-
-
-	//const auto casterMomentumGpu = m_ivhd->resourceFactory().createCasterGPU(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
-	m_gpuFactory = ivhd::cuda::IGpuFactory::create();
     const auto casterMomentumGpu = m_gpuFactory->createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
-    
+
 	m_casters->add("Random", casterRandom);
 	m_casters->add("Momentum", casterMomentum);
 	m_casters->add("Force Directed", casterForceDirected);
@@ -72,7 +71,6 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("[GPU] Momentum", casterMomentumGpu);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
-
 	const auto faissGenerator = m_gpuFactory->createGraphGenerator(ivhd::GraphGeneratorType::Faiss);
 
 	m_generators->add("Brute Force", bruteGenerator);
@@ -133,13 +131,6 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 	if (m_currentCaster != nullptr) {
         m_currentCaster->initialize(*m_particleSystem, *m_graph);
 
-//        for (int i = 0; i < 10400; i++)
-//        {
-//            m_currentCaster->step(*m_particleSystem, *m_graph);
-//        }
-
-		m_ivhd->startCasting(*m_particleSystem, *m_graph, *m_currentCaster);
-		m_running = true;
 	}
 	else
 	{
@@ -152,7 +143,6 @@ void MainWindow::on_pushButton_CastingStop_clicked()
 {
 	if(m_running)
 	{
-		m_ivhd->stopCasting();
         m_currentCaster->finalize();
 	}
 

@@ -6,6 +6,7 @@
 #pragma once
 
 #include <map>
+#include <limits>
 
 #include "ivhd/Structures.h"
 
@@ -22,15 +23,15 @@ namespace ivhd::graph::generate
 		size_t dequeueMin();
 		std::pair<float, DataPoint> dequeuePoint();
 
-		std::size_t size() const;
-		std::size_t pointSize() const;
-		bool empty() const;
-		bool emptyPoints() const;
+		[[nodiscard]] std::size_t size() const;
+		[[nodiscard]] std::size_t pointSize() const;
+		[[nodiscard]] bool empty() const;
+		[[nodiscard]] bool emptyPoints() const;
 
-		std::size_t maxSize() const;
+        [[nodiscard]] std::size_t maxSize() const;
 
-		double best()  const;
-		double worst() const;
+        [[nodiscard]] double best()  const;
+        [[nodiscard]] double worst() const;
 
 	private:
 

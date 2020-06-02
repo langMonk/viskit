@@ -8,5 +8,4 @@ enable_testing()
 
 add_subdirectory(libviskit)
 add_subdirectory(libviskit_tests)
-add_subdirectory( libivhd_cuda )
-add_subdirectory( QtEditor )
+add_subdirectory(QtEditor)
