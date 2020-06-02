@@ -1,7 +1,4 @@
 #include <QFileDialog>
-#include <chrono>
-#include <fstream>
-#include <iostream>
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
 
@@ -20,7 +17,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 
 void MainWindow::setupIVHD()
 {
-	auto handler = [&](ivhd::LogLevel level, const std::string message)
+	auto handler = [&](ivhd::LogLevel level, const std::string& message)
 	{
 		switch (level)
 		{
@@ -43,10 +40,11 @@ void MainWindow::initializeIVHDResources()
 	// create particle system and graph
 	m_particleSystem = m_ivhd->resourceFactory().createParticleSystem();
 	m_graph = m_ivhd->resourceFactory().createGraph();
-	
-	// create collections
-	m_casters = ivhd::createResourceCollection<ivhd::ICaster>();
-	m_generators = ivhd::createResourceCollection<ivhd::IGraphGenerator>();
+
+    // create collections
+	m_casters = std::make_shared<ivhd::ResourceCollection<ivhd::ICaster>>();
+    m_generators = std::make_shared<ivhd::ResourceCollection<ivhd::IGraphGenerator>>();
+
 
 	// add resources to collections
 	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
@@ -64,28 +62,28 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("Nesterov", casterNesterov);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
+
 	m_generators->add("Brute Force", bruteGenerator);
 
 	// set default resources
 	setCurrentCaster(casterRandom);
-	setCurrentGraphGenerator(bruteGenerator);
+	setCurrentGraphGenerator(bruteGenerator); 
 }
 
 void MainWindow::initializeEditorElements()
 {
 	// casters
-	m_casters->iterate([&](std::string name) {
+	m_casters->iterate([&](const std::string& name) {
 		ui.comboBox_CastingSetup->addItem(QString::fromStdString(name));
 	});
 
 	// graph generators
-	m_generators->iterate([&](std::string name) {
+	m_generators->iterate([&](const std::string& name) {
 		ui.comboBox_GraphSetup->addItem(QString::fromStdString(name));
 	});
-
 }
 
-void MainWindow::on_pushButton_Open_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_Open_clicked()
 {
 	if (!m_particleSystem->empty())
 	{
@@ -106,29 +104,29 @@ void MainWindow::on_pushButton_Open_clicked()
 		parser->loadFile(fileName.toUtf8().constData(), *m_particleSystem);
 	}
 
-	m_casters->find("Random")->calculateForces(*m_particleSystem, *m_graph);
 	m_casters->find("Random")->calculatePositions(*m_particleSystem);
 
 	m_renderer = new OpenGLRenderer();
 	setCentralWidget(m_renderer);
 }
 
-void MainWindow::on_pushButton_Exit_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_Exit_clicked()
 {
 	close();
 }
 
-void MainWindow::on_pushButton_CastingRun_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_CastingRun_clicked()
 {
-	if (m_currentCaster != nullptr)
-	{
-		m_ivhd->subscribeOnCastingStepFinish([&]()
-		{
+	if (m_currentCaster != nullptr) {
+        m_currentCaster->initialize(*m_particleSystem, *m_graph);
+        m_running = true;
 
-		});
-
-		m_ivhd->startCasting(*m_particleSystem, *m_graph, *m_currentCaster);
-		m_running = true;
+        m_castingThread = std::thread([&]() {
+            while(m_running)
+            {
+                m_currentCaster->step(*m_particleSystem, *m_graph);
+            }
+        });
 	}
 	else
 	{
@@ -137,23 +135,38 @@ void MainWindow::on_pushButton_CastingRun_clicked()
 
 }
 
-void MainWindow::on_pushButton_CastingStop_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_CastingStop_clicked()
 {
 	if(m_running)
 	{
-		m_ivhd->stopCasting();
+        m_castingThread.join();
+        m_currentCaster->finalize();
 	}
 
 	m_running = false;
 }
 
-void MainWindow::on_pushButton_GraphGenerate_clicked() const
-{
+[[maybe_unused]] void MainWindow::on_pushButton_GraphGenerate_clicked() {
 	if (m_currentGraphGenerator != nullptr)
 	{
-        m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 3, true);
+//        if(ui.comboBox_GraphSetup->currentText().toStdString().find("[GPU]"))
+//        {
+
+        m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
+        auto temp = m_currentGraphGenerator;
+        setCurrentGraphGenerator(m_generators->find("Brute Force"));
         m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
-        m_graph->saveToCache(R"(./graph)");
+        m_graph->randomNeighborsCount(1);
+        setCurrentGraphGenerator(temp);
+
+//        }
+//        else
+//        {
+//            m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
+//            m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
+//        }
+
+        m_graph->saveToCache(R"(./mnist.knn)");
 
         /*if(!m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph"))
 			{
@@ -168,7 +181,7 @@ void MainWindow::on_pushButton_GraphGenerate_clicked() const
 	}
 }
 
-void MainWindow::on_pushButton_GraphOpen_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_GraphOpen_clicked()
 {
 	if (!m_particleSystem->empty())
 	{
@@ -176,28 +189,30 @@ void MainWindow::on_pushButton_GraphOpen_clicked()
 	}
 
 	QString fileName = QFileDialog::getOpenFileName(this,
-		tr("Choose graph file"), "",
-		tr("graph format(*.graph);;All Files (*)"));
+		tr("Choose knn file"), "",
+		tr("knn format(*.knn);;All Files (*)"));
 
 	if (fileName.isEmpty())
 	{
 		return;
 	}
+	
 	m_graph->loadFromCache(fileName.toUtf8().constData());
+	m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
 }
 
-void MainWindow::on_comboBox_CastingSetup_activated()
+[[maybe_unused]] void MainWindow::on_comboBox_CastingSetup_activated()
 {
 
 	setCurrentCaster(m_casters->find(ui.comboBox_CastingSetup->currentText().toStdString()));
 }
 
-void MainWindow::on_comboBox_GraphSetup_activated()
+[[maybe_unused]] void MainWindow::on_comboBox_GraphSetup_activated()
 {
 	setCurrentGraphGenerator(m_generators->find(ui.comboBox_GraphSetup->currentText().toStdString()));
 }
 
-void MainWindow::on_actionReset_View_clicked()
+[[maybe_unused]] void MainWindow::on_actionReset_View_clicked()
 {
 	calculateBoundingBox();
 }
@@ -230,7 +245,7 @@ void MainWindow::calculateBoundingBox()
 	m_renderer->setBoundingBox(bounding_box_min, bounding_box_max);
 }
 
-void MainWindow::setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster)
+void MainWindow::setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster)
 {
 	if (caster != nullptr)
 	{
@@ -238,7 +253,7 @@ void MainWindow::setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster)
 	}
 }
 
-void MainWindow::setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator)
+void MainWindow::setCurrentGraphGenerator(const std::shared_ptr<ivhd::IGraphGenerator>& generator)
 {
 	if (generator != nullptr)
 	{
