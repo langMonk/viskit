@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <string>
 #include <functional>
 #include "ivhd/LogLevel.h"
 
