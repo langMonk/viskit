@@ -8,13 +8,9 @@
 #include <ResourceCollection.h>
 #include <IResourceFactory.h>
 #include <IParticleSystem.h>
-
-#include <IGpuFactory.h>
-
+#include <thread>
 #include <QMainWindow>
 #include "ui_MainWindow.h"
-
-
 
 class OpenGLRenderer;
 
@@ -34,8 +30,8 @@ public:
 
 	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return *m_particleSystem; }
 
-	void setCurrentCaster(std::shared_ptr<ivhd::ICaster> caster);
-	void setCurrentGraphGenerator(std::shared_ptr<ivhd::IGraphGenerator> generator);
+	void setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster);
+	void setCurrentGraphGenerator(const std::shared_ptr<ivhd::IGraphGenerator>& generator);
 
 private:
 	explicit MainWindow(QWidget* parent = Q_NULLPTR);
@@ -72,7 +68,6 @@ private:
 	glm::vec4 bounding_box_max{};
 	
 	std::shared_ptr<ivhd::IInteractiveVisualization> m_ivhd;
-    std::shared_ptr<ivhd::cuda::IGpuFactory> m_gpuFactory;
 
 	// IVHD collections and current resources
 	std::shared_ptr<ivhd::ResourceCollection<ivhd::ICaster>> m_casters;
@@ -82,5 +77,7 @@ private:
 	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator{ nullptr };
 	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem{ nullptr };
 	std::shared_ptr<ivhd::IGraph> m_graph{ nullptr };
+
+	std::thread m_castingThread{};
 
 };

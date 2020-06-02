@@ -53,13 +53,11 @@ add_executable(${PROJECT_NAME} ${project_headers} ${project_sources} ${project_r
 
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libviskit/include/ivhd)
-target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libivhd_cuda/include/ivhd_cuda)
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/glew/include)
 
 target_link_directories(${PROJECT_NAME} PRIVATE /usr/local/lib)
-target_link_directories(${PROJECT_NAME} PRIVATE /cmake-build-release/libivhd_cuda/)
 target_link_directories(${PROJECT_NAME} PRIVATE /cmake-build-release/libviskit/)
 
-target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libviskit libivhd_cuda )
+target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libviskit )
 
