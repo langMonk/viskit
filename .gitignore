@@ -22,5 +22,3 @@
 
 # for VSCode
 build/*
-/assets/resources/mnist_7k_pca30_A.csv
-/assets/resources/MNIST.csv
