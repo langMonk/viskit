@@ -15,7 +15,7 @@ namespace ivhd::embed::cast::ivhd
 		auto& velocities = ps.calculationData()->m_vel;
 		auto& positions = ps.calculationData()->m_pos;
 
-		for (auto i = 0; i < ps.countParticles(); i++)
+		for (size_t i = 0; i < ps.countParticles(); i++)
 		{
 			if (awake[i])
 			{

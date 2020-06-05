@@ -62,8 +62,11 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("Nesterov", casterNesterov);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
+    const auto faissGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::Faiss);
 
-	m_generators->add("Brute Force", bruteGenerator);
+    m_generators->add("Brute Force", bruteGenerator);
+    if(faissGenerator != nullptr){ m_generators->add("Faiss", faissGenerator); }
+
 
 	// set default resources
 	setCurrentCaster(casterRandom);

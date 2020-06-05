@@ -34,7 +34,7 @@ namespace ivhd::embed::cast::ivhd
 		}
 		else
 		{ 
-			for (auto i = 0; i < ps.countParticles(); i++)
+			for (size_t i = 0; i < ps.countParticles(); i++)
 			{
 				if (awake[i])
 				{
