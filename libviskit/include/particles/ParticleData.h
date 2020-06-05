@@ -17,7 +17,7 @@ namespace ivhd
 			// public construction and destruction methods
 		public:
 			ParticleData()= default;
-			~ParticleData() = default;;
+			~ParticleData() = default;
 
 			ParticleData(const ParticleData&) = delete;
 			ParticleData& operator=(const ParticleData&) = delete;

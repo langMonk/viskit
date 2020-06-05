@@ -18,7 +18,7 @@ namespace ivhd::embed::cast::ivhd
 
 		const auto it = ps.step();
 
-		for (auto i = 0; i < ps.countParticles(); i++)
+		for (size_t i = 0; i < ps.countParticles(); i++)
 		{
 			decGrad[i].x = decGrad[i].x * B2 + (1.0f - powf(B2, static_cast<float>(it))) * forces[i].x * forces[i].x;
 			decGrad[i].y = decGrad[i].y * B2 + (1.0f - powf(B2, static_cast<float>(it))) * forces[i].y * forces[i].y;

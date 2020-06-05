@@ -3,7 +3,20 @@ project(libviskit)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(${PROJECT_NAME}
+###
+### Comment this 2 lines if library should be compiled without CUDA/FAISS
+###
+add_compile_definitions(USE_CUDA)
+set(USE_CUDA TRUE)
+
+set(CUDA_FILES
+        include/graph/generate/Faiss.h
+        source/graph/generate/Faiss.cpp
+        include/facade/FacadeGraphGeneratorFaiss.h
+        source/facade/FacadeGraphGeneratorFaiss.cpp
+        )
+
+set(HEADER_FILES
         include/core/Core.h
         include/core/Logger.h
         include/core/System.h
@@ -42,6 +55,7 @@ add_library(${PROJECT_NAME}
         include/graph/generate/GraphGenerator.h
         include/graph/generate/IGraphGenerator.h
         include/graph/generate/KDTree.h
+        include/graph/generate/Faiss.h
         include/graph/DataPoint.h
         include/graph/Graph.h
         include/graph/IGraph.h
@@ -72,6 +86,9 @@ add_library(${PROJECT_NAME}
         include/utils/Math.h
         include/utils/RandomColor.h
         include/utils/TimeProfiler.h
+        )
+
+set(SOURCE_FILES
         source/core/Core.cpp
         source/core/Logger.cpp
         source/core/System.cpp
@@ -105,6 +122,7 @@ add_library(${PROJECT_NAME}
         source/graph/generate/BruteForce.cpp
         source/graph/generate/GraphGenerator.cpp
         source/graph/generate/KDTree.cpp
+        source/graph/generate/Faiss.cpp
         source/graph/DataPoint.cpp
         source/graph/Graph.cpp
         source/ivhd/InteractiveVisualizationBuilder.cpp
@@ -114,7 +132,17 @@ add_library(${PROJECT_NAME}
         source/particles/ParticleSystem.cpp
         source/threading/ThreadPool.cpp
         source/utils/RandomColor.cpp
-        source/utils/TimeProfiler.cpp)
+        source/utils/TimeProfiler.cpp
+        )
+
+if (USE_CUDA)
+    find_package(CUDA 10.2 REQUIRED)
+    message("Compilation with CUDA")
+else()
+    message("Compilation without CUDA")
+endif()
+
+add_library(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES} ${CUDA_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
