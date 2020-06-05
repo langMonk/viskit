@@ -16,7 +16,7 @@ namespace ivhd::embed::cast::ivhd
 
 		ps.resetForces();
 
-		for (auto index = 0; index < graph.size(); index++)
+		for (size_t index = 0; index < graph.size(); index++)
 		{
 			if (auto neighbors = graph.getNeighbors(index))
 			{
@@ -65,7 +65,7 @@ namespace ivhd::embed::cast::ivhd
 		auto& velocities = ps.calculationData()->m_vel;
 		auto& positions = ps.calculationData()->m_pos;
 
-		for (auto i = 0; i < ps.countParticles(); i++)
+		for (size_t i = 0; i < ps.countParticles(); i++)
 		{
 			if (awake[i])
 			{

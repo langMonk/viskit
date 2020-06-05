@@ -21,7 +21,7 @@ namespace ivhd::embed::cast
 
 		ps.resetForces();
 		
-		for (auto index = 0; index < graph.size(); index++)
+		for (size_t index = 0; index < graph.size(); index++)
 		{
 			if (auto neighbors = graph.getNeighbors(index))
 			{
