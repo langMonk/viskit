@@ -34,8 +34,6 @@ namespace ivhd::graph::generate
 
 		// public methods
 	public:
-		[[nodiscard]] std::size_t dimension() const;
-
 		[[nodiscard]] std::size_t size() const;
 		[[nodiscard]] bool empty() const;
 
