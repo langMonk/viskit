@@ -40,26 +40,26 @@ namespace ivhd
 		/// <summary>
 		/// Returns current positions.
 		/// </summary>
-		/// <returns> Container with current particle positions.</returns>
-		virtual std::vector<glm::vec4> positions() = 0;
+		/// <returns> Pointer to container with current particles positions.</returns>
+		virtual glm::vec4* positions() = 0;
 
 		/// <summary>
 		/// Returns current forces.
 		/// </summary>
-		/// <returns> Container with current particle forces.</returns>
-		virtual std::vector<glm::vec4> forces() = 0;
+		/// <returns> Pointer to container with current particle forces.</returns>
+		virtual glm::vec4* forces() = 0;
 
 		/// <summary>
 		/// Returns current velocities.
 		/// </summary>
-		/// <returns> Container with current particle velocities.</returns>
-		virtual std::vector<glm::vec4> velocities() = 0;
+		/// <returns> Pointer to container with current particle velocities.</returns>
+		virtual glm::vec4* velocities() = 0;
 
 		/// <summary>
 		/// Returns colors associated with each particle.
 		/// </summary>
-		/// <returns> Container with colors.</returns>
-		virtual std::vector<glm::vec4> colors() = 0;
+		/// <returns> Pointer to container with colors.</returns>
+		virtual glm::vec4* colors() = 0;
 		
 		/// <summary>
 		/// Sets the specified particle position.

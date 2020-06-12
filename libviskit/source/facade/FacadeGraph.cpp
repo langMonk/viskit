@@ -175,7 +175,8 @@ namespace ivhd::facade
 		}
 	}
 
-    void FacadeGraph::initialize(size_t size) {
+    void FacadeGraph::initialize(size_t size)
+    {
         m_internalGraph->initialize(size);
     }
 }

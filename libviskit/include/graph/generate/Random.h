@@ -1,9 +1,7 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 04.06.2020
+/// \date 12.06.2020
 ///
-
-#ifdef USE_CUDA
 
 #pragma once
 
@@ -13,12 +11,11 @@
 
 namespace ivhd::graph::generate
 {
-    class Faiss final : public GraphGenerator
+    class Random final : public GraphGenerator
     {
         // public construction and destruction methods
     public:
-
-        explicit Faiss(core::System& system);
+        explicit Random(core::System& system);
 
         // public methods
     public:
@@ -26,5 +23,3 @@ namespace ivhd::graph::generate
 
     };
 }
-
-#endif
