@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1344</width>
-    <height>855</height>
+    <height>883</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,8 +45,8 @@
   <widget class="QDockWidget" name="dockWidget_File">
    <property name="minimumSize">
     <size>
-     <width>226</width>
-     <height>104</height>
+     <width>245</width>
+     <height>110</height>
     </size>
    </property>
    <property name="features">
@@ -456,7 +456,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../Resources/QtEditor.qrc">
+               <iconset resource="../resources/QtEditor.qrc">
                 <normaloff>:/QtEditor/play.png</normaloff>:/QtEditor/play.png</iconset>
               </property>
              </widget>
@@ -476,7 +476,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../Resources/QtEditor.qrc">
+               <iconset resource="../resources/QtEditor.qrc">
                 <normaloff>:/QtEditor/pause.png</normaloff>:/QtEditor/pause.png</iconset>
               </property>
              </widget>
@@ -493,7 +493,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../Resources/QtEditor.qrc">
+               <iconset resource="../resources/QtEditor.qrc">
                 <normaloff>:/QtEditor/stop.png</normaloff>:/QtEditor/stop.png</iconset>
               </property>
              </widget>
@@ -603,7 +603,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../Resources/QtEditor.qrc">
+               <iconset resource="../resources/QtEditor.qrc">
                 <normaloff>:/QtEditor/play.png</normaloff>:/QtEditor/play.png</iconset>
               </property>
              </widget>
@@ -623,7 +623,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../Resources/QtEditor.qrc">
+               <iconset resource="../resources/QtEditor.qrc">
                 <normaloff>:/QtEditor/pause.png</normaloff>:/QtEditor/pause.png</iconset>
               </property>
              </widget>
@@ -640,7 +640,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../Resources/QtEditor.qrc">
+               <iconset resource="../resources/QtEditor.qrc">
                 <normaloff>:/QtEditor/stop.png</normaloff>:/QtEditor/stop.png</iconset>
               </property>
              </widget>
@@ -2101,7 +2101,7 @@
      <x>0</x>
      <y>0</y>
      <width>1344</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -2123,13 +2123,20 @@
     </property>
     <addaction name="actionResetView"/>
    </widget>
+   <widget class="QMenu" name="menuGraph">
+    <property name="title">
+     <string>Graph</string>
+    </property>
+    <addaction name="actionSave_Graph"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Settings"/>
    <addaction name="menuRenderer"/>
+   <addaction name="menuGraph"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
-    <string>&amp;Open</string>
+    <string>&amp;Open dataset</string>
    </property>
   </action>
   <action name="actionSave">
@@ -2155,6 +2162,11 @@
     <string>Reset View</string>
    </property>
   </action>
+  <action name="actionSave_Graph">
+   <property name="text">
+    <string>Save Graph</string>
+   </property>
+  </action>
   <zorder>dockWidget_Selection</zorder>
   <zorder>dockWidget_Algorithms</zorder>
  </widget>
@@ -2170,7 +2182,7 @@
   <tabstop>pushButton_Uncluster</tabstop>
  </tabstops>
  <resources>
-  <include location="../Resources/QtEditor.qrc"/>
+  <include location="../resources/QtEditor.qrc"/>
  </resources>
  <connections/>
 </ui>

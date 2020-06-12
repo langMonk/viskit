@@ -21,9 +21,7 @@ namespace ivhd::facade
     public:
         explicit FacadeGraphGeneratorFaiss(const std::shared_ptr<core::Core>& core);
 
-        void generateNearestNeighbors(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne) override;
-
-        void generateRandomNeighbors(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne) override;
+        void generate(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne) override;
 
     private:
         std::shared_ptr<generate::Faiss> m_graphGenerator {nullptr};

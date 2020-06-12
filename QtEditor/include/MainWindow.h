@@ -53,6 +53,7 @@ private slots:
     [[maybe_unused]] void on_comboBox_GraphSetup_activated();
     [[maybe_unused]] void on_actionReset_View_clicked();
     [[maybe_unused]] void on_pushButton_GraphOpen_clicked();
+
 	void calculateBoundingBox();
 
 	// Qt resources

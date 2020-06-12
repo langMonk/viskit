@@ -80,7 +80,7 @@ namespace ivhd::graph::generate
 	private:
 		Node* m_root;
 
-		std::size_t m_sizePoints;
+		std::size_t m_sizePoints{};
 
 		std::size_t m_size;
 

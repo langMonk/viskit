@@ -13,14 +13,13 @@ namespace ivhd::graph::generate
 	{
 	}
 
-	void BruteForce::generateNearestNeighbors(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne)
+	void BruteForce::generate(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne)
 	{
 		graph.initialize(ps.countParticles());
 
 		m_ext_system.logger().logInfo("[BruteForce kNN Generator] Searching for nearest neighbors...");
 
 		std::vector<Neighbors> near(k);
-
 
 		for (size_t i = 0; i < ps.countAwakeParticles(); i++)
 		{

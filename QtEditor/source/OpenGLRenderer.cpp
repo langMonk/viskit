@@ -52,7 +52,7 @@ void OpenGLRenderer::initializeGL()
 	glGenBuffers(1, &m_bufPos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
 
-	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), positions.data(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), positions, GL_STREAM_DRAW);
 	const auto position_attribute = glGetAttribLocation(m_program.getId(), "vPosition");
 	glVertexAttribPointer(position_attribute, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(position_attribute);
@@ -61,7 +61,7 @@ void OpenGLRenderer::initializeGL()
 	glGenBuffers(1, &m_bufCol);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
 
-	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), colors.data(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * count * sizeof(float), colors, GL_STREAM_DRAW);
 	const auto color_attribute = glGetAttribLocation(m_program.getId(), "vColor");
 	glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(color_attribute);
@@ -94,7 +94,7 @@ void OpenGLRenderer::paintGL()
 	m_program.use();
 	m_program.uniformMatrix4f("matProjection", glm::value_ptr(projectionMatrix));
 	m_program.uniformMatrix4f("matModelView", glm::value_ptr(modelViewMatrix));
-	m_program.uniform2f("screenSize", SCR_WIDTH, SCR_HEIGHT);
+	m_program.uniform2f("screenSize", static_cast<float>(SCR_WIDTH), static_cast<float>(SCR_HEIGHT));
 	m_program.uniform1f("spriteSize", 20.0f);
 
 	glEnable(GL_BLEND);
@@ -162,8 +162,7 @@ void OpenGLRenderer::wheelEvent(QWheelEvent* event)
 void OpenGLRenderer::keyPressEvent(QKeyEvent* event)
 {
 	firstMouse = true;
-	float cameraSpeed = 0.25f;
-	
+
 	if (event->key() == Qt::Key_W)
 	{
 		m_camera.ProcessKeyboard(FORWARD, 0.25f);
@@ -212,12 +211,12 @@ void OpenGLRenderer::update()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
 		auto pos = m_particleSystem->positions();
-		auto* ptr = reinterpret_cast<float*>(pos.data());
+		auto* ptr = reinterpret_cast<float*>(pos);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
 		auto colors = m_particleSystem->colors();
-		ptr = reinterpret_cast<float*>(colors.data());
+		ptr = reinterpret_cast<float*>(colors);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

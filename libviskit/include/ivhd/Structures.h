@@ -103,6 +103,7 @@ namespace ivhd
 	{
 		BruteForce,
 		KDTreeBased,
+		Random,
 		Faiss,
 	};
 

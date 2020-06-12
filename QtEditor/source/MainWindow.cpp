@@ -62,9 +62,11 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("Nesterov", casterNesterov);
 
 	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
+	const auto randomGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::Random);
     const auto faissGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::Faiss);
 
     m_generators->add("Brute Force", bruteGenerator);
+    m_generators->add("Random", randomGenerator);
     if(faissGenerator != nullptr){ m_generators->add("Faiss", faissGenerator); }
 
 
@@ -149,34 +151,13 @@ void MainWindow::initializeEditorElements()
 	m_running = false;
 }
 
-[[maybe_unused]] void MainWindow::on_pushButton_GraphGenerate_clicked() {
+[[maybe_unused]] void MainWindow::on_pushButton_GraphGenerate_clicked()
+{
 	if (m_currentGraphGenerator != nullptr)
 	{
-//        if(ui.comboBox_GraphSetup->currentText().toStdString().find("[GPU]"))
-//        {
-
-        m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
-        auto temp = m_currentGraphGenerator;
-        setCurrentGraphGenerator(m_generators->find("Brute Force"));
-        m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
-        m_graph->randomNeighborsCount(1);
-        setCurrentGraphGenerator(temp);
-
-//        }
-//        else
-//        {
-//            m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 2, true);
-//            m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
-//        }
-
+        m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 2, true);
         m_graph->saveToCache(R"(./mnist.knn)");
 
-        /*if(!m_graph->loadFromCache("D:\\Repositories\\ivhd\\graph"))
-			{
-				m_currentGraphGenerator->generateNearestNeighbors(*m_particleSystem, *m_graph, 3);
-				m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1);
-				m_graph->saveToCache("D:\\Repositories\\ivhd\\graph");
-			}*/
 	}
 	else
 	{
@@ -201,7 +182,11 @@ void MainWindow::initializeEditorElements()
 	}
 	
 	m_graph->loadFromCache(fileName.toUtf8().constData());
-	m_currentGraphGenerator->generateRandomNeighbors(*m_particleSystem, *m_graph, 1, true);
+
+	auto temp = m_currentGraphGenerator;
+    setCurrentGraphGenerator(m_generators->find("Random"));
+    m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 1, true);
+    setCurrentGraphGenerator(temp);
 }
 
 [[maybe_unused]] void MainWindow::on_comboBox_CastingSetup_activated()
@@ -250,7 +235,7 @@ void MainWindow::calculateBoundingBox()
 
 void MainWindow::setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster)
 {
-	if (caster != nullptr)
+ 	if (caster != nullptr)
 	{
 		m_currentCaster = caster;
 	}

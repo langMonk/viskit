@@ -10,6 +10,7 @@
 #include "facade/FacadeGraphGeneratorKDTree.h"
 #include "facade/FacadeGraphGeneratorBruteForce.h"
 #include "facade/FacadeGraphGeneratorFaiss.h"
+#include "facade/FacadeGraphGeneratorRandom.h"
 #include "facade/FacadeCasterMomentum.h"
 #include "facade/FacadeCasterForceDirected.h"
 #include "facade/FacadeCasterAdadelta.h"
@@ -41,8 +42,13 @@ namespace ivhd::facade
 		{
 			generator = std::make_shared<FacadeGraphGeneratorKDTree>(m_ext_ivhd.core());
 		}
-		else if (type == GraphGeneratorType::BruteForce) {
+		else if (type == GraphGeneratorType::BruteForce)
+		{
             generator = std::make_shared<FacadeGraphGeneratorBruteForce>(m_ext_ivhd.core());
+        }
+        else if (type == GraphGeneratorType::Random)
+        {
+            generator = std::make_shared<FacadeGraphGeneratorRandom>(m_ext_ivhd.core());
         }
 
 #ifdef USE_CUDA

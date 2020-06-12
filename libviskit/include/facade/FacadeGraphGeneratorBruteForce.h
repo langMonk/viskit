@@ -17,11 +17,9 @@ namespace ivhd::facade
 	class FacadeGraphGeneratorBruteForce : public FacadeGraphGenerator
 	{
 	public:
-		FacadeGraphGeneratorBruteForce(std::shared_ptr<core::Core> core);
+		explicit FacadeGraphGeneratorBruteForce(const std::shared_ptr<core::Core>& core);
 
-		void generateNearestNeighbors(IParticleSystem& ps, IGraph& graph, size_t k = 0, bool distancesEqualOne = true) override;
-
-		void generateRandomNeighbors(IParticleSystem& ps, IGraph& graph, size_t k = 0, bool distancesEqualOne = true) override;
+		void generate(IParticleSystem& ps, IGraph& graph, size_t k , bool distancesEqualOne) override;
 
 	private:
 		std::shared_ptr<generate::BruteForce> m_graphGenerator {nullptr};
