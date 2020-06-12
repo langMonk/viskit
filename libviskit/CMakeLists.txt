@@ -43,6 +43,7 @@ set(HEADER_FILES
         include/facade/FacadeGraphGenerator.h
         include/facade/FacadeGraphGeneratorBruteForce.h
         include/facade/FacadeGraphGeneratorKDTree.h
+        include/facade/FacadeGraphGeneratorRandom.h
         include/facade/FacadeInteractiveVisualization.h
         include/facade/FacadeMath.h
         include/facade/FacadeParser.h
@@ -56,6 +57,7 @@ set(HEADER_FILES
         include/graph/generate/IGraphGenerator.h
         include/graph/generate/KDTree.h
         include/graph/generate/Faiss.h
+        include/graph/generate/Random.h
         include/graph/DataPoint.h
         include/graph/Graph.h
         include/graph/IGraph.h
@@ -113,6 +115,7 @@ set(SOURCE_FILES
         source/facade/FacadeGraphGenerator.cpp
         source/facade/FacadeGraphGeneratorBruteForce.cpp
         source/facade/FacadeGraphGeneratorKDTree.cpp
+        source/facade/FacadeGraphGeneratorRandom.cpp
         source/facade/FacadeInteractiveVisualization.cpp
         source/facade/FacadeParser.cpp
         source/facade/FacadeParserCSV.cpp
@@ -123,6 +126,7 @@ set(SOURCE_FILES
         source/graph/generate/GraphGenerator.cpp
         source/graph/generate/KDTree.cpp
         source/graph/generate/Faiss.cpp
+        source/graph/generate/Random.cpp
         source/graph/DataPoint.cpp
         source/graph/Graph.cpp
         source/ivhd/InteractiveVisualizationBuilder.cpp

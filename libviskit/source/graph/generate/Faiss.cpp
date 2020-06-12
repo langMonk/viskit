@@ -9,14 +9,17 @@
 #include <faiss/gpu/GpuIndexIVFFlat.h>
 #include <faiss/gpu/StandardGpuResources.h>
 
-namespace ivhd::graph::generate {
+namespace ivhd::graph::generate
+{
     Faiss::Faiss(core::System &system)
-            : GraphGenerator(system) {
+            : GraphGenerator(system)
+    {
+
     }
 
-    void Faiss::generateNearestNeighbors(particles::ParticleSystem &ps, graph::Graph &graph, size_t k,
-                                         bool distancesEqualOne) {
-
+    void Faiss::generate(particles::ParticleSystem &ps, graph::Graph &graph, size_t k,
+                                         bool distancesEqualOne)
+    {
         graph.initialize(ps.countParticles());
 
         const auto d = ps.datasetInfo().dimensionality;
@@ -72,6 +75,8 @@ namespace ivhd::graph::generate {
             delete[] I;
             delete[] D;
         }
+
+        graph.nearestNeighborsCount(k);
     }
 }
 

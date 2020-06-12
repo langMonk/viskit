@@ -20,24 +20,24 @@ namespace ivhd::facade
 		return m_internalParticleSystem->originalCoordinates();
 	}
 
-	std::vector<glm::vec4> FacadeParticleSystem::positions()
+	glm::vec4* FacadeParticleSystem::positions()
 	{
-		return m_internalParticleSystem->calculationData()->m_pos;
+		return m_internalParticleSystem->calculationData()->m_pos.data();
 	};
 
-	std::vector<glm::vec4> FacadeParticleSystem::forces()
+    glm::vec4* FacadeParticleSystem::forces()
 	{
-		return m_internalParticleSystem->calculationData()->m_force;
+		return m_internalParticleSystem->calculationData()->m_force.data();
 	};
 
-	std::vector<glm::vec4> FacadeParticleSystem::velocities()
+    glm::vec4* FacadeParticleSystem::velocities()
 	{
-		return m_internalParticleSystem->calculationData()->m_vel;
+		return m_internalParticleSystem->calculationData()->m_vel.data();
 	};
 
-	std::vector<glm::vec4> FacadeParticleSystem::colors()
+    glm::vec4* FacadeParticleSystem::colors()
 	{
-		return m_internalParticleSystem->calculationData()->m_col;
+		return m_internalParticleSystem->calculationData()->m_col.data();
 	}
 
 	std::vector<size_t> FacadeParticleSystem::labels()

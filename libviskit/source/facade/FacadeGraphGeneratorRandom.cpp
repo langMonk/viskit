@@ -1,23 +1,21 @@
-#ifdef USE_CUDA
-
-#include "facade/FacadeGraphGeneratorFaiss.h"
+#include "facade/FacadeGraphGeneratorRandom.h"
 #include "facade/FacadeGraph.h"
 
 namespace ivhd::facade
 {
-    FacadeGraphGeneratorFaiss::FacadeGraphGeneratorFaiss(const std::shared_ptr<core::Core>& core)
+    FacadeGraphGeneratorRandom::FacadeGraphGeneratorRandom(const std::shared_ptr<core::Core>& core)
             : FacadeGraphGenerator(core)
-            , m_graphGenerator(std::make_shared<generate::Faiss>(core->system()))
+            , m_graphGenerator(std::make_shared<generate::Random>(core->system()))
     {
     }
 
-    void FacadeGraphGeneratorFaiss::generate(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne)
+    void FacadeGraphGeneratorRandom::generate(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne)
     {
         try
         {
             const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
             const auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
-            dynamic_cast<generate::Faiss*> (m_graphGenerator.get())->
+            dynamic_cast<generate::Random*>(m_graphGenerator.get())->
                     generate(facadePs->internalSystem(), facadeGraph->internalGraph(), k, distancesEqualOne);
         }
         catch (std::exception & ex)
@@ -26,4 +24,3 @@ namespace ivhd::facade
         }
     }
 }
-#endif
