@@ -137,7 +137,6 @@ void MainWindow::initializeEditorElements()
 	{
 
 	}
-
 }
 
 [[maybe_unused]] void MainWindow::on_pushButton_CastingStop_clicked()
@@ -191,7 +190,6 @@ void MainWindow::initializeEditorElements()
 
 [[maybe_unused]] void MainWindow::on_comboBox_CastingSetup_activated()
 {
-
 	setCurrentCaster(m_casters->find(ui.comboBox_CastingSetup->currentText().toStdString()));
 }
 

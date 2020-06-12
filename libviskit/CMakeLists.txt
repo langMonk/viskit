@@ -58,6 +58,7 @@ set(HEADER_FILES
         include/graph/generate/KDTree.h
         include/graph/generate/Faiss.h
         include/graph/generate/Random.h
+        include/graph/generate/Reverse.h
         include/graph/DataPoint.h
         include/graph/Graph.h
         include/graph/IGraph.h
@@ -127,6 +128,7 @@ set(SOURCE_FILES
         source/graph/generate/KDTree.cpp
         source/graph/generate/Faiss.cpp
         source/graph/generate/Random.cpp
+        source/graph/generate/Reverse.cpp
         source/graph/DataPoint.cpp
         source/graph/Graph.cpp
         source/ivhd/InteractiveVisualizationBuilder.cpp
