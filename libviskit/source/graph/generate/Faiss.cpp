@@ -76,7 +76,7 @@ namespace ivhd::graph::generate
             delete[] D;
         }
 
-        graph.nearestNeighborsCount(k);
+        graph.neighborsCounter.nearestNeighbors = k;
     }
 }
 

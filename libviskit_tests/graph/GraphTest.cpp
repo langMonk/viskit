@@ -9,6 +9,7 @@
 #include <graph/Graph.h>
 #include <parse/ParserCSV.h>
 #include <graph/generate/BruteForce.h>
+#include <graph/generate/Random.h>
 #include <ivhd/Structures.h>
 #include <utils/TimeProfiler.h>
 #include "TestUtils.h"
@@ -61,7 +62,8 @@ namespace libivhd_test
 		core::Core core{ handler };
 		parse::ParserCSV parser{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
-		generate::BruteForce generator{ core.system() };
+		generate::BruteForce nearestGenerator{ core.system() };
+		generate::Random randomGenerator{ core.system() };
 		Graph graph{ core.system() };
 
 		auto csvFile = utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
@@ -72,12 +74,13 @@ namespace libivhd_test
 
 		auto profiler = ivhd::utils::TimeProfiler(true);
 		profiler.start();
-		generator.generateNearestNeighbors(particleSystem, graph, 2, true);
+		nearestGenerator.generate(particleSystem, graph, 2, true);
+		randomGenerator.generate(particleSystem, graph, 1, true);
 		profiler.stop();
 		profiler.measurementMs();
 
-		EXPECT_EQ(graph.size(), 7000); // 7000 elements (size) and every has 3 NN 
-		EXPECT_EQ(graph.neighborsCount(), 14000);
+		EXPECT_EQ(graph.size(), 7000);
+		EXPECT_EQ(graph.overallNeighborsCount(), 21000); // 7000 elements (size) and every has 3 NN
 
 		utils::dump(graph, "./", "test_brute");
 	}
@@ -98,7 +101,8 @@ namespace libivhd_test
 		core::Core core{ handler };
 		parse::ParserCSV parser{ core.system() };
 		particles::ParticleSystem particleSystem{ core.system() };
-		generate::BruteForce generator{ core.system() };
+		generate::BruteForce nearestGenerator{ core.system() };
+		generate::Random randomGenerator{ core.system() };
 		Graph graph{ core.system() };
 		
 		auto csvFile = utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
@@ -107,19 +111,19 @@ namespace libivhd_test
 		EXPECT_EQ(particleSystem.countParticles(), 7000);
 		EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);
 
-		generator.generateNearestNeighbors(particleSystem, graph, 3, true);
-		generator.generateRandomNeighbors(particleSystem, graph, 1, true);
+		nearestGenerator.generate(particleSystem, graph, 2, true);
+        randomGenerator.generate(particleSystem, graph, 1, true);
 		
 		graph.saveToCache("MNIST7k.knn");
 		graph.clear();
 
 		EXPECT_EQ(graph.size(), 0);
-		EXPECT_EQ(graph.neighborsCount(), 0);
+		EXPECT_EQ(graph.overallNeighborsCount(), 0);
 
 		graph.loadFromCache("MNIST7k.knn");
 		
 		// we are loading only nearest neighbors from cache (random must be generated if needed)
-		EXPECT_EQ(graph.neighborsCount(), 21000);
+		EXPECT_EQ(graph.overallNeighborsCount(), 14000);
 		EXPECT_EQ(graph.size(), 7000);
 	}
 }

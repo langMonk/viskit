@@ -28,8 +28,8 @@ namespace ivhd::graph
 		void addNeighbors(const std::vector<Neighbors>& neighbors);
 		
 		void addNeighbors(Neighbors neighbor);
-		
-		size_t neighborsCount();
+
+		size_t overallNeighborsCount();
 
 		void sort();
 		
@@ -41,13 +41,7 @@ namespace ivhd::graph
 
 		bool loadFromCache(const std::string& fileName);
 
-		void nearestNeighborsCount(int nn){m_nearestNeighborsCount = nn;}
-
-		int nearestNeighborsCount(){return m_nearestNeighborsCount;}
-
-		void randomNeighborsCount(int rn){m_randomNeighborsCount = rn;}
-
-		int randomNeighborsCount(){return m_randomNeighborsCount;}
+        NeighborsCounter neighborsCounter{0,0,0};
 
 		// private members
 	private:
@@ -55,7 +49,6 @@ namespace ivhd::graph
 
 		std::vector<std::vector<Neighbors>> m_data;
 
-		int m_nearestNeighborsCount{}, m_randomNeighborsCount{};
 	};
 }
 

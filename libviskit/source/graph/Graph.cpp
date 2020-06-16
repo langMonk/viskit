@@ -43,7 +43,7 @@ namespace ivhd::graph
 		}
 	}
 
-	size_t Graph::neighborsCount()
+    size_t Graph::overallNeighborsCount()
 	{
 		size_t size {0};
 		for(const auto& neighbors : m_data)
@@ -144,7 +144,7 @@ namespace ivhd::graph
 		auto graphSize = size();
 		file.write(reinterpret_cast<char*>(&graphSize), sizeof(long));
 
-		auto graphNeighborsCount = neighborsCount() - m_randomNeighborsCount * size();
+		auto graphNeighborsCount = overallNeighborsCount() - neighborsCounter.randomNeighbors * size();
 		file.write(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(long));
 
 		for (auto& neighbors : m_data)
@@ -187,13 +187,13 @@ namespace ivhd::graph
 		auto graphNeighborsCount = 0;
 		file.read(reinterpret_cast<char*>(&graphNeighborsCount), sizeof(long));
 
-		m_nearestNeighborsCount = graphNeighborsCount / graphSize;
+		neighborsCounter.nearestNeighbors = graphNeighborsCount / graphSize;
 
-		for (auto& element : m_data) { element.resize(m_nearestNeighborsCount); }
+		for (auto& element : m_data) { element.resize(neighborsCounter.nearestNeighbors); }
 		
 		for (auto i = 0; i < graphSize; i++)
 		{
-			for (auto j = 0; j < m_nearestNeighborsCount; j++)
+			for (auto j = 0; j < neighborsCounter.nearestNeighbors; j++)
 			{
 				file.read(reinterpret_cast<char*>(&m_data[i][j]), sizeof(Neighbors));
 			}
