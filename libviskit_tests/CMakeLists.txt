@@ -8,6 +8,7 @@ add_executable(${PROJECT_NAME}
         embed/CasterTest.cpp
         graph/GraphTest.cpp
         graph/KDTreeTest.cpp
+        graph/ReverseTest.cpp
         ivhd/InteractiveVisualizationBuilderTest.cpp
         particles/ParticleData.cpp
         threading/ThreadPoolTest.cpp
@@ -27,4 +28,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../goog
 
 target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/faiss)
 
-target_link_libraries(${PROJECT_NAME} gtest gmock libviskit)
+target_link_libraries(${PROJECT_NAME} gtest gmock libviskit faiss )

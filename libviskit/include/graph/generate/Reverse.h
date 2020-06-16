@@ -22,6 +22,6 @@ namespace ivhd::graph::generate
         void generate(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne) override;
 
     private:
-        static bool validateIfReverseNeighbor(size_t index1, size_t index2);
+        static std::optional<std::vector<Neighbors>> validateReverseNeighbors(graph::Graph &graph, size_t count, size_t k, size_t index);
     };
 }
