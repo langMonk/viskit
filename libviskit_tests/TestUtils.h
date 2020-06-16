@@ -28,6 +28,10 @@ namespace libivhd_test::utils
 					{
 						m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Far" << std::endl;
 					}
+					else if (neighbor.type == ivhd::NeighborsType::Reverse)
+                    {
+                        m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Reverse" << std::endl;
+                    }
 					else
 					{
 						m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Random" << std::endl;

@@ -42,23 +42,18 @@ namespace ivhd
         virtual void addNeighbors(std::vector<Neighbors> neighbors) = 0;
 
         /// <summary>
-        /// Get random neighbors count
+        /// Get the neighbors counter
         /// </summary>
-        /// <returns> Number of random neighbors in graph structure. </returns>
-        virtual size_t randomNeighborsCount() = 0;
-
-        /// <summary>
-        /// Get nearest neighbors count
-        /// </summary>
-        /// <returns> Number of nearest neighbors in graph structure. </returns>
-        virtual size_t nearestNeighborsCount() = 0;
+        /// Eg. We have NN=3, RN=1, Reverse=1, so the struct NeighborsCount = {3,1,1} will be returned.
+        /// <returns> Number of overall different types of neighbors in graph structure. </returns>
+        virtual ivhd::NeighborsCounter neighborsCounter() = 0;
 
 		/// <summary>
 		/// Get overall neighbors count
-        /// Eg. We have 7000 data points and we calculate 3 NN for each -> neighborsCount() = 7000, size() = 21000
+        /// Eg. We have 7000 data points and we calculate 3 NN for each -> overallNeighborsCount() = 7000, size() = 21000
 		/// </summary>
 		/// <returns> Number of neighbors in graph structure. </returns>
-        virtual size_t neighborsCount() = 0;
+        virtual size_t overallNeighborsCount() = 0;
 
 		/// <summary>
 		/// Get size of graph structure, for which NN was calculated.
