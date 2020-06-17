@@ -5,55 +5,36 @@
 
 #include <gtest/gtest.h>
 #include <embed/cast/CasterRandom.h>
-#include <parse/ParserCSV.h>
-#include <core/Core.h>
+
+#include "ViskitTest.h"
 #include "TestUtils.h"
 
-namespace libivhd_test
+namespace viskit_test
 {
-	TEST(CasterTest, CasterRandom)
-	{
-		using Logs = std::pair<viskit::LogLevel, std::string>;
+    class CasterRandomTest : public ViskitTest {};
 
-		std::vector<Logs> logs{};
-		size_t count = 0;
+    TEST_F(CasterRandomTest, Casting)
+    {
+        viskit::embed::cast::CasterRandom caster{core->system()};
 
-		auto handler = [&logs, &count](viskit::LogLevel level, const std::string& message)
-		{
-			logs.emplace_back(level, message);
-			count++;
-		};
+        auto csvFile = utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
 
-		viskit::core::Core core{ handler };
-		viskit::particles::ParticleSystem particleSystem{ core.system() };
-		viskit::embed::cast::CasterRandom caster{ core.system() };
-		viskit::parse::ParserCSV parser{ core.system() };
-		Graph graph{ core.system() };
+        parser->loadFile(csvFile, *particleSystem);
 
-		auto csvFile = utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
+        auto coords = particleSystem->originalCoordinates();
 
-		parser.loadFile(csvFile, particleSystem);
+        EXPECT_EQ(particleSystem->countParticles(), 20);
+        EXPECT_EQ(coords.size(), 20);
 
-		auto coords = particleSystem.originalCoordinates();
+        auto dataPoints = particleSystem->calculationData();
 
-		EXPECT_EQ(particleSystem.countParticles(), 20);
-		EXPECT_EQ(coords.size(), 20);
+        caster.calculatePositions(*particleSystem);
 
-		auto dataPoints = particleSystem.calculationData();
-
-		caster.calculatePositions(particleSystem);
-
-		auto positions = dataPoints->m_pos;
-		for (int i = 0; i < particleSystem.countParticles() - 1; i++)
-		{
-			EXPECT_NE(positions[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
-			EXPECT_NE(positions[i], positions[i + 1]);
-		}
-	}
+        auto positions = dataPoints->m_pos;
+        for (int i = 0; i < particleSystem->countParticles() - 1; i++)
+        {
+            EXPECT_NE(positions[i], glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+            EXPECT_NE(positions[i], positions[i + 1]);
+        }
+    }
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
-

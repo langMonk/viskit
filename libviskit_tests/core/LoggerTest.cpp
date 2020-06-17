@@ -4,38 +4,27 @@
 ///
 
 #include <gtest/gtest.h>
-#include <core/Logger.h>
-#include <viskit/LogLevel.h>
 
-namespace libivhd_test
+#include "ViskitTest.h"
+
+namespace viskit_test
 {
-	TEST(LoggerTest, logging)
+    class LoggerTest : public ViskitTest {};
+
+	TEST_F(LoggerTest, logging)
 	{
-		using Logs = std::pair<viskit::LogLevel, std::string>;
-
-		std::vector<Logs> logs{};
-		size_t count = 0;
-
-		auto handler = [&logs, &count](viskit::LogLevel level, const std::string& message)
-		{
-			logs.emplace_back(level, message);
-			count++;
-		};
-
-		const viskit::core::Logger logger{ handler };
-
-		logger.logInfo("Info: 1");
-		EXPECT_EQ(logs.size(), count);
+        core->logger().logInfo("Info: 1");
+		EXPECT_EQ(logs.size(), logsCount);
 		EXPECT_EQ(logs.back().first, viskit::LogLevel::Info);
 		EXPECT_EQ(logs.back().second, "Info: 1");
 
-		logger.logInfo("Info: 2");
-		EXPECT_EQ(logs.size(), count);
+        core->logger().logInfo("Info: 2");
+		EXPECT_EQ(logs.size(), logsCount);
 		EXPECT_EQ(logs.back().first, viskit::LogLevel::Info);
 		EXPECT_EQ(logs.back().second, "Info: 2");
 
-		logger.logError("Error: 1");
-		EXPECT_EQ(logs.size(), count);
+        core->logger().logError("Error: 1");
+		EXPECT_EQ(logs.size(), logsCount);
 		EXPECT_EQ(logs.back().first, viskit::LogLevel::Error);
 		EXPECT_EQ(logs.back().second, "Error: 1");
 	}

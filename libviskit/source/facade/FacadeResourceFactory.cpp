@@ -20,7 +20,7 @@
 namespace viskit::facade
 {
 	FacadeResourceFactory::FacadeResourceFactory(FacadeInteractiveVisualization& ivhd)
-		: m_ext_ivhd(ivhd)
+		: m_ext_viskit(ivhd)
 	{
 	}
 
@@ -28,7 +28,7 @@ namespace viskit::facade
 	{
 		if (type == ParserType::Csv)
 		{
-			return std::make_shared<FacadeParserCSV>(m_ext_ivhd.core());
+			return std::make_shared<FacadeParserCSV>(m_ext_viskit.core());
 		}
 
 		return nullptr;
@@ -40,21 +40,21 @@ namespace viskit::facade
 		
 		if (type == GraphGeneratorType::KDTreeBased)
 		{
-			generator = std::make_shared<FacadeGraphGeneratorKDTree>(m_ext_ivhd.core());
+			generator = std::make_shared<FacadeGraphGeneratorKDTree>(m_ext_viskit.core());
 		}
 		else if (type == GraphGeneratorType::BruteForce)
 		{
-            generator = std::make_shared<FacadeGraphGeneratorBruteForce>(m_ext_ivhd.core());
+            generator = std::make_shared<FacadeGraphGeneratorBruteForce>(m_ext_viskit.core());
         }
         else if (type == GraphGeneratorType::Random)
         {
-            generator = std::make_shared<FacadeGraphGeneratorRandom>(m_ext_ivhd.core());
+            generator = std::make_shared<FacadeGraphGeneratorRandom>(m_ext_viskit.core());
         }
 
 #ifdef USE_CUDA
         else if (type == GraphGeneratorType::Faiss)
         {
-            generator = std::make_shared<FacadeGraphGeneratorFaiss>(m_ext_ivhd.core());
+            generator = std::make_shared<FacadeGraphGeneratorFaiss>(m_ext_viskit.core());
         }
 #endif
 		return generator;
@@ -66,27 +66,27 @@ namespace viskit::facade
 			
 		if (type == CasterType::Random)
 		{
-			caster = std::make_shared<FacadeCasterRandom>(m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterRandom>(m_ext_viskit.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Momentum)
 		{
-			caster = std::make_shared<FacadeCasterMomentum>(m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterMomentum>(m_ext_viskit.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::ForceDirected)
 		{
-			caster = std::make_shared<FacadeCasterForceDirected>(m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterForceDirected>(m_ext_viskit.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Adadelta)
 		{
-			caster = std::make_shared<FacadeCasterAdadelta>(m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterAdadelta>(m_ext_viskit.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Adam)
 		{
-			caster = std::make_shared<FacadeCasterAdam>(m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterAdam>(m_ext_viskit.core());
 		}
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Nesterov)
 		{
-			caster = std::make_shared<FacadeCasterNesterov>(m_ext_ivhd.core());
+			caster = std::make_shared<FacadeCasterNesterov>(m_ext_viskit.core());
 		}
 
 		return caster;
@@ -94,11 +94,11 @@ namespace viskit::facade
 
 	std::shared_ptr<IParticleSystem> FacadeResourceFactory::createParticleSystem()
 	{
-		return std::make_shared<FacadeParticleSystem>(m_ext_ivhd.core());
+		return std::make_shared<FacadeParticleSystem>(m_ext_viskit.core());
 	}
 
 	std::shared_ptr<IGraph> FacadeResourceFactory::createGraph()
 	{
-		return std::make_shared<FacadeGraph>(m_ext_ivhd.core());
+		return std::make_shared<FacadeGraph>(m_ext_viskit.core());
 	}
 }
