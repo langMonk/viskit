@@ -7,9 +7,9 @@
 
 #include <filesystem>
 
-namespace libivhd_test::utils
+namespace viskit_test::utils
 {
-	inline void dump(Graph graph, std::string filePath, std::string fileName)
+	inline void dump(Graph graph, const std::string& filePath, const std::string& fileName)
 	{
 		std::ofstream m_file;
 

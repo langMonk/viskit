@@ -16,7 +16,7 @@ namespace viskit
 	class IGraph;
 
 	/// <summary>
-	/// The main interface for controlling IVHD.
+	/// The main interface for controlling VisKit.
 	/// </summary>
 	class IInteractiveVisualization
 	{
@@ -27,7 +27,7 @@ namespace viskit
 		// public methods
 	public:	
 		/// <summary>
-		/// Obtains resource factory, that enables creation of IVHD objects.
+		/// Obtains resource factory, that enables creation of VisKit objects.
 		/// </summary>
 		virtual IResourceFactory& resourceFactory() = 0;
 

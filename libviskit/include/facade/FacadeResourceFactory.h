@@ -18,7 +18,7 @@ namespace viskit::facade
 	{
 		// public construction and destruction methods
 	public:
-		explicit FacadeResourceFactory(FacadeInteractiveVisualization& ivhd);
+		explicit FacadeResourceFactory(FacadeInteractiveVisualization& viskit);
 
 		// public methods
 	public:
@@ -33,6 +33,6 @@ namespace viskit::facade
 		std::shared_ptr<IGraph> createGraph() override;
 
 	private:
-		FacadeInteractiveVisualization& m_ext_ivhd;
+		FacadeInteractiveVisualization& m_ext_viskit;
 	};
 }

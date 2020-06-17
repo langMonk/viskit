@@ -7,18 +7,20 @@
 #include <viskit/InteractiveVisualizationBuilder.h>
 #include <viskit/IInteractiveVisualization.h>
 
-namespace libivhd_test
+namespace viskit_test
 {
-	TEST(InteractiveVisualizationBuilderTest, createIVHD)
+    class InteractiveVisualizationBuilderTest : public ::testing::Test {};
+
+	TEST(InteractiveVisualizationBuilderTest, createVisKit)
 	{
-		const auto ivhd = viskit::createIVHD();
+		const auto ivhd = viskit::createVisKit();
 		EXPECT_NE(ivhd, nullptr);
 	}
 
 	TEST(InteractiveVisualizationBuilderTest, createTwoInstances)
 	{
-		auto ivhd1 = viskit::createIVHD();
-		auto ivhd2 = viskit::createIVHD();
+		auto ivhd1 = viskit::createVisKit();
+		auto ivhd2 = viskit::createVisKit();
 
 		EXPECT_NE(ivhd1, nullptr);
 		EXPECT_NE(ivhd2, nullptr);

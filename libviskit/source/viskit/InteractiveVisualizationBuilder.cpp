@@ -8,7 +8,7 @@
 
 namespace viskit
 { 
-	std::shared_ptr<IInteractiveVisualization> createIVHD(LogHandler logHandler)
+	std::shared_ptr<IInteractiveVisualization> createVisKit(LogHandler logHandler)
 	{
 		try
 		{
