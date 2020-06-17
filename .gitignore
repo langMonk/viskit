@@ -15,8 +15,8 @@
 # for clion and VS
 /libviskit/cmake-build-*/
 /libviskit/Intermediate/
-/libivhd_test/cmake-build-*/
-/libivhd_test/Intermediate/
+/libviskit_test/cmake-build-*/
+/libviskit_test/Intermediate/
 /QtEditor/cmake-build-*/
 /QtEditor/Intermediate/
 

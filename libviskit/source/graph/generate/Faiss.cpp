@@ -44,9 +44,9 @@ namespace viskit::graph::generate
         faiss::gpu::GpuIndexFlatL2 index_flat(&res, d);
         //faiss::gpu::GpuIndexIVFFlat index_ivf(&res, d, static_cast<int>(sqrt(count)), faiss::METRIC_L2);
 
-        assert(!index_ivf.is_trained);
+        assert(!index_flat.is_trained);
         index_flat.train(nb, xb.data());
-        assert(index_ivf.is_trained);
+        assert(index_flat.is_trained);
         index_flat.add(nb, xb.data());  // add vectors to the index
 
         printf("is_trained = %s\n", index_flat.is_trained ? "true" : "false");

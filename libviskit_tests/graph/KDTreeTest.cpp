@@ -6,19 +6,18 @@
 #include <gtest/gtest.h>
 #include <mutex>
 #include <thread>
-#include <core/Core.h>
-#include <particles/ParticleSystem.h>
-#include <graph/Graph.h>
-#include <parse/ParserCSV.h>
+
 #include <graph/generate/KDTree.h>
 #include <viskit/Structures.h>
+
+#include "ViskitTest.h"
 #include "TestUtils.h"
 #include "utils/Math.h"
 #include "utils/TimeProfiler.h"
 
 using namespace viskit;
 
-namespace libivhd_test
+namespace viskit_test
 {
 	static int numQueriesProcessed;
 	static int correctCount;
@@ -90,31 +89,17 @@ namespace libivhd_test
 		}
 	}
 
-	TEST(KDTree, Generation)
+    class KDTreeTest : public ViskitTest {};
+
+	TEST_F(KDTreeTest, Generation)
 	{
-		using Logs = std::pair<viskit::LogLevel, std::string>;
+        auto csvFile = utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 
-		std::vector<Logs> logs{};
-		size_t count = 0;
-
-		auto handler = [&logs, &count](LogLevel level, const std::string& message)
-		{
-			logs.emplace_back(level, message);
-			count++;
-		};
-
-		core::Core core{ handler };
-		parse::ParserCSV parser{ core.system() };
-		Graph graph{ core.system() };
-		particles::ParticleSystem particleSystem{ core.system() };
-
-		auto csvFile = utils::resourcesDirectory().string() + "/mnist_7k_pca30.csv";
-		parser.loadFile(csvFile, particleSystem);
-
-		graph.initialize(particleSystem.countParticles());
+        parser->loadFile(csvFile, *particleSystem);
+        graph->initialize(particleSystem->countParticles());
 		
 		// Part responsible for creating a tree
-		auto data = particleSystem.originalCoordinates();
+		auto data = particleSystem->originalCoordinates();
 
 		generate::KDTree kd(data, 30);
 
@@ -123,27 +108,23 @@ namespace libivhd_test
 		size_t k_r = 1; // Number of nearest neighbors
 		numQueriesProcessed = 0;
 		correctCount = 0;
-		size_t queriesPerThread = particleSystem.countParticles() / kNumThreads;
+		size_t queriesPerThread = particleSystem->countParticles() / kNumThreads;
 		std::vector<std::thread> threads;
 
 		for (auto i = 0; i < kNumThreads; i++)
 		{
 			size_t start = i * queriesPerThread;
-			size_t end = (i == kNumThreads - 1) ? particleSystem.countParticles() : start + queriesPerThread;
-			threads.emplace_back(kNNQueryThread, start, end, std::ref(kd), k, k_r, std::ref(particleSystem), std::ref(graph));
+			size_t end = (i == kNumThreads - 1) ? particleSystem->countParticles() : start + queriesPerThread;
+			threads.emplace_back(kNNQueryThread, start, end, std::ref(kd), k, k_r, std::ref(*particleSystem), std::ref(*graph));
 		}
 
-		auto profiler = viskit::utils::TimeProfiler(true);
-		profiler.start();
 		for (auto& t : threads)
 		{
 			t.join();
 		}
-		profiler.stop();
-		profiler.measurementMs();
 
-		graph.sort();
+		graph->sort();
 
-		utils::dump(graph, "./", "test_kd");
+		utils::dump(*graph, "./", "test_kd");
 	}
 }

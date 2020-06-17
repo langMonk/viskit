@@ -39,9 +39,9 @@ namespace viskit::graph::generate
 
 	KDTree::KDTree(std::vector<std::pair<DataPoint, size_t>>& points, size_t dim)
 	{
-		m_root = buildTree(points.begin(), points.end(), 0);
+	    m_sizePoints = dim;
+        m_root = buildTree(points.begin(), points.end(), 0);
 		m_size = points.size();
-		m_sizePoints = dim;
 	}
 
 	KDTree::KDTree(const KDTree& rhs)
