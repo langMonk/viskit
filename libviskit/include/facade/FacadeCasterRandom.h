@@ -6,10 +6,10 @@
 #pragma once
 
 #include "facade/FacadeCaster.h"
-#include "ivhd/IParticleSystem.h"
+#include "viskit/IParticleSystem.h"
 #include "embed/cast/CasterRandom.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of ICaster interface.

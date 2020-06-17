@@ -3,7 +3,7 @@
 #include "facade/FacadeGraphGeneratorFaiss.h"
 #include "facade/FacadeGraph.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
     FacadeGraphGeneratorFaiss::FacadeGraphGeneratorFaiss(const std::shared_ptr<core::Core>& core)
             : FacadeGraphGenerator(core)

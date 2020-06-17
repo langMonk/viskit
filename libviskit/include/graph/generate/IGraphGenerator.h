@@ -5,7 +5,7 @@
 
 #pragma once
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
 	class IGraphGenerator
 	{

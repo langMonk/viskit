@@ -9,7 +9,7 @@
 #include "facade/FacadeParticleSystem.h"
 #include "graph/generate/BruteForce.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of IGraphGenerator interface.

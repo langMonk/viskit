@@ -5,7 +5,7 @@
 
 #pragma once
 
-namespace ivhd
+namespace viskit
 {
 	enum class SettingType : int
 	{

@@ -1,6 +1,6 @@
 #include "threading/ThreadPool.h"
 
-namespace ivhd::threading
+namespace viskit::threading
 {
 	ThreadPool::ThreadPool(size_t threads) : stop(false)
 	{

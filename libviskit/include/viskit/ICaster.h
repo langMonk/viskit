@@ -8,7 +8,7 @@
 #include "ITransformer.h"
 #include "Structures.h"
 
-namespace ivhd
+namespace viskit
 {
 	class IParticleSystem;
 	class IGraph;

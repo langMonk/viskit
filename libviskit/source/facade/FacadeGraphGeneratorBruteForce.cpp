@@ -1,7 +1,7 @@
 #include "facade/FacadeGraphGeneratorBruteForce.h"
 #include "facade/FacadeGraph.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeGraphGeneratorBruteForce::FacadeGraphGeneratorBruteForce(const std::shared_ptr<core::Core>& core)
 		: FacadeGraphGenerator(core)

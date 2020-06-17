@@ -5,7 +5,7 @@
 #include <cassert>
 #include <vector>
 
-namespace ivhd::graph
+namespace viskit::graph
 {
 	using DataPointId = size_t;
 

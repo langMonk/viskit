@@ -10,7 +10,7 @@ namespace libivhd_test
 {
 	TEST(ParticleData, create)
 	{
-		ivhd::particles::ParticleData data;
+		viskit::particles::ParticleData data;
 		data.generate(30);
 	}
 }

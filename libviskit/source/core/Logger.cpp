@@ -7,7 +7,7 @@
 
 #include "core/Logger.h"
 
-namespace ivhd::core
+namespace viskit::core
 {
 	Logger::Logger(OnLogAdded handler)
 		: m_onLogAddedHandler(std::move(handler))

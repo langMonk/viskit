@@ -13,7 +13,7 @@
 #include "particles/ParticleSystem.h"
 #include "parse/Parser.h"
 
-namespace ivhd::parse
+namespace viskit::parse
 {
 	class ParserCSV : public Parser
 	{

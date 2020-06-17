@@ -8,7 +8,7 @@
 #include "core/System.h"
 #include "particles/ParticleSystem.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
 	class GraphGenerator
 	{

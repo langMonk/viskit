@@ -1,7 +1,7 @@
 #include "graph/generate/GraphGenerator.h"
 #include "utils/Math.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
 	GraphGenerator::GraphGenerator(core::System& system)
 		: m_ext_system(system)

@@ -9,7 +9,7 @@
 #include "Structures.h"
 #include "glm/glm/glm.hpp"
 
-namespace ivhd
+namespace viskit
 {
 	class ICaster;
 	class IReducer;
@@ -91,6 +91,13 @@ namespace ivhd
 		/// </summary>
 		/// <returns> True if particle system is empty, false otherwise.</returns>
 		virtual bool empty() = 0;
+
+        /// <summary>
+        /// Saves a particle system to file.
+        /// </summary>
+        /// <param name="fileName"> Filename, where ps file should be located.</param>
+        /// <returns> True if save operation succeed. </returns>
+        virtual bool saveToFile(const std::string& fileName) = 0;
 
 		virtual ~IParticleSystem() = default;
 	};

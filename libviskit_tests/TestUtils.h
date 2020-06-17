@@ -20,15 +20,15 @@ namespace libivhd_test::utils
 			{
 				for (const auto neighbor : *neighbors)
 				{
-					if (neighbor.type == ivhd::NeighborsType::Near)
+					if (neighbor.type == viskit::NeighborsType::Near)
 					{
 						m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Near" << std::endl;
 					}
-					else if (neighbor.type == ivhd::NeighborsType::Far)
+					else if (neighbor.type == viskit::NeighborsType::Far)
 					{
 						m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Far" << std::endl;
 					}
-					else if (neighbor.type == ivhd::NeighborsType::Reverse)
+					else if (neighbor.type == viskit::NeighborsType::Reverse)
                     {
                         m_file << neighbor.i << "," << neighbor.j << "," << neighbor.r << "," << "Reverse" << std::endl;
                     }
@@ -52,7 +52,7 @@ namespace libivhd_test::utils
 			{
 				return currentPath;
 			}
-			if (currentPath.stem() == "ivhd")
+			if (currentPath.stem() == "viskit")
 			{
 				return currentPath / "assets";
 			}

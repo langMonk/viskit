@@ -13,21 +13,21 @@ namespace libivhd_test
 {
 	TEST(CasterTest, CasterRandom)
 	{
-		using Logs = std::pair<ivhd::LogLevel, std::string>;
+		using Logs = std::pair<viskit::LogLevel, std::string>;
 
 		std::vector<Logs> logs{};
 		size_t count = 0;
 
-		auto handler = [&logs, &count](ivhd::LogLevel level, const std::string& message)
+		auto handler = [&logs, &count](viskit::LogLevel level, const std::string& message)
 		{
 			logs.emplace_back(level, message);
 			count++;
 		};
 
-		ivhd::core::Core core{ handler };
-		ivhd::particles::ParticleSystem particleSystem{ core.system() };
-		ivhd::embed::cast::CasterRandom caster{ core.system() };
-		ivhd::parse::ParserCSV parser{ core.system() };
+		viskit::core::Core core{ handler };
+		viskit::particles::ParticleSystem particleSystem{ core.system() };
+		viskit::embed::cast::CasterRandom caster{ core.system() };
+		viskit::parse::ParserCSV parser{ core.system() };
 		Graph graph{ core.system() };
 
 		auto csvFile = utils::resourcesDirectory().string() + "/mnist_20_pca30.csv";
