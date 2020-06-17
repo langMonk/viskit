@@ -5,11 +5,11 @@
 
 #pragma once
 
-#include "ivhd/IGraphGenerator.h"
+#include "viskit/IGraphGenerator.h"
 #include "facade/FacadeGraphGenerator.h"
 #include "facade/FacadeParticleSystem.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of IGraphGenerator interface.

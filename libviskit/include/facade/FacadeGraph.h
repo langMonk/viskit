@@ -7,9 +7,9 @@
 
 #include "graph/Graph.h"
 #include "core/Core.h"
-#include "ivhd/IGraph.h"
+#include "viskit/IGraph.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of IGraph interface.

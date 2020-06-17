@@ -7,9 +7,9 @@
 
 #include <string>
 #include <functional>
-#include "ivhd/LogLevel.h"
+#include "viskit/LogLevel.h"
 
-namespace ivhd::core
+namespace viskit::core
 {
 	using OnLogAdded = std::function<void(LogLevel level, std::string message)>;
 

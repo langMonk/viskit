@@ -4,7 +4,7 @@
 
 #include "graph/Graph.h"
 
-namespace ivhd::graph
+namespace viskit::graph
 {
 	Graph::Graph(core::System& system)
 		: m_ext_system(system)

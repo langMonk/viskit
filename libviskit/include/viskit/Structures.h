@@ -9,7 +9,7 @@
 #include <vector>
 #include <string>
 
-namespace ivhd
+namespace viskit
 {
 	using DataPointId = size_t;
 

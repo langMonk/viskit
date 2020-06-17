@@ -52,7 +52,7 @@ set(project_sources
 add_executable(${PROJECT_NAME} ${project_headers} ${project_sources} ${project_resources})
 
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libviskit/include/ivhd)
+target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libviskit/include/viskit)
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/glew/include)
 

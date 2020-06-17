@@ -7,7 +7,7 @@
 
 #include <vector>
 
-namespace ivhd
+namespace viskit
 {
 	class IResourceFactory;
 	class IParser;

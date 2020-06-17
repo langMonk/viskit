@@ -9,7 +9,7 @@
 #include "core/System.h"
 #include "particles/ParticleSystem.h"
 
-namespace ivhd::parse
+namespace viskit::parse
 {
 	class Parser
 	{

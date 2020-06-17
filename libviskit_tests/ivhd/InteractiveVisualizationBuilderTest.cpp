@@ -4,21 +4,21 @@
 ///
 
 #include <gtest/gtest.h>
-#include <ivhd/InteractiveVisualizationBuilder.h>
-#include <ivhd/IInteractiveVisualization.h>
+#include <viskit/InteractiveVisualizationBuilder.h>
+#include <viskit/IInteractiveVisualization.h>
 
 namespace libivhd_test
 {
 	TEST(InteractiveVisualizationBuilderTest, createIVHD)
 	{
-		const auto ivhd = ivhd::createIVHD();
+		const auto ivhd = viskit::createIVHD();
 		EXPECT_NE(ivhd, nullptr);
 	}
 
 	TEST(InteractiveVisualizationBuilderTest, createTwoInstances)
 	{
-		auto ivhd1 = ivhd::createIVHD();
-		auto ivhd2 = ivhd::createIVHD();
+		auto ivhd1 = viskit::createIVHD();
+		auto ivhd2 = viskit::createIVHD();
 
 		EXPECT_NE(ivhd1, nullptr);
 		EXPECT_NE(ivhd2, nullptr);

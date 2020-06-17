@@ -9,9 +9,9 @@
 #include <optional>
 
 #include "core/System.h"
-#include "ivhd/Structures.h"
+#include "viskit/Structures.h"
 
-namespace ivhd::graph
+namespace viskit::graph
 {
 	class Graph
 	{

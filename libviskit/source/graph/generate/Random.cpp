@@ -1,7 +1,7 @@
 #include "graph/generate/Random.h"
 #include "utils/Math.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
     Random::Random(core::System &system) : GraphGenerator(system)
     {

@@ -1,6 +1,6 @@
 #include "facade/FacadeCasterAdam.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeCasterAdam::FacadeCasterAdam(const std::shared_ptr<core::Core>& core)
 		: FacadeCaster(core)

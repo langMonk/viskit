@@ -7,7 +7,7 @@
 
 #include <Structures.h>
 
-namespace ivhd
+namespace viskit
 {
 	/// <summary>
 	/// The public graph generator interface.
@@ -46,7 +46,7 @@ namespace ivhd
         /// </summary>
         /// Eg. We have NN=3, RN=1, Reverse=1, so the struct NeighborsCount = {3,1,1} will be returned.
         /// <returns> Number of overall different types of neighbors in graph structure. </returns>
-        virtual ivhd::NeighborsCounter neighborsCounter() = 0;
+        virtual viskit::NeighborsCounter neighborsCounter() = 0;
 
 		/// <summary>
 		/// Get overall neighbors count

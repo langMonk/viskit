@@ -8,7 +8,7 @@
 #include "core/System.h"
 #include "particles/ParticleSystem.h"
 
-namespace ivhd::embed::cast
+namespace viskit::embed::cast
 {
 	class Caster
 	{

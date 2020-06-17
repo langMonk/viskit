@@ -11,12 +11,12 @@
 #include <graph/Graph.h>
 #include <parse/ParserCSV.h>
 #include <graph/generate/KDTree.h>
-#include <ivhd/Structures.h>
+#include <viskit/Structures.h>
 #include "TestUtils.h"
 #include "utils/Math.h"
 #include "utils/TimeProfiler.h"
 
-using namespace ivhd;
+using namespace viskit;
 
 namespace libivhd_test
 {
@@ -54,11 +54,11 @@ namespace libivhd_test
 				{
 					if (setDistancesToOne)
 					{
-						graph.addNeighbors(ivhd::Neighbors(i,elem.second.getId(), 1.0f, NeighborsType::Near));
+						graph.addNeighbors(viskit::Neighbors(i,elem.second.getId(), 1.0f, NeighborsType::Near));
 					}
 					else
 					{
-						graph.addNeighbors(ivhd::Neighbors(i, elem.second.getId(), elem.first, NeighborsType::Near));
+						graph.addNeighbors(viskit::Neighbors(i, elem.second.getId(), elem.first, NeighborsType::Near));
 					}
 				}
 			}
@@ -92,7 +92,7 @@ namespace libivhd_test
 
 	TEST(KDTree, Generation)
 	{
-		using Logs = std::pair<ivhd::LogLevel, std::string>;
+		using Logs = std::pair<viskit::LogLevel, std::string>;
 
 		std::vector<Logs> logs{};
 		size_t count = 0;
@@ -133,7 +133,7 @@ namespace libivhd_test
 			threads.emplace_back(kNNQueryThread, start, end, std::ref(kd), k, k_r, std::ref(particleSystem), std::ref(graph));
 		}
 
-		auto profiler = ivhd::utils::TimeProfiler(true);
+		auto profiler = viskit::utils::TimeProfiler(true);
 		profiler.start();
 		for (auto& t : threads)
 		{

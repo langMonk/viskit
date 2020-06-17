@@ -17,19 +17,19 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 
 void MainWindow::setupIVHD()
 {
-	auto handler = [&](ivhd::LogLevel level, const std::string& message)
+	auto handler = [&](viskit::LogLevel level, const std::string& message)
 	{
 		switch (level)
 		{
-		case ivhd::LogLevel::Info: ui.textBrowser_log->append("Info: " + QString::fromStdString(message)); break;
-		case ivhd::LogLevel::Warning: ui.textBrowser_log->append("Warning: " + QString::fromStdString(message)); break;
-		case ivhd::LogLevel::Error: ui.textBrowser_log->append("Error: " + QString::fromStdString(message)); break;
+		case viskit::LogLevel::Info: ui.textBrowser_log->append("Info: " + QString::fromStdString(message)); break;
+		case viskit::LogLevel::Warning: ui.textBrowser_log->append("Warning: " + QString::fromStdString(message)); break;
+		case viskit::LogLevel::Error: ui.textBrowser_log->append("Error: " + QString::fromStdString(message)); break;
 		default: ;
 		}
 	};
 
 	// create IVHD
-	m_ivhd = ivhd::createIVHD(handler);
+	m_ivhd = viskit::createIVHD(handler);
 	initializeIVHDResources();
 	initializeEditorElements();
 }
@@ -42,17 +42,17 @@ void MainWindow::initializeIVHDResources()
 	m_graph = m_ivhd->resourceFactory().createGraph();
 
     // create collections
-	m_casters = std::make_shared<ivhd::ResourceCollection<ivhd::ICaster>>();
-    m_generators = std::make_shared<ivhd::ResourceCollection<ivhd::IGraphGenerator>>();
+	m_casters = std::make_shared<viskit::ResourceCollection<viskit::ICaster>>();
+    m_generators = std::make_shared<viskit::ResourceCollection<viskit::IGraphGenerator>>();
 
 
 	// add resources to collections
-	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
-	const auto casterMomentum = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
-	const auto casterForceDirected = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::ForceDirected);
-	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adadelta);
-	const auto casterAdam = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adam);
-	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Nesterov);
+	const auto casterRandom = m_ivhd->resourceFactory().createCaster(viskit::CasterType::Random);
+	const auto casterMomentum = m_ivhd->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Momentum);
+	const auto casterForceDirected = m_ivhd->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::ForceDirected);
+	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adadelta);
+	const auto casterAdam = m_ivhd->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adam);
+	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Nesterov);
 
 	m_casters->add("Random", casterRandom);
 	m_casters->add("Momentum", casterMomentum);
@@ -61,9 +61,9 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("Adam", casterAdam);
 	m_casters->add("Nesterov", casterNesterov);
 
-	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
-	const auto randomGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::Random);
-    const auto faissGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::Faiss);
+	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::BruteForce);
+	const auto randomGenerator = m_ivhd->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
+    const auto faissGenerator = m_ivhd->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Faiss);
 
     m_generators->add("Brute Force", bruteGenerator);
     m_generators->add("Random", randomGenerator);
@@ -105,7 +105,7 @@ void MainWindow::initializeEditorElements()
 	}
 	else
 	{
-		auto parser = m_ivhd->resourceFactory().createParser(ivhd::ParserType::Csv);
+		auto parser = m_ivhd->resourceFactory().createParser(viskit::ParserType::Csv);
 		parser->loadFile(fileName.toUtf8().constData(), *m_particleSystem);
 	}
 
@@ -231,7 +231,7 @@ void MainWindow::calculateBoundingBox()
 	m_renderer->setBoundingBox(bounding_box_min, bounding_box_max);
 }
 
-void MainWindow::setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster)
+void MainWindow::setCurrentCaster(const std::shared_ptr<viskit::ICaster>& caster)
 {
  	if (caster != nullptr)
 	{
@@ -239,7 +239,7 @@ void MainWindow::setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster)
 	}
 }
 
-void MainWindow::setCurrentGraphGenerator(const std::shared_ptr<ivhd::IGraphGenerator>& generator)
+void MainWindow::setCurrentGraphGenerator(const std::shared_ptr<viskit::IGraphGenerator>& generator)
 {
 	if (generator != nullptr)
 	{

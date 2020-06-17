@@ -2,7 +2,7 @@
 
 #include <utility>
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 
 	FacadeGraphGeneratorKDTree::FacadeGraphGeneratorKDTree(std::shared_ptr<core::Core> core)
@@ -23,11 +23,11 @@ namespace ivhd::facade
 				{
 					if (setDistancesToOne)
 					{
-						graph.addNeighbors(ivhd::Neighbors(id, elem.second.getId(), 1.0f, NeighborsType::Near));
+						graph.addNeighbors(viskit::Neighbors(id, elem.second.getId(), 1.0f, NeighborsType::Near));
 					}
 					else
 					{
-						graph.addNeighbors(ivhd::Neighbors(id, elem.second.getId(), elem.first, NeighborsType::Near));
+						graph.addNeighbors(viskit::Neighbors(id, elem.second.getId(), elem.first, NeighborsType::Near));
 					}
 				}
 			}

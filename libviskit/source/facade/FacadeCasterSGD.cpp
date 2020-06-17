@@ -1,10 +1,10 @@
 #include "facade/FacadeCasterSGD.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeCasterSGD::FacadeCasterSGD(const std::shared_ptr<core::Core>& core)
 		: FacadeCaster(core)
-		, m_internalCaster(std::make_shared<ivhd::embed::cast::ivhd::CasterSGD>(core->system()))
+		, m_internalCaster(std::make_shared<viskit::embed::cast::ivhd::CasterSGD>(core->system()))
 	{
 	}
 
@@ -13,7 +13,7 @@ namespace ivhd::facade
 		try
 		{
 			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
-			dynamic_cast<ivhd::embed::cast::ivhd::CasterSGD*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
+			dynamic_cast<viskit::embed::cast::ivhd::CasterSGD*>(m_internalCaster.get())->calculatePositions(facadePs->internalSystem());
 		}
 		catch (std::exception& ex)
 		{
@@ -28,7 +28,7 @@ namespace ivhd::facade
 			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
 			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
 			float energy = 0.1f;
-			dynamic_cast<ivhd::embed::cast::ivhd::CasterSGD*>(m_internalCaster.get())->calculateForces(energy, facadePs->internalSystem(), facadeGraph->internalGraph());
+			dynamic_cast<viskit::embed::cast::ivhd::CasterSGD*>(m_internalCaster.get())->calculateForces(energy, facadePs->internalSystem(), facadeGraph->internalGraph());
 		}
 		catch (std::exception& ex)
 		{

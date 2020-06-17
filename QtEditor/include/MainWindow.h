@@ -28,10 +28,10 @@ public:
 		return s;
 	}
 
-	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return *m_particleSystem; }
+	[[nodiscard]] viskit::IParticleSystem& particleSystem() const { return *m_particleSystem; }
 
-	void setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster);
-	void setCurrentGraphGenerator(const std::shared_ptr<ivhd::IGraphGenerator>& generator);
+	void setCurrentCaster(const std::shared_ptr<viskit::ICaster>& caster);
+	void setCurrentGraphGenerator(const std::shared_ptr<viskit::IGraphGenerator>& generator);
 
 private:
 	explicit MainWindow(QWidget* parent = Q_NULLPTR);
@@ -68,16 +68,16 @@ private:
 	glm::vec4 bounding_box_min{};
 	glm::vec4 bounding_box_max{};
 	
-	std::shared_ptr<ivhd::IInteractiveVisualization> m_ivhd;
+	std::shared_ptr<viskit::IInteractiveVisualization> m_ivhd;
 
 	// IVHD collections and current resources
-	std::shared_ptr<ivhd::ResourceCollection<ivhd::ICaster>> m_casters;
-	std::shared_ptr<ivhd::ResourceCollection<ivhd::IGraphGenerator>> m_generators;
+	std::shared_ptr<viskit::ResourceCollection<viskit::ICaster>> m_casters;
+	std::shared_ptr<viskit::ResourceCollection<viskit::IGraphGenerator>> m_generators;
 
-	std::shared_ptr<ivhd::ICaster> m_currentCaster{ nullptr };
-	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator{ nullptr };
-	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem{ nullptr };
-	std::shared_ptr<ivhd::IGraph> m_graph{ nullptr };
+	std::shared_ptr<viskit::ICaster> m_currentCaster{ nullptr };
+	std::shared_ptr<viskit::IGraphGenerator> m_currentGraphGenerator{ nullptr };
+	std::shared_ptr<viskit::IParticleSystem> m_particleSystem{ nullptr };
+	std::shared_ptr<viskit::IGraph> m_graph{ nullptr };
 
 	std::thread m_castingThread{};
 

@@ -5,10 +5,10 @@
 
 #pragma once
 
-namespace ivhd
+namespace viskit
 {
 	/// <summary>
-	/// Levels of logs: Info, Warning (ivhd can operate), Error (ivhd crush), Debug (only in debug mode)
+	/// Levels of logs: Info, Warning (viskit can operate), Error (viskit crush), Debug (only in debug mode)
 	/// <!summary>
 	enum class LogLevel
 	{

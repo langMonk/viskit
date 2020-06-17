@@ -9,7 +9,7 @@
 #include <faiss/gpu/GpuIndexIVFFlat.h>
 #include <faiss/gpu/StandardGpuResources.h>
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
     Faiss::Faiss(core::System &system)
             : GraphGenerator(system)

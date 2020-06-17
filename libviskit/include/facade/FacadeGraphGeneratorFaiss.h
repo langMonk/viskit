@@ -11,7 +11,7 @@
 #include "facade/FacadeParticleSystem.h"
 #include "graph/generate/Faiss.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
     /// <summary>
     /// Implementation of IGraphGenerator interface.

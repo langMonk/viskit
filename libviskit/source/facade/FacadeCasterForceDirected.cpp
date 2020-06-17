@@ -1,6 +1,6 @@
 #include "facade/FacadeCasterForceDirected.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeCasterForceDirected::FacadeCasterForceDirected(const std::shared_ptr<core::Core>& core)
 		: FacadeCaster(core)
@@ -17,7 +17,8 @@ namespace ivhd::facade
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterForceDirected.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterForceDirected.calculatePositions. "
+                                    "Error message: " [ *ex.what()]);
 		}
 	}
 
@@ -32,7 +33,8 @@ namespace ivhd::facade
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterForceDirected.calculateForces. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterForceDirected.calculateForces. "
+                                    "Error message: " [ *ex.what()]);
 		}
 	}
 }

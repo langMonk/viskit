@@ -9,7 +9,7 @@
 #include "particles/ParticleSystem.h"
 #include "graph/Graph.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
     class Random final : public GraphGenerator
     {

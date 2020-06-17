@@ -1,6 +1,6 @@
 #include "parse/Parser.h"
 
-namespace ivhd::parse
+namespace viskit::parse
 {
 	Parser::Parser(core::System& system)
 		: m_ext_system(system)

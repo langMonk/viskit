@@ -6,7 +6,7 @@
 #include "embed/cast/Caster.h"
 #include "math/IvhdMath.h"
 
-namespace ivhd::embed::cast
+namespace viskit::embed::cast
 {
 	Caster::Caster(core::System& system)
 		: m_ext_system(system)

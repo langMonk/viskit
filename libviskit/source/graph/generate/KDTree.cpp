@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
 	KDTree::Node* KDTree::deepcopyTree(Node* root) {
 		if (root == nullptr) return nullptr;

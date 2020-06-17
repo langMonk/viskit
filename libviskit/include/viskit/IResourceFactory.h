@@ -8,7 +8,7 @@
 #include <memory>
 #include "Structures.h"
 
-namespace ivhd
+namespace viskit
 {
 	class IParser;
 	class ICaster;
@@ -21,7 +21,7 @@ namespace ivhd
 		// public methods
 	public:
 		/// <summary>
-		/// Creates a new parser used for loading data into ivhd
+		/// Creates a new parser used for loading data into viskit
 		/// </summary>
 		/// <param name="type"> Type of parser, which will be created. </param>
 		/// <returns> The created parser. </returns>

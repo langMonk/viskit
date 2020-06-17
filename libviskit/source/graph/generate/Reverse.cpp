@@ -1,7 +1,7 @@
 #include "graph/generate/Reverse.h"
 #include "utils/Math.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
     Reverse::Reverse(core::System &system) : GraphGenerator(system)
     {

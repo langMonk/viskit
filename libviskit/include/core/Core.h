@@ -9,7 +9,7 @@
 #include "System.h"
 #include "threading/ThreadPool.h"
 
-namespace ivhd::core
+namespace viskit::core
 {
 	class Core
 	{

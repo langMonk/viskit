@@ -7,7 +7,7 @@
 #include "math/IvhdMath.h"
 #include "threading/ThreadPool.h"
 
-namespace ivhd::embed::cast
+namespace viskit::embed::cast
 {
 	CasterRandom::CasterRandom(core::System& system)
 		: Caster(system)

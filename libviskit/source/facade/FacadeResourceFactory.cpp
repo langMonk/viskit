@@ -17,7 +17,7 @@
 #include "facade/FacadeCasterAdam.h"
 #include "facade/FacadeCasterNesterov.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeResourceFactory::FacadeResourceFactory(FacadeInteractiveVisualization& ivhd)
 		: m_ext_ivhd(ivhd)

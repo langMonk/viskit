@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include "ivhd/IResourceFactory.h"
+#include "viskit/IResourceFactory.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	class FacadeInteractiveVisualization;
 

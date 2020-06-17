@@ -12,7 +12,7 @@
 #include "ResourceCollection.h"
 #include "LogLevel.h"
 
-namespace ivhd
+namespace viskit
 {
 	/// <summary>
 	/// A function used as a callback for each log entry added.

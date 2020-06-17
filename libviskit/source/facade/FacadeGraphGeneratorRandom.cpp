@@ -1,7 +1,7 @@
 #include "facade/FacadeGraphGeneratorRandom.h"
 #include "facade/FacadeGraph.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
     FacadeGraphGeneratorRandom::FacadeGraphGeneratorRandom(const std::shared_ptr<core::Core>& core)
             : FacadeGraphGenerator(core)

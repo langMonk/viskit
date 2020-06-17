@@ -5,11 +5,11 @@
 
 #include "facade/FacadeParserCSV.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeParserCSV::FacadeParserCSV(const std::shared_ptr<core::Core>& core)
 		: FacadeParser(core)
-		, m_internalParser(std::make_shared<ivhd::parse::ParserCSV>(core->system()))
+		, m_internalParser(std::make_shared<viskit::parse::ParserCSV>(core->system()))
 	{
 	}
 

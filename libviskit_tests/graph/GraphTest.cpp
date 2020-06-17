@@ -10,11 +10,11 @@
 #include <parse/ParserCSV.h>
 #include <graph/generate/BruteForce.h>
 #include <graph/generate/Random.h>
-#include <ivhd/Structures.h>
+#include <viskit/Structures.h>
 #include <utils/TimeProfiler.h>
 #include "TestUtils.h"
 
-using namespace ivhd;
+using namespace viskit;
 
 void saveToPlainText(Graph& graph)
 {
@@ -72,7 +72,7 @@ namespace libivhd_test
 		EXPECT_EQ(particleSystem.countParticles(), 7000);
 		EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);
 
-		auto profiler = ivhd::utils::TimeProfiler(true);
+		auto profiler = viskit::utils::TimeProfiler(true);
 		profiler.start();
 		nearestGenerator.generate(particleSystem, graph, 2, true);
 		randomGenerator.generate(particleSystem, graph, 1, true);

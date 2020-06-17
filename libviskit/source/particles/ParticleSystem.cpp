@@ -6,7 +6,7 @@
 #include "particles/ParticleSystem.h"
 #include <numeric>
 
-namespace ivhd::particles
+namespace viskit::particles
 {
 	ParticleSystem::ParticleSystem(core::System& system)
 		: m_ext_system(system)
