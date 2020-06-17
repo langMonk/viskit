@@ -7,7 +7,7 @@
 
 #include <string>
 
-namespace ivhd
+namespace viskit
 {
 	class IParticleSystem;
 

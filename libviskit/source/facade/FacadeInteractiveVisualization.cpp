@@ -1,7 +1,7 @@
 #include "facade/FacadeInteractiveVisualization.h"
 #include <vector>
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeInteractiveVisualization::FacadeInteractiveVisualization(const LogHandler& logHandler)
 		: m_core(std::make_shared<core::Core>(logHandler))

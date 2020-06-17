@@ -8,7 +8,7 @@ using namespace std::chrono;
 
 using Clock = high_resolution_clock;
 
-namespace ivhd::utils
+namespace viskit::utils
 {
 	// Very simple time profiling class for testing method's execution time
 	class TimeProfiler

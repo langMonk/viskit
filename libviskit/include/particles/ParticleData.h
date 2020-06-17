@@ -8,7 +8,7 @@
 #include <vector>
 #include "math/glm_adapter.h"
 
-namespace ivhd
+namespace viskit
 {
 	namespace particles
 	{

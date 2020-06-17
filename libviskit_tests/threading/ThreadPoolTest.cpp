@@ -17,7 +17,7 @@ namespace libivhd_test
 	TEST(ThreadPool, DefaultThreadPool)
 	{
 		//// Create pool with 3 threads
-		ivhd::threading::ThreadPool pool(3);
+		viskit::threading::ThreadPool pool(3);
 
 		//// Submit (partial) multiplication table
 		for (auto i = 1; i < 20; ++i) {

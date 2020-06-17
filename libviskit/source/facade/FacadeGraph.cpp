@@ -7,7 +7,7 @@
 
 #include "facade/FacadeGraph.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeGraph::FacadeGraph(const std::shared_ptr<core::Core>& core)
 		: m_ext_core(core)

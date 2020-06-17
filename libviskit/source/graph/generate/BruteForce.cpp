@@ -6,7 +6,7 @@
 #include "graph/generate/BruteForce.h"
 #include "utils/Math.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
 	BruteForce::BruteForce(core::System& system)
 		: GraphGenerator(system)

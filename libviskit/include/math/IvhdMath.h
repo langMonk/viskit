@@ -5,7 +5,7 @@
 
 #pragma once
 
-namespace ivhd::math
+namespace viskit::math
 {
 	template<class T = size_t>
 	constexpr T threads = T(4);

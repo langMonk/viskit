@@ -10,11 +10,11 @@
 #include <parse/ParserCSV.h>
 #include <graph/generate/BruteForce.h>
 #include <graph/generate/Reverse.h>
-#include <ivhd/Structures.h>
+#include <viskit/Structures.h>
 #include <utils/TimeProfiler.h>
 #include "TestUtils.h"
 
-using namespace ivhd;
+using namespace viskit;
 
 namespace libivhd_test
 {
@@ -44,7 +44,7 @@ namespace libivhd_test
         EXPECT_EQ(particleSystem.countParticles(), 7000);
         EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);
 
-        auto profiler = ivhd::utils::TimeProfiler(true);
+        auto profiler = viskit::utils::TimeProfiler(true);
         profiler.start();
         nearestGenerator.generate(particleSystem, graph, 2, true);
         reverseGenerator.generate(particleSystem, graph, 1, true);
@@ -52,7 +52,7 @@ namespace libivhd_test
         profiler.measurementMs();
 
         EXPECT_EQ(graph.size(), 7000); // 7000 elements (size) and every has 3 NN
-        EXPECT_EQ(graph.overallNeighborsCount(), 19669);
+        EXPECT_EQ(graph.overallNeighborsCount(), 19669); // not all elements has rkNN
 
         utils::dump(graph, "./", "test_reverse");
     }

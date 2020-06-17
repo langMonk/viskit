@@ -1,6 +1,6 @@
 #include "embed/cast/ivhd/CasterAdadelta.h"
 
-namespace ivhd::embed::cast::ivhd
+namespace viskit::embed::cast::ivhd
 {
 	CasterAdadelta::CasterAdadelta(core::System& system)
 		: CasterIVHD(system)
