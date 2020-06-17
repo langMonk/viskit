@@ -15,6 +15,7 @@ namespace viskit
 	class IParticleSystem;
 	class IGraphGenerator;
 	class IGraph;
+	class IMetric;
 
 	class IResourceFactory
 	{
@@ -53,6 +54,12 @@ namespace viskit
 		/// </summary>
 		/// <returns>The created graph.</returns>
 		virtual std::shared_ptr<IGraph> createGraph() = 0;
+
+        /// <summary>
+        /// Creates a new metric calculator
+        /// </summary>
+        /// <returns>The created calculator.</returns>
+        virtual std::shared_ptr<IMetric> createMetricCalculator() = 0;
 
 	public:
 		virtual ~IResourceFactory() = default;
