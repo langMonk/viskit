@@ -32,6 +32,8 @@ namespace viskit::facade
 		
 		std::shared_ptr<IGraph> createGraph() override;
 
+		std::shared_ptr<IMetric> createMetricCalculator() override;
+
 	private:
 		FacadeInteractiveVisualization& m_ext_viskit;
 	};

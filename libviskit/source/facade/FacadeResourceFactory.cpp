@@ -16,6 +16,7 @@
 #include "facade/FacadeCasterAdadelta.h"
 #include "facade/FacadeCasterAdam.h"
 #include "facade/FacadeCasterNesterov.h"
+#include "facade/metrics/FacadeKnnMetric.h"
 
 namespace viskit::facade
 {
@@ -101,4 +102,9 @@ namespace viskit::facade
 	{
 		return std::make_shared<FacadeGraph>(m_ext_viskit.core());
 	}
+
+    std::shared_ptr<IMetric> FacadeResourceFactory::createMetricCalculator()
+    {
+        return std::make_shared<metrics::FacadeKnnMetric>(m_ext_viskit.core());
+    }
 }

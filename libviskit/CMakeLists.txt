@@ -79,6 +79,8 @@ set(HEADER_FILES
         include/viskit/Math.h
         include/viskit/SettingType.h
         include/viskit/Structures.h
+        include/viskit/IMetric.h
+        include/facade/metrics/FacadeKnnMetric.h
         include/math/glm_adapter.h
         include/math/IvhdMath.h
         include/parse/Parser.h
@@ -131,6 +133,7 @@ set(SOURCE_FILES
         source/graph/generate/Reverse.cpp
         source/graph/DataPoint.cpp
         source/graph/Graph.cpp
+        source/facade/metrics/FacadeKnnMetric.cpp
         source/viskit/InteractiveVisualizationBuilder.cpp
         source/parse/Parser.cpp
         source/parse/ParserCSV.cpp
