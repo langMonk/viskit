@@ -11,6 +11,6 @@ namespace viskit
 
     class IMetric
     {
-        virtual float calculate(viskit::IParticleSystem& ps) = 0;
+        virtual float calculate(viskit::IParticleSystem& ps, int k) = 0;
     };
 }

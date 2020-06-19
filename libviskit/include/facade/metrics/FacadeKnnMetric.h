@@ -17,12 +17,12 @@ namespace viskit::facade::metrics
     class FacadeKnnMetric : public IMetric
     {
     public:
-        explicit FacadeKnnMetric(const std::shared_ptr<core::Core>& core);
+        explicit FacadeKnnMetric(std::shared_ptr<core::Core>  core);
 
-        float calculate(viskit::IParticleSystem& ps) override;
+        float calculate(viskit::IParticleSystem& ps, int k) override;
 
     private:
-        graph::Graph buildInternalGraph(viskit::particles::ParticleSystem& ps);
+        graph::Graph buildInternalGraph(viskit::particles::ParticleSystem& ps, int k);
 
     private:
         std::shared_ptr<core::Core> m_ext_core;

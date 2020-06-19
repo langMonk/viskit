@@ -8,9 +8,7 @@
 #include <vector>
 #include "math/glm_adapter.h"
 
-namespace viskit
-{
-	namespace particles
+namespace viskit::particles
 	{
 		class ParticleData
 		{
@@ -42,4 +40,3 @@ namespace viskit
 			size_t m_countAlive{ 0 };
 		};
 	}
-}
