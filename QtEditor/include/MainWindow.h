@@ -54,6 +54,10 @@ private slots:
     [[maybe_unused]] void on_actionReset_View_clicked();
     [[maybe_unused]] void on_pushButton_GraphOpen_clicked();
 
+private slots:
+    void clickOpenButton();
+
+
 	void calculateBoundingBox();
 
 	// Qt resources

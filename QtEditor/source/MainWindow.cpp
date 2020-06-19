@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget* parent)
 {
 	ui.setupUi(this);
 	connect(ui.actionResetView, SIGNAL(triggered()), this, SLOT(calculateBoundingBox()));
+    connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(clickOpenButton()));
 	setupIVHD();
 }
 
@@ -29,7 +30,7 @@ void MainWindow::setupIVHD()
 	};
 
 	// create IVHD
-	m_ivhd = viskit::createIVHD(handler);
+	m_ivhd = viskit::createVisKit(handler);
 	initializeIVHDResources();
 	initializeEditorElements();
 }
@@ -245,4 +246,31 @@ void MainWindow::setCurrentGraphGenerator(const std::shared_ptr<viskit::IGraphGe
 	{
 		m_currentGraphGenerator = generator;
 	}
+}
+
+void MainWindow::clickOpenButton()
+{
+    if (!m_particleSystem->empty())
+    {
+        m_particleSystem->clear();
+    }
+
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Choose dataset"), "",
+                                                    tr("CSV format(*.csv);;All Files (*)"));
+
+    if (fileName.isEmpty())
+    {
+        return;
+    }
+    else
+    {
+        auto parser = m_ivhd->resourceFactory().createParser(viskit::ParserType::Csv);
+        parser->loadFile(fileName.toUtf8().constData(), *m_particleSystem);
+    }
+
+    m_casters->find("Random")->calculatePositions(*m_particleSystem);
+
+    m_renderer = new OpenGLRenderer();
+    setCentralWidget(m_renderer);
 }
