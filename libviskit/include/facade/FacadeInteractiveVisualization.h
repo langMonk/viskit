@@ -40,7 +40,7 @@ namespace viskit::facade
 
 		void subscribeOnCastingStepFinish(CasterEventHandler handler) override;
 		
-		void computePositions(IParticleSystem& ps, IGraph& graph, ICaster& caster) override;
+		void computeCastingStep(IParticleSystem& ps, IGraph& graph, ICaster& caster) override;
 
 		std::vector<std::pair<float, float>> calculateBoundingBox() override;
 		

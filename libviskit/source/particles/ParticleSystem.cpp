@@ -51,6 +51,7 @@ namespace viskit::particles
 
     std::vector<size_t> ParticleSystem::labels()
     {
+        std::scoped_lock lock{ m_lock };
 	    std::vector<DataPointLabel> labels;
         labels.reserve(m_originalDataset.size());
 
