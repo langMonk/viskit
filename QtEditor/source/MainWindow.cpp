@@ -7,7 +7,10 @@ MainWindow::MainWindow(QWidget* parent)
 {
 	ui.setupUi(this);
 	connect(ui.actionResetView, SIGNAL(triggered()), this, SLOT(calculateBoundingBox()));
-    connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(clickOpenButton()));
+    connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(loadDataset()));
+    connect(ui.actionLoadFromDisk, SIGNAL(triggered()), this, SLOT(loadGraphFromDisk()));
+    connect(ui.actionExit, SIGNAL(triggered()), this, SLOT(exitEditor()));
+
 	setupIVHD();
 }
 
@@ -30,7 +33,7 @@ void MainWindow::setupIVHD()
 	};
 
 	// create IVHD
-	m_ivhd = viskit::createVisKit(handler);
+	m_viskit = viskit::createVisKit(handler);
 	initializeIVHDResources();
 	initializeEditorElements();
 }
@@ -39,8 +42,8 @@ void MainWindow::initializeIVHDResources()
 {
 
 	// create particle system and graph
-	m_particleSystem = m_ivhd->resourceFactory().createParticleSystem();
-	m_graph = m_ivhd->resourceFactory().createGraph();
+	m_particleSystem = m_viskit->resourceFactory().createParticleSystem();
+	m_graph = m_viskit->resourceFactory().createGraph();
 
     // create collections
 	m_casters = std::make_shared<viskit::ResourceCollection<viskit::ICaster>>();
@@ -48,12 +51,12 @@ void MainWindow::initializeIVHDResources()
 
 
 	// add resources to collections
-	const auto casterRandom = m_ivhd->resourceFactory().createCaster(viskit::CasterType::Random);
-	const auto casterMomentum = m_ivhd->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Momentum);
-	const auto casterForceDirected = m_ivhd->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::ForceDirected);
-	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adadelta);
-	const auto casterAdam = m_ivhd->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adam);
-	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Nesterov);
+	const auto casterRandom = m_viskit->resourceFactory().createCaster(viskit::CasterType::Random);
+	const auto casterMomentum = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Momentum);
+	const auto casterForceDirected = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::ForceDirected);
+	const auto casterAdadelta = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adadelta);
+	const auto casterAdam = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adam);
+	const auto casterNesterov = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Nesterov);
 
 	m_casters->add("Random", casterRandom);
 	m_casters->add("Momentum", casterMomentum);
@@ -62,12 +65,11 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("Adam", casterAdam);
 	m_casters->add("Nesterov", casterNesterov);
 
-	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::BruteForce);
-	const auto randomGenerator = m_ivhd->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
-    const auto faissGenerator = m_ivhd->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Faiss);
+	const auto bruteGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::BruteForce);
+    const auto faissGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Faiss);
+    m_randomGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
 
     m_generators->add("Brute Force", bruteGenerator);
-    m_generators->add("Random", randomGenerator);
     if(faissGenerator != nullptr){ m_generators->add("Faiss", faissGenerator); }
 
 
@@ -89,7 +91,7 @@ void MainWindow::initializeEditorElements()
 	});
 }
 
-[[maybe_unused]] void MainWindow::on_pushButton_Open_clicked()
+void MainWindow::loadDataset()
 {
 	if (!m_particleSystem->empty())
 	{
@@ -106,7 +108,7 @@ void MainWindow::initializeEditorElements()
 	}
 	else
 	{
-		auto parser = m_ivhd->resourceFactory().createParser(viskit::ParserType::Csv);
+		auto parser = m_viskit->resourceFactory().createParser(viskit::ParserType::Csv);
 		parser->loadFile(fileName.toUtf8().constData(), *m_particleSystem);
 	}
 
@@ -116,24 +118,28 @@ void MainWindow::initializeEditorElements()
 	setCentralWidget(m_renderer);
 }
 
-[[maybe_unused]] void MainWindow::on_pushButton_Exit_clicked()
+void MainWindow::exitEditor()
 {
 	close();
 }
 
 [[maybe_unused]] void MainWindow::on_pushButton_CastingRun_clicked()
 {
-	if (m_currentCaster != nullptr) {
+	if (m_currentCaster != nullptr)
+	{
         m_currentCaster->initialize(*m_particleSystem, *m_graph);
-        m_running = true;
+        m_viskit->subscribeOnCastingStepFinish([&]{});
 
-        m_castingThread = std::thread([&]() {
-            while(m_running)
-            {
-                m_currentCaster->step(*m_particleSystem, *m_graph);
-            }
+        m_running = true;
+        m_castingThread = std::thread([&]()
+        {
+          while (m_running)
+          {
+              m_viskit->computeCastingStep(*m_particleSystem, *m_graph,
+                                           *m_currentCaster);
+          }
         });
-	}
+    }
 	else
 	{
 
@@ -144,11 +150,9 @@ void MainWindow::initializeEditorElements()
 {
 	if(m_running)
 	{
-        m_castingThread.join();
+        m_running = false;
         m_currentCaster->finalize();
 	}
-
-	m_running = false;
 }
 
 [[maybe_unused]] void MainWindow::on_pushButton_GraphGenerate_clicked()
@@ -156,37 +160,13 @@ void MainWindow::initializeEditorElements()
 	if (m_currentGraphGenerator != nullptr)
 	{
         m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 2, true);
+        m_randomGenerator->generate(*m_particleSystem, *m_graph, 1, true);
         m_graph->saveToCache(R"(./mnist.knn)");
-
 	}
 	else
 	{
 
 	}
-}
-
-[[maybe_unused]] void MainWindow::on_pushButton_GraphOpen_clicked()
-{
-	if (!m_particleSystem->empty())
-	{
-		m_particleSystem->clear();
-	}
-
-	QString fileName = QFileDialog::getOpenFileName(this,
-		tr("Choose knn file"), "",
-		tr("knn format(*.knn);;All Files (*)"));
-
-	if (fileName.isEmpty())
-	{
-		return;
-	}
-	
-	m_graph->loadFromCache(fileName.toUtf8().constData());
-
-	auto temp = m_currentGraphGenerator;
-    setCurrentGraphGenerator(m_generators->find("Random"));
-    m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 1, true);
-    setCurrentGraphGenerator(temp);
 }
 
 [[maybe_unused]] void MainWindow::on_comboBox_CastingSetup_activated()
@@ -248,7 +228,7 @@ void MainWindow::setCurrentGraphGenerator(const std::shared_ptr<viskit::IGraphGe
 	}
 }
 
-void MainWindow::clickOpenButton()
+void MainWindow::loadGraphFromDisk()
 {
     if (!m_particleSystem->empty())
     {
@@ -256,21 +236,14 @@ void MainWindow::clickOpenButton()
     }
 
     QString fileName = QFileDialog::getOpenFileName(this,
-                                                    tr("Choose dataset"), "",
-                                                    tr("CSV format(*.csv);;All Files (*)"));
+                                                    tr("Choose knn file"), "",
+                                                    tr("knn format(*.knn);;All Files (*)"));
 
     if (fileName.isEmpty())
     {
         return;
     }
-    else
-    {
-        auto parser = m_ivhd->resourceFactory().createParser(viskit::ParserType::Csv);
-        parser->loadFile(fileName.toUtf8().constData(), *m_particleSystem);
-    }
 
-    m_casters->find("Random")->calculatePositions(*m_particleSystem);
-
-    m_renderer = new OpenGLRenderer();
-    setCentralWidget(m_renderer);
+    m_graph->loadFromCache(fileName.toUtf8().constData());
+    m_randomGenerator->generate(*m_particleSystem, *m_graph, 1, true);
 }
