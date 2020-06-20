@@ -42,23 +42,19 @@ private:
 	void initializeEditorElements();
 	
 private slots:
-
-    [[maybe_unused]] void on_pushButton_Open_clicked();
-    [[maybe_unused]] void on_pushButton_Exit_clicked();
     [[maybe_unused]] void on_pushButton_CastingRun_clicked();
-
     [[maybe_unused]] void on_pushButton_CastingStop_clicked();
-    [[maybe_unused]] void on_pushButton_GraphGenerate_clicked();
     [[maybe_unused]] void on_comboBox_CastingSetup_activated();
+
+    [[maybe_unused]] void on_pushButton_GraphGenerate_clicked();
     [[maybe_unused]] void on_comboBox_GraphSetup_activated();
     [[maybe_unused]] void on_actionReset_View_clicked();
-    [[maybe_unused]] void on_pushButton_GraphOpen_clicked();
 
 private slots:
-    void clickOpenButton();
-
-
-	void calculateBoundingBox();
+    void loadDataset();
+    void loadGraphFromDisk();
+    void exitEditor();
+    void calculateBoundingBox();
 
 	// Qt resources
 private:
@@ -72,11 +68,12 @@ private:
 	glm::vec4 bounding_box_min{};
 	glm::vec4 bounding_box_max{};
 	
-	std::shared_ptr<viskit::IInteractiveVisualization> m_ivhd;
+	std::shared_ptr<viskit::IInteractiveVisualization> m_viskit;
 
 	// IVHD collections and current resources
 	std::shared_ptr<viskit::ResourceCollection<viskit::ICaster>> m_casters;
 	std::shared_ptr<viskit::ResourceCollection<viskit::IGraphGenerator>> m_generators;
+	std::shared_ptr<viskit::IGraphGenerator> m_randomGenerator;
 
 	std::shared_ptr<viskit::ICaster> m_currentCaster{ nullptr };
 	std::shared_ptr<viskit::IGraphGenerator> m_currentGraphGenerator{ nullptr };

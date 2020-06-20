@@ -32,6 +32,12 @@
     </property>
     <item>
      <widget class="QWidget" name="renderer" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>600</height>
+       </size>
+      </property>
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
@@ -41,198 +47,6 @@
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget_File">
-   <property name="minimumSize">
-    <size>
-     <width>245</width>
-     <height>110</height>
-    </size>
-   </property>
-   <property name="features">
-    <set>QDockWidget::DockWidgetFeatureMask</set>
-   </property>
-   <property name="windowTitle">
-    <string>File</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents">
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QGroupBox" name="groupBox_File">
-       <property name="title">
-        <string/>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <property name="spacing">
-         <number>2</number>
-        </property>
-        <property name="leftMargin">
-         <number>4</number>
-        </property>
-        <property name="topMargin">
-         <number>4</number>
-        </property>
-        <property name="rightMargin">
-         <number>4</number>
-        </property>
-        <property name="bottomMargin">
-         <number>4</number>
-        </property>
-        <item>
-         <widget class="QPushButton" name="pushButton_Open">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Open...</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QFrame" name="frame_15">
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_14">
-           <property name="spacing">
-            <number>4</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QPushButton" name="pushButton_Save">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Save...</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_SaveImg">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Save img...</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QFrame" name="frame_16">
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_15">
-           <property name="spacing">
-            <number>4</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QPushButton" name="pushButton_SaveSettings">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Save settings</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_LoadSettings">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Load settings</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_Exit">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Exit</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
-   </widget>
   </widget>
   <widget class="QDockWidget" name="dockWidget_Algorithms">
    <property name="features">
@@ -315,19 +129,6 @@
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_GraphSetup">
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>...</string>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
           <item>
@@ -363,19 +164,6 @@
                </size>
               </property>
              </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_GraphOpen">
-              <property name="maximumSize">
-               <size>
-                <width>40</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>OPEN</string>
-              </property>
-             </widget>
             </item>
            </layout>
           </item>
@@ -535,146 +323,6 @@
           </item>
          </layout>
         </item>
-        <item>
-         <layout class="QVBoxLayout" name="Clustering_layout">
-          <item>
-           <widget class="QLabel" name="label_Clustering">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clustering:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="RunnersClustring">
-            <property name="spacing">
-             <number>4</number>
-            </property>
-            <property name="sizeConstraint">
-             <enum>QLayout::SetFixedSize</enum>
-            </property>
-            <item>
-             <widget class="QComboBox" name="comboBox_ClusteringSetup">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>22</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_ClusteringSetup">
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>...</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="ButtonsClustering">
-            <property name="spacing">
-             <number>4</number>
-            </property>
-            <property name="sizeConstraint">
-             <enum>QLayout::SetDefaultConstraint</enum>
-            </property>
-            <item>
-             <widget class="QPushButton" name="pushButton_ClusteringRun">
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="../resources/QtEditor.qrc">
-                <normaloff>:/QtEditor/play.png</normaloff>:/QtEditor/play.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_ClusteringPause">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="../resources/QtEditor.qrc">
-                <normaloff>:/QtEditor/pause.png</normaloff>:/QtEditor/pause.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_ClusteringStop">
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="../resources/QtEditor.qrc">
-                <normaloff>:/QtEditor/stop.png</normaloff>:/QtEditor/stop.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_Clustering">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_ClusteringShow">
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>?</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
        </layout>
       </widget>
      </item>
@@ -716,6 +364,12 @@
      </property>
      <item>
       <widget class="QTextBrowser" name="textBrowser_log">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>100</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <family>Courier</family>
@@ -2108,63 +1762,109 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <widget class="QMenu" name="menuSave_As">
+     <property name="title">
+      <string>Save...</string>
+     </property>
+     <addaction name="actionEmbedding_emb"/>
+     <addaction name="actionkNN_Graph_kNN"/>
+    </widget>
+    <widget class="QMenu" name="menuExport_As">
+     <property name="title">
+      <string>Export As...</string>
+     </property>
+     <addaction name="actionPNG"/>
+     <addaction name="actionJPEG"/>
+    </widget>
     <addaction name="actionOpen"/>
-   </widget>
-   <widget class="QMenu" name="menu_Settings">
-    <property name="title">
-     <string>&amp;Settings</string>
-    </property>
-    <addaction name="actionSettings"/>
-    <addaction name="actionDock"/>
-   </widget>
-   <widget class="QMenu" name="menuRenderer">
-    <property name="title">
-     <string>Renderer</string>
-    </property>
-    <addaction name="actionResetView"/>
+    <addaction name="menuSave_As"/>
+    <addaction name="menuExport_As"/>
+    <addaction name="actionOptions"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuGraph">
     <property name="title">
      <string>Graph</string>
     </property>
-    <addaction name="actionSave_Graph"/>
+    <addaction name="actionLoadFromDisk"/>
+    <addaction name="actionOptions_2"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionSave"/>
+    <addaction name="actionLoad"/>
+   </widget>
+   <widget class="QMenu" name="menuRendering">
+    <property name="title">
+     <string>Rendering</string>
+    </property>
+    <addaction name="actionResetView"/>
    </widget>
    <addaction name="menu_File"/>
-   <addaction name="menu_Settings"/>
-   <addaction name="menuRenderer"/>
    <addaction name="menuGraph"/>
+   <addaction name="menuSettings"/>
+   <addaction name="menuRendering"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
-    <string>&amp;Open dataset</string>
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionEmbedding_emb">
+   <property name="text">
+    <string>Embedding (.emb)</string>
+   </property>
+  </action>
+  <action name="actionkNN_Graph_kNN">
+   <property name="text">
+    <string>kNN Graph (.kNN)</string>
+   </property>
+  </action>
+  <action name="actionPNG">
+   <property name="text">
+    <string>PNG</string>
+   </property>
+  </action>
+  <action name="actionJPEG">
+   <property name="text">
+    <string>JPEG</string>
+   </property>
+  </action>
+  <action name="actionOptions">
+   <property name="text">
+    <string>Options</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionLoadFromDisk">
+   <property name="text">
+    <string>Load from disk</string>
+   </property>
+  </action>
+  <action name="actionOptions_2">
+   <property name="text">
+    <string>Options</string>
    </property>
   </action>
   <action name="actionSave">
    <property name="text">
-    <string>&amp;Save Settings</string>
+    <string>Save (.visetting)</string>
    </property>
   </action>
-  <action name="actionSettings">
+  <action name="actionLoad">
    <property name="text">
-    <string>3D Settings</string>
-   </property>
-  </action>
-  <action name="actionDock">
-   <property name="text">
-    <string>Dock</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
+    <string>Load </string>
    </property>
   </action>
   <action name="actionResetView">
    <property name="text">
     <string>Reset View</string>
-   </property>
-  </action>
-  <action name="actionSave_Graph">
-   <property name="text">
-    <string>Save Graph</string>
    </property>
   </action>
   <zorder>dockWidget_Selection</zorder>
@@ -2173,11 +1873,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>pushButton_ClearLog</tabstop>
-  <tabstop>pushButton_Open</tabstop>
   <tabstop>checkBox_ShowClusters</tabstop>
   <tabstop>checkBox_ShowItems</tabstop>
   <tabstop>checkBox_ShowBB</tabstop>
-  <tabstop>pushButton_Exit</tabstop>
   <tabstop>textBrowser_log</tabstop>
   <tabstop>pushButton_Uncluster</tabstop>
  </tabstops>
