@@ -20,7 +20,7 @@ namespace viskit::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCaster.castParticleSystem. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCaster.castParticleSystem. Error message: " [ *ex.what()]);
 		}
 	}
 }

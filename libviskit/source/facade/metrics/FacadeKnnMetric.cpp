@@ -34,10 +34,22 @@ namespace viskit::facade::metrics
         {
             const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
             Graph internalGraph = buildInternalGraph(facadePs->internalSystem(), k);
+            auto labels = ps.labels();
 
+            for (size_t i = 0; i < ps.countParticles(); i++)
+            {
+                if (const auto neighbors = internalGraph.getNeighbors(i))
+                {
 
-            // TODO: Actual metric calculation
-
+                    for (const auto neighbor : *neighbors)
+                    {
+                        if (labels[neighbor.i] == labels[neighbor.j])
+                        {
+                            metricValue++;
+                        }
+                    }
+                }
+            }
         }
         catch (std::exception& ex)
         {
@@ -45,7 +57,7 @@ namespace viskit::facade::metrics
         }
 
 
-        return metricValue;
+        return metricValue / static_cast<float>(ps.countParticles() * k);
     }
 
     Graph FacadeKnnMetric::buildInternalGraph(particles::ParticleSystem &ps, int k)
