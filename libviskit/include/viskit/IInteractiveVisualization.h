@@ -37,7 +37,7 @@ namespace viskit
         /// <param name="ps"> Particle system to casting.</param>
         /// <param name="graph"> Graph used for casting.</param>
         /// <param name="caster"> Caster used for casting.</param>
-        [[maybe_unused]] virtual void computePositions(IParticleSystem& ps, IGraph& graph, ICaster& caster) = 0;
+        [[maybe_unused]] virtual void computeCastingStep(IParticleSystem& ps, IGraph& graph, ICaster& caster) = 0;
 
 		/// <summary>
 		/// Calculate min and max values for Bounding Box.

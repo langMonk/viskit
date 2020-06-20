@@ -19,13 +19,13 @@ namespace viskit::facade
 		m_onCastingStepFinished = handler;
 	}
 
-	void FacadeInteractiveVisualization::computePositions(IParticleSystem &ps, IGraph &graph, ICaster &caster)
+	void FacadeInteractiveVisualization::computeCastingStep(IParticleSystem &ps, IGraph &graph, ICaster &caster)
 	{
         caster.step(ps, graph);
         m_onCastingStepFinished();
-	}
+    }
 
-	std::vector<std::pair<float, float>> FacadeInteractiveVisualization::calculateBoundingBox()
+    std::vector<std::pair<float, float>> FacadeInteractiveVisualization::calculateBoundingBox()
 	{
 		std::vector<std::pair<float, float>> vec;
 		const auto pair = std::pair < float, float >(0.0f, 0.0f);
