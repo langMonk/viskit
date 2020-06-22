@@ -19,7 +19,7 @@ namespace viskit::facade
 	public:
 
 		explicit FacadeCasterForceDirected(const std::shared_ptr<core::Core>& core);
-		~FacadeCasterForceDirected() = default;
+		~FacadeCasterForceDirected() override = default;
 
 		FacadeCasterForceDirected(const FacadeCasterForceDirected&) = delete;
 		FacadeCasterForceDirected(FacadeCasterForceDirected&&) = delete;
@@ -32,6 +32,8 @@ namespace viskit::facade
 		void calculatePositions(IParticleSystem& ps) override;
 
 		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
+
+		void finalize() override;
 
 		CasterType type() override { return CasterType::IVHD; }
 

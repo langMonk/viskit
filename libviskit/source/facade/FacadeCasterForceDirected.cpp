@@ -37,4 +37,17 @@ namespace viskit::facade
                                     "Error message: " [ *ex.what()]);
 		}
 	}
+
+    void FacadeCasterForceDirected::finalize()
+    {
+        try
+        {
+            dynamic_cast<embed::cast::ivhd::CasterForceDirected*>(m_internalCaster.get())->setFinalizing(true);
+        }
+        catch (std::exception& ex)
+        {
+            m_ext_core->logger().logWarning(&"Failed to finalize FacadeCasterForceDirected.finalize(). "
+                                             "Error message: " [ *ex.what()]);
+        }
+    }
 }
