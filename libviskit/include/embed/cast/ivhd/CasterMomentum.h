@@ -8,7 +8,7 @@
 #include "particles/ParticleSystem.h"
 #include "embed/cast/ivhd/CasterIVHD.h"
 
-namespace ivhd::embed::cast::ivhd
+namespace viskit::embed::cast::ivhd
 {
 	class CasterMomentum final : public CasterIVHD
 	{

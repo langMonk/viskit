@@ -5,12 +5,12 @@
 
 #pragma once
 
-#include "ivhd/ICaster.h"
+#include "viskit/ICaster.h"
 #include "facade/FacadeParticleSystem.h"
 #include "facade/FacadeGraph.h"
 #include "embed/cast/CasterRandom.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of ICaster interface.
@@ -31,7 +31,7 @@ namespace ivhd::facade
 
 		void step(IParticleSystem& ps, IGraph& graph) override;
 
-        void initialize(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) override {};
+        void initialize(viskit::IParticleSystem& ps, viskit::IGraph& graph) override {};
 
         void finalize() override {};
 

@@ -1,6 +1,6 @@
 #include "utils/RandomColor.h"
 
-namespace ivhd::utils
+namespace viskit::utils
 {
 	using ColorList = RandomColor::ColorList;
 	const ColorList RandomColor::AnyRed = { PinkRed, Red, RedOrange };

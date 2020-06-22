@@ -5,12 +5,12 @@
 
 #pragma once
 
-#include "ivhd/IParser.h"
-#include "ivhd/IParticleSystem.h"
+#include "viskit/IParser.h"
+#include "viskit/IParticleSystem.h"
 #include "facade/FacadeParticleSystem.h"
 #include "embed/cast/CasterRandom.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of IParser interface.

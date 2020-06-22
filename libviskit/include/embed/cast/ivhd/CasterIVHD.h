@@ -9,7 +9,7 @@
 #include "particles/ParticleSystem.h"
 #include "embed/cast/Caster.h"
 
-namespace ivhd::embed::cast
+namespace viskit::embed::cast
 {
 	class CasterIVHD : public Caster
 	{

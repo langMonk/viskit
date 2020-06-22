@@ -1,6 +1,6 @@
 #include "graph/DataPoint.h"
 
-namespace ivhd::graph
+namespace viskit::graph
 {
 	size_t DataPoint::m_currentId = 0;
 

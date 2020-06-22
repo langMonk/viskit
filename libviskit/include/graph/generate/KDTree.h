@@ -14,12 +14,12 @@
 #include <utility>
 #include <algorithm>
 
-#include "ivhd/Structures.h"
+#include "viskit/Structures.h"
 #include "graph/generate/BoundedPQueue.h"
 
-using namespace ivhd::graph;
+using namespace viskit::graph;
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
 	class KDTree
 	{
@@ -34,8 +34,6 @@ namespace ivhd::graph::generate
 
 		// public methods
 	public:
-		[[nodiscard]] std::size_t dimension() const;
-
 		[[nodiscard]] std::size_t size() const;
 		[[nodiscard]] bool empty() const;
 

@@ -1,6 +1,6 @@
 #include "facade/FacadeCasterNesterov.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeCasterNesterov::FacadeCasterNesterov(const std::shared_ptr<core::Core>& core)
 		: FacadeCaster(core)

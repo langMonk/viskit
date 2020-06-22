@@ -13,7 +13,7 @@
 using Engine = boost::mt19937;
 using Dist = boost::uniform_real<float>;
 
-namespace ivhd::embed::cast
+namespace viskit::embed::cast
 { 
 	class CasterRandom final : public Caster
 	{

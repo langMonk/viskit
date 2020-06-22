@@ -53,7 +53,7 @@ private:
 	unsigned int m_vao{ 0 };
 	unsigned int m_texture{ 0 };
 
-	ivhd::IParticleSystem* m_particleSystem;
+	viskit::IParticleSystem* m_particleSystem;
 	QTimer* m_timer;
 	
 	void printVersionInformation() const;

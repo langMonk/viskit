@@ -2,7 +2,7 @@
 
 #include "ResourceCollection.h"
 
-namespace ivhd {
+namespace viskit {
     template<typename T>
     bool ResourceCollection<T>::add(std::string name, std::shared_ptr <T> object) {
         return m_data.emplace(std::move(name), object).second;

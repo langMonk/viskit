@@ -6,8 +6,9 @@
 #include "facade/FacadeParticleSystem.h"
 #include "facade/FacadeGraph.h"
 #include <memory>
+#include <fstream>
 
-namespace ivhd::facade
+namespace viskit::facade
 { 
 	FacadeParticleSystem::FacadeParticleSystem(const std::shared_ptr<core::Core>& core)
 		: m_ext_core(core)
@@ -71,7 +72,26 @@ namespace ivhd::facade
 		return m_internalParticleSystem->empty();
 	}
 
-    DatasetInfo FacadeParticleSystem::datasetInfo() {
+	bool FacadeParticleSystem::saveToFile(const std::string& fileName)
+	{
+		std::ofstream file(fileName, std::ios::out);
+
+		if(file.good())
+		{
+			auto positions = m_internalParticleSystem->calculationData()->m_pos;
+			auto labels = m_internalParticleSystem->labels();
+
+			for (auto i = 0; i < positions.size(); i++)
+			{
+				file << positions[i].x << "," << positions[i].y << "," << labels[i] << std::endl;
+			}
+
+			return true;
+		}
+		else { return false; }
+	}
+
+	DatasetInfo FacadeParticleSystem::datasetInfo() {
         return m_internalParticleSystem->datasetInfo();
     }
 }

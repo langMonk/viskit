@@ -7,7 +7,7 @@
 
 #include <cstddef>
 
-namespace ivhd
+namespace viskit
 {
 	class IParticleSystem;
 	class IGraph;

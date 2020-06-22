@@ -8,7 +8,7 @@
 #include "facade/FacadeParser.h"
 #include "parse/ParserCSV.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of IParser interface.
@@ -33,6 +33,6 @@ namespace ivhd::facade
 
 		// private members
 	private:
-		std::shared_ptr<ivhd::parse::ParserCSV> m_internalParser;
+		std::shared_ptr<viskit::parse::ParserCSV> m_internalParser;
 	};
 }

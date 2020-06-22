@@ -6,7 +6,7 @@
 #include "graph/generate/BruteForce.h"
 #include "utils/Math.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
 	BruteForce::BruteForce(core::System& system)
 		: GraphGenerator(system)
@@ -50,7 +50,7 @@ namespace ivhd::graph::generate
 			graph.addNeighbors(near);
 		}
 
-		graph.nearestNeighborsCount(k);
+		graph.neighborsCounter.nearestNeighbors = k;
 	}
 
 	void BruteForce::addMinDist(std::vector<Neighbors>& n, float new_r, size_t pi, size_t pj, bool sort)

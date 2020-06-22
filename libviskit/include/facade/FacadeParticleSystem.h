@@ -5,13 +5,13 @@
 
 #pragma once
 
-#include "ivhd/IParticleSystem.h"
-#include "ivhd/IGraph.h"
+#include "viskit/IParticleSystem.h"
+#include "viskit/IGraph.h"
 #include "core/Core.h"
 #include "graph/DataPoint.h"
 #include "particles/ParticleSystem.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	class FacadeInteractiveVizualization;
 
@@ -57,6 +57,8 @@ namespace ivhd::facade
 		void clear() override;
 
 		bool empty() override;
+
+		bool saveToFile(const std::string& fileName) override;
 
 	private:
 		std::shared_ptr<core::Core> m_ext_core;

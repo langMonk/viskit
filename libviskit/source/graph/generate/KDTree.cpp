@@ -1,6 +1,8 @@
 #include "graph/generate/KDTree.h"
 
-namespace ivhd::graph::generate
+#include <cmath>
+
+namespace viskit::graph::generate
 {
 	KDTree::Node* KDTree::deepcopyTree(Node* root) {
 		if (root == nullptr) return nullptr;
@@ -15,7 +17,7 @@ namespace ivhd::graph::generate
 	{
 		if (start >= end) return nullptr; // empty tree
 
-		int axis = currLevel % m_sizePoints; // the axis to split on
+		auto axis = currLevel % m_sizePoints; // the axis to split on
 		auto cmp = [axis](const std::pair<DataPoint, size_t>& p1, const std::pair<DataPoint, size_t>& p2) {
 			return p1.first[axis] < p2.first[axis];
 		};
@@ -37,9 +39,9 @@ namespace ivhd::graph::generate
 
 	KDTree::KDTree(std::vector<std::pair<DataPoint, size_t>>& points, size_t dim)
 	{
-		m_root = buildTree(points.begin(), points.end(), 0);
+	    m_sizePoints = dim;
+        m_root = buildTree(points.begin(), points.end(), 0);
 		m_size = points.size();
-		m_sizePoints = dim;
 	}
 
 	KDTree::KDTree(const KDTree& rhs)
@@ -69,11 +71,6 @@ namespace ivhd::graph::generate
 	KDTree::~KDTree()
 	{
 		freeResource(m_root);
-	}
-
-	std::size_t KDTree::dimension() const
-	{
-		return m_sizePoints;
 	}
 
 	std::size_t KDTree::size() const
@@ -197,7 +194,7 @@ namespace ivhd::graph::generate
 			isLeftTree = false;
 		}
 
-		if (pQueue.size() < pQueue.maxSize() || fabs(key[currLevel % m_sizePoints] - currPoint[currLevel % m_sizePoints]) < pQueue.worst())
+		if (pQueue.size() < pQueue.maxSize() || std::fabs(key[currLevel % m_sizePoints] - currPoint[currLevel % m_sizePoints]) < pQueue.worst())
 		{
 			// Recursively search the other half of the tree if necessary
 			if (isLeftTree) nearestNeighborRecurse(currNode->right, key, pQueue);

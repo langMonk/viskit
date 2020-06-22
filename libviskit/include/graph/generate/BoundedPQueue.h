@@ -8,9 +8,9 @@
 #include <map>
 #include <limits>
 
-#include "ivhd/Structures.h"
+#include "viskit/Structures.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 { 
 	class BoundedPQueue 
 	{

@@ -2,7 +2,7 @@
 
 #include "particles/ParticleData.h"
 
-namespace ivhd::particles
+namespace viskit::particles
 {
 	void ParticleData::generate(size_t maxSize)
 	{

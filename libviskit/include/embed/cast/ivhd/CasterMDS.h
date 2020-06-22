@@ -8,7 +8,7 @@
 #include "embed/cast/Caster.h"
 #include "particles/ParticleSystem.h"
 
-namespace ivhd::embed::cast::ivhd
+namespace viskit::embed::cast::ivhd
 {
 	struct SammonParameters
 	{

@@ -1,7 +1,7 @@
 #include "graph/generate/Random.h"
 #include "utils/Math.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
     Random::Random(core::System &system) : GraphGenerator(system)
     {
@@ -37,8 +37,8 @@ namespace ivhd::graph::generate
             }
         }
 
-        graph.randomNeighborsCount(k);
+        graph.neighborsCounter.randomNeighbors = k;
         m_ext_system.logger().logInfo("[kNN Generator] Finished.");
-        m_ext_system.logger().logInfo("[kNN Generator] Neighbors in graph: " + std::to_string(graph.neighborsCount()));
+        m_ext_system.logger().logInfo("[kNN Generator] Neighbors in graph: " + std::to_string(graph.overallNeighborsCount()));
     }
 }

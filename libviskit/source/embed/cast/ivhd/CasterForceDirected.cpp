@@ -1,6 +1,6 @@
 #include "embed/cast/ivhd/CasterForceDirected.h"
 
-namespace ivhd::embed::cast::ivhd
+namespace viskit::embed::cast::ivhd
 {
 	CasterForceDirected::CasterForceDirected(core::System& system)
 		: CasterIVHD(system)

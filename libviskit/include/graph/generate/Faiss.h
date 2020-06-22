@@ -11,7 +11,7 @@
 #include "particles/ParticleSystem.h"
 #include "graph/Graph.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
     class Faiss final : public GraphGenerator
     {
@@ -23,6 +23,10 @@ namespace ivhd::graph::generate
         // public methods
     public:
         void generate(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne) override;
+
+        void generate(std::vector<std::pair<viskit::DataPoint, particles::DataPointLabel>> points,
+                graph::Graph& graph, size_t k, bool distancesEqualOne) override;
+
 
     };
 }

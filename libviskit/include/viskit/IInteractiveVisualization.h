@@ -7,7 +7,7 @@
 
 #include <vector>
 
-namespace ivhd
+namespace viskit
 {
 	class IResourceFactory;
 	class IParser;
@@ -16,7 +16,7 @@ namespace ivhd
 	class IGraph;
 
 	/// <summary>
-	/// The main interface for controlling IVHD.
+	/// The main interface for controlling VisKit.
 	/// </summary>
 	class IInteractiveVisualization
 	{
@@ -27,7 +27,7 @@ namespace ivhd
 		// public methods
 	public:	
 		/// <summary>
-		/// Obtains resource factory, that enables creation of IVHD objects.
+		/// Obtains resource factory, that enables creation of VisKit objects.
 		/// </summary>
 		virtual IResourceFactory& resourceFactory() = 0;
 
@@ -37,7 +37,7 @@ namespace ivhd
         /// <param name="ps"> Particle system to casting.</param>
         /// <param name="graph"> Graph used for casting.</param>
         /// <param name="caster"> Caster used for casting.</param>
-        [[maybe_unused]] virtual void computePositions(IParticleSystem& ps, IGraph& graph, ICaster& caster) = 0;
+        [[maybe_unused]] virtual void computeCastingStep(IParticleSystem& ps, IGraph& graph, ICaster& caster) = 0;
 
 		/// <summary>
 		/// Calculate min and max values for Bounding Box.

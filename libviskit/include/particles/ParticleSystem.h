@@ -13,12 +13,12 @@
 #include "core/System.h"
 #include "particles/ParticleData.h"
 #include "graph/Graph.h"
-#include "ivhd/Structures.h"
+#include "viskit/Structures.h"
 #include "utils/RandomColor.h"
 
-using namespace ivhd::graph;
+using namespace viskit::graph;
 
-namespace ivhd::particles
+namespace viskit::particles
 {
 	// public sub-types
 	using DataPointLabel = size_t;
@@ -63,7 +63,7 @@ namespace ivhd::particles
 
 		void setMetric(MetricType type) { m_currentMetric = type; };
 
-		size_t step() { return m_step; }
+		[[nodiscard]] size_t step() const { return m_step; }
 
 		void increaseStep() { m_step++; }
 
@@ -71,7 +71,7 @@ namespace ivhd::particles
 
 		void datasetInfo(DatasetInfo info) { m_datasetFileName = std::move(info); }
 
-		// add emitters, casters, etc.
+		// public helpers
 	public:
 		template<class T>
 		struct DiffSquared

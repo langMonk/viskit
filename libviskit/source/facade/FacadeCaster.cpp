@@ -3,7 +3,7 @@
 #include "facade/FacadeCaster.h"
 
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeCaster::FacadeCaster(std::shared_ptr<core::Core> core)
 		: m_ext_core(std::move(core))
@@ -20,7 +20,7 @@ namespace ivhd::facade
 		}
 		catch (std::exception & ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCaster.castParticleSystem. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCaster.castParticleSystem. Error message: " [ *ex.what()]);
 		}
 	}
 }

@@ -7,9 +7,9 @@
 
 #include "graph/Graph.h"
 #include "core/Core.h"
-#include "ivhd/IGraph.h"
+#include "viskit/IGraph.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of IGraph interface.
@@ -38,11 +38,9 @@ namespace ivhd::facade
 		
 		void addNeighbors(std::vector<Neighbors> neighbors) override;
 
-		size_t randomNeighborsCount() override { return m_internalGraph->randomNeighborsCount(); }
+		size_t overallNeighborsCount() override;
 
-        size_t nearestNeighborsCount() override { return m_internalGraph->nearestNeighborsCount(); }
-
-		size_t neighborsCount() override;
+		NeighborsCounter neighborsCounter()override;
 
 		size_t size() override;
 

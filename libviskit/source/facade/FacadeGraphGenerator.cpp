@@ -5,7 +5,7 @@
 
 #include "facade/FacadeGraphGenerator.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeGraphGenerator::FacadeGraphGenerator(std::shared_ptr<core::Core> core)
 		: m_ext_core(core)

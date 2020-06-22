@@ -3,12 +3,12 @@
 /// \date 28.04.2019
 ///
 
-#include "ivhd/InteractiveVisualizationBuilder.h"
+#include "viskit/InteractiveVisualizationBuilder.h"
 #include "facade/FacadeInteractiveVisualization.h"
 
-namespace ivhd
+namespace viskit
 { 
-	std::shared_ptr<IInteractiveVisualization> createIVHD(LogHandler logHandler)
+	std::shared_ptr<IInteractiveVisualization> createVisKit(LogHandler logHandler)
 	{
 		try
 		{

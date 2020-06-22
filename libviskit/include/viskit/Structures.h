@@ -9,7 +9,7 @@
 #include <vector>
 #include <string>
 
-namespace ivhd
+namespace viskit
 {
 	using DataPointId = size_t;
 
@@ -35,7 +35,7 @@ namespace ivhd
 
 		// public methods
 	public:
-		std::size_t size() const { return N; };
+		[[nodiscard]] std::size_t size() const { return N; };
 
 		float& operator[](std::size_t index) 
 		{ 
@@ -46,11 +46,10 @@ namespace ivhd
 
 		iterator begin() { return coords; };
 		iterator end() { return begin() + size(); }
-		const_iterator begin() const { return coords; };
-		const_iterator end() const { return begin() + size(); };
+		[[nodiscard]] const_iterator begin() const { return coords; };
+		[[nodiscard]] const_iterator end() const { return begin() + size(); };
 
-		DataPointId getId() { return m_id; }
-		DataPointId getId() const { return m_id; }
+		[[nodiscard]] DataPointId getId() const { return m_id; }
 
 		// private members
 	private:
@@ -79,11 +78,11 @@ namespace ivhd
 		assert(one.size() == two.size());
 		return !(one == two);
 	}
-	
-	struct Connection
-	{
-		size_t pi, pj;
-	};
+
+    struct NeighborsCounter
+    {
+        int nearestNeighbors, reverseNeighbors, randomNeighbors;
+    };
 
 	enum class NeighborsType
 	{ 
