@@ -59,6 +59,8 @@ private slots:
     void calculateBoundingBox();
     float calculateMetric(int k);
 
+    [[maybe_unused]] void dropVisualizationToTxtFile();
+
 	// Qt resources
 private:
 	Ui::MainWindow ui{};
