@@ -12,7 +12,7 @@
 #include "ResourceCollection.h"
 #include "LogLevel.h"
 
-namespace ivhd
+namespace viskit
 {
 	/// <summary>
 	/// A function used as a callback for each log entry added.
@@ -22,8 +22,8 @@ namespace ivhd
 	using LogHandler = std::function<void(LogLevel level, std::string message)>;
 
 	/// <summary>
-	/// Creates the IVHD.
+	/// Creates the VisKit.
 	/// </summary>
-	/// <returns>The created IVHD resource or nullptr in case of an error.</returns>
-	std::shared_ptr<IInteractiveVisualization> createIVHD(LogHandler logHandler = LogHandler{});
+	/// <returns>The created VisKit resource or nullptr in case of an error.</returns>
+	std::shared_ptr<IInteractiveVisualization> createVisKit(LogHandler logHandler = LogHandler{});
 }

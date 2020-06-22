@@ -9,7 +9,7 @@
 #include <functional>
 #include <map>
 
-namespace ivhd
+namespace viskit
 {
 	// public sub-types
 	using IterateCallback = std::function<void(std::string name)>;

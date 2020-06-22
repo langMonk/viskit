@@ -8,7 +8,7 @@
 #include "facade/FacadeCaster.h"
 #include "embed/cast/ivhd/CasterMomentum.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of ICaster interface.

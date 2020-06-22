@@ -6,18 +6,20 @@
 #include <gtest/gtest.h>
 #include <threading/ThreadPool.h>
 
-namespace libivhd_test
+namespace viskit_test
 {
 	int multiply(const int a, const int b)
 	{
 		const auto res = a * b;
 		return res;
 	}
-	
-	TEST(ThreadPool, DefaultThreadPool)
+
+    class ThreadPoolTest : public ::testing::Test {};
+
+	TEST_F(ThreadPoolTest, DefaultThreadPool)
 	{
 		//// Create pool with 3 threads
-		ivhd::threading::ThreadPool pool(3);
+		viskit::threading::ThreadPool pool(3);
 
 		//// Submit (partial) multiplication table
 		for (auto i = 1; i < 20; ++i) {

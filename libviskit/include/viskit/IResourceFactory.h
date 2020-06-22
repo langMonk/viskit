@@ -8,20 +8,21 @@
 #include <memory>
 #include "Structures.h"
 
-namespace ivhd
+namespace viskit
 {
 	class IParser;
 	class ICaster;
 	class IParticleSystem;
 	class IGraphGenerator;
 	class IGraph;
+	class IMetric;
 
 	class IResourceFactory
 	{
 		// public methods
 	public:
 		/// <summary>
-		/// Creates a new parser used for loading data into ivhd
+		/// Creates a new parser used for loading data into viskit
 		/// </summary>
 		/// <param name="type"> Type of parser, which will be created. </param>
 		/// <returns> The created parser. </returns>
@@ -40,7 +41,7 @@ namespace ivhd
 		/// <param name="type"> Type of caster, which will be created. </param>
 		/// <param name="optimizer"> Type of optimizer, which will be used. </param>
 		/// <returns> The created caster. </returns>
-		virtual std::shared_ptr<ICaster> createCaster(CasterType type, OptimizerType optimizer = OptimizerType::None) = 0;
+		virtual std::shared_ptr<ICaster> createCaster(CasterType type, OptimizerType optimizer) = 0;
 
 		/// <summary>
 		/// Creates a new particle system
@@ -53,6 +54,12 @@ namespace ivhd
 		/// </summary>
 		/// <returns>The created graph.</returns>
 		virtual std::shared_ptr<IGraph> createGraph() = 0;
+
+        /// <summary>
+        /// Creates a new metric calculator
+        /// </summary>
+        /// <returns>The created calculator.</returns>
+        virtual std::shared_ptr<IMetric> createMetricCalculator() = 0;
 
 	public:
 		virtual ~IResourceFactory() = default;

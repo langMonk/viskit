@@ -58,26 +58,29 @@ set(HEADER_FILES
         include/graph/generate/KDTree.h
         include/graph/generate/Faiss.h
         include/graph/generate/Random.h
+        include/graph/generate/Reverse.h
         include/graph/DataPoint.h
         include/graph/Graph.h
         include/graph/IGraph.h
-        include/ivhd/ICaster.h
-        include/ivhd/IClusterer.h
-        include/ivhd/IGraph.h
-        include/ivhd/IGraphGenerator.h
-        include/ivhd/IInteractiveVisualization.h
-        include/ivhd/InteractiveVisualizationBuilder.h
-        include/ivhd/IParser.h
-        include/ivhd/IParticleSystem.h
-        include/ivhd/IReducer.h
-        include/ivhd/ResourceCollection.h
-        include/ivhd/IResourceFactory.h
-        include/ivhd/ISetting.h
-        include/ivhd/ITransformer.h
-        include/ivhd/LogLevel.h
-        include/ivhd/Math.h
-        include/ivhd/SettingType.h
-        include/ivhd/Structures.h
+        include/viskit/ICaster.h
+        include/viskit/IClusterer.h
+        include/viskit/IGraph.h
+        include/viskit/IGraphGenerator.h
+        include/viskit/IInteractiveVisualization.h
+        include/viskit/InteractiveVisualizationBuilder.h
+        include/viskit/IParser.h
+        include/viskit/IParticleSystem.h
+        include/viskit/IReducer.h
+        include/viskit/ResourceCollection.h
+        include/viskit/IResourceFactory.h
+        include/viskit/ISetting.h
+        include/viskit/ITransformer.h
+        include/viskit/LogLevel.h
+        include/viskit/Math.h
+        include/viskit/SettingType.h
+        include/viskit/Structures.h
+        include/viskit/IMetric.h
+        include/facade/metrics/FacadeKnnMetric.h
         include/math/glm_adapter.h
         include/math/IvhdMath.h
         include/parse/Parser.h
@@ -127,9 +130,11 @@ set(SOURCE_FILES
         source/graph/generate/KDTree.cpp
         source/graph/generate/Faiss.cpp
         source/graph/generate/Random.cpp
+        source/graph/generate/Reverse.cpp
         source/graph/DataPoint.cpp
         source/graph/Graph.cpp
-        source/ivhd/InteractiveVisualizationBuilder.cpp
+        source/facade/metrics/FacadeKnnMetric.cpp
+        source/viskit/InteractiveVisualizationBuilder.cpp
         source/parse/Parser.cpp
         source/parse/ParserCSV.cpp
         source/particles/ParticleData.cpp
@@ -150,7 +155,7 @@ add_library(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES} ${CUDA_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include/ivhd)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include/viskit)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CUDA_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} pthread)

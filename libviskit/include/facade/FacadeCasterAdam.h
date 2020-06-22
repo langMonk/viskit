@@ -8,7 +8,7 @@
 #include "facade/FacadeCaster.h"
 #include "embed/cast/ivhd/CasterAdam.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of ICaster interface.
@@ -19,7 +19,7 @@ namespace ivhd::facade
 	public:
 
 		explicit FacadeCasterAdam(const std::shared_ptr<core::Core>& core);
-		~FacadeCasterAdam() = default;
+		~FacadeCasterAdam() override = default;
 
 		FacadeCasterAdam(const FacadeCasterAdam&) = delete;
 		FacadeCasterAdam(FacadeCasterAdam&&) = delete;

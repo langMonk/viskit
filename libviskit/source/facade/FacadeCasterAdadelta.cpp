@@ -1,6 +1,6 @@
 #include "facade/FacadeCasterAdadelta.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeCasterAdadelta::FacadeCasterAdadelta(const std::shared_ptr<core::Core>& core)
 		: FacadeCaster(core)

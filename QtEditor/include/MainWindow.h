@@ -5,6 +5,7 @@
 #include <ICaster.h>
 #include <IGraphGenerator.h>
 #include <IGraph.h>
+#include <IMetric.h>
 #include <ResourceCollection.h>
 #include <IResourceFactory.h>
 #include <IParticleSystem.h>
@@ -28,10 +29,10 @@ public:
 		return s;
 	}
 
-	[[nodiscard]] ivhd::IParticleSystem& particleSystem() const { return *m_particleSystem; }
+	[[nodiscard]] viskit::IParticleSystem& particleSystem() const { return *m_particleSystem; }
 
-	void setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster);
-	void setCurrentGraphGenerator(const std::shared_ptr<ivhd::IGraphGenerator>& generator);
+	void setCurrentCaster(const std::shared_ptr<viskit::ICaster>& caster);
+	void setCurrentGraphGenerator(const std::shared_ptr<viskit::IGraphGenerator>& generator);
 
 private:
 	explicit MainWindow(QWidget* parent = Q_NULLPTR);
@@ -42,19 +43,23 @@ private:
 	void initializeEditorElements();
 	
 private slots:
-
-    [[maybe_unused]] void on_pushButton_Open_clicked();
-    [[maybe_unused]] void on_pushButton_Exit_clicked();
     [[maybe_unused]] void on_pushButton_CastingRun_clicked();
-
     [[maybe_unused]] void on_pushButton_CastingStop_clicked();
-    [[maybe_unused]] void on_pushButton_GraphGenerate_clicked();
     [[maybe_unused]] void on_comboBox_CastingSetup_activated();
+    [[maybe_unused]] void on_pushButton_One2many_clicked();
+
+    [[maybe_unused]] void on_pushButton_GraphGenerate_clicked();
     [[maybe_unused]] void on_comboBox_GraphSetup_activated();
     [[maybe_unused]] void on_actionReset_View_clicked();
-    [[maybe_unused]] void on_pushButton_GraphOpen_clicked();
 
-	void calculateBoundingBox();
+private slots:
+    void loadDataset();
+    void loadGraphFromDisk();
+    void exitEditor();
+    void calculateBoundingBox();
+    float calculateMetric(int k);
+
+    [[maybe_unused]] void dropVisualizationToTxtFile();
 
 	// Qt resources
 private:
@@ -68,16 +73,18 @@ private:
 	glm::vec4 bounding_box_min{};
 	glm::vec4 bounding_box_max{};
 	
-	std::shared_ptr<ivhd::IInteractiveVisualization> m_ivhd;
+	std::shared_ptr<viskit::IInteractiveVisualization> m_viskit;
 
 	// IVHD collections and current resources
-	std::shared_ptr<ivhd::ResourceCollection<ivhd::ICaster>> m_casters;
-	std::shared_ptr<ivhd::ResourceCollection<ivhd::IGraphGenerator>> m_generators;
+	std::shared_ptr<viskit::ResourceCollection<viskit::ICaster>> m_casters;
+	std::shared_ptr<viskit::ResourceCollection<viskit::IGraphGenerator>> m_generators;
+	std::shared_ptr<viskit::IGraphGenerator> m_randomGenerator;
 
-	std::shared_ptr<ivhd::ICaster> m_currentCaster{ nullptr };
-	std::shared_ptr<ivhd::IGraphGenerator> m_currentGraphGenerator{ nullptr };
-	std::shared_ptr<ivhd::IParticleSystem> m_particleSystem{ nullptr };
-	std::shared_ptr<ivhd::IGraph> m_graph{ nullptr };
+	std::shared_ptr<viskit::ICaster> m_currentCaster{ nullptr };
+	std::shared_ptr<viskit::IGraphGenerator> m_currentGraphGenerator{ nullptr };
+	std::shared_ptr<viskit::IParticleSystem> m_particleSystem{ nullptr };
+	std::shared_ptr<viskit::IGraph> m_graph{ nullptr };
+	std::shared_ptr<viskit::IMetric> m_metricCalculator{ nullptr };
 
 	std::thread m_castingThread{};
 

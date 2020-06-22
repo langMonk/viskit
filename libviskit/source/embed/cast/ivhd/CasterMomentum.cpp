@@ -1,6 +1,6 @@
 #include "embed/cast/ivhd/CasterMomentum.h"
 
-namespace ivhd::embed::cast::ivhd
+namespace viskit::embed::cast::ivhd
 {
 	CasterMomentum::CasterMomentum(core::System& system)
 		: CasterIVHD(system)

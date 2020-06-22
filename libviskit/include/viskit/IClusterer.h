@@ -9,7 +9,7 @@
 
 #include "ITransformer.h"
 
-namespace ivhd
+namespace viskit
 {
 	class IClusterer : public virtual ITransformer
 	{

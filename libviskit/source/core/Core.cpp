@@ -5,7 +5,7 @@
 
 #include "core/Core.h"
 
-namespace ivhd::core
+namespace viskit::core
 {
 	Core::Core(const OnLogAdded& handler)
 		: m_logHandler(handler)

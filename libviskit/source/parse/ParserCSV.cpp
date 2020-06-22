@@ -6,7 +6,7 @@
 #include <boost/algorithm/string.hpp>
 #include "parse/ParserCSV.h"
 
-namespace ivhd::parse
+namespace viskit::parse
 {
 	namespace
 	{
@@ -40,7 +40,7 @@ namespace ivhd::parse
 		auto data = ps.calculationData();
 		auto input = std::ifstream(filePath.c_str());
 
-		ivhd::DatasetInfo info;
+		viskit::DatasetInfo info;
 		info.fileName = remove_extension(base_name(filePath));
 		info.path = base_path(filePath);
 

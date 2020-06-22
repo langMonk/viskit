@@ -8,7 +8,7 @@
 #include "core/System.h"
 #include "particles/ParticleSystem.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
 	class GraphGenerator
 	{
@@ -21,6 +21,9 @@ namespace ivhd::graph::generate
 		GraphGenerator& operator=(const GraphGenerator&) = delete;
 
 		virtual void generate(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne) {};
+
+		virtual void generate(std::vector<std::pair<viskit::DataPoint, particles::DataPointLabel>> points,
+		        graph::Graph& graph, size_t k, bool distancesEqualOne) {};
 
 	protected:
         [[maybe_unused]] static bool alreadyNeighbors(size_t index1, size_t index2, Graph& graph);

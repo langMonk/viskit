@@ -7,7 +7,7 @@
 
 #include "facade/FacadeGraph.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeGraph::FacadeGraph(const std::shared_ptr<core::Core>& core)
 		: m_ext_core(core)
@@ -61,11 +61,11 @@ namespace ivhd::facade
 		}
 	}
 
-	size_t FacadeGraph::neighborsCount()
+	size_t FacadeGraph::overallNeighborsCount()
 	{
 		try
 		{
-			return m_internalGraph->neighborsCount();
+			return m_internalGraph->overallNeighborsCount();
 		}
 		catch (std::exception& exception)
 		{
@@ -76,7 +76,22 @@ namespace ivhd::facade
 		return size_t{};
 	}
 
-	size_t FacadeGraph::size()
+    NeighborsCounter FacadeGraph::neighborsCounter()
+    {
+        try
+        {
+            return m_internalGraph->neighborsCounter;
+        }
+        catch (std::exception& exception)
+        {
+            std::string message = "Failed to get the number of different types of neighbors: ";
+            message += exception.what();
+            m_ext_core->logger().logWarning(message);
+        }
+        return NeighborsCounter();
+    }
+
+    size_t FacadeGraph::size()
 	{
 		try
 		{

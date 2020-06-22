@@ -1,4 +1,7 @@
+#include <fstream>
 #include <QFileDialog>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QInputDialog>
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
 
@@ -7,6 +10,10 @@ MainWindow::MainWindow(QWidget* parent)
 {
 	ui.setupUi(this);
 	connect(ui.actionResetView, SIGNAL(triggered()), this, SLOT(calculateBoundingBox()));
+    connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(loadDataset()));
+    connect(ui.actionLoadFromDisk, SIGNAL(triggered()), this, SLOT(loadGraphFromDisk()));
+    connect(ui.actionExit, SIGNAL(triggered()), this, SLOT(exitEditor()));
+
 	setupIVHD();
 }
 
@@ -17,19 +24,19 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 
 void MainWindow::setupIVHD()
 {
-	auto handler = [&](ivhd::LogLevel level, const std::string& message)
+	auto handler = [&](viskit::LogLevel level, const std::string& message)
 	{
 		switch (level)
 		{
-		case ivhd::LogLevel::Info: ui.textBrowser_log->append("Info: " + QString::fromStdString(message)); break;
-		case ivhd::LogLevel::Warning: ui.textBrowser_log->append("Warning: " + QString::fromStdString(message)); break;
-		case ivhd::LogLevel::Error: ui.textBrowser_log->append("Error: " + QString::fromStdString(message)); break;
+		case viskit::LogLevel::Info: ui.textBrowser_log->append("Info: " + QString::fromStdString(message)); break;
+		case viskit::LogLevel::Warning: ui.textBrowser_log->append("Warning: " + QString::fromStdString(message)); break;
+		case viskit::LogLevel::Error: ui.textBrowser_log->append("Error: " + QString::fromStdString(message)); break;
 		default: ;
 		}
 	};
 
 	// create IVHD
-	m_ivhd = ivhd::createIVHD(handler);
+	m_viskit = viskit::createVisKit(handler);
 	initializeIVHDResources();
 	initializeEditorElements();
 }
@@ -38,21 +45,21 @@ void MainWindow::initializeIVHDResources()
 {
 
 	// create particle system and graph
-	m_particleSystem = m_ivhd->resourceFactory().createParticleSystem();
-	m_graph = m_ivhd->resourceFactory().createGraph();
+	m_particleSystem = m_viskit->resourceFactory().createParticleSystem();
+	m_graph = m_viskit->resourceFactory().createGraph();
 
     // create collections
-	m_casters = std::make_shared<ivhd::ResourceCollection<ivhd::ICaster>>();
-    m_generators = std::make_shared<ivhd::ResourceCollection<ivhd::IGraphGenerator>>();
+	m_casters = std::make_shared<viskit::ResourceCollection<viskit::ICaster>>();
+    m_generators = std::make_shared<viskit::ResourceCollection<viskit::IGraphGenerator>>();
 
 
 	// add resources to collections
-	const auto casterRandom = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::Random);
-	const auto casterMomentum = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Momentum);
-	const auto casterForceDirected = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::ForceDirected);
-	const auto casterAdadelta = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adadelta);
-	const auto casterAdam = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Adam);
-	const auto casterNesterov = m_ivhd->resourceFactory().createCaster(ivhd::CasterType::IVHD, ivhd::OptimizerType::Nesterov);
+	const auto casterRandom = m_viskit->resourceFactory().createCaster(viskit::CasterType::Random, viskit::OptimizerType::None);
+	const auto casterMomentum = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Momentum);
+	const auto casterForceDirected = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::ForceDirected);
+	const auto casterAdadelta = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adadelta);
+	const auto casterAdam = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adam);
+	const auto casterNesterov = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Nesterov);
 
 	m_casters->add("Random", casterRandom);
 	m_casters->add("Momentum", casterMomentum);
@@ -61,14 +68,14 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("Adam", casterAdam);
 	m_casters->add("Nesterov", casterNesterov);
 
-	const auto bruteGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::BruteForce);
-	const auto randomGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::Random);
-    const auto faissGenerator = m_ivhd->resourceFactory().createGraphGenerator(ivhd::GraphGeneratorType::Faiss);
+	const auto bruteGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::BruteForce);
+    const auto faissGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Faiss);
 
+    m_randomGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
     m_generators->add("Brute Force", bruteGenerator);
-    m_generators->add("Random", randomGenerator);
     if(faissGenerator != nullptr){ m_generators->add("Faiss", faissGenerator); }
 
+    m_metricCalculator = m_viskit->resourceFactory().createMetricCalculator();
 
 	// set default resources
 	setCurrentCaster(casterRandom);
@@ -88,7 +95,7 @@ void MainWindow::initializeEditorElements()
 	});
 }
 
-[[maybe_unused]] void MainWindow::on_pushButton_Open_clicked()
+void MainWindow::loadDataset()
 {
 	if (!m_particleSystem->empty())
 	{
@@ -105,7 +112,7 @@ void MainWindow::initializeEditorElements()
 	}
 	else
 	{
-		auto parser = m_ivhd->resourceFactory().createParser(ivhd::ParserType::Csv);
+		auto parser = m_viskit->resourceFactory().createParser(viskit::ParserType::Csv);
 		parser->loadFile(fileName.toUtf8().constData(), *m_particleSystem);
 	}
 
@@ -115,40 +122,43 @@ void MainWindow::initializeEditorElements()
 	setCentralWidget(m_renderer);
 }
 
-[[maybe_unused]] void MainWindow::on_pushButton_Exit_clicked()
+void MainWindow::exitEditor()
 {
 	close();
 }
 
 [[maybe_unused]] void MainWindow::on_pushButton_CastingRun_clicked()
 {
-	if (m_currentCaster != nullptr) {
+	if (m_currentCaster != nullptr)
+	{
         m_currentCaster->initialize(*m_particleSystem, *m_graph);
-        m_running = true;
+        m_viskit->subscribeOnCastingStepFinish([&]{});
 
-        m_castingThread = std::thread([&]() {
-            while(m_running)
-            {
-                m_currentCaster->step(*m_particleSystem, *m_graph);
-            }
+        m_running = true;
+        m_castingThread = std::thread([&]()
+        {
+          while (m_running)
+          {
+              m_viskit->computeCastingStep(*m_particleSystem, *m_graph,
+                                           *m_currentCaster);
+          }
         });
-	}
+    }
 	else
 	{
 
 	}
-
 }
 
 [[maybe_unused]] void MainWindow::on_pushButton_CastingStop_clicked()
 {
 	if(m_running)
 	{
-        m_castingThread.join();
+        m_running = false;
         m_currentCaster->finalize();
 	}
 
-	m_running = false;
+    dropVisualizationToTxtFile();
 }
 
 [[maybe_unused]] void MainWindow::on_pushButton_GraphGenerate_clicked()
@@ -156,8 +166,8 @@ void MainWindow::initializeEditorElements()
 	if (m_currentGraphGenerator != nullptr)
 	{
         m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 2, true);
+        m_randomGenerator->generate(*m_particleSystem, *m_graph, 1, true);
         m_graph->saveToCache(R"(./mnist.knn)");
-
 	}
 	else
 	{
@@ -165,33 +175,23 @@ void MainWindow::initializeEditorElements()
 	}
 }
 
-[[maybe_unused]] void MainWindow::on_pushButton_GraphOpen_clicked()
+[[maybe_unused]] void MainWindow::on_pushButton_One2many_clicked()
 {
-	if (!m_particleSystem->empty())
-	{
-		m_particleSystem->clear();
-	}
 
-	QString fileName = QFileDialog::getOpenFileName(this,
-		tr("Choose knn file"), "",
-		tr("knn format(*.knn);;All Files (*)"));
+    QMessageBox::StandardButton cosine_metric;
+    cosine_metric = QMessageBox::question(this, "Metric", "Use cosine metric for original data?",
+                                          QMessageBox::Yes | QMessageBox::No);
 
-	if (fileName.isEmpty())
-	{
-		return;
-	}
-	
-	m_graph->loadFromCache(fileName.toUtf8().constData());
-
-	auto temp = m_currentGraphGenerator;
-    setCurrentGraphGenerator(m_generators->find("Random"));
-    m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 1, true);
-    setCurrentGraphGenerator(temp);
+    bool ok;
+    int k = QInputDialog::getInt(this, tr("QInputDialog::getInt()"),
+                                 tr("Value of k (nearest neighbors) for which calculate the neighborhood metric:")
+                                 , 1, 0, 1000, 1, &ok);
+    if (ok)
+        calculateMetric(k);
 }
 
 [[maybe_unused]] void MainWindow::on_comboBox_CastingSetup_activated()
 {
-
 	setCurrentCaster(m_casters->find(ui.comboBox_CastingSetup->currentText().toStdString()));
 }
 
@@ -233,7 +233,7 @@ void MainWindow::calculateBoundingBox()
 	m_renderer->setBoundingBox(bounding_box_min, bounding_box_max);
 }
 
-void MainWindow::setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster)
+void MainWindow::setCurrentCaster(const std::shared_ptr<viskit::ICaster>& caster)
 {
  	if (caster != nullptr)
 	{
@@ -241,10 +241,48 @@ void MainWindow::setCurrentCaster(const std::shared_ptr<ivhd::ICaster>& caster)
 	}
 }
 
-void MainWindow::setCurrentGraphGenerator(const std::shared_ptr<ivhd::IGraphGenerator>& generator)
+void MainWindow::setCurrentGraphGenerator(const std::shared_ptr<viskit::IGraphGenerator>& generator)
 {
 	if (generator != nullptr)
 	{
 		m_currentGraphGenerator = generator;
 	}
+}
+
+void MainWindow::loadGraphFromDisk()
+{
+    if (!m_particleSystem->empty())
+    {
+        m_particleSystem->clear();
+    }
+
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Choose knn file"), "",
+                                                    tr("knn format(*.knn);;All Files (*)"));
+
+    if (fileName.isEmpty())
+    {
+        return;
+    }
+
+    m_graph->loadFromCache(fileName.toUtf8().constData());
+    m_randomGenerator->generate(*m_particleSystem, *m_graph, 1, true);
+}
+
+float MainWindow::calculateMetric(int k)
+{
+    return m_metricCalculator->calculate(*m_particleSystem, k);
+}
+
+void MainWindow::dropVisualizationToTxtFile()
+{
+    auto positions = m_particleSystem->positions();
+    auto labels = m_particleSystem->labels();
+
+    std::ofstream file("visualization.txt");
+    for(auto i = 0; i < m_particleSystem->countParticles(); i++)
+    {
+        file << positions[i].x << " " << positions[i].y << " " << labels[i] << std::endl;
+    }
+    file.close();
 }
