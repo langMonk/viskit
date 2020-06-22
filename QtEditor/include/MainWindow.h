@@ -5,6 +5,7 @@
 #include <ICaster.h>
 #include <IGraphGenerator.h>
 #include <IGraph.h>
+#include <IMetric.h>
 #include <ResourceCollection.h>
 #include <IResourceFactory.h>
 #include <IParticleSystem.h>
@@ -45,6 +46,7 @@ private slots:
     [[maybe_unused]] void on_pushButton_CastingRun_clicked();
     [[maybe_unused]] void on_pushButton_CastingStop_clicked();
     [[maybe_unused]] void on_comboBox_CastingSetup_activated();
+    [[maybe_unused]] void on_pushButton_One2many_clicked();
 
     [[maybe_unused]] void on_pushButton_GraphGenerate_clicked();
     [[maybe_unused]] void on_comboBox_GraphSetup_activated();
@@ -55,6 +57,7 @@ private slots:
     void loadGraphFromDisk();
     void exitEditor();
     void calculateBoundingBox();
+    float calculateMetric(int k);
 
 	// Qt resources
 private:
@@ -79,6 +82,7 @@ private:
 	std::shared_ptr<viskit::IGraphGenerator> m_currentGraphGenerator{ nullptr };
 	std::shared_ptr<viskit::IParticleSystem> m_particleSystem{ nullptr };
 	std::shared_ptr<viskit::IGraph> m_graph{ nullptr };
+	std::shared_ptr<viskit::IMetric> m_metricCalculator{ nullptr };
 
 	std::thread m_castingThread{};
 

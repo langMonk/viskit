@@ -56,8 +56,10 @@ namespace viskit::facade::metrics
             m_ext_core->logger().logWarning(&"Failed to calculate kNN metric. Error message: " [ *ex.what()]);
         }
 
+        metricValue = metricValue / static_cast<float>(ps.countParticles() * k);
 
-        return metricValue / static_cast<float>(ps.countParticles() * k);
+        m_ext_core->logger().logInfo("kNN Metric value: " + std::to_string(metricValue));
+        return metricValue;
     }
 
     Graph FacadeKnnMetric::buildInternalGraph(particles::ParticleSystem &ps, int k)
