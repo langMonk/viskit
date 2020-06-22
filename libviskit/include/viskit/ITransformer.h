@@ -5,7 +5,7 @@
 
 #pragma once
 
-namespace ivhd
+namespace viskit
 {
     class IParticleSystem;
     class IGraph;
@@ -22,7 +22,7 @@ namespace ivhd
         /// </summary>
         /// <param name="ps"> Particle system, which contains positions that should be initialized. </param>
         /// <param name="graph"> Graph, which contains distances that should be initialized. </param>
-        virtual void initialize(ivhd::IParticleSystem& ps, ivhd::IGraph& graph) = 0;
+        virtual void initialize(viskit::IParticleSystem& ps, viskit::IGraph& graph) = 0;
 
         /// <summary>
         /// Process, which occurs when transforming is finished.

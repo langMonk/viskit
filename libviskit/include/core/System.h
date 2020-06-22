@@ -7,7 +7,7 @@
 
 #include "Logger.h"
 
-namespace ivhd::core
+namespace viskit::core
 {
 	class System
 	{

@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include "ivhd/IResourceFactory.h"
+#include "viskit/IResourceFactory.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	class FacadeInteractiveVisualization;
 
@@ -18,7 +18,7 @@ namespace ivhd::facade
 	{
 		// public construction and destruction methods
 	public:
-		explicit FacadeResourceFactory(FacadeInteractiveVisualization& ivhd);
+		explicit FacadeResourceFactory(FacadeInteractiveVisualization& viskit);
 
 		// public methods
 	public:
@@ -32,7 +32,9 @@ namespace ivhd::facade
 		
 		std::shared_ptr<IGraph> createGraph() override;
 
+		std::shared_ptr<IMetric> createMetricCalculator() override;
+
 	private:
-		FacadeInteractiveVisualization& m_ext_ivhd;
+		FacadeInteractiveVisualization& m_ext_viskit;
 	};
 }

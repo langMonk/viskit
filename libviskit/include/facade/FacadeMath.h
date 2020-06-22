@@ -5,10 +5,10 @@
 
 #pragma once
 
-#include "ivhd/Math.h"
+#include "viskit/Math.h"
 #include "math/glm_adapter.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	inline vec3 toVec3(const glm::vec3& vector)
 	{

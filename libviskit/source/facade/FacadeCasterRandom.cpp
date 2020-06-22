@@ -5,7 +5,7 @@
 
 #include "facade/FacadeCasterRandom.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	FacadeCasterRandom::FacadeCasterRandom(std::shared_ptr<core::Core> core)
 		: FacadeCaster(core)

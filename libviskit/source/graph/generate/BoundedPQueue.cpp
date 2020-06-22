@@ -1,6 +1,6 @@
 #include "graph/generate/BoundedPQueue.h"
 
-namespace ivhd::graph::generate
+namespace viskit::graph::generate
 {
 	BoundedPQueue::BoundedPQueue(std::size_t maxSize)
 	{

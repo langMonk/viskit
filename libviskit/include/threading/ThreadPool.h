@@ -4,7 +4,7 @@
 #include <future>
 #include <queue>
 
-namespace ivhd::threading
+namespace viskit::threading
 {
 	class ThreadPool
 	{

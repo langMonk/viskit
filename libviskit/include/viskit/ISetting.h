@@ -9,7 +9,7 @@
 #include <functional>
 #include "SettingType.h"
 
-namespace ivhd
+namespace viskit
 {
 	/// <summary>
 	/// The public interface to a particular setting.

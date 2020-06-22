@@ -8,14 +8,14 @@
 #include <vector>
 
 #include "core/Core.h"
-#include "ivhd/IInteractiveVisualization.h"
-#include "ivhd/InteractiveVisualizationBuilder.h"
-#include "ivhd/ICaster.h"
+#include "viskit/IInteractiveVisualization.h"
+#include "viskit/InteractiveVisualizationBuilder.h"
+#include "viskit/ICaster.h"
 #include "facade/FacadeResourceFactory.h"
 #include "facade/FacadeParticleSystem.h"
 #include "facade/FacadeParserCSV.h"
 
-namespace ivhd::facade
+namespace viskit::facade
 {
 	/// <summary>
 	/// Implementation of IVHD interface.
@@ -40,7 +40,7 @@ namespace ivhd::facade
 
 		void subscribeOnCastingStepFinish(CasterEventHandler handler) override;
 		
-		void computePositions(IParticleSystem& ps, IGraph& graph, ICaster& caster) override;
+		void computeCastingStep(IParticleSystem& ps, IGraph& graph, ICaster& caster) override;
 
 		std::vector<std::pair<float, float>> calculateBoundingBox() override;
 		

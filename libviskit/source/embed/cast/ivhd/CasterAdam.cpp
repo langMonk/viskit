@@ -1,6 +1,6 @@
 #include "embed/cast/ivhd/CasterAdam.h"
 
-namespace ivhd::embed::cast::ivhd
+namespace viskit::embed::cast::ivhd
 {
 	CasterAdam::CasterAdam(core::System& system)
 		: CasterIVHD(system)

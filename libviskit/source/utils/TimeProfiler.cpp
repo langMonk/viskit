@@ -1,6 +1,6 @@
 #include "utils/TimeProfiler.h"
 
-namespace ivhd::utils
+namespace viskit::utils
 {
 	TimeProfiler::TimeProfiler(const bool saveToFile)
 	{

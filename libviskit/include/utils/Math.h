@@ -2,7 +2,7 @@
 
 #include <random>
 
-namespace ivhd::math
+namespace viskit::math
 { 
 	static size_t randInt(size_t min, size_t max)
 	{

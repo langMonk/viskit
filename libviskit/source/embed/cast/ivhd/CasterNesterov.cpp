@@ -1,6 +1,6 @@
 #include "embed/cast/ivhd/CasterNesterov.h"
 
-namespace ivhd::embed::cast::ivhd
+namespace viskit::embed::cast::ivhd
 {
 	CasterNesterov::CasterNesterov(core::System& system)
 		: CasterIVHD(system)

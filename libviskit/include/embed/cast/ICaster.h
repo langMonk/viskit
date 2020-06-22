@@ -5,7 +5,7 @@
 
 #pragma once
 
-namespace ivhd::embed::cast
+namespace viskit::embed::cast
 {
 	class ICaster
 	{
