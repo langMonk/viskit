@@ -153,9 +153,18 @@ void MainWindow::exitEditor()
 [[maybe_unused]] void MainWindow::on_pushButton_CastingStop_clicked()
 {
 	if(m_running)
-	{
+    {
         m_running = false;
+        m_castingThread.join();
         m_currentCaster->finalize();
+        m_castingThread = std::thread([&]()
+        {
+            for (auto i = 0; i < 100; i++)
+            {
+                m_viskit->computeCastingStep(*m_particleSystem, *m_graph,
+                                    *m_currentCaster);
+            }
+        });
 	}
 
     dropVisualizationToTxtFile();

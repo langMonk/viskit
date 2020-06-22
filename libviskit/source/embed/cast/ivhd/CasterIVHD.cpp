@@ -37,7 +37,14 @@ namespace viskit::embed::cast
 
 					if (neighbor.type == NeighborsType::Near || neighbor.type == NeighborsType::Reverse) D *= 0;
 
-					energy = (D - r) / r;
+                    if(m_finalizing)
+                    {
+                        energy = -0.005f / r;
+                    }
+                    else
+                    {
+                        energy = (D - r) / r;
+                    }
 
 					auto df = glm::vec4{ rv.x * energy, rv.y * energy, 0.0f, 0.0f };
 					switch (neighbor.type)
