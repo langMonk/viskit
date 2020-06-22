@@ -1,3 +1,4 @@
+#include <fstream>
 #include <QFileDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QInputDialog>
@@ -156,6 +157,8 @@ void MainWindow::exitEditor()
         m_running = false;
         m_currentCaster->finalize();
 	}
+
+    dropVisualizationToTxtFile();
 }
 
 [[maybe_unused]] void MainWindow::on_pushButton_GraphGenerate_clicked()
@@ -178,11 +181,6 @@ void MainWindow::exitEditor()
     QMessageBox::StandardButton cosine_metric;
     cosine_metric = QMessageBox::question(this, "Metric", "Use cosine metric for original data?",
                                           QMessageBox::Yes | QMessageBox::No);
-
-//    QWidget *parent, const QString &title, const QString &label, int value = 0,
-//    int minValue = -2147483647, int maxValue = 2147483647,
-//    int step = 1, bool *ok = nullptr, Qt::WindowFlags flags = Qt::WindowFlags()
-//
 
     bool ok;
     int k = QInputDialog::getInt(this, tr("QInputDialog::getInt()"),
@@ -274,4 +272,17 @@ void MainWindow::loadGraphFromDisk()
 float MainWindow::calculateMetric(int k)
 {
     return m_metricCalculator->calculate(*m_particleSystem, k);
+}
+
+void MainWindow::dropVisualizationToTxtFile()
+{
+    auto positions = m_particleSystem->positions();
+    auto labels = m_particleSystem->labels();
+
+    std::ofstream file("visualization.txt");
+    for(auto i = 0; i < m_particleSystem->countParticles(); i++)
+    {
+        file << positions[i].x << " " << positions[i].y << " " << labels[i] << std::endl;
+    }
+    file.close();
 }
