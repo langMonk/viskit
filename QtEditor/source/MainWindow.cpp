@@ -1,4 +1,6 @@
 #include <QFileDialog>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QInputDialog>
 #include "MainWindow.h"
 #include "OpenGLRenderer.h"
 
@@ -51,7 +53,7 @@ void MainWindow::initializeIVHDResources()
 
 
 	// add resources to collections
-	const auto casterRandom = m_viskit->resourceFactory().createCaster(viskit::CasterType::Random);
+	const auto casterRandom = m_viskit->resourceFactory().createCaster(viskit::CasterType::Random, viskit::OptimizerType::None);
 	const auto casterMomentum = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Momentum);
 	const auto casterForceDirected = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::ForceDirected);
 	const auto casterAdadelta = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adadelta);
@@ -67,11 +69,12 @@ void MainWindow::initializeIVHDResources()
 
 	const auto bruteGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::BruteForce);
     const auto faissGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Faiss);
-    m_randomGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
 
+    m_randomGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
     m_generators->add("Brute Force", bruteGenerator);
     if(faissGenerator != nullptr){ m_generators->add("Faiss", faissGenerator); }
 
+    m_metricCalculator = m_viskit->resourceFactory().createMetricCalculator();
 
 	// set default resources
 	setCurrentCaster(casterRandom);
@@ -169,6 +172,26 @@ void MainWindow::exitEditor()
 	}
 }
 
+[[maybe_unused]] void MainWindow::on_pushButton_One2many_clicked()
+{
+
+    QMessageBox::StandardButton cosine_metric;
+    cosine_metric = QMessageBox::question(this, "Metric", "Use cosine metric for original data?",
+                                          QMessageBox::Yes | QMessageBox::No);
+
+//    QWidget *parent, const QString &title, const QString &label, int value = 0,
+//    int minValue = -2147483647, int maxValue = 2147483647,
+//    int step = 1, bool *ok = nullptr, Qt::WindowFlags flags = Qt::WindowFlags()
+//
+
+    bool ok;
+    int k = QInputDialog::getInt(this, tr("QInputDialog::getInt()"),
+                                 tr("Value of k (nearest neighbors) for which calculate the neighborhood metric:")
+                                 , 1, 0, 1000, 1, &ok);
+    if (ok)
+        calculateMetric(k);
+}
+
 [[maybe_unused]] void MainWindow::on_comboBox_CastingSetup_activated()
 {
 	setCurrentCaster(m_casters->find(ui.comboBox_CastingSetup->currentText().toStdString()));
@@ -246,4 +269,9 @@ void MainWindow::loadGraphFromDisk()
 
     m_graph->loadFromCache(fileName.toUtf8().constData());
     m_randomGenerator->generate(*m_particleSystem, *m_graph, 1, true);
+}
+
+float MainWindow::calculateMetric(int k)
+{
+    return m_metricCalculator->calculate(*m_particleSystem, k);
 }
