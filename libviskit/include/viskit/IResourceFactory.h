@@ -41,7 +41,7 @@ namespace viskit
 		/// <param name="type"> Type of caster, which will be created. </param>
 		/// <param name="optimizer"> Type of optimizer, which will be used. </param>
 		/// <returns> The created caster. </returns>
-		virtual std::shared_ptr<ICaster> createCaster(CasterType type, OptimizerType optimizer = OptimizerType::None) = 0;
+		virtual std::shared_ptr<ICaster> createCaster(CasterType type, OptimizerType optimizer) = 0;
 
 		/// <summary>
 		/// Creates a new particle system
