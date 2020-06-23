@@ -104,6 +104,7 @@ namespace viskit
 		KDTreeBased,
 		Random,
 		Faiss,
+		Reverse,
 	};
 
 	enum class OptimizerType

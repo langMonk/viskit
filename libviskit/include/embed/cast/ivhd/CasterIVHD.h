@@ -25,8 +25,8 @@ namespace viskit::embed::cast
 
 	protected:
 		float w_random{ 0.01f };
-		
-		float a_factor{ 0.99f };
+
+	    float a_factor{ 0.99f };
 
 		float b_factor{ 0.002f };
 
