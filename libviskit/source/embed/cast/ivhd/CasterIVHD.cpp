@@ -31,11 +31,13 @@ namespace viskit::embed::cast
 					const auto pj = neighbor.j;
 
 					const auto rv = pos[pi] - pos[pj];
-					const auto r = glm::distance(glm::vec2(pos[pi].x, pos[pi].y), glm::vec2(pos[pj].x, pos[pj].y)) + 0.00001f;
+					const auto r = glm::distance(glm::vec2(pos[pi].x, pos[pi].y), glm::vec2(pos[pj].x,
+					                                                    pos[pj].y)) + 0.00001f;
 
 					auto D = neighbor.r;
 
-					if (neighbor.type == NeighborsType::Near || neighbor.type == NeighborsType::Reverse) D *= 0;
+					if (neighbor.type == NeighborsType::Near) { D *= 0; }
+
 
                     if(m_finalizing)
                     {
@@ -47,14 +49,16 @@ namespace viskit::embed::cast
                     }
 
 					auto df = glm::vec4{ rv.x * energy, rv.y * energy, 0.0f, 0.0f };
-					switch (neighbor.type)
-					{
-					case NeighborsType::Random: df *= w_random;
-					default:;
-					}
 
-					forces[neighbor.i] += df;
-					forces[neighbor.j] -= df;
+                    switch (neighbor.type)
+                    {
+                        case NeighborsType::Random: df *= w_random;
+                        case NeighborsType::Reverse: df *= w_random;
+                        default:;
+                    }
+
+                    forces[neighbor.i] += df;
+                    forces[neighbor.j] -= df;
 				}
 			}
 		}

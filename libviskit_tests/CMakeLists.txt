@@ -17,7 +17,7 @@ add_executable(${PROJECT_NAME}
 add_subdirectory(${PROJECT_SOURCE_DIR}/googletest/)
 target_include_directories(${PROJECT_NAME} PRIVATE ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-# include viskit and ivhd_cuda
+# include viskit
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libviskit/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
