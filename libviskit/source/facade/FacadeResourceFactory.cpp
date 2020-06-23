@@ -11,6 +11,7 @@
 #include "facade/FacadeGraphGeneratorBruteForce.h"
 #include "facade/FacadeGraphGeneratorFaiss.h"
 #include "facade/FacadeGraphGeneratorRandom.h"
+#include "facade/FacadeGraphGeneratorReverse.h"
 #include "facade/FacadeCasterMomentum.h"
 #include "facade/FacadeCasterForceDirected.h"
 #include "facade/FacadeCasterAdadelta.h"
@@ -51,6 +52,10 @@ namespace viskit::facade
         {
             generator = std::make_shared<FacadeGraphGeneratorRandom>(m_ext_viskit.core());
         }
+        else if (type == GraphGeneratorType::Reverse)
+        {
+            generator = std::make_shared<FacadeGraphGeneratorReverse>(m_ext_viskit.core());
+        }
 
 #ifdef USE_CUDA
         else if (type == GraphGeneratorType::Faiss)
@@ -58,6 +63,7 @@ namespace viskit::facade
             generator = std::make_shared<FacadeGraphGeneratorFaiss>(m_ext_viskit.core());
         }
 #endif
+
 		return generator;
 	}
 
