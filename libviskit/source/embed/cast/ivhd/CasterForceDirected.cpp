@@ -17,9 +17,6 @@ namespace viskit::embed::cast::ivhd
 
 	void CasterForceDirected::calculatePositions(particles::ParticleSystem& ps)
 	{
-		const auto dt = 1e-3f * m_speedFactor * m_dtFactor;
-		const auto dt_half = dt * 0.5f;
-
 		auto& awake = ps.calculationData()->m_alive;
 		auto& forces = ps.calculationData()->m_force;
 		auto& velocities = ps.calculationData()->m_vel;
@@ -38,8 +35,8 @@ namespace viskit::embed::cast::ivhd
 			{
 				if (awake[i])
 				{
-					velocities[i] = forces[i] * dt_half;
-					positions[i] += velocities[i] * dt;
+					velocities[i] = a_factor * velocities[i] + b_factor * forces[i];
+					positions[i] += velocities[i] * m_speedFactor;
 				}
 			}
 		}
