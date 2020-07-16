@@ -72,6 +72,8 @@ void MainWindow::initializeIVHDResources()
     const auto faissGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Faiss);
 
     m_randomGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
+    m_reverseGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Reverse);
+
     m_generators->add("Brute Force", bruteGenerator);
     if(faissGenerator != nullptr){ m_generators->add("Faiss", faissGenerator); }
 
@@ -176,6 +178,7 @@ void MainWindow::exitEditor()
 	{
         m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 2, true);
         m_randomGenerator->generate(*m_particleSystem, *m_graph, 1, true);
+        //m_reverseGenerator->generate(*m_particleSystem, *m_graph, 1, true);
         m_graph->saveToCache(R"(./mnist.knn)");
 	}
 	else
@@ -276,6 +279,7 @@ void MainWindow::loadGraphFromDisk()
 
     m_graph->loadFromCache(fileName.toUtf8().constData());
     m_randomGenerator->generate(*m_particleSystem, *m_graph, 1, true);
+    // m_reverseGenerator->generate(*m_particleSystem, *m_graph, 1, true);
 }
 
 float MainWindow::calculateMetric(int k)
