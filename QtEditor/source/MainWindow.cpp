@@ -169,6 +169,7 @@ void MainWindow::exitEditor()
         });
 	}
 
+    m_castingThread.join();
     dropVisualizationToTxtFile();
 }
 
