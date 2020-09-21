@@ -21,33 +21,33 @@ plt.legend()
 
 
 # auto annotations
-sums = {}
-freqs = {}
+# sums = {}
+# freqs = {}
 
-for i in range(0, len(x)):
-    if labels[i] in freqs:
-        freqs[labels[i]] = freqs[labels[i]] + 1
-    else:
-        freqs[labels[i]] = 1
+# for i in range(0, len(x)):
+#     if labels[i] in freqs:
+#         freqs[labels[i]] = freqs[labels[i]] + 1
+#     else:
+#         freqs[labels[i]] = 1
 
-    if (labels[i] in sums):
-        (ax, ay) = sums[labels[i]]
-        sums[labels[i]] = (x[i] + ax, y[i] + ay)
-    else:
-        sums[labels[i]] = (x[i], y[i])
+#     if (labels[i] in sums):
+#         (ax, ay) = sums[labels[i]]
+#         sums[labels[i]] = (x[i] + ax, y[i] + ay)
+#     else:
+#         sums[labels[i]] = (x[i], y[i])
 
 
-for i in range(0, len(unique)):
-    (avx, avy) = sums[unique[i]]
-    avx = avx / freqs[unique[i]]
-    avy = avy / freqs[unique[i]]
+# for i in range(0, len(unique)):
+#     (avx, avy) = sums[unique[i]]
+#     avx = avx / freqs[unique[i]]
+#     avy = avy / freqs[unique[i]]
 
-    plt.annotate(unique[i],
-            [avx, avy],
-            horizontalalignment='center',
-            verticalalignment='center',
-            size=15, weight='bold',
-            color='white',
-            backgroundcolor=colors[i])
+#     plt.annotate(unique[i],
+#             [avx, avy],
+#             horizontalalignment='center',
+#             verticalalignment='center',
+#             size=15, weight='bold',
+#             color='white',
+#             backgroundcolor=colors[i])
 
 plt.show() 
