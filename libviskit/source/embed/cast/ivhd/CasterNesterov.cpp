@@ -40,7 +40,7 @@ namespace viskit::embed::cast::ivhd
 
 					auto D = neighbor.r;
 
-					if (neighbor.type == NeighborsType::Near || neighbor.type == NeighborsType::Reverse) D *= 0;
+					if (neighbor.type == NeighborsType::Near) D *= 0;
 
 					energy = (D - r) / r;
 
