@@ -43,14 +43,14 @@ private:
 	void initializeEditorElements();
 	
 private slots:
-    [[maybe_unused]] void on_pushButton_CastingRun_clicked();
-    [[maybe_unused]] void on_pushButton_CastingStop_clicked();
-    [[maybe_unused]] void on_comboBox_CastingSetup_activated();
-    [[maybe_unused]] void on_pushButton_One2many_clicked();
+    void on_pushButton_CastingRun_clicked();
+    void on_pushButton_CastingStop_clicked();
+    void on_comboBox_CastingSetup_activated();
+    void on_pushButton_One2many_clicked();
 
-    [[maybe_unused]] void on_pushButton_GraphGenerate_clicked();
-    [[maybe_unused]] void on_comboBox_GraphSetup_activated();
-    [[maybe_unused]] void on_actionReset_View_clicked();
+    void on_pushButton_GraphGenerate_clicked();
+    void on_comboBox_GraphSetup_activated();
+    void on_actionReset_View_clicked();
 
 private slots:
     void loadDataset();
@@ -59,7 +59,7 @@ private slots:
     void calculateBoundingBox();
     float calculateMetric(int k);
 
-    [[maybe_unused]] void dropVisualizationToTxtFile();
+    void dropVisualizationToTxtFile();
 
 	// Qt resources
 private:

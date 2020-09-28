@@ -3,6 +3,14 @@ project(QtEditor)
 
 set(CMAKE_CXX_STANDARD 17)
 
+
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
+
 if (MSVC)
     message("You are compiling using WINDOWS OS" ...)
     set(CMAKE_PREFIX_PATH "D://Qt//5.12.1//msvc2017_64")
@@ -49,15 +57,14 @@ set(project_sources
         source/ShaderProgram.cpp
         source/TextureLoader.cpp)
 
-add_executable(${PROJECT_NAME} ${project_headers} ${project_sources} ${project_resources})
+      add_executable(${PROJECT_NAME} ${project_ui} ${project_headers} ${project_sources} ${project_resources})
 
-target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libviskit/include/viskit)
-target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
-target_include_directories(QtEditor PRIVATE ${PROJECT_SOURCE_DIR}/../libraries/glew/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
+target_include_directories(${PROJECT_NAME} PRIVATE /usr/local/include/viskit/include/viskit)
 
-target_link_directories(${PROJECT_NAME} PRIVATE /usr/local/lib)
-target_link_directories(${PROJECT_NAME} PRIVATE /cmake-build-release/libviskit/)
+target_link_directories(${PROJECT_NAME} PRIVATE /usr/local/libraries)
+target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 
-target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core libviskit faiss )
+target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core viskit faiss cudart cublas gomp )
 
