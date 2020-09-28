@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(libviskit)
+project(viskit)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -72,6 +72,7 @@ set(HEADER_FILES
         include/viskit/IParticleSystem.h
         include/viskit/IReducer.h
         include/viskit/ResourceCollection.h
+        include/viskit/ResourceCollection.inl
         include/viskit/IResourceFactory.h
         include/viskit/ISetting.h
         include/viskit/ITransformer.h
@@ -145,7 +146,7 @@ set(SOURCE_FILES
         )
 
 if (USE_CUDA)
-    find_package(CUDA 10.2 REQUIRED)
+    find_package(CUDA 10.0 REQUIRED)
     message("Compilation with CUDA")
 else()
     message("Compilation without CUDA")
@@ -159,3 +160,17 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include
 target_include_directories(${PROJECT_NAME} PRIVATE ${CUDA_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} pthread)
+
+install(TARGETS viskit
+  EXPORT viskit-targets
+  RUNTIME DESTINATION bin
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  INCLUDES DESTINATION include
+)
+foreach(header ${HEADER_FILES})
+  get_filename_component(dir ${header} DIRECTORY )
+  install(FILES ${header}
+    DESTINATION include/viskit/${dir}
+  )
+endforeach()
