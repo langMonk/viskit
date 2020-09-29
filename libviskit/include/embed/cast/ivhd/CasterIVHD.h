@@ -21,11 +21,15 @@ namespace viskit::embed::cast
 			
 		virtual void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph);
 
+		void setFinalizing(bool val) { m_finalizing = val; }
+
 	protected:
 		float w_random{ 0.01f };
-		
-		float a_factor{ 0.99f };
+
+	    float a_factor{ 0.99f };
 
 		float b_factor{ 0.002f };
+
+		bool m_finalizing{ false };
 	};
 }
