@@ -29,7 +29,7 @@ namespace viskit::facade::metrics
 
     float FacadeKnnMetric::calculate(viskit::IParticleSystem& ps, int k)
     {
-        auto metricValue = 0.0f;
+        auto metricValue = 0;
         try
         {
             const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
@@ -40,14 +40,12 @@ namespace viskit::facade::metrics
             {
                 if (const auto neighbors = internalGraph.getNeighbors(i))
                 {
-
-                    for (const auto neighbor : *neighbors)
+                    auto count = std::count_if(neighbors->begin(), neighbors->end(), [&](Neighbors neighbor)
                     {
-                        if (labels[neighbor.i] == labels[neighbor.j])
-                        {
-                            metricValue++;
-                        }
-                    }
+                        return labels[neighbor.j] == labels[i];
+                    });
+
+                    metricValue += count;
                 }
             }
         }
@@ -56,10 +54,10 @@ namespace viskit::facade::metrics
             m_ext_core->logger().logWarning(&"Failed to calculate kNN metric. Error message: " [ *ex.what()]);
         }
 
-        metricValue = metricValue / static_cast<float>(ps.countParticles() * k);
+        auto value  = static_cast<float>(metricValue) / static_cast<float>(ps.countParticles() * k);
 
-        m_ext_core->logger().logInfo("kNN Metric value: " + std::to_string(metricValue));
-        return metricValue;
+        m_ext_core->logger().logInfo("kNN Metric value: " + std::to_string(value));
+        return value;
     }
 
     Graph FacadeKnnMetric::buildInternalGraph(particles::ParticleSystem &ps, int k)

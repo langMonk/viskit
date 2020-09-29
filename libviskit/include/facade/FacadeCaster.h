@@ -21,7 +21,7 @@ namespace viskit::facade
 	public:
 
 		explicit FacadeCaster(std::shared_ptr<core::Core> core);
-		virtual ~FacadeCaster() = default;
+		~FacadeCaster() override = default;
 
 		FacadeCaster(const FacadeCaster&) = delete;
 		FacadeCaster(FacadeCaster&&) = delete;

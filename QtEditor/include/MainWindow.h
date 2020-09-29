@@ -78,7 +78,7 @@ private:
 	// IVHD collections and current resources
 	std::shared_ptr<viskit::ResourceCollection<viskit::ICaster>> m_casters;
 	std::shared_ptr<viskit::ResourceCollection<viskit::IGraphGenerator>> m_generators;
-	std::shared_ptr<viskit::IGraphGenerator> m_randomGenerator;
+	std::shared_ptr<viskit::IGraphGenerator> m_randomGenerator, m_reverseGenerator;
 
 	std::shared_ptr<viskit::ICaster> m_currentCaster{ nullptr };
 	std::shared_ptr<viskit::IGraphGenerator> m_currentGraphGenerator{ nullptr };
