@@ -44,6 +44,7 @@ set(HEADER_FILES
         include/facade/FacadeGraphGeneratorBruteForce.h
         include/facade/FacadeGraphGeneratorKDTree.h
         include/facade/FacadeGraphGeneratorRandom.h
+        include/facade/FacadeGraphGeneratorReverse.h
         include/facade/FacadeInteractiveVisualization.h
         include/facade/FacadeMath.h
         include/facade/FacadeParser.h
@@ -120,6 +121,7 @@ set(SOURCE_FILES
         source/facade/FacadeGraphGeneratorBruteForce.cpp
         source/facade/FacadeGraphGeneratorKDTree.cpp
         source/facade/FacadeGraphGeneratorRandom.cpp
+        source/facade/FacadeGraphGeneratorReverse.cpp
         source/facade/FacadeInteractiveVisualization.cpp
         source/facade/FacadeParser.cpp
         source/facade/FacadeParserCSV.cpp
