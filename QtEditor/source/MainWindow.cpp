@@ -179,8 +179,8 @@ void MainWindow::exitEditor()
 	{
         m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 2, true);
         m_randomGenerator->generate(*m_particleSystem, *m_graph, 1, true);
-        //m_reverseGenerator->generate(*m_particleSystem, *m_graph, 1, true);
-        m_graph->saveToCache(R"(./mnist.knn)");
+//        m_reverseGenerator->generate(*m_particleSystem, *m_graph, 1, true);
+//        m_graph->saveToCache(R"(./mnist.knn)");
 	}
 	else
 	{
