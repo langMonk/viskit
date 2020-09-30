@@ -74,7 +74,7 @@ namespace viskit::graph::generate
             delete[] D;
         }
 
-        graph.neighborsCounter.nearestNeighbors = k;
+        graph.neighborsCounter.nearestNeighbors = k-1;
     }
 
     void Faiss::generate(std::vector<std::pair<viskit::DataPoint, particles::DataPointLabel>> points, Graph &graph, size_t k,

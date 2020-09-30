@@ -4,10 +4,13 @@
 ///
 
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 #include "parse/ParserCSV.h"
 
 namespace viskit::parse
 {
+    using boost::lexical_cast;
+
 	namespace
 	{
 		template<class T>
@@ -90,9 +93,9 @@ namespace viskit::parse
 
 				std::vector<float> floatVector(stringVector.size() - 1);
 
-				std::transform(stringVector.begin(), stringVector.end() - 1, floatVector.begin(), [](const std::string& val)
+				std::transform(stringVector.begin(), stringVector.end() - 1, floatVector.begin(), [&](const std::string& val)
 				{
-					return std::stof(val);
+				    return lexical_cast<float>(val);
 				});
 
 				particles::DataPointLabel label = std::stoi(stringVector.back());
