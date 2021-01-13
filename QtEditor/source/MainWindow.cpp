@@ -161,7 +161,7 @@ void MainWindow::exitEditor()
         m_currentCaster->finalize();
         m_castingThread = std::thread([&]()
         {
-            for (auto i = 0; i < 100; i++)
+            for (auto i = 0; i < 50; i++)
             {
                 m_viskit->computeCastingStep(*m_particleSystem, *m_graph,
                                     *m_currentCaster);
@@ -177,7 +177,7 @@ void MainWindow::exitEditor()
 {
 	if (m_currentGraphGenerator != nullptr)
 	{
-        m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 2, true);
+        m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 3, true);
         m_randomGenerator->generate(*m_particleSystem, *m_graph, 1, true);
 //        m_reverseGenerator->generate(*m_particleSystem, *m_graph, 1, true);
 //        m_graph->saveToCache(R"(./mnist.knn)");

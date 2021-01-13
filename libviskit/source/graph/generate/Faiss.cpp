@@ -33,7 +33,7 @@ namespace viskit::graph::generate
 
         for (auto i = 0; i < nb; i++) {
             for (auto j = 0; j < d; j++) {
-                xb.push_back(coordinates[i].first[j]);
+                xb.emplace_back(coordinates[i].first[j]);
             }
         }
 
@@ -42,13 +42,9 @@ namespace viskit::graph::generate
         faiss::gpu::StandardGpuResources res;
 
         faiss::gpu::GpuIndexFlatL2 index_flat(&res, d);
-        //faiss::gpu::GpuIndexIVFFlat index_ivf(&res, d, static_cast<int>(sqrt(count)), faiss::METRIC_L2);
-
-        index_flat.train(nb, xb.data());
+        // faiss::gpu::GpuIndexFlatIP index_flat(&res, d);
+        // index_flat.train(nb, xb.data());
         index_flat.add(nb, xb.data());  // add vectors to the index
-
-        printf("is_trained = %s\n", index_flat.is_trained ? "true" : "false");
-        printf("ntotal = %ld\n", index_flat.ntotal);
 
         k += 1;
         {
@@ -57,17 +53,17 @@ namespace viskit::graph::generate
 
             index_flat.search(nb, xb.data(), k, D, I);
 
-            for (int i = 0; i < count; i++) {
-                for (int j = 0; j < k; j++) {
-                    const auto index = I[i * k + j];
-                    if (i != index) {
-                        if (!distancesEqualOne) {
-                            graph.addNeighbors(Neighbors(i, index, D[i * k + j], NeighborsType::Near));
-                        } else {
-                            graph.addNeighbors(Neighbors(i, index, 1.0f, NeighborsType::Near));
-                        }
+            for (int i = 0; i < count; i++)
+            {
+                for (int j = 1; j < k; j++)
+                {
+                    if (!distancesEqualOne) {
+                        graph.addNeighbors(Neighbors(I[i * k], I[i * k + j], D[i * k + j], NeighborsType::Near));
+                    } else {
+                        graph.addNeighbors(Neighbors(I[i * k], I[i * k + j], 1.0f, NeighborsType::Near));
                     }
                 }
+                printf("\n");
             }
 
             delete[] I;
@@ -105,10 +101,7 @@ namespace viskit::graph::generate
         index_flat.train(nb, xb.data());
         index_flat.add(nb, xb.data());  // add vectors to the index
 
-        printf("is_trained = %s\n", index_flat.is_trained ? "true" : "false");
-        printf("ntotal = %ld\n", index_flat.ntotal);
 
-        k += 1;
         {
             auto *I = new long[k * count];
             auto *D = new float[k * count];
