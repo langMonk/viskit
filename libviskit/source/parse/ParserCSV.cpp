@@ -95,7 +95,7 @@ namespace viskit::parse
 
 				std::transform(stringVector.begin(), stringVector.end() - 1, floatVector.begin(), [&](const std::string& val)
 				{
-				    return lexical_cast<float>(val);
+                    return lexical_cast<float>(val);
 				});
 
 				particles::DataPointLabel label = std::stoi(stringVector.back());
@@ -106,9 +106,9 @@ namespace viskit::parse
 					labels.emplace_back(label);
 				}
 				i++;
-			}			
-		}
-
+			}
+        }
+        m_ext_system.logger().logInfo("[CSV Parser] Number of classes in dataset: " + std::to_string(labels.size()));
 		ps.setDataset(dataset, labels);
 		ps.datasetInfo(info);
 		finalize(ps);

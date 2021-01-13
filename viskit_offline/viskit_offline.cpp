@@ -31,20 +31,8 @@ void calculateMetrics(viskit::IInteractiveVisualization& viskit, const std::shar
     std::cout << "k = 100: " << metricCalculator->calculate(*particleSystem, 100) << std::endl;
 }
 
-void dropVisualizationToTxtFile(const std::shared_ptr<viskit::IParticleSystem>& ps)
-{
-    auto positions = ps->positions();
-    auto labels = ps->labels();
-
-    std::ofstream file("./visualization.txt");
-    for(auto i = 0; i < ps->countParticles(); i++)
-    {
-        file << positions[i].x << " " << positions[i].y << " " << labels[i] << std::endl;
-    }
-    file.close();
-}
-
-void performVisualization(std::string dataset_path, int iterations, int nn, int rn)
+void performVisualization(std::string dataset_path, const std::string& output_path, int iterations, int nn, int rn,
+                          int l1_steps)
 {
     // initialize logging handler
     auto logsCount = 0;
@@ -99,25 +87,27 @@ void performVisualization(std::string dataset_path, int iterations, int nn, int 
         viskit->computeCastingStep(*particleSystem, *graph, *casterForceDirected);
     }
 
+    // perform casting for l1_steps steps
     casterForceDirected->finalize();
-    // perform casting for 200 steps
-//    for (auto j = 0; j < 200; j++)
-//    {
-//        viskit->computeCastingStep(*particleSystem, *graph, *casterForceDirected);
-//    }
+    for (auto j = 0; j < l1_steps; j++)
+    {
+        viskit->computeCastingStep(*particleSystem, *graph, *casterForceDirected);
+    }
 
     calculateMetrics(*viskit, particleSystem);
-    dropVisualizationToTxtFile(particleSystem);
+    particleSystem->saveToFile(output_path + "/visualization.txt");
 }
 
 int main(int argc, char** argv)
 {
     const auto dataset_file_path = argv[1];
-    const auto iterations = argv[2];
-    const auto nn = argv[3];
-    const auto rn = argv[4];
+    const auto output_file_path = argv[2];
+    const auto iterations = argv[3];
+    const auto nn = argv[4];
+    const auto rn = argv[5];
+    const auto l1_steps = argv[6];
 
-    performVisualization(dataset_file_path, std::stoi(iterations), std::stoi(nn), std::stoi(rn));
+    performVisualization(dataset_file_path, output_file_path, std::stoi(iterations), std::stoi(nn), std::stoi(rn), std::stoi(l1_steps));
 
     return 0;
 }

@@ -21,7 +21,6 @@ namespace viskit::embed::cast::ivhd
 		void calculatePositions(particles::ParticleSystem& ps) override;
 
 	private:
-		float m_speedFactor{ 1.0f };
-
+        float m_speedFactor{ 1.0f };
 	};
 }
