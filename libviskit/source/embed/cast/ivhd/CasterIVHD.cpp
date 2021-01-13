@@ -1,5 +1,7 @@
 #include "embed/cast/ivhd/CasterIVHD.h"
 
+#include <cmath>
+
 namespace viskit::embed::cast
 {
 	CasterIVHD::CasterIVHD(core::System& system)
