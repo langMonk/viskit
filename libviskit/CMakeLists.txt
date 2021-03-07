@@ -148,7 +148,8 @@ set(SOURCE_FILES
         )
 
 if (USE_CUDA)
-    find_package(CUDA 10.0 REQUIRED)
+    set(CUDA_INCLUDE_DIRS /usr/local/include/cuda)
+    find_package(CUDA 11.2 REQUIRED)
     message("Compilation with CUDA")
 else()
     message("Compilation without CUDA")

@@ -62,8 +62,10 @@ set(project_sources
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 target_include_directories(${PROJECT_NAME} PRIVATE /usr/local/include/viskit/include/viskit)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libviskit/include/viskit)
 
 target_link_directories(${PROJECT_NAME} PRIVATE /usr/local/libraries)
+target_link_directories(${PROJECT_NAME} PRIVATE /usr/lib/cuda/lib64)
 target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 
 target_link_libraries(${PROJECT_NAME} SOIL GLEW GL Qt5::Widgets Qt5::Gui Qt5::Core viskit faiss cudart cublas gomp )
