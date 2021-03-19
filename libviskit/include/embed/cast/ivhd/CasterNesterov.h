@@ -20,5 +20,9 @@ namespace viskit::embed::cast::ivhd
 		
 		void calculateForces(float& energy, particles::ParticleSystem& ps, graph::Graph& graph) override;
 
+	private:
+        float a_factor{ 0.99f };
+
+        float b_factor{ 0.002f };
 	};
 }

@@ -17,6 +17,10 @@ namespace viskit::embed::cast::ivhd
 		explicit CasterMomentum(core::System& system);
 
 		void calculatePositions(particles::ParticleSystem& ps) override;
-		
-	};
+
+	private:
+        float a_factor{ 0.99f };
+
+        float b_factor{ 0.002f };
+    };
 }
