@@ -8,7 +8,6 @@
 #include "particles/ParticleSystem.h"
 #include "embed/cast/ivhd/CasterIVHD.h"
 
-const int MAX_VELOCITY_BUFFER_LEN = 10;
 
 namespace viskit::embed::cast::ivhd
 {
@@ -25,11 +24,9 @@ namespace viskit::embed::cast::ivhd
         void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph) override;
 
 	private:
-        float current_max_velocity[MAX_VELOCITY_BUFFER_LEN];
+        float m_currentMaxVelocity;
 
-        int current_max_velocity_ptr {0};
-
-		float m_speedFactor{ 10.0f };
+		float m_speedFactor{ 200.0f };
 
 		float m_dtFactor{ 1.0f };
 
@@ -37,7 +34,7 @@ namespace viskit::embed::cast::ivhd
 
 		float m_velDump{ 0.95f };
 
-		bool m_autoAdaptStep{false};
+		bool m_autoAdaptStep{true};
 
         int m_sammonK{1};
 

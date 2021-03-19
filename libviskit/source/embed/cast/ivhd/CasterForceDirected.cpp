@@ -55,7 +55,7 @@ namespace viskit::embed::cast::ivhd
                     glm::vec4 posI = pos[pi];
                     glm::vec4 posJ = pos[pj];
 
-                    const auto rv = posI - posJ;
+                    const auto rv = posJ - posI;
                     const auto r = glm::distance(glm::vec2(pos[pi].x, pos[pi].y), glm::vec2(pos[pj].x, pos[pj].y));
 
                     auto D = neighbor.r;
@@ -110,11 +110,12 @@ namespace viskit::embed::cast::ivhd
         float vl;
         auto dt = 1e-3f * m_speedFactor * m_dtFactor;
         auto dt_half = dt * 0.5f;
-        float avgVelocity = 0.0f;
+        auto avgVelocity = 0.0f;
         auto mv2 = 0.0f;
 
         if (ps.step() > 0)
         {
+            auto aliveCnt = 0;
             for (size_t i = 0; i < ps.countParticles(); i++)
             {
                 if (awake[i])
@@ -132,23 +133,22 @@ namespace viskit::embed::cast::ivhd
 
                     avgVelocity += vl;
 
-                    positions[i].x += velocities[i].x * dt;
-                    positions[i].y += velocities[i].y * dt;
+                    positions[i] += velocities[i] * dt;
+                    aliveCnt++;
                 }
             }
-            avgVelocity /= static_cast<float>(ps.step() - 1);
+            avgVelocity /= static_cast<float>(aliveCnt - 1);
         }
 
         avgVelocity = std::sqrt(avgVelocity);
-        current_max_velocity[current_max_velocity_ptr] = std::sqrt(mv2);
-        current_max_velocity_ptr = (current_max_velocity_ptr + 1) % MAX_VELOCITY_BUFFER_LEN;
+        if (m_currentMaxVelocity < std::sqrt(mv2)) m_currentMaxVelocity = std::sqrt(mv2);
 
-        if (ps.step() > MAX_VELOCITY_BUFFER_LEN)
+        if (ps.step() > 10)
         {
-            v_max = current_max_velocity[0];
-            for (int i = 1; i < MAX_VELOCITY_BUFFER_LEN; i++)
-                v_max += current_max_velocity[i];
-            v_max /= MAX_VELOCITY_BUFFER_LEN;
+            v_max = m_currentMaxVelocity;
+            for (int i = 1; i < 10; i++)
+                v_max += m_currentMaxVelocity;
+            v_max /= 10;
         }
         else
             v_max = 0;
@@ -159,7 +159,7 @@ namespace viskit::embed::cast::ivhd
             {
                 m_dtFactor /= 1.01f;
             }
-            else if (v_max < 10*avgVelocity)
+            else if (v_max < 10 * avgVelocity)
             {
                 m_dtFactor *= 1.01f;
             }
