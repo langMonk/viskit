@@ -57,7 +57,7 @@ set(project_sources
         source/ShaderProgram.cpp
         source/TextureLoader.cpp)
 
-      add_executable(${PROJECT_NAME} ${project_ui} ${project_headers} ${project_sources} ${project_resources})
+add_executable(${PROJECT_NAME} ${project_ui} ${project_headers} ${project_sources} ${project_resources})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
