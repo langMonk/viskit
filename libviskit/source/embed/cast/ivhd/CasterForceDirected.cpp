@@ -12,7 +12,7 @@ namespace viskit::embed::cast::ivhd
 
 	void CasterForceDirected::castParticleSystem(particles::ParticleSystem& ps, Graph& graph)
 	{
-		auto energy = 0.1f;
+		auto energy = 1.0e10f;
 		calculatePositions(ps);
 		calculateForces(energy, ps, graph);
 
@@ -31,7 +31,74 @@ namespace viskit::embed::cast::ivhd
                 velocities[i] *= m_velDump;
             }
         }
+
+        ps.increaseStep();
 	}
+
+    void CasterForceDirected::calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph)
+    {
+        auto& pos = ps.calculationData()->m_pos;
+        auto& forces = ps.calculationData()->m_force;
+        energy = 0;
+        auto de = 0.1f;
+        ps.resetForces();
+
+        for (size_t index = 0; index < graph.size(); index++)
+        {
+            if (auto neighbors = graph.getNeighbors(index))
+            {
+                for (const auto neighbor : *neighbors)
+                {
+                    const auto pi = neighbor.i;
+                    const auto pj = neighbor.j;
+
+                    glm::vec4 posI = pos[pi];
+                    glm::vec4 posJ = pos[pj];
+
+                    const auto rv = posI - posJ;
+                    const auto r = glm::distance(glm::vec2(pos[pi].x, pos[pi].y), glm::vec2(pos[pj].x, pos[pj].y));
+
+                    auto D = neighbor.r;
+
+                    if (neighbor.type == NeighborsType::Near) { D *= 0; }
+
+
+                    if (m_sammonK == 1 && m_sammonM == 2 && m_sammonW == 0)
+                    {
+                        energy = r == 0 ? 0 : (2.0f/r)*(r - D);
+                    }
+                    else
+                    {
+                        auto mkDw = m_sammonK*m_sammonM*std::pow(D, -m_sammonW);
+
+                        auto rk2 = std::pow(r, m_sammonK - 2);
+
+                        auto rk = std::pow(r, m_sammonK);
+                        auto Dk = std::pow(D, m_sammonK);
+                        auto rdm = std::pow(rk - Dk, m_sammonM - 1);
+
+                        if (m_sammonM % 2 && rk < Dk)
+                            rdm *= -1;
+
+                        energy = static_cast<float>(mkDw*rk2*rdm);
+                    }
+
+                    auto df = glm::vec4{ rv.x * energy, rv.y * energy, 0.0f, 0.0f };
+
+                    switch (neighbor.type)
+                    {
+                        case NeighborsType::Random: df *= w_random;
+                        default:;
+                    }
+
+                    energy += de*de;
+
+                    forces[neighbor.i] += df;
+                    forces[neighbor.j] -= df;
+                }
+            }
+        }
+    }
 
 	void CasterForceDirected::calculatePositions(particles::ParticleSystem& ps)
 	{
@@ -43,6 +110,7 @@ namespace viskit::embed::cast::ivhd
         float vl;
         auto dt = 1e-3f * m_speedFactor * m_dtFactor;
         auto dt_half = dt * 0.5f;
+        float avgVelocity = 0.0f;
         auto mv2 = 0.0f;
 
         if (ps.step() > 0)
@@ -51,37 +119,54 @@ namespace viskit::embed::cast::ivhd
             {
                 if (awake[i])
                 {
-                    velocities[i] = forces[i] * dt_half;
-                    vl = velocities[i].x * velocities[i].x + velocities[i].y * velocities[i].y ;
+                    velocities[i] += forces[i] * dt_half;
+                    vl = velocities[i].x * velocities[i].x + velocities[i].y * velocities[i].y;
 
                     if (vl > mv2) mv2 = vl;
 
                     if (vl > m_maxVelocity*m_maxVelocity)
                     {
                         velocities[i] *= m_maxVelocity/std::sqrt(vl);
+                        vl = m_maxVelocity*m_maxVelocity;
                     }
+
+                    avgVelocity += vl;
 
                     positions[i].x += velocities[i].x * dt;
                     positions[i].y += velocities[i].y * dt;
                 }
             }
+            avgVelocity /= static_cast<float>(ps.step() - 1);
         }
+
+        avgVelocity = std::sqrt(avgVelocity);
+        current_max_velocity[current_max_velocity_ptr] = std::sqrt(mv2);
+        current_max_velocity_ptr = (current_max_velocity_ptr + 1) % MAX_VELOCITY_BUFFER_LEN;
+
+        if (ps.step() > MAX_VELOCITY_BUFFER_LEN)
+        {
+            v_max = current_max_velocity[0];
+            for (int i = 1; i < MAX_VELOCITY_BUFFER_LEN; i++)
+                v_max += current_max_velocity[i];
+            v_max /= MAX_VELOCITY_BUFFER_LEN;
+        }
+        else
+            v_max = 0;
 
         if (m_autoAdaptStep)
         {
-//            if (v_max > 10 * avg_velocity)
-//            {
-//                m_dtFactor /= 1.01f;
-//            }
-//            else if (v_max < 10*avg_velocity)
-//            {
-//                m_dtFactor *= 1.01f;
-//            }
-//            if (m_dtFactor < 0.1f)
-//            {
-//                m_dtFactor = 0.1f;
-//            }
+            if (v_max > 10 * avgVelocity)
+            {
+                m_dtFactor /= 1.01f;
+            }
+            else if (v_max < 10*avgVelocity)
+            {
+                m_dtFactor *= 1.01f;
+            }
+            if (m_dtFactor < 0.1f)
+            {
+                m_dtFactor = 0.1f;
+            }
         }
-		ps.increaseStep();
 	}
 }
