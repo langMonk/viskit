@@ -60,6 +60,7 @@ void MainWindow::initializeIVHDResources()
 	const auto casterAdadelta = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adadelta);
 	const auto casterAdam = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adam);
 	const auto casterNesterov = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Nesterov);
+	const auto casterTSNE = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::tSNE);
 
 	m_casters->add("Random", casterRandom);
 	m_casters->add("Momentum", casterMomentum);
@@ -67,6 +68,7 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("Adadelta", casterAdadelta);
 	m_casters->add("Adam", casterAdam);
 	m_casters->add("Nesterov", casterNesterov);
+	m_casters->add("t-SNE", casterTSNE);
 
 	const auto bruteGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::BruteForce);
     const auto faissGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Faiss);
