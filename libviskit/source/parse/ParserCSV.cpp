@@ -95,7 +95,7 @@ namespace viskit::parse
 
 				std::transform(stringVector.begin(), stringVector.end() - 1, floatVector.begin(), [&](const std::string& val)
 				{
-                    return lexical_cast<float>(val);
+                    return lexical_cast<float>(boost::algorithm::trim_copy(val));
 				});
 
 				particles::DataPointLabel label = std::stoi(stringVector.back());

@@ -115,7 +115,8 @@ namespace viskit
 		Momentum,
 		Adadelta,
 		Adam,
-		Nesterov
+		Nesterov,
+		tSNE
 	};
 	
 	enum class CasterType
