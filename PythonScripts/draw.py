@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
-x, y, labels = np.loadtxt(sys.argv[1], delimiter=' ', unpack=True)
+x, y, labels = np.loadtxt(sys.argv[1], delimiter=',', unpack=True)
 
 # plt.scatter(x,y, c=labels)
 # for i, txt in enumerate(labels):
