@@ -31,6 +31,7 @@ set(HEADER_FILES
         include/embed/cast/ivhd/CasterTSNE.h
         include/embed/cast/Caster.h
         include/embed/cast/CasterRandom.h
+        include/embed/cast/CasterLargeVis.h
         include/embed/cast/ICaster.h
         include/facade/FacadeCaster.h
         include/facade/FacadeCasterAdadelta.h
@@ -41,6 +42,7 @@ set(HEADER_FILES
         include/facade/FacadeCasterRandom.h
         include/facade/FacadeCasterTSNE.h
         include/facade/FacadeCasterSGD.h
+        include/facade/FacadeCasterLargeVis.h
         include/facade/FacadeGraph.h
         include/facade/FacadeGraphGenerator.h
         include/facade/FacadeGraphGeneratorBruteForce.h
@@ -110,6 +112,7 @@ set(SOURCE_FILES
         source/embed/cast/ivhd/CasterSGD.cpp
         source/embed/cast/Caster.cpp
         source/embed/cast/CasterRandom.cpp
+        source/embed/cast/CasterLargeVis.cpp
         source/embed/cast/ivhd/CasterTSNE.cpp
         source/facade/FacadeCaster.cpp
         source/facade/FacadeCasterAdadelta.cpp
@@ -120,6 +123,7 @@ set(SOURCE_FILES
         source/facade/FacadeCasterRandom.cpp
         source/facade/FacadeCasterTSNE.cpp
         source/facade/FacadeCasterSGD.cpp
+        source/facade/FacadeCasterLargeVis.cpp
         source/facade/FacadeGraph.cpp
         source/facade/FacadeGraphGenerator.cpp
         source/facade/FacadeGraphGeneratorBruteForce.cpp

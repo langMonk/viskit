@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 
 	// Load an application style
-	QFile styleFile("./assets/style/MaterialDark.qss");
+	QFile styleFile("../../assets/style/MaterialDark.qss");
 	styleFile.open(QFile::ReadOnly);
 
 	// Apply the loaded stylesheet
