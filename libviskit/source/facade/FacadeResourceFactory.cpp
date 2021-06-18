@@ -17,6 +17,7 @@
 #include "facade/FacadeCasterAdadelta.h"
 #include "facade/FacadeCasterAdam.h"
 #include "facade/FacadeCasterNesterov.h"
+#include "facade/FacadeCasterLargeVis.h"
 #include <facade/FacadeCasterTSNE.h>
 #include "facade/metrics/FacadeKnnMetric.h"
 
@@ -95,6 +96,10 @@ namespace viskit::facade
 		else if (type == CasterType::IVHD && optimizer == OptimizerType::Nesterov)
 		{
 			caster = std::make_shared<FacadeCasterNesterov>(m_ext_viskit.core());
+		}
+		else if (type == CasterType::LargeVis)
+        {
+		    caster = std::make_shared<FacadeCasterLargeVis>(m_ext_viskit.core());
 		}
         else if (type == CasterType::IVHD && optimizer == OptimizerType::tSNE)
         {

@@ -31,29 +31,29 @@ namespace viskit::embed::cast
 		const size_t queriesPerThread = ps.countParticles() / math::threads<>;
 		
 		threading::ThreadPool threadPool(math::threads<>);
+        std::vector<std::future<void>> results(math::threads<>);
 
-		for (size_t i = 0; i < math::threads<>; i++)
-		{
-			auto start = i * queriesPerThread;
-			auto end = (i == math::threads<> -1) ? ps.countParticles() : start + queriesPerThread;
+        for (int i = 0; i < math::threads<>; i++)
+        {
+            auto start = i * queriesPerThread;
+            auto end = (i == math::threads<> -1) ? ps.countParticles() : start + queriesPerThread;
 
-			auto gen = m_gen;
+            auto gen = m_gen;
 
-			// enqueue and store future
-			auto result = threadPool.enqueue([&ps, &gen, start, end]()
-			{
-				auto& positions = ps.calculationData()->m_pos;
+            results[i] = threadPool.enqueue([&ps, &gen, start, end]()
+                                           {
+                                               auto& positions = ps.calculationData()->m_pos;
 
-				for (auto i = start; i < end; i++)
-				{
-					positions[i].x = gen->gen();
-					positions[i].y = gen->gen();
-				}
-			});
+                                               for (auto i = start; i < end; i++)
+                                               {
+                                                   positions[i].x = gen->gen();
+                                                   positions[i].y = gen->gen();
+                                               }
+                                           });
+        }
 
-			// get result from future
-			result.get();
-		}
+        for (auto& result: results)
+            result.get();
 	}
 
 	Dist::result_type CasterRandom::RandomGenerator::gen()
