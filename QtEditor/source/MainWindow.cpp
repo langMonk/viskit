@@ -61,6 +61,7 @@ void MainWindow::initializeIVHDResources()
 	const auto casterAdam = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Adam);
 	const auto casterNesterov = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::Nesterov);
 	const auto casterTSNE = m_viskit->resourceFactory().createCaster(viskit::CasterType::IVHD, viskit::OptimizerType::tSNE);
+	const auto casterLargeVis = m_viskit->resourceFactory().createCaster(viskit::CasterType::LargeVis, viskit::OptimizerType::None);
 
 	m_casters->add("Random", casterRandom);
 	m_casters->add("Momentum", casterMomentum);
@@ -68,6 +69,7 @@ void MainWindow::initializeIVHDResources()
 	m_casters->add("Adadelta", casterAdadelta);
 	m_casters->add("Adam", casterAdam);
 	m_casters->add("Nesterov", casterNesterov);
+	m_casters->add("LargeVis", casterLargeVis);
 	m_casters->add("t-SNE", casterTSNE);
 
 	const auto bruteGenerator = m_viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::BruteForce);
@@ -179,7 +181,7 @@ void MainWindow::exitEditor()
 {
 	if (m_currentGraphGenerator != nullptr)
 	{
-        m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 3, true);
+        m_currentGraphGenerator->generate(*m_particleSystem, *m_graph, 10, true);
         m_randomGenerator->generate(*m_particleSystem, *m_graph, 1, true);
 //        m_reverseGenerator->generate(*m_particleSystem, *m_graph, 1, true);
 //        m_graph->saveToCache(R"(./mnist.knn)");

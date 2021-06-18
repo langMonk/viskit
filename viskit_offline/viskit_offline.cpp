@@ -32,7 +32,7 @@ void calculateMetrics(viskit::IInteractiveVisualization& viskit, const std::shar
 }
 
 void performVisualization(std::string dataset_path, const std::string& output_path, int iterations, int nn, int rn,
-                          int l1_steps)
+                          int l1_steps, viskit::CasterType casterType, viskit::OptimizerType optimizerType)
 {
     // initialize logging handler
     auto logsCount = 0;
@@ -54,10 +54,11 @@ void performVisualization(std::string dataset_path, const std::string& output_pa
     auto nearestGenerator = viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Faiss);
     auto randomGenerator = viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
 
-    const auto casterForceDirected = viskit->resourceFactory().createCaster(
-            viskit::CasterType::IVHD,
-            viskit::OptimizerType::ForceDirected
-            );
+    const auto caster = viskit->resourceFactory().createCaster(
+            casterType,
+            optimizerType
+    );
+
     const auto casterRandom = viskit->resourceFactory().createCaster(
             viskit::CasterType::Random,
             viskit::OptimizerType::None
@@ -72,7 +73,7 @@ void performVisualization(std::string dataset_path, const std::string& output_pa
     casterRandom->calculatePositions(*particleSystem);
 
     // initialize and subscribe to on casting step finished
-    casterForceDirected->initialize(*particleSystem, *graph);
+    caster->initialize(*particleSystem, *graph);
 
     int i = 0;
     viskit->subscribeOnCastingStepFinish([&i]
@@ -84,14 +85,14 @@ void performVisualization(std::string dataset_path, const std::string& output_pa
     // perform casting for N steps
     for (auto j = 0; j < iterations; j++)
     {
-        viskit->computeCastingStep(*particleSystem, *graph, *casterForceDirected);
+        viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
 
     // perform casting for l1_steps steps
-    casterForceDirected->finalize();
+    caster->finalize();
     for (auto j = 0; j < l1_steps; j++)
     {
-        viskit->computeCastingStep(*particleSystem, *graph, *casterForceDirected);
+        viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
 
     calculateMetrics(*viskit, particleSystem);
@@ -107,7 +108,30 @@ int main(int argc, char** argv)
     const auto rn = argv[5];
     const auto l1_steps = argv[6];
 
-    performVisualization(dataset_file_path, output_file_path, std::stoi(iterations), std::stoi(nn), std::stoi(rn), std::stoi(l1_steps));
+    //one of: adadelta, adam, forcedirected, momentum, nesterov, largevis, random
+    std::string caster_name = argv[7];
+
+    viskit::CasterType casterType = viskit::CasterType::IVHD;
+    viskit::OptimizerType optimizerType = viskit::OptimizerType::None;
+
+    if (caster_name == "adadelta")
+        optimizerType = viskit::OptimizerType::Adadelta;
+    else if (caster_name == "adam")
+        optimizerType = viskit::OptimizerType::Adam;
+    else if (caster_name == "forcedirected")
+        optimizerType = viskit::OptimizerType::ForceDirected;
+    else if (caster_name == "momentum")
+        optimizerType = viskit::OptimizerType::Momentum;
+    else if (caster_name == "nesterov")
+        optimizerType = viskit::OptimizerType::Nesterov;
+    else if (caster_name == "random")
+        casterType = viskit::CasterType::Random;
+    else if (caster_name == "largevis")
+        casterType = viskit::CasterType::LargeVis;
+    
+    
+    performVisualization(dataset_file_path, output_file_path, std::stoi(iterations),
+                         std::stoi(nn), std::stoi(rn), std::stoi(l1_steps), casterType, optimizerType);
 
     return 0;
 }
