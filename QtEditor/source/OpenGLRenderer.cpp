@@ -25,12 +25,12 @@ void OpenGLRenderer::initializeGL()
 
 	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
-	if (!shaderLoader::loadAndBuildShaderPairFromFile(&m_program, "./assets/shaders/vertexShader.vert", "./assets/shaders/fragmentShader.frag"))
+	if (!shaderLoader::loadAndBuildShaderPairFromFile(&m_program, "../../assets/shaders/vertexShader.vert", "../../assets/shaders/fragmentShader.frag"))
 	{
 		qDebug() << "Shader not working!";
 	}
 
-	if (!textureLoader::loadTexture(&m_texture, "./assets/images/particle.png"))
+	if (!textureLoader::loadTexture(&m_texture, "../../assets/images/particle.png"))
 	{
 		qDebug() << "Texture not loaded properly!";
 	}
