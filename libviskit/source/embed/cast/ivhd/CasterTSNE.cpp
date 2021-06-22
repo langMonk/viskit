@@ -79,6 +79,7 @@ namespace viskit::embed::cast::ivhd
         }
 
         auto meanPos = std::accumulate(positions.begin(), positions.end(), glm::vec4{ 0.0f }) / (float) ps.countParticles();
+        meanPos.w = 0;
         std::transform(positions.begin(), positions.end(), positions.begin(), [&meanPos](auto x){return x - meanPos;});
         ps.increaseStep();
 	}

@@ -25,12 +25,12 @@ void OpenGLRenderer::initializeGL()
 
 	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
-	if (!shaderLoader::loadAndBuildShaderPairFromFile(&m_program, "../../assets/shaders/vertexShader.vert", "../../assets/shaders/fragmentShader.frag"))
+	if (!shaderLoader::loadAndBuildShaderPairFromFile(&m_program, "./assets/shaders/vertexShader.vert", "./assets/shaders/fragmentShader.frag"))
 	{
 		qDebug() << "Shader not working!";
 	}
 
-	if (!textureLoader::loadTexture(&m_texture, "../../assets/images/particle.png"))
+	if (!textureLoader::loadTexture(&m_texture, "./assets/images/particle.png"))
 	{
 		qDebug() << "Texture not loaded properly!";
 	}
@@ -211,7 +211,21 @@ void OpenGLRenderer::update()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufPos);
 		auto pos = m_particleSystem->positions();
-		auto* ptr = reinterpret_cast<float*>(pos);
+		glm::vec4 minVec = pos[0];
+		glm::vec4 maxVec = pos[0];
+        for (int i = 1; i < count; ++i) {
+            minVec = glm::min(minVec, pos[i]);
+            maxVec = glm::max(maxVec, pos[i]);
+        }
+        glm::vec4 scale = 1.5f / (maxVec-minVec);
+        scale.z = 1;
+        scale.w = 1;
+        std::vector<glm::vec4> posScaled;
+        posScaled.reserve(count);
+        for (int i = 0; i < count; ++i) {
+            posScaled.emplace_back(pos[i] * scale);
+        }
+		auto* ptr = reinterpret_cast<float*>(&posScaled.front());
 		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(float) * 4, ptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufCol);
