@@ -76,9 +76,9 @@ void performVisualization(std::string dataset_path, const std::string& output_pa
     caster->initialize(*particleSystem, *graph);
 
     int i = 0;
-    viskit->subscribeOnCastingStepFinish([&i]
+    viskit->subscribeOnCastingStepFinish([&i, iterations]
     {
-     if (i % 200==0) { std::cout << "Step: " << i << std::endl; }
+     if (i * 100 % iterations==0) { std::cout << "Step: " << i << std::endl; }
      i++;
     });
 
