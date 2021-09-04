@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
-x, y, labels = np.loadtxt(sys.argv[1], delimiter=',', unpack=True)
+x, y, labels = np.loadtxt(sys.argv[1], delimiter=",", unpack=True)
 
 # plt.scatter(x,y, c=labels)
 # for i, txt in enumerate(labels):
@@ -10,14 +10,13 @@ x, y, labels = np.loadtxt(sys.argv[1], delimiter=',', unpack=True)
 #         plt.annotate(str(txt), (x[i], y[i]))
 
 unique = list(set(labels))
-colors = [plt.cm.jet(float(i)/max(unique)) for i in unique]
+colors = [plt.cm.jet(float(i) / max(unique)) for i in unique]
 
 for i, u in enumerate(unique):
-    xi = [x[j] for j  in range(len(x)) if labels[j] == u]
-    yi = [y[j] for j  in range(len(x)) if labels[j] == u]
+    xi = [x[j] for j in range(len(x)) if labels[j] == u]
+    yi = [y[j] for j in range(len(x)) if labels[j] == u]
     plt.scatter(xi, yi, c=colors[i], label=str(u), s=2)
 plt.legend()
-
 
 
 # auto annotations
@@ -50,4 +49,4 @@ plt.legend()
 #             color='white',
 #             backgroundcolor=colors[i])
 
-plt.show() 
+plt.show()
