@@ -395,7 +395,7 @@ static void * stbi__dds_load(stbi__context *s, int *x, int *y, int *comp, int re
 		/*	check the expected size...oops, nevermind...
 			those non-compliant writers leave
 			dwPitchOrLinearSize == 0	*/
-		//	passed all the tests, get the RAM for decoding
+		//	passed all the viskit_tests, get the RAM for decoding
 		sz = (s->img_x)*(s->img_y)*4*cubemap_faces;
 		dds_data = (unsigned char*)malloc( sz );
 		/*	do this once for each face	*/

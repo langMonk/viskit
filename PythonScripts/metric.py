@@ -37,4 +37,4 @@ while i < len(X):
 
 # print(s)
 # print(len(X) * kneighbours)
-print(s / (len(X) * kneighbours)) 
+print(s / (len(X) * kneighbours))
