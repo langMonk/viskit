@@ -1,12 +1,29 @@
-cmake_minimum_required(VERSION 3.15)
-project(viskit)
+cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 
-set(VISKIT_VERSION 0.5.0)
+project(viskit
+        VERSION 0.5.1
+        DESCRIPTION "A library for interactive visualization of high-dimensional data."
+        HOMEPAGE_URL "https://gitlab.com/bminch/viskit"
+        LANGUAGES CXX)
+
+include(GNUInstallDirs)
+
+
+set(VISKIT_VERSION 0.5.1)
 set(CMAKE_CXX_STANDARD 17)
 
-enable_testing()
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
-add_subdirectory(libviskit)
-add_subdirectory(libviskit_tests)
-add_subdirectory(QtEditor)
+
+# maybe in future there will be some next optimization level (e.g. "avx")
+option(VISKIT_OPT_LEVEL "" "generic")
+option(VISKIT_ENABLE_PYTHON "Build Python extension." ON)
+
+add_subdirectory(viskit)
 add_subdirectory(viskit_offline)
+
+# CTest must be included in the top level to enable `make test` target.
+include(CTest)
+if(BUILD_TESTING)
+    add_subdirectory(viskit_tests)
+endif()

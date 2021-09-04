@@ -8,18 +8,22 @@
 #include <thread>
 #include <fstream>
 #include <utility>
+#include <filesystem>
+#include <boost/lexical_cast.hpp>
 
-#include <InteractiveVisualizationBuilder.h>
-#include <IResourceFactory.h>
-#include <IParticleSystem.h>
-#include <IGraph.h>
-#include <IParser.h>
-#include <ICaster.h>
-#include <IGraphGenerator.h>
-#include <IMetric.h>
-#include <Structures.h>
+
+#include <viskit/viskit/InteractiveVisualizationBuilder.h>
+#include <viskit/viskit/IResourceFactory.h>
+#include <viskit/viskit/IParticleSystem.h>
+#include <viskit/viskit/IGraph.h>
+#include <viskit/viskit/IParser.h>
+#include <viskit/viskit/ICaster.h>
+#include <viskit/viskit/IGraphGenerator.h>
+#include <viskit/viskit/IMetric.h>
+#include <viskit/viskit/Structures.h>
 
 using Logs = std::pair<viskit::LogLevel, std::string>;
+using std::filesystem::current_path;
 
 void calculateMetrics(viskit::IInteractiveVisualization& viskit, const std::shared_ptr<viskit::IParticleSystem>& particleSystem)
 {
@@ -31,8 +35,8 @@ void calculateMetrics(viskit::IInteractiveVisualization& viskit, const std::shar
     std::cout << "k = 100: " << metricCalculator->calculate(*particleSystem, 100) << std::endl;
 }
 
-void performVisualization(std::string dataset_path, const std::string& output_path, int iterations, int nn, int rn,
-                          int l1_steps, viskit::CasterType casterType, viskit::OptimizerType optimizerType)
+void performVisualization(std::string dataset_path, const std::string& graph_file_path, const std::string& output_path, int iterations, int nn, int rn,
+                          bool distancesEqualOne, int l1_steps, viskit::CasterType casterType, viskit::OptimizerType optimizerType)
 {
     // initialize logging handler
     auto logsCount = 0;
@@ -41,23 +45,37 @@ void performVisualization(std::string dataset_path, const std::string& output_pa
     auto handler = [&](viskit::LogLevel level, const std::string &message)
     {
         logs.emplace_back(level, message);
+        switch (level) {
+
+            case viskit::LogLevel::Debug:
+                std::cout << "[Debug] " << message << std::endl;
+                break;
+            case viskit::LogLevel::Info:
+                std::cout << "[Info] " << message << std::endl;
+                break;
+            case viskit::LogLevel::Warning:
+                std::cout << "[Warning] " << message << std::endl;
+                break;
+            case viskit::LogLevel::Error:
+                std::cout << "[Error] " << message << std::endl;
+                break;
+        }
         logsCount++;
     };
 
     // create viskit
-    auto viskit = viskit::createVisKit(handler);
+    auto viskit = viskit::createViskit(handler);
 
     // create needed viskit resources
     auto parser = viskit->resourceFactory().createParser(viskit::ParserType::Csv);
     auto particleSystem = viskit->resourceFactory().createParticleSystem();
     auto graph = viskit->resourceFactory().createGraph();
-    auto nearestGenerator = viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Faiss);
-    auto randomGenerator = viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
+    auto randomGraphGenerator = viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
 
     const auto caster = viskit->resourceFactory().createCaster(
             casterType,
             optimizerType
-    );
+            );
 
     const auto casterRandom = viskit->resourceFactory().createCaster(
             viskit::CasterType::Random,
@@ -66,50 +84,51 @@ void performVisualization(std::string dataset_path, const std::string& output_pa
 
     parser->loadFile(std::move(dataset_path), *particleSystem);
 
-    nearestGenerator->generate(*particleSystem, *graph, nn, true);
-    randomGenerator->generate(*particleSystem, *graph, rn, true);
-
-    // set random positions
-    casterRandom->calculatePositions(*particleSystem);
-
-    // initialize and subscribe to on casting step finished
-    caster->initialize(*particleSystem, *graph);
-
-    int i = 0;
-    viskit->subscribeOnCastingStepFinish([&i, iterations]
+    if(graph->loadFromCache(graph_file_path, nn))
     {
-     if (i * 100 % iterations==0) { std::cout << "Step: " << i << std::endl; }
-     i++;
-    });
+        randomGraphGenerator->generate(*particleSystem, *graph, rn, distancesEqualOne);
 
-    // perform casting for N steps
-    for (auto j = 0; j < iterations; j++)
-    {
-        viskit->computeCastingStep(*particleSystem, *graph, *caster);
+        // set random positions
+        casterRandom->calculatePositions(*particleSystem);
+
+        // initialize and subscribe to on casting step finished
+        caster->initialize(*particleSystem, *graph);
+
+        int i = 0;
+        viskit->subscribeOnCastingStepFinish([&i, iterations]
+        {
+            if (i * 100 % iterations==0) { std::cout << "Step: " << i << std::endl; }
+            i++;
+        });
+
+        // perform casting for N steps
+        for (auto j = 0; j < iterations; j++)
+        {
+            viskit->computeCastingStep(*particleSystem, *graph, *caster);
+        }
+
+        // perform casting for l1_steps steps
+        caster->finalize();
+        for (auto j = 0; j < l1_steps; j++)
+        {
+            viskit->computeCastingStep(*particleSystem, *graph, *caster);
+        }
+
+        particleSystem->saveToFile(output_path + "/visualization.txt");
     }
-
-    // perform casting for l1_steps steps
-    caster->finalize();
-    for (auto j = 0; j < l1_steps; j++)
-    {
-        viskit->computeCastingStep(*particleSystem, *graph, *caster);
-    }
-
-    calculateMetrics(*viskit, particleSystem);
-    particleSystem->saveToFile(output_path + "/visualization.txt");
 }
 
 int main(int argc, char** argv)
 {
     const auto dataset_file_path = argv[1];
-    const auto output_file_path = argv[2];
-    const auto iterations = argv[3];
-    const auto nn = argv[4];
-    const auto rn = argv[5];
-    const auto l1_steps = argv[6];
-
-    //one of: adadelta, adam, forcedirected, momentum, nesterov, largevis, random
-    std::string caster_name = argv[7];
+    const auto graph_file_path = argv[2];
+    const auto output_file_path = argv[3];
+    const auto iterations = argv[4];
+    const auto nn = argv[5];
+    const auto rn = argv[6];
+    const auto distancesEqualOne = argv[7];
+    const auto l1_steps = argv[8];
+    std::string caster_name = argv[9];
 
     viskit::CasterType casterType = viskit::CasterType::IVHD;
     viskit::OptimizerType optimizerType = viskit::OptimizerType::None;
@@ -130,8 +149,8 @@ int main(int argc, char** argv)
         casterType = viskit::CasterType::LargeVis;
     
     
-    performVisualization(dataset_file_path, output_file_path, std::stoi(iterations),
-                         std::stoi(nn), std::stoi(rn), std::stoi(l1_steps), casterType, optimizerType);
+    performVisualization(dataset_file_path, graph_file_path, output_file_path, std::stoi(iterations),
+                         std::stoi(nn), std::stoi(rn), boost::lexical_cast<bool>(distancesEqualOne), std::stoi(l1_steps), casterType, optimizerType);
 
     return 0;
 }
