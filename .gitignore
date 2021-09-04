@@ -6,8 +6,8 @@
 *.knn
 
 /.idea
-/PythonScripts/.idea
-/PythonScripts/faiss/
+/python/.idea
+/python/faiss/
 /.vs
 /.vscode
 /cmake-build-*
