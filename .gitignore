@@ -3,18 +3,21 @@
 ################################################################################
 
 *.vcxproj.user
-*.graph
+*.knn
 
 /.idea
+/PythonScripts/.idea
+/PythonScripts/faiss/
 /.vs
 /.vscode
 /cmake-build-*
 /libraries/
 /packages/
+/graphs/
 
 # for clion and VS
-/libviskit/cmake-build-*/
-/libviskit/Intermediate/
+/viskit/cmake-build-*/
+/viskit/Intermediate/
 /libviskit_test/cmake-build-*/
 /libviskit_test/Intermediate/
 /QtEditor/cmake-build-*/
