@@ -73,9 +73,7 @@ class FaissGenerator:
                 for j in range(0, len(self.indexes[i])):
                     if i != self.indexes[i][j]:
                         f.write(int(self.indexes[i][j]).to_bytes(8, byteorder="little"))
-                        array = bytearray(struct.pack("f", self.distances[i][j]))
-                        print(len(array))
-                        f.write(array)
+                        f.write(bytearray(struct.pack("f", self.distances[i][j])))
 
     def save_to_text_file(self, output_file):
         with open(output_file + "_graph.txt", "w") as f:
@@ -94,7 +92,7 @@ class FaissGenerator:
 
 if __name__ == "__main__":
     dataset_name = "mnist_7k"
-    generator = FaissGenerator(dataset_name + ".csv", cosine_metric=False)
+    generator = FaissGenerator(dataset_name + ".csv", cosine_metric=True)
     dist, ind = generator.run(nn=5)
     generator.save_to_text_file(dataset_name)
     generator.save_to_binary_file(dataset_name)
