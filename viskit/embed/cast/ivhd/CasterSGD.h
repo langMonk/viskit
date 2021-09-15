@@ -14,7 +14,7 @@ namespace viskit::embed::cast::ivhd
 	{
 		// public construction and destruction methods
 	public:
-		explicit CasterSGD(core::System& system);
+		explicit CasterSGD(const core::System& system);
 
 		void calculatePositions(particles::ParticleSystem& ps) override;
 	};

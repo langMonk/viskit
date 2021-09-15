@@ -8,7 +8,7 @@
 
 namespace viskit::embed::cast::ivhd
 {
-	CasterForceDirected::CasterForceDirected(core::System& system)
+	CasterForceDirected::CasterForceDirected(const core::System& system)
 		: CasterIVHD(system)
 	{
 

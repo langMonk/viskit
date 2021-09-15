@@ -15,7 +15,7 @@ namespace viskit::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		explicit CasterIVHD(core::System& system);
+		explicit CasterIVHD(const core::System& system);
 
 		void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) override;
 			

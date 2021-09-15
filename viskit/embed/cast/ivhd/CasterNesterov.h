@@ -14,7 +14,7 @@ namespace viskit::embed::cast::ivhd
 	{
 		// public construction and destruction methods
 	public:
-		explicit CasterNesterov(core::System& system);
+		explicit CasterNesterov(const core::System& system);
 
 		void calculatePositions(particles::ParticleSystem& ps) override;
 		

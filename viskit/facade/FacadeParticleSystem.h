@@ -8,7 +8,7 @@
 #include <viskit/viskit/IParticleSystem.h>
 #include <viskit/viskit/IGraph.h>
 #include <viskit/core/Core.h>
-#include <viskit/graph/DataPoint.h>
+#include <viskit/viskit/DataPoint.h>
 #include <viskit/particles/ParticleSystem.h>
 
 namespace viskit::facade

@@ -6,7 +6,7 @@ set(VISKIT_TESTS_SRC
     ReverseTest.cpp
     InteractiveVisualizationBuilderTest.cpp
     ThreadPoolTest.cpp
-)
+        GraphTest.cpp)
 
 add_executable(viskit_tests ${VISKIT_TESTS_SRC})
 

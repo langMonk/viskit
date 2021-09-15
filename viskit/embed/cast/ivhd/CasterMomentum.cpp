@@ -7,7 +7,7 @@
 
 namespace viskit::embed::cast::ivhd
 {
-	CasterMomentum::CasterMomentum(core::System& system)
+	CasterMomentum::CasterMomentum(const core::System& system)
 		: CasterIVHD(system)
 	{
 		

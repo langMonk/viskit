@@ -14,7 +14,7 @@ namespace viskit::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		explicit Caster(core::System& system);
+		explicit Caster(const core::System& system);
 		virtual ~Caster() = default;
 
 		Caster(const Caster&) = delete;
@@ -25,6 +25,6 @@ namespace viskit::embed::cast
 		virtual void calculatePositions(particles::ParticleSystem& ps) {};
 		
 	protected:
-		core::System& m_ext_system;
+        const core::System& m_ext_system;
 	};
 }

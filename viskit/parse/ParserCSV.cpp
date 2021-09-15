@@ -4,6 +4,7 @@
 ///
 
 #include <viskit/parse/ParserCSV.h>
+#include <thread>
 
 namespace viskit::parse
 {
@@ -36,7 +37,6 @@ namespace viskit::parse
 
 	void ParserCSV::loadFile(const std::string& filePath, particles::ParticleSystem& ps)
 	{
-		auto data = ps.calculationData();
 		auto input = std::ifstream(filePath.c_str());
 
 		viskit::DatasetInfo info;
@@ -54,58 +54,48 @@ namespace viskit::parse
 			m_ext_system.logger().logInfo("[CSV Parser] Loading dataset from file: " + filePath);
 		}
 
-		bool firstLine = true, secondLine = true;
 		std::string line;
 
 		particles::Dataset dataset;
 		std::vector<particles::DataPointLabel> labels;
 					
-		size_t i = 0;
-		while (std::getline(input, line))
+		size_t count = 0;
+        size_t dimensionality = 0;
+
+        while (std::getline(input, line))
 		{
-			if (firstLine)
-			{
-				line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
-				line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
-				m_ext_system.logger().logInfo("[CSV Parser] Dataset size: " + line);
-				auto count = std::stoi(line);
-				info.count = count;
-				firstLine = false;
+            std::vector<std::string> stringVector;
+            tokenize(line, ',', stringVector);
 
-				data->generate(count);
-			}
-			else if (secondLine)
-			{
-				line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
-				line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
-				m_ext_system.logger().logInfo("[CSV Parser] Dataset dimensionality: " + line);
-				info.dimensionality = std::stoi(line);
-				secondLine = false;
-			}
-			else
-			{
-				std::vector<std::string> stringVector;
-                tokenize(line, ',', stringVector);
+            if (count == 0) { dimensionality = stringVector.size() - 1; }
 
-				std::vector<float> floatVector(stringVector.size() - 1);
+            std::vector<float> floatVector(stringVector.size() - 1);
+            std::transform(stringVector.begin(), stringVector.end() - 1, floatVector.begin(), [&](const std::string& val)
+            {
+                return std::stof(val);
+            });
 
-				std::transform(stringVector.begin(), stringVector.end() - 1, floatVector.begin(), [&](const std::string& val)
-				{
-                    return std::stof(val);
-				});
+            particles::DataPointLabel label = std::stoi(stringVector.back());
+            dataset.push_back(std::make_pair(DataPoint(floatVector, count), label));
 
-				particles::DataPointLabel label = std::stoi(stringVector.back());
-				dataset.push_back(std::make_pair(DataPoint(floatVector, i), label));
+            if (std::find(labels.begin(), labels.end(), label) == labels.end())
+            {
+                labels.emplace_back(label);
+            }
 
-				if (std::find(labels.begin(), labels.end(), label) == labels.end())
-				{
-					labels.emplace_back(label);
-				}
-				i++;
-			}
+            count++;
         }
+
+        ps.calculationData()->generate(count);
+
+        info.dimensionality = dimensionality;
+        info.count = count;
+
+        m_ext_system.logger().logInfo("[CSV Parser] Dataset size: " + std::to_string(info.count));
+        m_ext_system.logger().logInfo("[CSV Parser] Dataset dimensionality: " + std::to_string(info.dimensionality));
         m_ext_system.logger().logInfo("[CSV Parser] Number of classes in dataset: " + std::to_string(labels.size()));
-		ps.setDataset(dataset, labels);
+
+        ps.setDataset(dataset, labels);
 		ps.datasetInfo(info);
 		finalize(ps);
 

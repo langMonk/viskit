@@ -43,7 +43,7 @@ namespace viskit::threading
 			std::unique_lock<std::mutex> lock(queue_mutex);
 
 			if (stop) 
-				throw std::runtime_error("enqueue on stopped ThreadPool");
+				throw std::runtime_error("Enqueue on stopped ThreadPool");
 
 			tasks.emplace([task]() { (*task)(); });
 		}

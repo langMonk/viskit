@@ -26,7 +26,7 @@ namespace viskit::embed::cast::ivhd
 	{
 		// public construction and destruction methods
 	public:
-		CasterMDS(core::System& system, particles::ParticleSystem& ps);
+		CasterMDS(const core::System& system, particles::ParticleSystem& ps);
 
 		// public methods
 	public:

@@ -46,7 +46,6 @@ set(VISKIT_HEADERS
     gpu/graph/generate/Faiss.h
     graph/generate/Random.h
     graph/generate/Reverse.h
-    graph/DataPoint.h
     graph/Graph.h
     viskit/ICaster.h
     viskit/IClusterer.h
@@ -67,6 +66,7 @@ set(VISKIT_HEADERS
     viskit/SettingType.h
     viskit/Structures.h
     viskit/IMetric.h
+    viskit/DataPoint.h
     facade/metrics/FacadeKnnMetric.h
     math/glm_adapter.h
     math/IvhdMath.h
@@ -111,7 +111,7 @@ set(VISKIT_SRC
     facade/FacadeGraphGeneratorKDTree.cpp
     facade/FacadeGraphGeneratorRandom.cpp
     facade/FacadeGraphGeneratorReverse.cpp
-        facade/FacadeInteractiveVisualization.cpp
+    facade/FacadeInteractiveVisualization.cpp
     facade/FacadeParser.cpp
     facade/FacadeParserCSV.cpp
     facade/FacadeParticleSystem.cpp
@@ -120,9 +120,8 @@ set(VISKIT_SRC
     graph/generate/BruteForce.cpp
     graph/generate/GraphGenerator.cpp
     graph/generate/KDTree.cpp
-        graph/generate/Random.cpp
+    graph/generate/Random.cpp
     graph/generate/Reverse.cpp
-    graph/DataPoint.cpp
     graph/Graph.cpp
     facade/metrics/FacadeKnnMetric.cpp
     viskit/InteractiveVisualizationBuilder.cpp

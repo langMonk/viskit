@@ -7,7 +7,7 @@
 
 namespace viskit::embed::cast
 {
-	Caster::Caster(core::System& system)
+	Caster::Caster(const core::System& system)
 		: m_ext_system(system)
 	{
 

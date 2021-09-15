@@ -91,7 +91,8 @@ namespace viskit::facade
 		else { return false; }
 	}
 
-	DatasetInfo FacadeParticleSystem::datasetInfo() {
+	DatasetInfo FacadeParticleSystem::datasetInfo()
+    {
         return m_internalParticleSystem->datasetInfo();
     }
 }

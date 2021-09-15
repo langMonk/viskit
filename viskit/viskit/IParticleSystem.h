@@ -6,6 +6,7 @@
 #pragma once
 
 #include <vector>
+#include <viskit/viskit/DataPoint.h>
 #include <viskit/viskit/Structures.h>
 #include <libraries/glm/glm/glm.hpp>
 
