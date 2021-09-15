@@ -16,15 +16,14 @@ TEST(CasterRandomTest, Casting)
     std::vector<Logs> logs;
     auto logsCount = 0;
     auto handler = [&](viskit::LogLevel level, const std::string &message)
-            {
+    {
         logs.emplace_back(level, message);
         logsCount++;
-            };
+    };
 
     std::shared_ptr<core::Core> core = std::make_shared<core::Core>(handler);
     std::shared_ptr<particles::ParticleSystem> particleSystem = std::make_shared<particles::ParticleSystem>(core->system());
     std::shared_ptr<parse::ParserCSV> parser = std::make_shared<parse::ParserCSV>(core->system());
-    std::shared_ptr<Graph> graph = std::make_shared<Graph>(core->system());
     viskit::embed::cast::CasterRandom caster{core->system()};
 
     auto csvFile = resourcesDirectory().string() + "/mnist_20_pca30.csv";

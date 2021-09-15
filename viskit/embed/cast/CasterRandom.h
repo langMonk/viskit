@@ -18,7 +18,7 @@ namespace viskit::embed::cast
 	{
 		// public construction and destruction methods
 	public:
-		explicit CasterRandom(core::System& system);
+		explicit CasterRandom(const core::System& system);
 
 		// public methods
 	public:		
@@ -31,8 +31,7 @@ namespace viskit::embed::cast
 		class RandomGenerator
 		{
 		public:
-			explicit RandomGenerator(float min = -0.5f, float max = 0.5f)
-				: m_dist(min, max)
+			explicit RandomGenerator(float min = -0.5f, float max = 0.5f) : m_dist(min, max)
 			{
 			};
 
@@ -43,15 +42,11 @@ namespace viskit::embed::cast
 			Dist m_dist;
 		};
 
-		// private methods
-	private:
-		void internalCastingThread(particles::ParticleSystem& ps) const;
-
 		// private members
 	private:
-		int m_maxEdge;
+		int m_maxEdge {1000};
 
-		RandomGenerator* m_gen;
+		std::shared_ptr<RandomGenerator> m_gen {new RandomGenerator()};
 		
 	};
 }

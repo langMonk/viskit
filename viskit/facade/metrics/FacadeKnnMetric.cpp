@@ -9,8 +9,7 @@
 #include <viskit/graph/Graph.h>
 #include <viskit/graph/generate/BruteForce.h>
 #include <viskit/graph/generate/GraphGenerator.h>
-#include <viskit/viskit/Structures.h>
-#include <viskit/math/glm_adapter.h>
+#include <viskit/viskit/DataPoint.h>
 
 namespace viskit::facade::metrics
 {
@@ -19,7 +18,6 @@ namespace viskit::facade::metrics
     {
 
     }
-
 
     float FacadeKnnMetric::calculate(viskit::IParticleSystem& ps, int k)
     {
@@ -70,7 +68,7 @@ namespace viskit::facade::metrics
             coords.push_back(positions[i].x);
             coords.push_back(positions[i].y);
 
-            dataPoints.emplace_back(std::make_pair(viskit::DataPoint(coords, i), labels[i]));
+            dataPoints.emplace_back(std::make_pair(DataPoint(coords, i), labels[i]));
         }
 
         generate::BruteForce generator{m_ext_core->system()};

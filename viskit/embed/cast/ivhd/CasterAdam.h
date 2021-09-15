@@ -14,7 +14,7 @@ namespace viskit::embed::cast::ivhd
 	{
 		// public construction and destruction methods
 	public:
-		explicit CasterAdam(core::System& system);
+		explicit CasterAdam(const core::System& system);
 
 		void calculatePositions(particles::ParticleSystem& ps) override;
 

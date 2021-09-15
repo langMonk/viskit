@@ -5,7 +5,6 @@
 
 #include <memory>
 #include <iostream>
-#include <thread>
 #include <fstream>
 #include <utility>
 #include <filesystem>
@@ -25,15 +24,6 @@
 using Logs = std::pair<viskit::LogLevel, std::string>;
 using std::filesystem::current_path;
 
-void calculateMetrics(viskit::IInteractiveVisualization& viskit, const std::shared_ptr<viskit::IParticleSystem>& particleSystem)
-{
-    // create and calculate metric
-    auto metricCalculator = viskit.resourceFactory().createMetricCalculator();
-    std::cout << "k = 5: " << metricCalculator->calculate(*particleSystem, 5) << std::endl;
-    std::cout << "k = 15: " << metricCalculator->calculate(*particleSystem, 15) << std::endl;
-    std::cout << "k = 50: " << metricCalculator->calculate(*particleSystem, 50) << std::endl;
-    std::cout << "k = 100: " << metricCalculator->calculate(*particleSystem, 100) << std::endl;
-}
 
 void performVisualization(std::string dataset_path, const std::string& graph_file_path, const std::string& output_path, int iterations, int nn, int rn,
                           bool distancesEqualOne, int l1_steps, viskit::CasterType casterType, viskit::OptimizerType optimizerType)

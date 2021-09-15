@@ -7,7 +7,7 @@
 
 namespace viskit::embed::cast
 {
-    CasterLargeVis::CasterLargeVis(core::System& system)
+    CasterLargeVis::CasterLargeVis(const core::System& system)
             : Caster(system)
     {
 

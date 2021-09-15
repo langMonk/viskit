@@ -13,7 +13,7 @@
 #include <viskit/core/System.h>
 #include <viskit/particles/ParticleData.h>
 #include <viskit/graph/Graph.h>
-#include <viskit/viskit/Structures.h>
+#include <viskit/viskit/DataPoint.h>
 #include <viskit/utils/RandomColor.h>
 
 using namespace viskit::graph;

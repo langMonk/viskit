@@ -4,56 +4,24 @@
 ///
 
 #include <viskit/embed/cast/CasterRandom.h>
-#include <viskit/math/IvhdMath.h>
-#include <viskit/threading/ThreadPool.h>
 
 namespace viskit::embed::cast
 {
-	CasterRandom::CasterRandom(core::System& system)
+	CasterRandom::CasterRandom(const core::System& system)
 		: Caster(system)
-		, m_maxEdge(1000)
-		, m_gen(new RandomGenerator())
 	{
 
 	}
 
 	void CasterRandom::calculatePositions(particles::ParticleSystem& ps)
 	{
-		m_ext_system.logger().logInfo("[CasterRandom] Casting particle system...");
+        auto& positions = ps.calculationData()->m_pos;
 
-		internalCastingThread(ps);
-
-		m_ext_system.logger().logInfo("[CasterRandom] Finished.");
-	}
-
-	void CasterRandom::internalCastingThread(particles::ParticleSystem& ps) const
-	{
-		const size_t queriesPerThread = ps.countParticles() / math::threads<>;
-		
-		threading::ThreadPool threadPool(math::threads<>);
-        std::vector<std::future<void>> results(math::threads<>);
-
-        for (int i = 0; i < math::threads<>; i++)
+        for (auto i = 0; i < ps.countParticles(); i++)
         {
-            auto start = i * queriesPerThread;
-            auto end = (i == math::threads<> -1) ? ps.countParticles() : start + queriesPerThread;
-
-            auto gen = m_gen;
-
-            results[i] = threadPool.enqueue([&ps, &gen, start, end]()
-                                           {
-                                               auto& positions = ps.calculationData()->m_pos;
-
-                                               for (auto i = start; i < end; i++)
-                                               {
-                                                   positions[i].x = gen->gen();
-                                                   positions[i].y = gen->gen();
-                                               }
-                                           });
+            positions[i].x = static_cast<float>(m_gen->gen());
+            positions[i].y = static_cast<float>(m_gen->gen());
         }
-
-        for (auto& result: results)
-            result.get();
 	}
 
 	Dist::result_type CasterRandom::RandomGenerator::gen()

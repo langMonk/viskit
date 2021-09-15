@@ -24,27 +24,27 @@ class IVHD:
             Embedding of the training data in low-dimensional space.
         """
 
-        X.to_csv('./temp.csv')
+        X.to_csv('output.csv', index=False, header=False)
 
-        args = (
-            "./viskit_offline",
-            "./temp.csv",
-            "./",
-            str(self.n_iter),
-            str(self.nn),
-            str(self.rn),
-            str(self.l1_steps),
-        )
-
-        output = subprocess.check_output(args)
-        print(output)
-
-        x, y, labels = np.loadtxt(
-            "./visualization.txt",
-            delimiter=",",
-            unpack=True,
-        )
-
-        embedding = []
-
-        return embedding
+        # args = (
+        #     "./viskit_offline",
+        #     "./temp.csv",
+        #     "./",
+        #     str(self.n_iter),
+        #     str(self.nn),
+        #     str(self.rn),
+        #     str(self.l1_steps),
+        # )
+        #
+        # output = subprocess.check_output(args)
+        # print(output)
+        #
+        # x, y, labels = np.loadtxt(
+        #     "./visualization.txt",
+        #     delimiter=",",
+        #     unpack=True,
+        # )
+        #
+        # embedding = []
+        #
+        # return embedding

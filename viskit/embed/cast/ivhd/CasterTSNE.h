@@ -14,7 +14,7 @@ namespace viskit::embed::cast::ivhd
     {
         // public construction and destruction methods
     public:
-        explicit CasterTSNE(core::System& system);
+        explicit CasterTSNE(const core::System& system);
 
         // public methods
     public:

@@ -15,7 +15,7 @@ namespace viskit::embed::cast::ivhd
 	{
 		// public construction and destruction methods
 	public:
-		explicit CasterForceDirected(core::System& system);
+		explicit CasterForceDirected(const core::System& system);
 
 		void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) override;
 		
@@ -24,7 +24,7 @@ namespace viskit::embed::cast::ivhd
         void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph) override;
 
 	private:
-        float m_currentMaxVelocity;
+        float m_currentMaxVelocity { 0.0f };
 
 		float m_speedFactor{ 200.0f };
 

@@ -8,7 +8,7 @@
 #include <map>
 #include <limits>
 
-#include <viskit/viskit/Structures.h>
+#include <viskit/viskit/DataPoint.h>
 
 namespace viskit::graph::generate
 { 
