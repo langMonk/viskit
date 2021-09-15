@@ -16,7 +16,7 @@ namespace viskit::embed::cast
     {
         // public construction and destruction methods
     public:
-        explicit CasterLargeVis(core::System& system);
+        explicit CasterLargeVis(const core::System& system);
         ~CasterLargeVis();
 
         /// <summary>

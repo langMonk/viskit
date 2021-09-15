@@ -17,8 +17,6 @@
 using namespace viskit;
 using Logs = std::pair<LogLevel, std::string>;
 
-static int numQueriesProcessed;
-static int correctCount;
 static std::mutex mutex;
 static const int kNumThreads = 8;
 bool setDistancesToOne{ true };
@@ -116,8 +114,6 @@ TEST(KDTreeTest, Generation)
     // Evaluate performance on test set
     size_t k = 3; // Number of nearest neighbors
     size_t k_r = 1; // Number of nearest neighbors
-    numQueriesProcessed = 0;
-    correctCount = 0;
     size_t queriesPerThread = particleSystem->countParticles() / kNumThreads;
     std::vector<std::thread> threads;
 

@@ -7,7 +7,7 @@
 
 namespace viskit::embed::cast::ivhd
 {
-	CasterNesterov::CasterNesterov(core::System& system)
+	CasterNesterov::CasterNesterov(const core::System& system)
 		: CasterIVHD(system)
 	{
 

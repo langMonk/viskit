@@ -6,6 +6,7 @@
 #pragma once
 
 #include <filesystem>
+#include <viskit_tests/ViskitTest.h>
 
 inline void dump(Graph graph, const std::string& filePath, const std::string& fileName)
 {
