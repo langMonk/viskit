@@ -19,6 +19,7 @@ namespace viskit::embed::cast::ivhd
         // public methods
     public:
         void calculatePositions(particles::ParticleSystem& ps) final;
+
         void calculateForces(float &energy, particles::ParticleSystem &ps, Graph &graph) final;
 
     private:

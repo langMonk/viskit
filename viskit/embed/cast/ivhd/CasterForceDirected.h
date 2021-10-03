@@ -17,6 +17,8 @@ namespace viskit::embed::cast::ivhd
 	public:
 		explicit CasterForceDirected(const core::System& system);
 
+        // public methods
+    public:
 		void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) override;
 		
 		void calculatePositions(particles::ParticleSystem& ps) override;
