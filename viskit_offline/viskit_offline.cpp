@@ -25,7 +25,7 @@ using Logs = std::pair<viskit::LogLevel, std::string>;
 using std::filesystem::current_path;
 
 
-void performVisualization(std::string dataset_path, const std::string& graph_file_path, const std::string& output_path, int iterations, int nn, int rn,
+void performVisualization(std::string dataset_path, const std::string& graph_file_path, const std::string& output_file_path, int iterations, int nn, int rn,
                           bool distancesEqualOne, int l1_steps, viskit::CasterType casterType, viskit::OptimizerType optimizerType)
 {
     // initialize logging handler
@@ -104,7 +104,7 @@ void performVisualization(std::string dataset_path, const std::string& graph_fil
             viskit->computeCastingStep(*particleSystem, *graph, *caster);
         }
 
-        particleSystem->saveToFile(output_path + "/visualization.txt");
+        particleSystem->saveToFile(output_file_path);
     }
 }
 
@@ -137,7 +137,8 @@ int main(int argc, char** argv)
         casterType = viskit::CasterType::Random;
     else if (caster_name == "largevis")
         casterType = viskit::CasterType::LargeVis;
-    
+    else if (caster_name == "tsne")
+        optimizerType = viskit::OptimizerType::tSNE;
     
     performVisualization(dataset_file_path, graph_file_path, output_file_path, std::stoi(iterations),
                          std::stoi(nn), std::stoi(rn), boost::lexical_cast<bool>(distancesEqualOne), std::stoi(l1_steps), casterType, optimizerType);
