@@ -26,3 +26,6 @@
 
 # for VSCode
 build/*
+/python/graphs/mnist_7k_graph.bin
+/python/graphs/mnist_7k_graph.txt
+/python/output.csv
