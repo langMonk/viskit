@@ -28,7 +28,7 @@ def set_dataframe_columns(dataframe: pd.DataFrame) -> None:
 
 
 def main():
-    dataset_file = 'mnist_7k.csv'
+    dataset_file = '/home/bminch/Repositories/dataset_viskit/mnist_7k_100_10_all.csv'
     X = pd.read_csv(dataset_file, delimiter=",", header=None, index_col=False)
     set_dataframe_columns(X)
 
@@ -36,13 +36,13 @@ def main():
     X = X.drop(labels=['label'], axis=1)
 
     methods = {
-        'IVHD - force directed': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500),
-        'IVHD - nesterov': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500, optimizer="nesterov"),
-        'IVHD - adadelta': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500, optimizer="adadelta"),
-        'LargeVis': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500, optimizer="largevis"),
-        't-SNE with distances': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500, optimizer="tsne"),
-        'UMAP': UMAP(n_neighbors=3),
-        'bh t-SNE': TSNE(n_components=2, n_iter=2000)
+        # 'IVHD - force directed': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500),
+        'IVHD - force directed': IVHD(n_iter=2500),
+        'IVHD - nesterov': IVHD(n_iter=2500, optimizer="nesterov"),
+        # 'IVHD - adadelta': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500, optimizer="adadelta"),
+        # 't-SNE with distances': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500, optimizer="tsne"),
+        # 'UMAP': UMAP(n_neighbors=3),
+        # 'bh t-SNE': TSNE(n_components=2, n_iter=2000)
     }
 
     keys = []
