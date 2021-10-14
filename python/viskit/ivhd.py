@@ -1,15 +1,13 @@
 import subprocess
 import os
-
 import numpy as np
 import pandas as pd
+
+from viskit.faiss_graph_generator import FaissGenerator
 
 
 class IVHD:
     def __init__(self, graph_path: str = None, n_iter: int = 2000, nn: int = 2, rn: int = 1, distancesEqualToOne: bool = True, l1_steps: int = 0, optimizer: str = "forcedirected"):
-        if graph_path is None:
-            raise ValueError("You must specify graph (.bin) file, that will be used for data embedding. Use /python/viskit/faiss_graph_generatory.py")
-
         self.graph_path = graph_path
         self.n_iter = n_iter
         self.nn = nn
@@ -37,6 +35,13 @@ class IVHD:
         output_path = os.getcwd()+"/../build/visualization.txt"
 
         X.to_csv(dataset_path, index=False, header=False)
+
+        if self.graph_path is None:
+            print("Generating kNN graph...")
+            generator = FaissGenerator(csv_file=dataset_path, cosine_metric=False)
+            generator.run(nn=10)
+            self.graph_path = os.getcwd()+"/graphs/output.bin"
+            generator.save_to_binary_file(output_file_path=self.graph_path)
 
         args = (
             viskit_offline_path,
