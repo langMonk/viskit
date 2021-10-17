@@ -68,7 +68,7 @@ class FaissGenerator:
     def save_to_binary_file(self, output_file_path):
         with open(output_file_path, "wb") as f:
             f.write("{};{};{}\n".format(self.N, self.nn, 8).encode("ascii"))
-            f.write(0x01020304.to_bytes(8, byteorder="little"))
+            f.write(0x01020304 .to_bytes(8, byteorder="little"))
             for i in range(0, len(self.indexes)):
                 for j in range(0, len(self.indexes[i])):
                     if i != self.indexes[i][j]:

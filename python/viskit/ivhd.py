@@ -7,7 +7,16 @@ from viskit.faiss_graph_generator import FaissGenerator
 
 
 class IVHD:
-    def __init__(self, graph_path: str = None, n_iter: int = 2000, nn: int = 2, rn: int = 1, distancesEqualToOne: bool = True, l1_steps: int = 0, optimizer: str = "forcedirected"):
+    def __init__(
+        self,
+        graph_path: str = None,
+        n_iter: int = 5000,
+        nn: int = 3,
+        rn: int = 1,
+        distancesEqualToOne: bool = True,
+        l1_steps: int = 0,
+        optimizer: str = "forcedirected",
+    ):
         self.graph_path = graph_path
         self.n_iter = n_iter
         self.nn = nn
@@ -30,9 +39,9 @@ class IVHD:
         X_new : ndarray of shape (n_samples, n_components)
             Embedding of the training data in low-dimensional space.
         """
-        dataset_path = os.getcwd()+"/output.csv"
-        viskit_offline_path = os.getcwd()+"/../build/viskit_offline"
-        output_path = os.getcwd()+"/../build/visualization.txt"
+        dataset_path = os.getcwd() + "/output.csv"
+        viskit_offline_path = os.getcwd() + "/../build/viskit_offline"
+        output_path = os.getcwd() + "/../build/visualization.txt"
 
         X.to_csv(dataset_path, index=False, header=False)
 
@@ -40,7 +49,7 @@ class IVHD:
             print("Generating kNN graph...")
             generator = FaissGenerator(csv_file=dataset_path, cosine_metric=False)
             generator.run(nn=10)
-            self.graph_path = os.getcwd()+"/graphs/output.bin"
+            self.graph_path = os.getcwd() + "/graphs/output.bin"
             generator.save_to_binary_file(output_file_path=self.graph_path)
 
         args = (
