@@ -253,7 +253,7 @@ def viz_qa(
 
     # Showing the figure
     fig.savefig(
-        "./results/{}.png".format(tit),
+        "/home/bminch/Repositories/viskit/python/output_visualizations/metrics/{}.png".format(tit),
         dpi=fig.dpi,
     )
 
@@ -269,11 +269,12 @@ class MetricCalculator:
 
     def calculate(
         self,
-        X_lds: pd.DataFrame,
-        X_hds: pd.DataFrame,
-        labels: pd.Series,
+        X_lds: np.ndarray,
+        X_hds: np.ndarray,
+        labels: np.ndarray,
         method_name: str,
     ):
+
         (
             X_hds_train,
             X_hds_test,
@@ -287,11 +288,9 @@ class MetricCalculator:
         d_hd = squareform(X=pdist(X=X_hds_test, metric="euclidean"), force="tomatrix")
 
         print(method_name)
-        d_ld_tsne = squareform(
-            X=pdist(X=X_lds_test, metric="euclidean"), force="tomatrix"
-        )
-        rnxk, auc_rnx = eval_dr_quality(d_hd=d_hd, d_ld=d_ld_tsne)
-        kg, auc_kg = knngain(d_hd=d_hd, d_ld=d_ld_tsne, labels=labels_test)
+        d_ld = squareform(X=pdist(X=X_lds_test, metric="euclidean"), force="tomatrix")
+        rnxk, auc_rnx = eval_dr_quality(d_hd=d_hd, d_ld=d_ld)
+        kg, auc_kg = knngain(d_hd=d_hd, d_ld=d_ld, labels=labels_test)
 
         self.L_rnx.append(rnxk)
         self.L_kg.append(kg)
