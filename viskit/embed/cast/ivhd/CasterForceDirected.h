@@ -28,11 +28,11 @@ namespace viskit::embed::cast::ivhd
 	private:
         float m_currentMaxVelocity { 0.0f };
 
-		float m_speedFactor{ 200.0f };
+		float m_speedFactor{ 1000.0f };
 
 		float m_dtFactor{ 1.0f };
 
-		float m_maxVelocity{ 1000.0f };
+		float m_maxVelocity{ 1.0f };
 
 		float m_velDump{ 0.95f };
 
