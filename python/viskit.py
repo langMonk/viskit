@@ -28,20 +28,23 @@ def set_dataframe_columns(dataframe: pd.DataFrame) -> None:
 
 
 def main():
-    dataset_file = '/home/bminch/Repositories/dataset_viskit/mnist_7k_100_10_all.csv'
+    dataset_file = (
+        "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_25_4_all.csv"
+    )
+    # dataset_file = '/home/bminch/Repositories/dataset_viskit/mnist_70k_pca30.csv'
     X = pd.read_csv(dataset_file, delimiter=",", header=None, index_col=False)
     set_dataframe_columns(X)
 
-    labels = X['label']
-    X = X.drop(labels=['label'], axis=1)
+    labels = X["label"]
+    X = X.drop(labels=["label"], axis=1)
 
     methods = {
         # 'IVHD - force directed': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500),
-        'IVHD - force directed': IVHD(n_iter=2500),
-        'IVHD - nesterov': IVHD(n_iter=2500, optimizer="nesterov"),
+        "IVHD - force directed": IVHD(optimizer="forcedirected"),
+        # 'IVHD - nesterov': IVHD(optimizer="nesterov"),
         # 'IVHD - adadelta': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500, optimizer="adadelta"),
-        # 't-SNE with distances': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500, optimizer="tsne"),
-        # 'UMAP': UMAP(n_neighbors=3),
+        # 't-SNE with distances': IVHD(optimizer="tsne"),
+        "UMAP": UMAP(),
         # 'bh t-SNE': TSNE(n_components=2, n_iter=2000)
     }
 
@@ -64,6 +67,7 @@ def main():
         X_embedded = methods[keys[it]].fit_transform(X)
         draw_2d(X_embedded[:, 0], X_embedded[:, 1], labels, ax)
         it = it + 1
+        plt.legend(fontsize=20)
 
     plt.show()
 

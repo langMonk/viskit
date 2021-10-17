@@ -20,10 +20,10 @@ X = np.array(X)
 
 tree = KDTree(X)
 
-kneighbours = int(sys.argv[2])
+k_neighbours = int(sys.argv[2])
 
 
-_, ind = tree.query(X, k=(1 + kneighbours))
+_, ind = tree.query(X, k=(1 + k_neighbours))
 
 
 i = 0
@@ -36,5 +36,5 @@ while i < len(X):
     i = i + 1
 
 # print(s)
-# print(len(X) * kneighbours)
-print(s / (len(X) * kneighbours))
+# print(len(X) * k_neighbours)
+print(s / (len(X) * k_neighbours))
