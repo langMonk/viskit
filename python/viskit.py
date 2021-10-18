@@ -29,59 +29,62 @@ def set_dataframe_columns(dataframe: pd.DataFrame) -> None:
 
 
 def main():
-    # dataset_file = (
-    #     "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_25_4_all.csv"
-    # )
-    dataset_file = "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv"
-    X = pd.read_csv(dataset_file, delimiter=",", header=None, index_col=False)
-    set_dataframe_columns(X)
+    dataset_files = [
+        "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_50_2_all.csv",
+        "/home/bminch/Repositories/dataset_viskit/mnist_70k_pca30.csv",
+        # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv",
+        # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv"
+    ]
 
-    labels = X["label"]
-    X = X.drop(labels=["label"], axis=1)
+    methods = [
+        #{"name": "IVHD - force directed", "object": IVHD(optimizer="forcedirected", nn=4, rn=1)},
+        #{"name": "UMAP", "object": UMAP()},
+        {"name": "t-SNE (distance variant)", "object": IVHD(optimizer="tsne", nn=100)},
+        #{"name": "bh t-SNE", "object": TSNE(n_components=2, n_iter=2000)}
+    ]
 
-    methods = {
-        # 'IVHD - force directed': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500),
-        "IVHD - force directed": IVHD(optimizer="forcedirected"),
-        "IVHD - nesterov": IVHD(optimizer="nesterov"),
-        # 'IVHD - adadelta': IVHD(graph_path="../graphs/mnist_7k_graph.bin", n_iter=2500, optimizer="adadelta"),
-        # 't-SNE with distances': IVHD(optimizer="tsne"),
-        # "UMAP": UMAP(),
-        # 'bh t-SNE': TSNE(n_components=2, n_iter=2000)
-    }
-
-    keys = []
-    for k, v in methods.items():
-        keys.append(k)
-
-    fig = plt.figure()
-
-    fig.set_figheight(16)
-    fig.set_figwidth(16)
-
-    number_of_subplots = len(methods)
-
-    it = 0
+    v = 0
     metrics = MetricCalculator()
-    for i, v in enumerate(range(0, number_of_subplots)):
-        v = v + 1
-        ax = subplot(int(number_of_subplots / 2), 2, v)
-        ax.set_title(keys[it])
+    for dataset in dataset_files:
+        dataset_name = dataset.split("/")[-1]
+        X = pd.read_csv(dataset, delimiter=",", header=None, index_col=False)
+        set_dataframe_columns(X)
 
-        # fit_transform of specific method
-        X_embedded = methods[keys[it]].fit_transform(X)
+        labels = X["label"]
+        X = X.drop(labels=["label"], axis=1)
 
-        # draw 2d representation of the method
-        draw_2d(X_embedded[:, 0], X_embedded[:, 1], labels, ax)
-        plt.legend(fontsize=20)
+        fig = plt.figure()
 
-        # calculate metrics
-        metrics.calculate(
-            X_lds=X_embedded, X_hds=X.values, labels=labels.values, method_name=keys[it]
-        )
+        fig.set_figheight(16)
+        fig.set_figwidth(16)
+        ax = []
 
-        it = it + 1
+        if len(methods) > 1:
+            for method in methods:
+                v = v + 1
+                ax = subplot(int(len(methods) / 2), 2, v)
+                ax.set_title("{} \n {}".format(dataset_name, method["name"]))
 
-    plt.show()
+                # fit_transform of specific method
+                X_embedded = method["object"].fit_transform(X)
+
+                # draw 2d representation of the method
+                draw_2d(X_embedded[:, 0], X_embedded[:, 1], labels, ax)
+
+                # calculate metrics
+                metrics.calculate(
+                    X_lds=X_embedded, X_hds=X.values, labels=labels.values, method_name="{} {}".format(dataset_name, method["name"])
+                )
+        else:
+            for method in methods:
+                X_embedded = method["object"].fit_transform(X)
+                draw_2d(X_embedded[:, 0], X_embedded[:, 1], labels, ax)
+
+        handles, legend_labels = ax.get_legend_handles_labels()
+        fig.legend(labels=legend_labels, markerscale=8., loc='right', fontsize=20)
+        plt.show()
+        v = 0
+
     metrics.visualize()
 
 
