@@ -7,7 +7,7 @@ import random
 from scipy.spatial.distance import squareform, pdist
 from sklearn.model_selection import train_test_split
 
-markers = ["x", "o", "s", "*", "V", "^", ".", "X"]
+markers = ["x", "o", "s", "*", "^", ".", "X"]
 colors = ["red", "blue", "green", "brown", "orange", "cyan", "grey", "purple"]
 
 

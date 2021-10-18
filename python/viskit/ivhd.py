@@ -48,7 +48,7 @@ class IVHD:
         if self.graph_path is None:
             print("Generating kNN graph...")
             generator = FaissGenerator(csv_file=dataset_path, cosine_metric=False)
-            generator.run(nn=10)
+            generator.run(nn=self.nn)
             self.graph_path = os.getcwd() + "/graphs/output.bin"
             generator.save_to_binary_file(output_file_path=self.graph_path)
 
