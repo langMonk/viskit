@@ -87,7 +87,7 @@ void performVisualization(std::string dataset_path, const std::string& graph_fil
         int i = 0;
         viskit->subscribeOnCastingStepFinish([&i, iterations]
         {
-            if (i * 100 % iterations==0) { std::cout << "Step: " << i << std::endl; }
+            if (i % 100 == 0) { std::cout << "Step: " << i << std::endl; }
             i++;
         });
 

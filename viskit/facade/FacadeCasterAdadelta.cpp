@@ -32,7 +32,7 @@ namespace viskit::facade
 		{
 			auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
 			auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
-			dynamic_cast<embed::cast::ivhd::CasterAdadelta*>(m_internalCaster.get())->calculateForces(energy, facadePs->internalSystem(), facadeGraph->internalGraph());
+			dynamic_cast<embed::cast::ivhd::CasterAdadelta*>(m_internalCaster.get())->calculateForces(energy, facadePs->internalSystem(), facadeGraph->internalGraph(), interactions);
 		}
 		catch (std::exception & ex)
 		{

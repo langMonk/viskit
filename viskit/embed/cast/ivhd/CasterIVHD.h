@@ -19,7 +19,7 @@ namespace viskit::embed::cast
 
 		void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) override;
 			
-		virtual void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph);
+		virtual void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph, size_t& interactions);
 
 		void setFinalizing(bool val) { m_finalizing = val; }
 

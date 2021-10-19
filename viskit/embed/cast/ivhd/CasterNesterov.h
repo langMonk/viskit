@@ -18,7 +18,7 @@ namespace viskit::embed::cast::ivhd
 
 		void calculatePositions(particles::ParticleSystem& ps) override;
 		
-		void calculateForces(float& energy, particles::ParticleSystem& ps, graph::Graph& graph) override;
+		void calculateForces(float& energy, particles::ParticleSystem& ps, graph::Graph& graph, size_t& interactions) override;
 
 	private:
         float a_factor{ 0.99f };

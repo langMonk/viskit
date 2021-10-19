@@ -40,5 +40,7 @@ namespace viskit::facade
 	private:
 		float energy{ 0.1f };
 
+        size_t interactions{0};
+
 	};
 }
