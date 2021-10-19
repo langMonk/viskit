@@ -14,7 +14,7 @@ namespace viskit::embed::cast::ivhd
 
 	}
 
-    void CasterTSNE::calculateForces(float &energy, particles::ParticleSystem &ps, Graph &graph) {
+    void CasterTSNE::calculateForces(float &energy, particles::ParticleSystem &ps, Graph &graph, size_t& interactions) {
 	    const size_t N = ps.countParticles();
 
         ps.resetForces();
@@ -23,8 +23,9 @@ namespace viskit::embed::cast::ivhd
 
         std::vector<float> lengthsSquared(N);
 	    std::transform(positions.begin(), positions.end(), lengthsSquared.begin(), [](glm::vec4 x){ return glm::length2(glm::vec3(x)); });
+        std::vector<std::vector<float>> numerator(N, std::vector(N, .0f));
 
-	    std::vector<std::vector<float>> numerator(N, std::vector(N, .0f));
+        #pragma omp parallel for
 	    for (int i = 0; i < N; ++i)
         {
 	        for (int j = 0; j < N; ++j)
@@ -42,6 +43,7 @@ namespace viskit::embed::cast::ivhd
 	    });
 
         std::vector<std::vector<float>> negQ(N, std::vector(N, .0f));
+        #pragma omp parallel for
         for (int i = 0; i < N; ++i)
         {
             for (int j = 0; j < N; ++j)
@@ -54,12 +56,13 @@ namespace viskit::embed::cast::ivhd
         }
 
         float sumP = 0;
+        #pragma omp parallel for
         for (int i = 0; i < N; ++i)
         {
             const auto& neighbours = graph.getNeighbors(i);
             sumP += std::accumulate(neighbours->begin(), neighbours->end(), 0.0f, [](float sum, const auto& x){return sum + x.r;});
         }
-
+        #pragma omp parallel for
         for (int i = 0; i < N; i++)
         {
             auto& deltaPQ = negQ[i];

@@ -20,7 +20,7 @@ namespace viskit::embed::cast::ivhd
     public:
         void calculatePositions(particles::ParticleSystem& ps) final;
 
-        void calculateForces(float &energy, particles::ParticleSystem &ps, Graph &graph) final;
+        void calculateForces(float &energy, particles::ParticleSystem &ps, Graph &graph, size_t& interactions) final;
 
     private:
         std::vector<glm::vec4> iY;

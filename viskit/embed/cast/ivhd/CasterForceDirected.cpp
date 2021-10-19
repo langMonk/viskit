@@ -17,8 +17,9 @@ namespace viskit::embed::cast::ivhd
 	void CasterForceDirected::castParticleSystem(particles::ParticleSystem& ps, Graph& graph)
 	{
 		auto energy = 1.0e10f;
+        size_t interactions = 0;
 		calculatePositions(ps);
-		calculateForces(energy, ps, graph);
+		calculateForces(energy, ps, graph, interactions);
 
         auto& forces = ps.calculationData()->m_force;
         auto& velocities = ps.calculationData()->m_vel;
@@ -39,13 +40,56 @@ namespace viskit::embed::cast::ivhd
         ps.increaseStep();
 	}
 
-    void CasterForceDirected::calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph)
+    glm::vec4 CasterForceDirected::force_2D(particles::ParticleSystem& ps, Neighbors neighbor, float &energy)
     {
         auto& pos = ps.calculationData()->m_pos;
-        auto& forces = ps.calculationData()->m_force;
+
+        const auto pi = neighbor.i;
+        const auto pj = neighbor.j;
+
+        glm::vec4 posI = pos[pi];
+        glm::vec4 posJ = pos[pj];
+
+        const auto rv = posJ - posI;
+        const auto r = glm::distance(glm::vec2(pos[pi].x, pos[pi].y), glm::vec2(pos[pj].x, pos[pj].y));
+
+        auto D = neighbor.r;
+
+        if (neighbor.type == NeighborsType::Near) { D *= 0; }
+
+
+        if (m_sammonK == 1 && m_sammonM == 2 && m_sammonW == 0)
+        {
+            energy = r == 0 ? 0 : (2.0f/r)*(r - D);
+        }
+        else
+        {
+            auto mkDw = m_sammonK*m_sammonM*std::pow(D, -m_sammonW);
+
+            auto rk2 = std::pow(r, m_sammonK - 2);
+
+            auto rk = std::pow(r, m_sammonK);
+            auto Dk = std::pow(D, m_sammonK);
+            auto rdm = std::pow(rk - Dk, m_sammonM - 1);
+
+            if (m_sammonM % 2 && rk < Dk)
+                rdm *= -1;
+
+            energy = static_cast<float>(mkDw*rk2*rdm);
+        }
+
+        return glm::vec4{ rv.x * energy, rv.y * energy, 0.0f, 0.0f };
+    }
+
+    void CasterForceDirected::calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph, size_t& interactions)
+    {
+        ps.resetForces();
+
         energy = 0;
         auto de = 0.1f;
-        ps.resetForces();
+        interactions = 0;
+
+        auto& forces = ps.calculationData()->m_force;
 
         for (size_t index = 0; index < graph.size(); index++)
         {
@@ -53,41 +97,8 @@ namespace viskit::embed::cast::ivhd
             {
                 for (const auto neighbor : *neighbors)
                 {
-                    const auto pi = neighbor.i;
-                    const auto pj = neighbor.j;
-
-                    glm::vec4 posI = pos[pi];
-                    glm::vec4 posJ = pos[pj];
-
-                    const auto rv = posJ - posI;
-                    const auto r = glm::distance(glm::vec2(pos[pi].x, pos[pi].y), glm::vec2(pos[pj].x, pos[pj].y));
-
-                    auto D = neighbor.r;
-
-                    if (neighbor.type == NeighborsType::Near) { D *= 0; }
-
-
-                    if (m_sammonK == 1 && m_sammonM == 2 && m_sammonW == 0)
-                    {
-                        energy = r == 0 ? 0 : (2.0f/r)*(r - D);
-                    }
-                    else
-                    {
-                        auto mkDw = m_sammonK*m_sammonM*std::pow(D, -m_sammonW);
-
-                        auto rk2 = std::pow(r, m_sammonK - 2);
-
-                        auto rk = std::pow(r, m_sammonK);
-                        auto Dk = std::pow(D, m_sammonK);
-                        auto rdm = std::pow(rk - Dk, m_sammonM - 1);
-
-                        if (m_sammonM % 2 && rk < Dk)
-                            rdm *= -1;
-
-                        energy = static_cast<float>(mkDw*rk2*rdm);
-                    }
-
-                    auto df = glm::vec4{ rv.x * energy, rv.y * energy, 0.0f, 0.0f };
+                    interactions++;
+                    auto df = force_2D(ps, neighbor, de);
 
                     switch (neighbor.type)
                     {
@@ -102,6 +113,9 @@ namespace viskit::embed::cast::ivhd
                 }
             }
         }
+
+        if (interactions)
+            energy /= interactions;
     }
 
 	void CasterForceDirected::calculatePositions(particles::ParticleSystem& ps)
@@ -135,9 +149,9 @@ namespace viskit::embed::cast::ivhd
                         vl = m_maxVelocity*m_maxVelocity;
                     }
 
-                    avgVelocity += vl;
-
                     positions[i] += velocities[i] * dt;
+
+                    avgVelocity += vl;
                     aliveCnt++;
                 }
             }
@@ -145,14 +159,15 @@ namespace viskit::embed::cast::ivhd
         }
 
         avgVelocity = std::sqrt(avgVelocity);
-        if (m_currentMaxVelocity < std::sqrt(mv2)) m_currentMaxVelocity = std::sqrt(mv2);
+        m_currentMaxVelocity[m_currentMaxVelocity_ptr] = sqrt(mv2);
+        m_currentMaxVelocity_ptr = (m_currentMaxVelocity_ptr + 1) % MAX_VELOCITY_BUFFER_LEN;
 
-        if (ps.step() > 10)
+        if (ps.step()  > MAX_VELOCITY_BUFFER_LEN)
         {
-            v_max = m_currentMaxVelocity;
-            for (int i = 1; i < 10; i++)
-                v_max += m_currentMaxVelocity;
-            v_max /= 10;
+            v_max = m_currentMaxVelocity[0];
+            for (int i = 1; i < MAX_VELOCITY_BUFFER_LEN; i++)
+                v_max += m_currentMaxVelocity[i];
+            v_max /= MAX_VELOCITY_BUFFER_LEN;
         }
         else
             v_max = 0;
