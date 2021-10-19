@@ -18,7 +18,10 @@ namespace viskit::embed::cast::ivhd
 	{
 		auto energy = 1.0e10f;
         size_t interactions = 0;
-		calculatePositions(ps);
+
+        if (m_finalizing) {m_maxVelocity = 1000.0f;}
+
+        calculatePositions(ps);
 		calculateForces(energy, ps, graph, interactions);
 
         auto& forces = ps.calculationData()->m_force;
@@ -57,14 +60,12 @@ namespace viskit::embed::cast::ivhd
 
         if (neighbor.type == NeighborsType::Near) { D *= 0; }
 
-
         if (m_sammonK == 1 && m_sammonM == 2 && m_sammonW == 0)
         {
-            energy = r == 0 ? 0 : (2.0f/r)*(r - D);
+            energy = r == 0 ? 0 : (2.0f / r) * (r - D);
         }
-        else
-        {
-            auto mkDw = m_sammonK*m_sammonM*std::pow(D, -m_sammonW);
+        else {
+            auto mkDw = m_sammonK * m_sammonM * std::pow(D, -m_sammonW);
 
             auto rk2 = std::pow(r, m_sammonK - 2);
 
@@ -75,7 +76,7 @@ namespace viskit::embed::cast::ivhd
             if (m_sammonM % 2 && rk < Dk)
                 rdm *= -1;
 
-            energy = static_cast<float>(mkDw*rk2*rdm);
+            energy = static_cast<float>(mkDw * rk2 * rdm);
         }
 
         return glm::vec4{ rv.x * energy, rv.y * energy, 0.0f, 0.0f };
