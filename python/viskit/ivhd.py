@@ -10,7 +10,7 @@ class IVHD:
     def __init__(
         self,
         graph_path: str = None,
-        n_iter: int = 5000,
+        n_iter: int = 3000,
         nn: int = 3,
         rn: int = 1,
         distancesEqualToOne: bool = True,

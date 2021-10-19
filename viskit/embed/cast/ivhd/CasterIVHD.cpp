@@ -5,6 +5,7 @@
 
 #include <viskit/embed/cast/ivhd/CasterIVHD.h>
 #include <cmath>
+#include <chrono>
 
 namespace viskit::embed::cast
 {
@@ -16,11 +17,12 @@ namespace viskit::embed::cast
 	void CasterIVHD::castParticleSystem(particles::ParticleSystem& ps, Graph& graph)
 	{
 		auto energy = 0.1f;
-		calculateForces(energy, ps, graph);
-		calculatePositions(ps);
-	}
+        size_t interactions = 0;
+        calculateForces(energy, ps, graph, interactions);
+        calculatePositions(ps);
+    }
 
-	void CasterIVHD::calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph)
+	void CasterIVHD::calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph, size_t& interactions)
 	{
 		auto& pos = ps.calculationData()->m_pos;
 		auto& forces = ps.calculationData()->m_force;

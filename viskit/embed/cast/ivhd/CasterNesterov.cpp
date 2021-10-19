@@ -13,7 +13,7 @@ namespace viskit::embed::cast::ivhd
 
 	}
 
-	void CasterNesterov::calculateForces(float& energy, particles::ParticleSystem& ps, graph::Graph& graph)
+	void CasterNesterov::calculateForces(float& energy, particles::ParticleSystem& ps, graph::Graph& graph, size_t& interactions)
 	{
 		auto& pos = ps.calculationData()->m_pos;
 		auto& forces = ps.calculationData()->m_force;
@@ -27,6 +27,7 @@ namespace viskit::embed::cast::ivhd
 			{
 				for (const auto neighbor : *neighbors)
 				{
+                    interactions++;
 
 					const auto pi = neighbor.i;
 					const auto pj = neighbor.j;
@@ -81,6 +82,4 @@ namespace viskit::embed::cast::ivhd
 
 		ps.increaseStep();
 	}
-
-
 }
