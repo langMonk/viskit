@@ -36,7 +36,7 @@ namespace viskit::embed::cast::ivhd
 
 		float m_dtFactor{ 1.0f };
 
-		float m_maxVelocity{ 1000.0f };
+		float m_maxVelocity{ 1.0f };
 
 		float m_velDump{ 0.95f };
 

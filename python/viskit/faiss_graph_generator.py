@@ -91,8 +91,8 @@ class FaissGenerator:
 
 
 if __name__ == "__main__":
-    dataset_name = "mnist"
+    dataset_name = "/home/bminch/Repositories/dataset_viskit/mnist"
     generator = FaissGenerator(dataset_name + ".csv", cosine_metric=False)
     dist, ind = generator.run(nn=5)
-    generator.save_to_text_file(dataset_name)
-    generator.save_to_binary_file(dataset_name)
+    generator.save_to_text_file("mnist")
+    generator.save_to_binary_file("mnist")
