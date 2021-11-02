@@ -34,7 +34,6 @@ class FaissGenerator:
     def run(self, nn: int = 100):
         self.nn = nn
 
-        res = faiss.StandardGpuResources()
         index_flat = None
         if self.cosine_metric:
             quantizer = faiss.IndexFlatIP(self.M)
