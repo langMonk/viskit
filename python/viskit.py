@@ -30,17 +30,17 @@ def set_dataframe_columns(dataframe: pd.DataFrame) -> None:
 
 def main():
     dataset_files = [
-        # "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_50_2_all.csv",
-        # "/home/bminch/Repositories/dataset_viskit/mnist_70k_pca30.csv",
+        "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_50_2_all.csv",
+        "/home/bminch/Repositories/dataset_viskit/mnist_70k_pca30.csv",
         # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv",
-        "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv"
+        # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv"
     ]
 
     methods = [
-        {"name": "IVHD - force directed", "object": IVHD(optimizer="forcedirected", nn=4, rn=1)},
-        {"name": "UMAP", "object": UMAP()},
-        {"name": "t-SNE (distance variant)", "object": IVHD(optimizer="tsne", nn=30)},
-        {"name": "bh t-SNE", "object": TSNE(n_components=2, n_iter=2000)}
+        #{"name": "IVHD - force directed", "object": IVHD(optimizer="forcedirected", nn=4, rn=1)},
+        #{"name": "UMAP", "object": UMAP()},
+        {"name": "t-SNE (distance variant)", "object": IVHD(optimizer="tsne", nn=5)},
+        #{"name": "bh t-SNE", "object": TSNE(n_components=2, n_iter=2000)}
     ]
 
     v = 0

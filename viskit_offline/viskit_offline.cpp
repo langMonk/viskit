@@ -10,7 +10,6 @@
 #include <filesystem>
 #include <boost/lexical_cast.hpp>
 
-
 #include <viskit/viskit/InteractiveVisualizationBuilder.h>
 #include <viskit/viskit/IResourceFactory.h>
 #include <viskit/viskit/IParticleSystem.h>
