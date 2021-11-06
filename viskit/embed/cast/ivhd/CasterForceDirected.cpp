@@ -60,24 +60,7 @@ namespace viskit::embed::cast::ivhd
 
         if (neighbor.type == NeighborsType::Near) { D *= 0; }
 
-        if (m_sammonK == 1 && m_sammonM == 2 && m_sammonW == 0)
-        {
-            energy = r == 0 ? 0 : (2.0f / r) * (r - D);
-        }
-        else {
-            auto mkDw = m_sammonK * m_sammonM * std::pow(D, -m_sammonW);
-
-            auto rk2 = std::pow(r, m_sammonK - 2);
-
-            auto rk = std::pow(r, m_sammonK);
-            auto Dk = std::pow(D, m_sammonK);
-            auto rdm = std::pow(rk - Dk, m_sammonM - 1);
-
-            if (m_sammonM % 2 && rk < Dk)
-                rdm *= -1;
-
-            energy = static_cast<float>(mkDw * rk2 * rdm);
-        }
+        energy = r == 0 ? 0 : (2.0f / r) * (r - D);
 
         return glm::vec4{ rv.x * energy, rv.y * energy, 0.0f, 0.0f };
     }
@@ -104,6 +87,7 @@ namespace viskit::embed::cast::ivhd
                     switch (neighbor.type)
                     {
                         case NeighborsType::Random: df *= w_random;
+                        case NeighborsType::Near: df *= w_near;
                         default:;
                     }
 
@@ -134,7 +118,6 @@ namespace viskit::embed::cast::ivhd
 
         if (ps.step() > 0)
         {
-            auto aliveCnt = 0;
             for (size_t i = 0; i < ps.countParticles(); i++)
             {
                 if (awake[i])
@@ -150,13 +133,11 @@ namespace viskit::embed::cast::ivhd
                         vl = m_maxVelocity*m_maxVelocity;
                     }
 
-                    positions[i] += velocities[i] * dt;
-
                     avgVelocity += vl;
-                    aliveCnt++;
+                    positions[i] += velocities[i] * dt;
                 }
             }
-            avgVelocity /= static_cast<float>(aliveCnt - 1);
+            avgVelocity /= static_cast<float>(ps.countAwakeParticles() - 1);
         }
 
         avgVelocity = std::sqrt(avgVelocity);
