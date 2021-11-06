@@ -126,7 +126,7 @@ int main(int argc, char** argv)
         optimizerType = viskit::OptimizerType::Adadelta;
     else if (caster_name == "adam")
         optimizerType = viskit::OptimizerType::Adam;
-    else if (caster_name == "forcedirected")
+    else if (caster_name == "force-directed")
         optimizerType = viskit::OptimizerType::ForceDirected;
     else if (caster_name == "momentum")
         optimizerType = viskit::OptimizerType::Momentum;

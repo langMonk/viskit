@@ -27,10 +27,10 @@ namespace viskit::embed::cast::ivhd
         void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph, size_t& interactions) override;
 
     private:
-        glm::vec4 force_2D(particles::ParticleSystem& ps, Neighbors neighbor, float &energy);
+        static glm::vec4 force_2D(particles::ParticleSystem& ps, Neighbors neighbor, float &energy) ;
 
 	private:
-        float m_currentMaxVelocity[MAX_VELOCITY_BUFFER_LEN];
+        float m_currentMaxVelocity[MAX_VELOCITY_BUFFER_LEN]{};
 
 		float m_speedFactor{ 1000.0f };
 
@@ -50,6 +50,6 @@ namespace viskit::embed::cast::ivhd
 
         int m_sammonW{0};
 
-        float v_max;
+        float v_max{};
 	};
 }

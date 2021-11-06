@@ -24,8 +24,10 @@ namespace viskit::embed::cast
 		void setFinalizing(bool val) { m_finalizing = val; }
 
 	protected:
-		float w_random{ 0.01f };
-		
+        float w_random{ 0.01f };
+
+        float w_near{ 1.0f };
+
 		bool m_finalizing{ false };
 	};
 }
