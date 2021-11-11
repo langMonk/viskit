@@ -120,11 +120,11 @@ namespace viskit::facade
 		}
 	}
 
-	bool FacadeGraph::saveToCache(const std::string& fileName)
+	bool FacadeGraph::saveNearestNeighborsToCache(const std::string& fileName)
 	{
 		try
 		{
-			return m_internalGraph->saveToCache(fileName);
+			return m_internalGraph->saveNearestNeighborsToCache(fileName);
 		}
 		catch (std::exception & exception)
 		{
@@ -135,11 +135,11 @@ namespace viskit::facade
 		return false;
 	}
 
-	bool FacadeGraph::loadFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead)
+	bool FacadeGraph::loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead)
 	{
 		try
 		{
-		    return m_internalGraph->loadFromCache(fileName, nearestNeighborsCountToRead);
+		    return m_internalGraph->loadNearestNeighborsFromCache(fileName, nearestNeighborsCountToRead);
 		}
 		catch (std::exception & exception)
 		{

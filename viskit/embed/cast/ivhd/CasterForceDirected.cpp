@@ -60,8 +60,18 @@ namespace viskit::embed::cast::ivhd
 
         if (neighbor.type == NeighborsType::Near) { D *= 0; }
 
-        energy = r == 0 ? 0 : (2.0f / r) * (r - D);
-
+        if(m_finalizing)
+        {
+            energy = 0.005f / r;
+            if(r < D)
+            {
+                energy *= -1.0f;
+            }
+        }
+        else
+        {
+            energy = r == 0 ? 0 : (2.0f / r) * (r - D);
+        }
         return glm::vec4{ rv.x * energy, rv.y * energy, 0.0f, 0.0f };
     }
 
@@ -88,6 +98,7 @@ namespace viskit::embed::cast::ivhd
                     {
                         case NeighborsType::Random: df *= w_random;
                         case NeighborsType::Near: df *= w_near;
+                        case NeighborsType::Reverse: df *= w_reverse;
                         default:;
                     }
 

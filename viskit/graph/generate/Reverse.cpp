@@ -15,22 +15,28 @@ namespace viskit::graph::generate
 
     void Reverse::generate(particles::ParticleSystem &ps, graph::Graph &graph, size_t k, bool distancesEqualOne)
     {
-        m_ext_system.logger().logInfo("[rkNN Generator] Determining reverse nearest neighbors...");
+        assert(graph.neighborsCounter.nearestNeighbors > 0);
 
+        m_ext_system.logger().logInfo("[rkNN Generator] Determining reverse nearest neighbors...");
         for (size_t i = 0; i < ps.countParticles(); i++)
         {
-            auto reverseNeighbors = validateReverseNeighbors(graph, ps.countParticles(), k, i);
-            if (!reverseNeighbors->empty())
+            if (const auto currentParticleNeighborsIndexes = graph.getNeighborsIndexes(i))
             {
-                for (auto const reverseNeighbor : *reverseNeighbors)
+                for (const auto currentParticleNeighborIndex : *currentParticleNeighborsIndexes)
                 {
-                    auto distance = 1.0f;
-                    if (!distancesEqualOne)
+                    if (const auto neighborParticleNeighborsIndexes = graph.getNeighborsIndexes(currentParticleNeighborIndex))
                     {
-                        distance = reverseNeighbor.r;
+                        if (std::count(neighborParticleNeighborsIndexes->begin(),
+                                   neighborParticleNeighborsIndexes->end(),
+                                   currentParticleNeighborIndex))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            graph.addNeighbors(Neighbors(i, currentParticleNeighborIndex, 0.0f, NeighborsType::Reverse));
+                        }
                     }
-                    graph.addNeighbors(
-                            Neighbors(reverseNeighbor.j, reverseNeighbor.i, distance, NeighborsType::Reverse));
                 }
             }
         }
@@ -38,34 +44,5 @@ namespace viskit::graph::generate
         graph.neighborsCounter.reverseNeighbors = k;
         m_ext_system.logger().logInfo("[rkNN Generator] Finished.");
         m_ext_system.logger().logInfo("[rkNN Generator] Neighbors in graph: " + std::to_string(graph.overallNeighborsCount()));
-    }
-
-    std::optional<std::vector<Neighbors>> Reverse::validateReverseNeighbors(graph::Graph &graph, size_t count, size_t k, size_t index)
-    {
-        std::vector<Neighbors> reverseNeighbors{};
-
-        auto k_max = 0;
-        for (size_t i = 0; i < count; i++)
-        {
-            if(i == index) { continue; }
-
-            if (const auto neighbors = graph.getNeighbors(i))
-            {
-                for (const auto neighbor : *neighbors)
-                {
-                    if (neighbor.j == index)
-                    {
-                        reverseNeighbors.emplace_back(neighbor);
-                        k_max++;
-                    }
-
-                    if(k_max >= k) { break; }
-                }
-            }
-
-            if(k_max >= k) { break; }
-        }
-
-        return reverseNeighbors;
     }
 }

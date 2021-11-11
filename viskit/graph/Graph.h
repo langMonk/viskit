@@ -22,8 +22,10 @@ namespace viskit::graph
 		// public methods
 	public:
 		void initialize(size_t elements);
-		
-		std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
+
+        std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
+
+        std::optional<std::vector<size_t>> getNeighborsIndexes(size_t index);
 
 		void addNeighbors(const std::vector<Neighbors>& neighbors);
 		
@@ -37,9 +39,9 @@ namespace viskit::graph
 
 		[[nodiscard]] size_t size() const;
 
-		bool saveToCache(const std::string& fileName);
+		bool saveNearestNeighborsToCache(const std::string& fileName);
 
-		bool loadFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead);
+		bool loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead);
 
         NeighborsCounter neighborsCounter{0,0,0};
 
