@@ -253,7 +253,9 @@ def viz_qa(
 
     # Showing the figure
     fig.savefig(
-        "/home/bminch/Repositories/viskit/python/output_visualizations/metrics/{}.png".format(tit),
+        "/home/bminch/Repositories/viskit/python/output_visualizations/metrics/{}.png".format(
+            tit
+        ),
         dpi=fig.dpi,
     )
 

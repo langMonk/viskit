@@ -38,6 +38,25 @@ namespace viskit::graph
 		}
 	}
 
+    std::optional<std::vector<size_t>> Graph::getNeighborsIndexes(size_t index)
+    {
+        if (!m_data.empty())
+        {
+            std::vector<size_t> indexes;
+            const auto neighbors = m_data[index];
+            for (const auto neighbor : neighbors)
+            {
+                indexes.emplace_back(neighbor.j);
+            }
+            return indexes;
+        }
+        else
+        {
+            m_ext_system.logger().logError("There is no neighbor item with passed index.");
+            return {};
+        }
+    }
+
 	void Graph::addNeighbors(Neighbors neighbor)
 	{
 		m_data[neighbor.i].emplace_back(neighbor);
@@ -135,7 +154,7 @@ namespace viskit::graph
 		return m_data.size();
 	}
 
-	bool Graph::saveToCache(const std::string& fileName)
+	bool Graph::saveNearestNeighborsToCache(const std::string& fileName)
 	{
 		m_ext_system.logger().logInfo("[Graph] Saving graph to cache...");
 
@@ -173,7 +192,7 @@ namespace viskit::graph
 		return true;
 	}
 
-	bool Graph::loadFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead)
+	bool Graph::loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead)
 	{
 		m_ext_system.logger().logInfo("[Graph] Loading graph from cache...");
 

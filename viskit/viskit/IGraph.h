@@ -72,18 +72,18 @@ namespace viskit
 		/// </summary>
 		/// <param name="fileName"> Filename, where graph file should be located.</param>
 		/// <returns> True if save operation succeed. </returns>
-        virtual bool saveToCache(const std::string& fileName) = 0;
+        virtual bool saveNearestNeighborsToCache(const std::string& fileName) = 0;
 
 		/// <summary>
 		/// Loads a graph from cache (disk space) and no recalculation is needed.
 		/// </summary>
 		/// <param name="fileName"> Filename, where graph file is located.</param>
 		/// <returns> True if load operation succeed. </returns>
-		virtual bool loadFromCache(const std::string& fileName, size_t nearestNeighborsCountToRead) = 0;
+		virtual bool loadNearestNeighborsFromCache(const std::string& fileName, size_t nearestNeighborsCountToRead) = 0;
 		
 		/// <summary>
 		/// [DEBUG OPTION] Dumping whole graph to a readable plain text format (.txt).
-		/// saveToCache saves graph as well, but is uses binary (non-readable) format.
+		/// saveNearestNeighborsToCache saves graph as well, but is uses binary (non-readable) format.
 		/// </summary>
 		/// <param name="filePath"> Filepath, where graph should be dumped.</param>
 		/// <param name="fileName"> Filename.</param>

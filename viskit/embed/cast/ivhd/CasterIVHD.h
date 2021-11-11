@@ -28,6 +28,8 @@ namespace viskit::embed::cast
 
         float w_near{ 1.0f };
 
+        float w_reverse{ 1.0f };
+
 		bool m_finalizing{ false };
 	};
 }
