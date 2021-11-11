@@ -16,7 +16,10 @@ def draw_2d(X, Y, labels, ax):
     for i, u in enumerate(unique):
         xi = [X[j] for j in range(len(X)) if labels[j] == u]
         yi = [Y[j] for j in range(len(X)) if labels[j] == u]
-        ax.scatter(xi, yi, color=colors[i], label=str(u), s=2)
+        if len(ax) < 1:
+            plt.scatter(xi, yi, color=colors[i], label=str(u), s=2)
+        else:
+            ax.scatter(xi, yi, color=colors[i], label=str(u), s=2)
 
 
 def set_dataframe_columns(dataframe: pd.DataFrame) -> None:
@@ -30,17 +33,26 @@ def set_dataframe_columns(dataframe: pd.DataFrame) -> None:
 
 def main():
     dataset_files = [
-        "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_50_2_all.csv",
-        "/home/bminch/Repositories/dataset_viskit/mnist_70k_pca30.csv",
+        # "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_50_2_all.csv",
+        "/home/bminch/Repositories/dataset_viskit/mnist.csv",
         # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv",
         # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv"
     ]
 
     methods = [
-        #{"name": "IVHD - force directed", "object": IVHD(optimizer="forcedirected", nn=4, rn=1)},
-        #{"name": "UMAP", "object": UMAP()},
-        {"name": "t-SNE (distance variant)", "object": IVHD(optimizer="tsne", nn=5)},
-        #{"name": "bh t-SNE", "object": TSNE(n_components=2, n_iter=2000)}
+        {
+            "name": "IVHD - force directed",
+            "object": IVHD(
+                optimizer="force-directed",
+                nn=2,
+                rn=1,
+                l1_steps=50,
+                graph_path="/home/bminch/Repositories/viskit/graphs/mnist_cosine.bin",
+            ),
+        },
+        # {"name": "UMAP", "object": UMAP()},
+        # {"name": "t-SNE (distance variant)", "object": IVHD(optimizer="tsne", nn=5)},
+        # {"name": "bh t-SNE", "object": TSNE(n_components=2, n_iter=2000)}
     ]
 
     v = 0
@@ -73,15 +85,19 @@ def main():
 
                 # calculate metrics
                 metrics.calculate(
-                    X_lds=X_embedded, X_hds=X.values, labels=labels.values, method_name="{} {}".format(dataset_name, method["name"])
+                    X_lds=X_embedded,
+                    X_hds=X.values,
+                    labels=labels.values,
+                    method_name="{} {}".format(dataset_name, method["name"]),
                 )
         else:
             for method in methods:
                 X_embedded = method["object"].fit_transform(X)
                 draw_2d(X_embedded[:, 0], X_embedded[:, 1], labels, ax)
 
-        handles, legend_labels = ax.get_legend_handles_labels()
-        fig.legend(labels=legend_labels, markerscale=8., loc='right', fontsize=20)
+        if len(ax) != 0:
+            handles, legend_labels = ax.get_legend_handles_labels()
+            fig.legend(labels=legend_labels, markerscale=8.0, loc="right", fontsize=20)
         plt.show()
         v = 0
 

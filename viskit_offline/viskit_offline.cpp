@@ -60,6 +60,7 @@ void performVisualization(std::string dataset_path, const std::string& graph_fil
     auto particleSystem = viskit->resourceFactory().createParticleSystem();
     auto graph = viskit->resourceFactory().createGraph();
     auto randomGraphGenerator = viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
+    // auto reverseGraphGenerator = viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Reverse);
 
     const auto caster = viskit->resourceFactory().createCaster(
             casterType,
@@ -73,8 +74,9 @@ void performVisualization(std::string dataset_path, const std::string& graph_fil
 
     parser->loadFile(std::move(dataset_path), *particleSystem);
 
-    if(graph->loadFromCache(graph_file_path, nn))
+    if(graph->loadNearestNeighborsFromCache(graph_file_path, nn))
     {
+        // reverseGraphGenerator->generate(*particleSystem, *graph, rn, distancesEqualOne);
         randomGraphGenerator->generate(*particleSystem, *graph, rn, distancesEqualOne);
 
         // set random positions
