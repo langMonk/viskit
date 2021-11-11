@@ -27,7 +27,7 @@ namespace viskit::embed::cast::ivhd
         void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph, size_t& interactions) override;
 
     private:
-        static glm::vec4 force_2D(particles::ParticleSystem& ps, Neighbors neighbor, float &energy) ;
+        glm::vec4 force_2D(particles::ParticleSystem& ps, Neighbors neighbor, float &energy) ;
 
 	private:
         float m_currentMaxVelocity[MAX_VELOCITY_BUFFER_LEN]{};

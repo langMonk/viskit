@@ -10,12 +10,12 @@ class IVHD:
     def __init__(
         self,
         graph_path: str = None,
-        n_iter: int = 3000,
+        n_iter: int = 5000,
         nn: int = 3,
         rn: int = 1,
         distancesEqualToOne: bool = True,
-        l1_steps: int = 0,
-        optimizer: str = "forcedirected",
+        l1_steps: int = 50,
+        optimizer: str = "force-directed",
     ):
         self.graph_path = graph_path
         self.n_iter = n_iter
@@ -40,7 +40,7 @@ class IVHD:
             Embedding of the training data in low-dimensional space.
         """
         dataset_path = os.getcwd() + "/output.csv"
-        viskit_offline_path = os.getcwd() + "/../build/viskit_offline"
+        viskit_offline_path = os.getcwd() + "/../cmake-build-release/viskit_offline/viskit_offline"
         output_path = os.getcwd() + "/../build/visualization.txt"
 
         X.to_csv(dataset_path, index=False, header=False)
