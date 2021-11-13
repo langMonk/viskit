@@ -12,7 +12,7 @@ def run_command(command):
     process = subprocess.Popen(args=command, stdout=subprocess.PIPE)
     while True:
         output = process.stdout.readline()
-        if output == b'' and process.poll() is not None:
+        if output == b"" and process.poll() is not None:
             break
         if output:
             print(output.strip())
