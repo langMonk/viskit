@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 from viskit.ivhd import IVHD
@@ -101,7 +100,8 @@ def main():
         plt.show()
         v = 0
 
-    metrics.visualize()
+    if len(methods) > 1:
+        metrics.visualize()
 
 
 if __name__ == "__main__":
