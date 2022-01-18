@@ -33,7 +33,7 @@ def set_dataframe_columns(dataframe: pd.DataFrame) -> None:
 def main():
     dataset_files = [
         # "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_50_2_all.csv",
-        "/home/bminch/Repositories/dataset_viskit/mnist.csv",
+        "/Users/bartoszminch/Documents/Repositories/dataset_viskit/mnist.csv",
         # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv",
         # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv"
     ]
@@ -46,12 +46,12 @@ def main():
                 nn=2,
                 rn=1,
                 l1_steps=50,
-                graph_path="/home/bminch/Repositories/viskit/graphs/mnist_cosine.bin",
+                graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_cosine.bin",
             ),
         },
         # {"name": "UMAP", "object": UMAP()},
         # {"name": "t-SNE (distance variant)", "object": IVHD(optimizer="tsne", nn=5)},
-        # {"name": "bh t-SNE", "object": TSNE(n_components=2, n_iter=2000)}
+        # {"name": "bh t-SNE", "object": TSNE(n_components=2, n_iter=2000)},
     ]
 
     v = 0
