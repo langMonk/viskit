@@ -32,7 +32,7 @@ namespace viskit::facade
     public:
         void calculatePositions(IParticleSystem& ps) override;
 
-        void calculateForces(IParticleSystem& ps, IGraph& graph) {};
+        void calculateForces(IParticleSystem& ps, IGraph& graph) override {};
 
         void initialize(viskit::IParticleSystem& ps, viskit::IGraph& graph) override;
 
