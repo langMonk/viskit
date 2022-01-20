@@ -22,7 +22,7 @@ namespace viskit::facade
 		}
 		catch (std::exception& ex)
 		{
-			m_ext_core->logger().logWarning("Failed to cast data using FacadeCasterRandom.calculatePositions. Error message: " + *ex.what());
+			m_ext_core->logger().logWarning(&"Failed to cast data using FacadeCasterRandom.calculatePositions. Error message: " [ *ex.what()]);
 		}
 	}
 }
