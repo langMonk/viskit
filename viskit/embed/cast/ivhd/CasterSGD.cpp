@@ -5,15 +5,13 @@
 
 #include <viskit/embed/cast/ivhd/CasterSGD.h>
 
-namespace viskit::embed::cast::ivhd
+namespace viskit::embed::cast::ivhd {
+CasterSGD::CasterSGD(const core::System& system)
+    : CasterIVHD(system)
 {
-	CasterSGD::CasterSGD(const core::System& system)
-		: CasterIVHD(system)
-	{
-		
-	}
+}
 
-	void CasterSGD::calculatePositions(particles::ParticleSystem& ps)
-	{
-	}
+void CasterSGD::calculatePositions(particles::ParticleSystem& ps)
+{
+}
 }
