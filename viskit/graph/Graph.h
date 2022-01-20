@@ -25,7 +25,9 @@ namespace viskit::graph
 
         std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
 
-        std::optional<std::vector<size_t>> getNeighborsIndexes(size_t index);
+        std::optional<std::vector<size_t>> getAllNeighborsIndexes(size_t index);
+
+        std::optional<std::vector<size_t>> getNearestNeighborsIndexes(size_t index);
 
 		void addNeighbors(const std::vector<Neighbors>& neighbors);
 		
