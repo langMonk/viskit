@@ -3,96 +3,94 @@
 /// \date 04.05.2019
 ///
 
-#include <viskit/facade/FacadeParticleSystem.h>
-#include <viskit/facade/FacadeGraph.h>
-#include <memory>
 #include <fstream>
+#include <memory>
+#include <viskit/facade/FacadeGraph.h>
+#include <viskit/facade/FacadeParticleSystem.h>
 
-namespace viskit::facade
-{ 
-	FacadeParticleSystem::FacadeParticleSystem(const std::shared_ptr<core::Core>& core)
-		: m_ext_core(core)
-		, m_internalParticleSystem(std::make_shared<particles::ParticleSystem>(core->system()))
-	{
-	}
+namespace viskit::facade {
+FacadeParticleSystem::FacadeParticleSystem(const std::shared_ptr<core::Core>& core)
+    : m_ext_core(core)
+    , m_internalParticleSystem(std::make_shared<particles::ParticleSystem>(core->system()))
+{
+}
 
-	std::vector<std::pair<DataPoint, size_t>> FacadeParticleSystem::originalCoordinates()
-	{
-		return m_internalParticleSystem->originalCoordinates();
-	}
+std::vector<std::pair<DataPoint, size_t>> FacadeParticleSystem::originalCoordinates()
+{
+    return m_internalParticleSystem->originalCoordinates();
+}
 
-	glm::vec4* FacadeParticleSystem::positions()
-	{
-		return m_internalParticleSystem->calculationData()->m_pos.data();
-	};
+glm::vec4* FacadeParticleSystem::positions()
+{
+    return m_internalParticleSystem->calculationData()->m_pos.data();
+};
 
-    glm::vec4* FacadeParticleSystem::forces()
-	{
-		return m_internalParticleSystem->calculationData()->m_force.data();
-	};
+glm::vec4* FacadeParticleSystem::forces()
+{
+    return m_internalParticleSystem->calculationData()->m_force.data();
+};
 
-    glm::vec4* FacadeParticleSystem::velocities()
-	{
-		return m_internalParticleSystem->calculationData()->m_vel.data();
-	};
+glm::vec4* FacadeParticleSystem::velocities()
+{
+    return m_internalParticleSystem->calculationData()->m_vel.data();
+};
 
-    glm::vec4* FacadeParticleSystem::colors()
-	{
-		return m_internalParticleSystem->calculationData()->m_col.data();
-	}
+glm::vec4* FacadeParticleSystem::colors()
+{
+    return m_internalParticleSystem->calculationData()->m_col.data();
+}
 
-	std::vector<size_t> FacadeParticleSystem::labels()
-	{
-		return m_internalParticleSystem->labels();
-	}
+std::vector<size_t> FacadeParticleSystem::labels()
+{
+    return m_internalParticleSystem->labels();
+}
 
-	void FacadeParticleSystem::setPosition(size_t index, float x, float y)
-	{
-		m_internalParticleSystem->calculationData()->m_pos[index] = glm::vec4{ x, y, 0.0f, 1.0f };
-	}
+void FacadeParticleSystem::setPosition(size_t index, float x, float y)
+{
+    m_internalParticleSystem->calculationData()->m_pos[index] = glm::vec4 { x, y, 0.0f, 1.0f };
+}
 
-	size_t FacadeParticleSystem::countAlive()
-	{
-		return m_internalParticleSystem->countAwakeParticles();
-	}
+size_t FacadeParticleSystem::countAlive()
+{
+    return m_internalParticleSystem->countAwakeParticles();
+}
 
-	size_t FacadeParticleSystem::countParticles()
-	{
-		return m_internalParticleSystem->countParticles();
-	}
+size_t FacadeParticleSystem::countParticles()
+{
+    return m_internalParticleSystem->countParticles();
+}
 
-	void FacadeParticleSystem::clear()
-	{
-	
-		m_internalParticleSystem->clear();
-	}
+void FacadeParticleSystem::clear()
+{
 
-	bool FacadeParticleSystem::empty()
-	{
-		return m_internalParticleSystem->empty();
-	}
+    m_internalParticleSystem->clear();
+}
 
-	bool FacadeParticleSystem::saveToFile(const std::string& fileName)
-	{
-		std::ofstream file(fileName, std::ios::out);
+bool FacadeParticleSystem::empty()
+{
+    return m_internalParticleSystem->empty();
+}
 
-		if(file.good())
-		{
-			auto positions = m_internalParticleSystem->calculationData()->m_pos;
-			auto labels = m_internalParticleSystem->labels();
+bool FacadeParticleSystem::saveToFile(const std::string& fileName)
+{
+    std::ofstream file(fileName, std::ios::out);
 
-			for (auto i = 0; i < positions.size(); i++)
-			{
-				file << positions[i].x << "," << positions[i].y << "," << labels[i] << std::endl;
-			}
+    if (file.good()) {
+        auto positions = m_internalParticleSystem->calculationData()->m_pos;
+        auto labels = m_internalParticleSystem->labels();
 
-			return true;
-		}
-		else { return false; }
-	}
+        for (auto i = 0; i < positions.size(); i++) {
+            file << positions[i].x << "," << positions[i].y << "," << labels[i] << std::endl;
+        }
 
-	DatasetInfo FacadeParticleSystem::datasetInfo()
-    {
-        return m_internalParticleSystem->datasetInfo();
+        return true;
+    } else {
+        return false;
     }
+}
+
+DatasetInfo FacadeParticleSystem::datasetInfo()
+{
+    return m_internalParticleSystem->datasetInfo();
+}
 }
