@@ -20,16 +20,22 @@ namespace viskit::graph::generate
         m_ext_system.logger().logInfo("[Reverse Neighbors Generator] Determining reverse nearest neighbors...");
         for (size_t x = 0; x < ps.countParticles(); x++)
         {
-            if (const auto xParticleNeighbors = graph.getNeighborsIndexes(x))
+            if (const auto xParticleNeighbors = graph.getNearestNeighborsIndexes(x))
             {
                 for (auto const xParticleNeighbor : *xParticleNeighbors)
                 {
-                    if (const auto xPrimeParticleNeighbors = helperGraph.getNeighborsIndexes(xParticleNeighbor))
+                    if (const auto xPrimeParticleNeighbors = helperGraph.getNearestNeighborsIndexes(xParticleNeighbor))
                     {
-                        auto it = std::find_if_not(xPrimeParticleNeighbors->begin(), xPrimeParticleNeighbors->end(), [&x] (size_t index) { return index == x; } );
+                        auto it = std::find_if(xPrimeParticleNeighbors->begin(), xPrimeParticleNeighbors->end(), [&x] (size_t index) { return index == x; } );
                         if (it != xPrimeParticleNeighbors->end())
                         {
                             graph.removeNeighbors(x, xParticleNeighbor);
+                        }
+                        else
+                        {
+                            std::vector<size_t> to_remove;
+                            const auto rand = std::sample(xParticleNeighbors->begin(), xParticleNeighbors->end(), std::back_inserter(to_remove),1,std::mt19937{std::random_device{}()});
+                            for (auto i : to_remove) { graph.removeNeighbors(x, i); }
                         }
                     }
                 }

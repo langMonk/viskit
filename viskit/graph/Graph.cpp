@@ -38,7 +38,7 @@ namespace viskit::graph
 		}
 	}
 
-    std::optional<std::vector<size_t>> Graph::getNeighborsIndexes(size_t index)
+    std::optional<std::vector<size_t>> Graph::getAllNeighborsIndexes(size_t index)
     {
         if (!m_data.empty())
         {
@@ -47,6 +47,28 @@ namespace viskit::graph
             for (const auto neighbor : neighbors)
             {
                 indexes.emplace_back(neighbor.j);
+            }
+            return indexes;
+        }
+        else
+        {
+            m_ext_system.logger().logError("There is no neighbor item with passed index.");
+            return {};
+        }
+    }
+
+    std::optional<std::vector<size_t>> Graph::getNearestNeighborsIndexes(size_t index)
+    {
+        if (!m_data.empty())
+        {
+            std::vector<size_t> indexes;
+            const auto neighbors = m_data[index];
+            for (const auto neighbor : neighbors)
+            {
+                if (neighbor.type == NeighborsType::Near)
+                {
+                    indexes.emplace_back(neighbor.j);
+                }
             }
             return indexes;
         }
@@ -220,9 +242,9 @@ namespace viskit::graph
 
 		assert(splits.size() == 3);
 
-		auto graphSize = stoi(splits[0]);
-		auto nearestNeighborsCount = stoi(splits[1]);
-		auto longSize = stoi(splits[2]);
+		const auto graphSize = stoi(splits[0]);
+		const auto nearestNeighborsCount = stoi(splits[1]);
+		const auto longSize = 8;
 		m_data.resize(graphSize);
 
 		auto validateNum = 0;
@@ -241,7 +263,7 @@ namespace viskit::graph
 		        float distance;
 		        input_file.read(reinterpret_cast<char*>(&data), longSize);
 		        input_file.read(reinterpret_cast<char*>(&distance), longSize/2);
-		        assert(input_file.gcount() == longSize || input_file.gcount() == longSize/2);
+		        assert(input_file.gcount() == 8 || input_file.gcount() == longSize/2);
 
 		        if (j < nearestNeighborsCountToRead)
 		        {
