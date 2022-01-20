@@ -43,10 +43,11 @@ def main():
             "name": "IVHD - force directed",
             "object": IVHD(
                 optimizer="force-directed",
+                n_iter=1000,
                 nn=2,
                 rn=1,
-                l1_steps=60,
-                useReverseNeighbors=True,
+                l1_steps=0,
+                reverse_neighbors_steps=0,
                 graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_cosine.bin",
             ),
         },

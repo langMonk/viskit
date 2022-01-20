@@ -99,7 +99,7 @@ void performVisualization(std::string datasetPath, const std::string& graphFileP
         reverseGraphGenerator->generate(*particleSystem, *graph, *graphHelper);
     }
 
-    for (auto j = 0; j < 5*l1Steps; j++)
+    for (auto j = 0; j < reverseNeighborsSteps; j++)
     {
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
