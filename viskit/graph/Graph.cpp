@@ -61,7 +61,14 @@ namespace viskit::graph
 	{
 		m_data[neighbor.i].emplace_back(neighbor);
 	}
-	
+
+    void Graph::removeNeighbors(size_t i, size_t j)
+    {
+        auto position = std::find_if(m_data[i].begin(), m_data[i].end(), [i, j] (Neighbors neighbor) {return neighbor.i == i && neighbor.j == j;});
+        if (position != m_data[i].end())
+            m_data[i].erase(position);
+    }
+
 	void Graph::addNeighbors(const std::vector<Neighbors>& neighbors)
 	{
 		for(const auto& neighbor : neighbors)
