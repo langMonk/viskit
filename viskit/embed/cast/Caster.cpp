@@ -5,11 +5,9 @@
 
 #include <viskit/embed/cast/Caster.h>
 
-namespace viskit::embed::cast
+namespace viskit::embed::cast {
+Caster::Caster(const core::System& system)
+    : m_ext_system(system)
 {
-	Caster::Caster(const core::System& system)
-		: m_ext_system(system)
-	{
-
-	}
+}
 }
