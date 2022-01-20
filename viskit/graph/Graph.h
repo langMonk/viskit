@@ -31,10 +31,12 @@ namespace viskit::graph
 		
 		void addNeighbors(Neighbors neighbor);
 
-		size_t overallNeighborsCount();
+        void removeNeighbors(size_t i, size_t j);
+
+        size_t overallNeighborsCount();
 
 		void sort();
-		
+
 		void clear();
 
 		[[nodiscard]] size_t size() const;
@@ -43,7 +45,7 @@ namespace viskit::graph
 
 		bool loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead);
 
-        NeighborsCounter neighborsCounter{0,0,0};
+        NeighborsCounter neighborsCounter{0,0};
 
         // private members
 	private:
