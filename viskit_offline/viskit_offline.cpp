@@ -3,7 +3,6 @@
 /// \date 23.06.2020
 ///
 
-#include <memory>
 #include <iostream>
 #include <fstream>
 #include <utility>
@@ -24,8 +23,8 @@ using Logs = std::pair<viskit::LogLevel, std::string>;
 using std::filesystem::current_path;
 
 
-void performVisualization(std::string dataset_path, const std::string& graph_file_path, const std::string& output_file_path, int iterations, int nn, int rn,
-                          bool distancesEqualOne, bool useReverseNeighbors, int l1_steps, viskit::CasterType casterType, viskit::OptimizerType optimizerType)
+void performVisualization(std::string datasetPath, const std::string& graphFilePath, const std::string& outputFilePath, int iterations, int nearestNeighborsCount, int randomNeighborsCount,
+                          bool distancesEqualOne, int reverseNeighborsSteps, int l1Steps, viskit::CasterType casterType, viskit::OptimizerType optimizerType)
 {
     auto logsCount = 0;
     std::vector <Logs> logs{};
@@ -68,16 +67,16 @@ void performVisualization(std::string dataset_path, const std::string& graph_fil
             viskit::OptimizerType::None
             );
 
-    parser->loadFile(std::move(dataset_path), *particleSystem);
+    parser->loadFile(std::move(datasetPath), *particleSystem);
 
-    graph->loadNearestNeighborsFromCache(graph_file_path, nn);
+    graph->loadNearestNeighborsFromCache(graphFilePath, nearestNeighborsCount);
 
-    if (useReverseNeighbors)
+    if (reverseNeighborsSteps > 0)
     {
-        graphHelper->loadNearestNeighborsFromCache(graph_file_path, 2*nn);
+        graphHelper->loadNearestNeighborsFromCache(graphFilePath, 2*nearestNeighborsCount);
     }
 
-    randomGraphGenerator->generate(*particleSystem, *graph, rn, distancesEqualOne);
+    randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, distancesEqualOne);
     casterRandom->calculatePositions(*particleSystem);
 
     caster->initialize(*particleSystem, *graph);
@@ -93,38 +92,38 @@ void performVisualization(std::string dataset_path, const std::string& graph_fil
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
 
-    if (useReverseNeighbors)
+    if (reverseNeighborsSteps > 0)
     {
         auto reverseGraphGenerator = viskit->resourceFactory().createGraphGenerator(
                 viskit::GraphGeneratorType::Reverse);
         reverseGraphGenerator->generate(*particleSystem, *graph, *graphHelper);
     }
 
-    for (auto j = 0; j < 5*l1_steps; j++)
+    for (auto j = 0; j < 5*l1Steps; j++)
     {
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
 
     caster->finalize();
-    for (auto j = 0; j < l1_steps; j++)
+    for (auto j = 0; j < l1Steps; j++)
     {
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
 
-    particleSystem->saveToFile(output_file_path);
+    particleSystem->saveToFile(outputFilePath);
 }
 
-int main(int argc, char** argv)
+int main([[maybe_unused]] int argc, char** argv)
 {
-    const auto dataset_file_path = argv[1];
-    const auto graph_file_path = argv[2];
-    const auto output_file_path = argv[3];
+    const auto datasetFilePath = argv[1];
+    const auto graphFilePath = argv[2];
+    const auto outputFilePath = argv[3];
     const auto iterations = argv[4];
-    const auto nn = argv[5];
-    const auto rn = argv[6];
+    const auto nearestNeighborsCount = argv[5];
+    const auto randomNeighborsCount = argv[6];
     const auto distancesEqualOne = argv[7];
-    const auto useReverseNeighbors = argv[8];
-    const auto l1_steps = argv[9];
+    const auto ReverseNeighborsSteps = argv[8];
+    const auto l1Steps = argv[9];
     std::string caster_name = argv[10];
 
     viskit::CasterType casterType = viskit::CasterType::IVHD;
@@ -147,8 +146,8 @@ int main(int argc, char** argv)
     else if (caster_name == "tsne")
         optimizerType = viskit::OptimizerType::tSNE;
     
-    performVisualization(dataset_file_path, graph_file_path, output_file_path, std::stoi(iterations),
-                         std::stoi(nn), std::stoi(rn), boost::lexical_cast<bool>(distancesEqualOne), boost::lexical_cast<bool>(useReverseNeighbors), std::stoi(l1_steps), casterType, optimizerType);
+    performVisualization(datasetFilePath, graphFilePath, outputFilePath, std::stoi(iterations),
+                         std::stoi(nearestNeighborsCount), std::stoi(randomNeighborsCount), boost::lexical_cast<bool>(distancesEqualOne), std::stoi(ReverseNeighborsSteps), std::stoi(l1Steps), casterType, optimizerType);
 
     return 0;
 }

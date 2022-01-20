@@ -19,18 +19,24 @@ void Reverse::generate(particles::ParticleSystem& ps, graph::Graph& graph, graph
     m_ext_system.logger().logInfo("[Reverse Neighbors Generator] Determining reverse nearest neighbors...");
     for (size_t x = 0; x < ps.countParticles(); x++) {
         if (const auto xParticleNeighbors = graph.getNearestNeighborsIndexes(x)) {
-            for (auto const xParticleNeighbor : *xParticleNeighbors) {
+            std::vector<Neighbors> neighborsToRemove;
+            for (const auto xParticleNeighbor : *xParticleNeighbors) {
                 if (const auto xPrimeParticleNeighbors = helperGraph.getNearestNeighborsIndexes(xParticleNeighbor)) {
-                    auto it = std::find_if(xPrimeParticleNeighbors->begin(), xPrimeParticleNeighbors->end(), [&x](size_t index) { return index == x; });
-                    if (it != xPrimeParticleNeighbors->end()) {
-                        graph.removeNeighbors(x, xParticleNeighbor);
-                    } else {
-                        std::vector<size_t> to_remove;
-                        const auto rand = std::sample(xParticleNeighbors->begin(), xParticleNeighbors->end(), std::back_inserter(to_remove), 1, std::mt19937 { std::random_device {}() });
-                        for (auto i : to_remove) {
-                            graph.removeNeighbors(x, i);
-                        }
+                    if (std::count(xPrimeParticleNeighbors->begin(), xPrimeParticleNeighbors->end(), x)) {
+                        neighborsToRemove.emplace_back(Neighbors(xParticleNeighbor, x));
                     }
+                }
+            }
+
+            if (neighborsToRemove.size() < graph.neighborsCounter.nearestNeighbors) {
+                for (const auto neighbor : neighborsToRemove) {
+                    graph.removeNeighbors(x, neighbor.i);
+                }
+            } else if (neighborsToRemove.empty()) {
+                std::vector<size_t> to_remove;
+                const auto rand = std::sample(xParticleNeighbors->begin(), xParticleNeighbors->end(), std::back_inserter(to_remove), 1, std::mt19937 { std::random_device {}() });
+                for (auto i : to_remove) {
+                    graph.removeNeighbors(x, i);
                 }
             }
         }

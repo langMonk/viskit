@@ -38,6 +38,7 @@ std::optional<std::vector<size_t>> Graph::getAllNeighborsIndexes(size_t index)
     if (!m_data.empty()) {
         std::vector<size_t> indexes;
         const auto neighbors = m_data[index];
+        indexes.reserve(neighbors.size());
         for (const auto neighbor : neighbors) {
             indexes.emplace_back(neighbor.j);
         }
