@@ -28,15 +28,16 @@ void Reverse::generate(particles::ParticleSystem& ps, graph::Graph& graph, graph
                 }
             }
 
-            if (neighborsToRemove.size() < graph.neighborsCounter.nearestNeighbors) {
-                for (const auto neighbor : neighborsToRemove) {
-                    graph.removeNeighbors(x, neighbor.i);
-                }
-            } else if (neighborsToRemove.empty()) {
+            if (neighborsToRemove.empty()) {
                 std::vector<size_t> to_remove;
                 const auto rand = std::sample(xParticleNeighbors->begin(), xParticleNeighbors->end(), std::back_inserter(to_remove), 1, std::mt19937 { std::random_device {}() });
                 for (auto i : to_remove) {
                     graph.removeNeighbors(x, i);
+                }
+            }
+            else if (neighborsToRemove.size() < graph.neighborsCounter.nearestNeighbors) {
+                for (const auto neighbor : neighborsToRemove) {
+                    graph.removeNeighbors(x, neighbor.i);
                 }
             }
         }

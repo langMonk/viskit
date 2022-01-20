@@ -28,7 +28,7 @@ class IVHD:
         nn: int = 2,
         rn: int = 1,
         distancesEqualToOne: bool = True,
-        useReverseNeighbors: bool = True,
+        reverse_neighbors_steps: int = 0,
         l1_steps: int = 50,
         optimizer: str = "force-directed",
     ):
@@ -38,11 +38,7 @@ class IVHD:
         self.rn = rn
         self.l1_steps = l1_steps
         self.optimizer = optimizer
-
-        if useReverseNeighbors:
-            self.useReverseNeighbors = 1
-        else:
-            self.useReverseNeighbors = 0
+        self.reverse_neighbors_steps = reverse_neighbors_steps
 
         if distancesEqualToOne:
             self.distanceEqualToOne = 1
@@ -86,7 +82,7 @@ class IVHD:
             str(self.nn),
             str(self.rn),
             str(self.distanceEqualToOne),
-            str(self.useReverseNeighbors),
+            str(self.reverse_neighbors_steps),
             str(self.l1_steps),
             self.optimizer,
         )
