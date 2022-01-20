@@ -19,7 +19,7 @@ namespace viskit::facade
 		// public construction and destruction methods
 	public:
 
-		explicit FacadeCasterRandom(std::shared_ptr<core::Core> core);
+		explicit FacadeCasterRandom(const std::shared_ptr<core::Core>& core);
 		~FacadeCasterRandom() = default;
 
 		FacadeCasterRandom(const FacadeCasterRandom&) = delete;
