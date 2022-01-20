@@ -25,7 +25,7 @@ using std::filesystem::current_path;
 
 
 void performVisualization(std::string dataset_path, const std::string& graph_file_path, const std::string& output_file_path, int iterations, int nn, int rn,
-                          bool distancesEqualOne, int l1_steps, viskit::CasterType casterType, viskit::OptimizerType optimizerType)
+                          bool distancesEqualOne, bool useReverseNeighbors, int l1_steps, viskit::CasterType casterType, viskit::OptimizerType optimizerType)
 {
     // initialize logging handler
     auto logsCount = 0;
@@ -59,6 +59,7 @@ void performVisualization(std::string dataset_path, const std::string& graph_fil
     auto parser = viskit->resourceFactory().createParser(viskit::ParserType::Csv);
     auto particleSystem = viskit->resourceFactory().createParticleSystem();
     auto graph = viskit->resourceFactory().createGraph();
+    auto helperGraph = viskit->resourceFactory().createGraph();
     auto randomGraphGenerator = viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Random);
     // auto reverseGraphGenerator = viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Reverse);
 
@@ -118,8 +119,9 @@ int main(int argc, char** argv)
     const auto nn = argv[5];
     const auto rn = argv[6];
     const auto distancesEqualOne = argv[7];
-    const auto l1_steps = argv[8];
-    std::string caster_name = argv[9];
+    const auto useReverseNeighbors = argv[8];
+    const auto l1_steps = argv[9];
+    std::string caster_name = argv[10];
 
     viskit::CasterType casterType = viskit::CasterType::IVHD;
     viskit::OptimizerType optimizerType = viskit::OptimizerType::None;
@@ -142,7 +144,7 @@ int main(int argc, char** argv)
         optimizerType = viskit::OptimizerType::tSNE;
     
     performVisualization(dataset_file_path, graph_file_path, output_file_path, std::stoi(iterations),
-                         std::stoi(nn), std::stoi(rn), boost::lexical_cast<bool>(distancesEqualOne), std::stoi(l1_steps), casterType, optimizerType);
+                         std::stoi(nn), std::stoi(rn), boost::lexical_cast<bool>(distancesEqualOne), boost::lexical_cast<bool>(useReverseNeighbors), std::stoi(l1_steps), casterType, optimizerType);
 
     return 0;
 }

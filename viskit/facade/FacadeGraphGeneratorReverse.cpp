@@ -14,14 +14,15 @@ namespace viskit::facade
         m_graphGenerator = std::make_shared<graph::generate::Reverse>(core->system());
     }
 
-    void FacadeGraphGeneratorReverse::generate(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne)
+    void FacadeGraphGeneratorReverse::generate(IParticleSystem& ps, IGraph& graph, IGraph& helperGraph)
     {
         try
         {
             const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
             const auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
+            const auto facadeHelperGraph = reinterpret_cast<FacadeGraph*>(&helperGraph);
             dynamic_cast<generate::Reverse*>(m_graphGenerator.get())->
-                    generate(facadePs->internalSystem(), facadeGraph->internalGraph(), k, distancesEqualOne);
+                    generate(facadePs->internalSystem(), facadeGraph->internalGraph(), facadeHelperGraph->internalGraph());
         }
         catch (std::exception& ex)
         {

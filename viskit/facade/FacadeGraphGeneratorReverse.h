@@ -19,7 +19,7 @@ namespace viskit::facade
     public:
         explicit FacadeGraphGeneratorReverse(const std::shared_ptr<core::Core>& core);
 
-        void generate(IParticleSystem& ps, IGraph& graph, size_t k , bool distancesEqualOne) override;
+        void generate(IParticleSystem& ps, IGraph& graph, IGraph& helperGraph) override;
 
     private:
         std::shared_ptr<generate::Reverse> m_graphGenerator {nullptr};
