@@ -34,8 +34,7 @@ void Reverse::generate(particles::ParticleSystem& ps, graph::Graph& graph, graph
                 for (auto i : to_remove) {
                     graph.removeNeighbors(x, i);
                 }
-            }
-            else if (neighborsToRemove.size() < graph.neighborsCounter.nearestNeighbors) {
+            } else if (neighborsToRemove.size() < graph.neighborsCounter.nearestNeighbors) {
                 for (const auto neighbor : neighborsToRemove) {
                     graph.removeNeighbors(x, neighbor.i);
                 }
