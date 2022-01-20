@@ -7,7 +7,7 @@
 
 namespace viskit::facade
 {
-	FacadeCasterRandom::FacadeCasterRandom(std::shared_ptr<core::Core> core)
+	FacadeCasterRandom::FacadeCasterRandom(const std::shared_ptr<core::Core>& core)
 		: FacadeCaster(core)
 	{
 		m_internalCaster = std::make_shared<embed::cast::CasterRandom>(core->system());
