@@ -70,16 +70,11 @@ void performVisualization(std::string dataset_path, const std::string& graph_fil
 
     parser->loadFile(std::move(dataset_path), *particleSystem);
 
+    graph->loadNearestNeighborsFromCache(graph_file_path, nn);
+
     if (useReverseNeighbors)
     {
-        graph->loadNearestNeighborsFromCache(graph_file_path, nn);
         graphHelper->loadNearestNeighborsFromCache(graph_file_path, 2*nn);
-        auto reverseGraphGenerator = viskit->resourceFactory().createGraphGenerator(viskit::GraphGeneratorType::Reverse);
-        reverseGraphGenerator->generate(*particleSystem, *graph, *graphHelper);
-    }
-    else
-    {
-        graph->loadNearestNeighborsFromCache(graph_file_path, nn);
     }
 
     randomGraphGenerator->generate(*particleSystem, *graph, rn, distancesEqualOne);
@@ -87,13 +82,25 @@ void performVisualization(std::string dataset_path, const std::string& graph_fil
 
     caster->initialize(*particleSystem, *graph);
     int i = 0;
-    viskit->subscribeOnCastingStepFinish([&i, iterations]
+    viskit->subscribeOnCastingStepFinish([&i]
     {
         if (i % 100 == 0) { std::cout << "Step: " << i << std::endl; }
         i++;
     });
 
     for (auto j = 0; j < iterations; j++)
+    {
+        viskit->computeCastingStep(*particleSystem, *graph, *caster);
+    }
+
+    if (useReverseNeighbors)
+    {
+        auto reverseGraphGenerator = viskit->resourceFactory().createGraphGenerator(
+                viskit::GraphGeneratorType::Reverse);
+        reverseGraphGenerator->generate(*particleSystem, *graph, *graphHelper);
+    }
+
+    for (auto j = 0; j < 5*l1_steps; j++)
     {
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
