@@ -91,7 +91,7 @@ def main():
             ),
         },
         {
-            "name": "IVHD - force directed",
+            "name": "IVHD",
             "object": IVHD(
                 optimizer="force-directed",
                 n_iter=1000,
@@ -104,7 +104,7 @@ def main():
             ),
         },
         {
-            "name": "IVHD - force directed",
+            "name": "IVHD",
             "object": IVHD(
                 optimizer="force-directed",
                 n_iter=1000,
@@ -117,7 +117,7 @@ def main():
             ),
         },
         {
-            "name": "IVHD - force directed",
+            "name": "IVHD",
             "object": IVHD(
                 optimizer="force-directed",
                 n_iter=1000,
@@ -130,7 +130,7 @@ def main():
             ),
         },
         {
-            "name": "IVHD - force directed",
+            "name": "IVHD",
             "object": IVHD(
                 optimizer="force-directed",
                 n_iter=1000,
