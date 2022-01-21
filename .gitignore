@@ -21,7 +21,7 @@
 /packages/
 /graphs/
 /python/viskit/__pycache__/
-/results/
+/python/results
 
 # for clion and VS
 /viskit/cmake-build-*/
