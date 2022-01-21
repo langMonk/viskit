@@ -90,8 +90,9 @@ class FaissGenerator:
 
 
 if __name__ == "__main__":
-    dataset_name = "/Users/bartoszminch/Documents/Repositories/dataset_viskit/mnist_7k"
-    generator = FaissGenerator(dataset_name + ".csv", cosine_metric=False)
+    # dataset_path = "/Users/bartoszminch/Documents/Repositories/dataset_viskit/mnist_pca_100.csv"
+    dataset_path = "/Users/bartoszminch/Documents/Repositories/viskit/python/viskit/graph_generation/mnist_pca_100.csv"
+    generator = FaissGenerator(dataset_path, cosine_metric=True)
     dist, ind = generator.run(nn=20)
-    generator.save_to_text_file("mnist_7k.csv")
-    generator.save_to_binary_file("mnist_7k.bin")
+    generator.save_to_text_file("mnist_pca_100.csv")
+    generator.save_to_binary_file("mnist_pca_100.bin")
