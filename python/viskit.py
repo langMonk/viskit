@@ -31,7 +31,8 @@ def set_dataframe_columns(dataframe: pd.DataFrame) -> None:
 def main():
     dataset_files = [
         # "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_50_2_all.csv",
-        "/Users/bartoszminch/Documents/Repositories/dataset_viskit/mnist.csv",
+        # "/Users/bartoszminch/Documents/Repositories/dataset_viskit/mnist.csv",
+        "/Users/bartoszminch/Documents/Repositories/viskit/python/viskit/graph_generation/mnist_pca_100.csv",
         # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv",
         # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv"
     ]
@@ -44,9 +45,10 @@ def main():
                 n_iter=1000,
                 nn=2,
                 rn=1,
-                l1_steps=50,
+                l1_steps=0,
                 reverse_neighbors_steps=500,
-                graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_cosine.bin",
+                reverse_neighbors_count=500,
+                graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
             ),
         },
         # {"name": "UMAP", "object": UMAP()},
