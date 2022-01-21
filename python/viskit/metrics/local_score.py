@@ -260,7 +260,7 @@ def viz_qa(
     )
 
 
-class MetricCalculator:
+class LocalMetrics:
     def __init__(self):
         self.L_rnx = []
         self.L_kg = []
@@ -269,7 +269,7 @@ class MetricCalculator:
         self.Lls = []
         self.number_of_methods = 0
 
-    def calculate(
+    def calculate_knn_gain_and_dr_quality(
         self,
         X_lds: np.ndarray,
         X_hds: np.ndarray,
