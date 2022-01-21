@@ -1,11 +1,9 @@
 import pandas as pd
 
-from viskit.ivhd import IVHD
+from viskit.embedding.ivhd import IVHD
 from pylab import *
 
-from sklearn.manifold import TSNE
-from umap import UMAP
-from viskit.metrics import MetricCalculator
+from viskit.metrics.local_score import LocalMetrics
 
 
 def draw_2d(X, Y, labels, ax):
@@ -57,7 +55,7 @@ def main():
     ]
 
     v = 0
-    metrics = MetricCalculator()
+    metrics = LocalMetrics()
     for dataset in dataset_files:
         dataset_name = dataset.split("/")[-1]
         X = pd.read_csv(dataset, delimiter=",", header=None, index_col=False)
@@ -85,7 +83,7 @@ def main():
                 draw_2d(X_embedded[:, 0], X_embedded[:, 1], labels, ax)
 
                 # calculate metrics
-                metrics.calculate(
+                metrics.calculate_knn_gain_and_dr_quality(
                     X_lds=X_embedded,
                     X_hds=X.values,
                     labels=labels.values,

@@ -5,7 +5,7 @@ import subprocess
 import numpy as np
 import pandas as pd
 
-from viskit.faiss_graph_generator import FaissGenerator
+from viskit.graph_generation.faiss_graph_generator import FaissGenerator
 
 
 def run_command(command):
