@@ -1,6 +1,7 @@
 import configparser
 import os
 import subprocess
+import logging
 
 import numpy as np
 import pandas as pd
@@ -15,7 +16,10 @@ def run_command(command):
         if output == b"" and process.poll() is not None:
             break
         if output:
-            print(output.strip())
+            msg = output.strip()
+            print(msg)
+            logging.info(msg)
+
     rc = process.poll()
     return rc
 
