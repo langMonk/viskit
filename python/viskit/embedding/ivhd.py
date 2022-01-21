@@ -29,6 +29,7 @@ class IVHD:
         rn: int = 1,
         distancesEqualToOne: bool = True,
         reverse_neighbors_steps: int = 0,
+        reverse_neighbors_count: int = 4,
         l1_steps: int = 50,
         optimizer: str = "force-directed",
     ):
@@ -39,6 +40,7 @@ class IVHD:
         self.l1_steps = l1_steps
         self.optimizer = optimizer
         self.reverse_neighbors_steps = reverse_neighbors_steps
+        self.reverse_neighbors_count = reverse_neighbors_count
 
         if distancesEqualToOne:
             self.distanceEqualToOne = 1
@@ -83,6 +85,7 @@ class IVHD:
             str(self.rn),
             str(self.distanceEqualToOne),
             str(self.reverse_neighbors_steps),
+            str(self.reverse_neighbors_count),
             str(self.l1_steps),
             self.optimizer,
         )
@@ -94,7 +97,5 @@ class IVHD:
             delimiter=",",
             unpack=True,
         )
-
-        # os.remove(output)
 
         return np.column_stack((X, Y))
