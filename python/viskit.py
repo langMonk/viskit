@@ -226,7 +226,7 @@ def main():
             "object": Ivhd(
                 optimizer="force-directed",
                 n_iter=2500,
-                nn=2,
+                nn=3,
                 rn=1,
                 l1_steps=0,
                 reverse_neighbors_steps=500,
