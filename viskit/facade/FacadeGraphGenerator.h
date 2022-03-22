@@ -27,6 +27,7 @@ namespace viskit::facade
 		FacadeGraphGenerator& operator=(FacadeGraphGenerator&&) = delete;
 
         void generate(IParticleSystem& ps, IGraph& graph, IGraph& helperGraph) override {};
+        void generate(IParticleSystem& ps, IGraph& graph, IGraph& helperGraph, size_t k, bool distancesEqualOne) override {};
         void generate(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne) override {};
 
 	protected:

@@ -6,7 +6,7 @@ import logging
 import numpy as np
 import pandas as pd
 
-from viskit.graph_generation.faiss_graph_generator import FaissGenerator
+from viskit.knn_graph.faiss_generator import FaissGenerator
 
 
 def run_command(command):
@@ -24,14 +24,14 @@ def run_command(command):
     return rc
 
 
-class IVHD:
+class Ivhd:
     def __init__(
         self,
         graph_path: str = None,
         n_iter: int = 500,
         nn: int = 2,
         rn: int = 1,
-        distancesEqualToOne: bool = True,
+        binaryDistances: bool = True,
         reverse_neighbors_steps: int = 0,
         reverse_neighbors_count: int = 4,
         l1_steps: int = 50,
@@ -46,10 +46,10 @@ class IVHD:
         self.reverse_neighbors_steps = reverse_neighbors_steps
         self.reverse_neighbors_count = reverse_neighbors_count
 
-        if distancesEqualToOne:
-            self.distanceEqualToOne = 1
+        if binaryDistances:
+            self.binaryDistances = 1
         else:
-            self.distanceEqualToOne = 0
+            self.binaryDistances = 0
 
         self.config = configparser.ConfigParser()
         script_path = os.path.dirname(__file__)
@@ -87,7 +87,7 @@ class IVHD:
             str(self.n_iter),
             str(self.nn),
             str(self.rn),
-            str(self.distanceEqualToOne),
+            str(self.binaryDistances),
             str(self.reverse_neighbors_steps),
             str(self.reverse_neighbors_count),
             str(self.l1_steps),

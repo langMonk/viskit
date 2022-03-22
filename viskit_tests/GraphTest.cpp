@@ -32,7 +32,7 @@ TEST(Graph, SaveLoad) {
     EXPECT_EQ(particleSystem.countParticles(), 7000);
     EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);
 
-    graph.loadNearestNeighborsFromCache(graphFile, 3);
+    graph.loadNearestNeighborsFromCache(graphFile, 3, false);
     EXPECT_EQ(graph.overallNeighborsCount(), 21000);
 
     graph.clear();

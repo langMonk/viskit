@@ -21,6 +21,8 @@ namespace viskit::facade
 
         void generate(IParticleSystem& ps, IGraph& graph, size_t k , bool distancesEqualOne) override;
 
+        void generate(IParticleSystem& ps, IGraph& graph, IGraph& graphHelper, size_t k , bool distancesEqualOne) override;
+
     private:
         std::shared_ptr<generate::Random> m_graphGenerator {nullptr};
 

@@ -50,6 +50,17 @@ void FacadeGraph::addNeighbors(std::vector<Neighbors> neighbors)
     }
 }
 
+void FacadeGraph::removeRandomNeighbors()
+{
+    try {
+        m_internalGraph->removeRandomNeighbors();
+    } catch (std::exception& exception) {
+        std::string message = "Failed to remove random. ";
+        message += exception.what();
+        m_ext_core->logger().logWarning(message);
+    }
+}
+
 size_t FacadeGraph::overallNeighborsCount()
 {
     try {
@@ -109,10 +120,10 @@ bool FacadeGraph::saveNearestNeighborsToCache(const std::string& fileName)
     return false;
 }
 
-bool FacadeGraph::loadNearestNeighborsFromCache(const std::string& fileName, size_t nearestNeighborsCountToRead)
+bool FacadeGraph::loadNearestNeighborsFromCache(const std::string& fileName, size_t nearestNeighborsCountToRead, bool binaryDistances)
 {
     try {
-        return m_internalGraph->loadNearestNeighborsFromCache(fileName, nearestNeighborsCountToRead);
+        return m_internalGraph->loadNearestNeighborsFromCache(fileName, nearestNeighborsCountToRead, binaryDistances);
     } catch (std::exception& exception) {
         std::string message = "Failed to load graph from cache: ";
         message += exception.what();
