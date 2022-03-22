@@ -21,5 +21,7 @@ namespace viskit::graph::generate
     public:
         void generate(particles::ParticleSystem& ps, graph::Graph& graph, size_t k, bool distancesEqualOne) override;
 
+        void generate(particles::ParticleSystem& ps, graph::Graph& graph, graph::Graph& helperGraph, size_t k, bool distancesEqualOne) override;
+
     };
 }

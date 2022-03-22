@@ -26,7 +26,7 @@ void performVisualization(std::string datasetPath,
     const std::string& graphFilePath,
     const std::string& outputFilePath, int iterations,
     int nearestNeighborsCount, int randomNeighborsCount,
-    bool distancesEqualOne, int reverseNeighborsSteps,
+    bool binaryDistances, int reverseNeighborsSteps,
     int reverseNeighborsCount,
     int l1Steps, viskit::CasterType casterType,
     viskit::OptimizerType optimizerType)
@@ -69,22 +69,26 @@ void performVisualization(std::string datasetPath,
 
     parser->loadFile(std::move(datasetPath), *particleSystem);
 
-    graph->loadNearestNeighborsFromCache(graphFilePath, nearestNeighborsCount);
+    graph->loadNearestNeighborsFromCache(graphFilePath, nearestNeighborsCount, binaryDistances);
 
     if (reverseNeighborsSteps > 0) {
         graphHelper->loadNearestNeighborsFromCache(graphFilePath,
-            reverseNeighborsCount);
+            reverseNeighborsCount, binaryDistances);
     }
 
-    randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount,
-        distancesEqualOne);
+    randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
     casterRandom->calculatePositions(*particleSystem);
 
     caster->initialize(*particleSystem, *graph);
     int i = 0;
-    viskit->subscribeOnCastingStepFinish([&i] {
+    viskit->subscribeOnCastingStepFinish([&i, &randomGraphGenerator, &particleSystem, &graph, &graphHelper, &randomNeighborsCount, &binaryDistances]  {
         if (i % 100 == 0) {
             std::cout << "Step: " << i << std::endl;
+        }
+        if (i % 50 == 0)
+        {
+            graph->removeRandomNeighbors();
+            randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances);
         }
         i++;
     });
@@ -97,6 +101,8 @@ void performVisualization(std::string datasetPath,
         auto reverseGraphGenerator = viskit->resourceFactory().createGraphGenerator(
             viskit::GraphGeneratorType::Reverse);
         reverseGraphGenerator->generate(*particleSystem, *graph, *graphHelper);
+        graph->removeRandomNeighbors();
+        randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances);
     }
 
     for (auto j = 0; j < reverseNeighborsSteps; j++) {
@@ -119,7 +125,7 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto iterations = argv[4];
     const auto nearestNeighborsCount = argv[5];
     const auto randomNeighborsCount = argv[6];
-    const auto distancesEqualOne = argv[7];
+    const auto binaryDistances = argv[7];
     const auto reverseNeighborsSteps = argv[8];
     const auto reverseNeighborsCount = argv[9];
     const auto l1Steps = argv[10];
@@ -148,7 +154,7 @@ int main([[maybe_unused]] int argc, char** argv)
     performVisualization(datasetFilePath, graphFilePath, outputFilePath,
         std::stoi(iterations), std::stoi(nearestNeighborsCount),
         std::stoi(randomNeighborsCount),
-        boost::lexical_cast<bool>(distancesEqualOne),
+        boost::lexical_cast<bool>(binaryDistances),
         std::stoi(reverseNeighborsSteps), std::stoi(reverseNeighborsCount), std::stoi(l1Steps),
         casterType, optimizerType);
 
