@@ -24,11 +24,15 @@ using std::filesystem::current_path;
 
 void performVisualization(std::string datasetPath,
     const std::string& graphFilePath,
-    const std::string& outputFilePath, int iterations,
-    int nearestNeighborsCount, int randomNeighborsCount,
-    bool binaryDistances, int reverseNeighborsSteps,
+    const std::string& outputFilePath,
+    int iterations,
+    int nearestNeighborsCount,
+    int randomNeighborsCount,
+    bool binaryDistances,
+    int reverseNeighborsSteps,
     int reverseNeighborsCount,
-    int l1Steps, viskit::CasterType casterType,
+    int l1Steps,
+    viskit::CasterType casterType,
     viskit::OptimizerType optimizerType)
 {
     auto logsCount = 0;
