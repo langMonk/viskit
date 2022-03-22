@@ -74,12 +74,19 @@ namespace viskit
 		/// <returns> True if save operation succeed. </returns>
         virtual bool saveNearestNeighborsToCache(const std::string& fileName) = 0;
 
+        /// <summary>
+        /// Disable random neighbors in the graph.
+        /// </summary>
+        virtual void removeRandomNeighbors() = 0;
+
 		/// <summary>
 		/// Loads a graph from cache (disk space) and no recalculation is needed.
 		/// </summary>
-		/// <param name="fileName"> Filename, where graph file is located.</param>
+        /// <param name="fileName"> Filename, where graph file is located.</param>
+        /// <param name="nearestNeighborsCountToRead"> Number of nearest neighbors that should be loaded into a graph structure.</param>
+        /// <param name="binaryDistances"> If distances should be binary.</param>
 		/// <returns> True if load operation succeed. </returns>
-		virtual bool loadNearestNeighborsFromCache(const std::string& fileName, size_t nearestNeighborsCountToRead) = 0;
+		virtual bool loadNearestNeighborsFromCache(const std::string& fileName, size_t nearestNeighborsCountToRead, bool binaryDistances) = 0;
 		
 		/// <summary>
 		/// [DEBUG OPTION] Dumping whole graph to a readable plain text format (.txt).

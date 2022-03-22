@@ -39,13 +39,15 @@ namespace viskit::graph
 
 		void sort();
 
-		void clear();
+        void removeRandomNeighbors();
+
+        void clear();
 
 		[[nodiscard]] size_t size() const;
 
 		bool saveNearestNeighborsToCache(const std::string& fileName);
 
-		bool loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead);
+		bool loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead, bool binaryDistances);
 
         NeighborsCounter neighborsCounter{0,0};
 
