@@ -27,7 +27,7 @@ TEST(Graph, SaveLoad) {
 
     auto csvFile = resourcesDirectory().string() + "/mnist_7k_pca30.csv";
     auto graphFile = resourcesDirectory().string() + "/mnist_7k_graph.bin";
-    parser.loadFile(csvFile, particleSystem);
+    parser.loadFile(csvFile, "", particleSystem);
 
     EXPECT_EQ(particleSystem.countParticles(), 7000);
     EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);

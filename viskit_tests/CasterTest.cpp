@@ -28,7 +28,7 @@ TEST(CasterRandomTest, Casting)
 
     auto csvFile = resourcesDirectory().string() + "/mnist_20_pca30.csv";
 
-    parser->loadFile(csvFile, *particleSystem);
+    parser->loadFile(csvFile, "", *particleSystem);
 
     auto coords = particleSystem->originalCoordinates();
 
