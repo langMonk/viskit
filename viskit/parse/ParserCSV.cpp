@@ -67,6 +67,8 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
     size_t dimensionality = 0;
 
     if (!labelsFilePath.empty()) {
+        m_ext_system.logger().logInfo("[CSV Parser] Labels file passed.");
+
         while (std::getline(datasetInput, datasetLine)) {
             std::getline(labelsInput, labelLine);
 
@@ -95,6 +97,8 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
     }
     else
     {
+        m_ext_system.logger().logInfo("[CSV Parser] No labels file passed.");
+
         while (std::getline(datasetInput, datasetLine)) {
             std::vector<std::string> stringVector;
             tokenize(datasetLine, ',', stringVector);
@@ -131,7 +135,8 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
 
     m_ext_system.logger().logInfo("[CSV Parser] Finished.");
 
-    input.close();
+    datasetInput.close();
+    labelsInput.close();
 }
 
 void ParserCSV::tokenize(std::string& str, char delim, std::vector<std::string>& out)
