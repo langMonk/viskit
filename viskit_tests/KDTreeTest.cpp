@@ -103,7 +103,7 @@ TEST(KDTreeTest, Generation)
 
     auto csvFile = resourcesDirectory().string() + "/mnist_7k_pca30.csv";
 
-    parser->loadFile(csvFile, *particleSystem);
+    parser->loadFile(csvFile, "", *particleSystem);
     graph->initialize(particleSystem->countParticles());
 
     // Part responsible for creating a tree

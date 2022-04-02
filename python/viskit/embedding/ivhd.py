@@ -66,22 +66,24 @@ class Ivhd:
         X_new : ndarray of shape (n_samples, n_components)
             Embedding of the training data in low-dimensional space.
         """
-        input_path = self.config["Paths"]["InputPath"]
+        input_dataset_path = self.config["Paths"]["InputDatasetPath"]
+        input_labels_path = self.config["Paths"]["InputLabelsPath"]
         output_path = self.config["Paths"]["OutputPath"]
         binary_path = self.config["Paths"]["BinaryPath"]
         graph_path = self.config["Paths"]["GraphPath"]
 
-        X.to_csv(input_path, index=False, header=False)
+        X.to_csv(input_dataset_path, index=False, header=False)
 
         if self.graph_path is None:
             print("Generating kNN graph...")
-            generator = FaissGenerator(csv_file=input_path, cosine_metric=False)
+            generator = FaissGenerator(csv_file=input_dataset_path, cosine_metric=False)
             generator.run(nn=self.nn)
             generator.save_to_binary_file(output_file_path=graph_path)
 
         args = (
             binary_path,
-            input_path,
+            input_dataset_path,
+            input_labels_path if input_labels_path is not None else "",
             self.graph_path if self.graph_path is not None else graph_path,
             output_path,
             str(self.n_iter),
