@@ -85,20 +85,26 @@ void performVisualization(std::string datasetPath,
 
     caster->initialize(*particleSystem, *graph);
     int i = 0;
-    viskit->subscribeOnCastingStepFinish([&i, &randomGraphGenerator, &particleSystem, &graph, &graphHelper, &randomNeighborsCount, &binaryDistances]  {
+    viskit->subscribeOnCastingStepFinish([&i]  {
         if (i % 100 == 0) {
             std::cout << "Step: " << i << std::endl;
         }
-        if (i % 50 == 0)
-        {
-            graph->removeRandomNeighbors();
-
-            randomNeighborsCount > 0 ?
-            randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances)
-            : randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
-        }
         i++;
     });
+//    viskit->subscribeOnCastingStepFinish([&i, &randomGraphGenerator, &particleSystem, &graph, &graphHelper, &randomNeighborsCount, &binaryDistances]  {
+//        if (i % 100 == 0) {
+//            std::cout << "Step: " << i << std::endl;
+//        }
+//        if (i % 50 == 0)
+//        {
+//            graph->removeRandomNeighbors();
+//
+//            randomNeighborsCount > 0 ?
+//            randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances)
+//            : randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
+//        }
+//        i++;
+//    });
 
     for (auto j = 0; j < iterations; j++) {
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
@@ -110,10 +116,9 @@ void performVisualization(std::string datasetPath,
         reverseGraphGenerator->generate(*particleSystem, *graph, *graphHelper);
         graph->removeRandomNeighbors();
         randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances);
-    }
-
-    for (auto j = 0; j < reverseNeighborsSteps; j++) {
-        viskit->computeCastingStep(*particleSystem, *graph, *caster);
+        for (auto j = 0; j < reverseNeighborsSteps; j++) {
+            viskit->computeCastingStep(*particleSystem, *graph, *caster);
+        }
     }
 
     caster->finalize();
