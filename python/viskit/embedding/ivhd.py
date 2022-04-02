@@ -82,7 +82,7 @@ class Ivhd:
         args = (
             binary_path,
             input_path,
-            self.graph_path,
+            self.graph_path if self.graph_path is not None else graph_path,
             output_path,
             str(self.n_iter),
             str(self.nn),
