@@ -92,7 +92,10 @@ void performVisualization(std::string datasetPath,
         if (i % 50 == 0)
         {
             graph->removeRandomNeighbors();
-            randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances);
+
+            randomNeighborsCount > 0 ?
+            randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances)
+            : randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
         }
         i++;
     });
