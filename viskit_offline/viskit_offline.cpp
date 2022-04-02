@@ -22,7 +22,8 @@
 using Logs = std::pair<viskit::LogLevel, std::string>;
 using std::filesystem::current_path;
 
-void performVisualization(std::string datasetPath,
+void performVisualization(const std::string& datasetFilePath,
+    const std::string& labelsFilePath,
     const std::string& graphFilePath,
     const std::string& outputFilePath,
     int iterations,
@@ -71,7 +72,7 @@ void performVisualization(std::string datasetPath,
     const auto casterRandom = viskit->resourceFactory().createCaster(
         viskit::CasterType::Random, viskit::OptimizerType::None);
 
-    parser->loadFile(std::move(datasetPath), *particleSystem);
+    parser->loadFile(datasetFilePath, labelsFilePath, *particleSystem);
 
     graph->loadNearestNeighborsFromCache(graphFilePath, nearestNeighborsCount, binaryDistances);
 
@@ -132,16 +133,17 @@ void performVisualization(std::string datasetPath,
 int main([[maybe_unused]] int argc, char** argv)
 {
     const auto datasetFilePath = argv[1];
-    const auto graphFilePath = argv[2];
-    const auto outputFilePath = argv[3];
-    const auto iterations = argv[4];
-    const auto nearestNeighborsCount = argv[5];
-    const auto randomNeighborsCount = argv[6];
-    const auto binaryDistances = argv[7];
-    const auto reverseNeighborsSteps = argv[8];
-    const auto reverseNeighborsCount = argv[9];
-    const auto l1Steps = argv[10];
-    std::string caster_name = argv[11];
+    const auto labelsFilePath = argv[2];
+    const auto graphFilePath = argv[3];
+    const auto outputFilePath = argv[4];
+    const auto iterations = argv[5];
+    const auto nearestNeighborsCount = argv[6];
+    const auto randomNeighborsCount = argv[7];
+    const auto binaryDistances = argv[8];
+    const auto reverseNeighborsSteps = argv[9];
+    const auto reverseNeighborsCount = argv[10];
+    const auto l1Steps = argv[11];
+    std::string caster_name = argv[12];
 
     viskit::CasterType casterType = viskit::CasterType::IVHD;
     viskit::OptimizerType optimizerType = viskit::OptimizerType::None;
@@ -163,7 +165,7 @@ int main([[maybe_unused]] int argc, char** argv)
     else if (caster_name == "tsne")
         optimizerType = viskit::OptimizerType::tSNE;
 
-    performVisualization(datasetFilePath, graphFilePath, outputFilePath,
+    performVisualization(datasetFilePath, labelsFilePath, graphFilePath, outputFilePath,
         std::stoi(iterations), std::stoi(nearestNeighborsCount),
         std::stoi(randomNeighborsCount),
         boost::lexical_cast<bool>(binaryDistances),
