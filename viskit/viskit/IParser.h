@@ -18,9 +18,10 @@ namespace viskit
 		/// <summary>
 		/// Load specified file into particle system structure
 		/// </summary>
-		/// <param name="filePath"> Path, where the file (to read) is located.</param>
+        /// <param name="datasetFilePath"> Path to file containing dataset.</param>
+        /// <param name="labelsFilePath"> Path to file containing labels.</param>
 		/// <param name="ps"> Particle system which should be casted by this caster.</param>
-		virtual void loadFile(std::string filePath, IParticleSystem& ps) = 0;
+		virtual void loadFile(std::string datasetFilePath, std::string labelsFilePath, IParticleSystem& ps) = 0;
 
 	};
 }

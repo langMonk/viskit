@@ -12,13 +12,13 @@ FacadeParserCSV::FacadeParserCSV(const std::shared_ptr<core::Core>& core)
 {
 }
 
-void FacadeParserCSV::loadFile(const std::string filePath, IParticleSystem& ps)
+void FacadeParserCSV::loadFile(const std::string datasetFilePath, const std::string labelsFilePath, IParticleSystem& ps)
 {
     try {
         const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
-        m_internalParser->loadFile(filePath, facadePs->internalSystem());
+        m_internalParser->loadFile(datasetFilePath, labelsFilePath, facadePs->internalSystem());
     } catch (std::exception& ex) {
-        m_ext_core->logger().logWarning("Failed to load data file: " + filePath + ". Error message: " + ex.what());
+        m_ext_core->logger().logWarning("Failed to load data file: " + datasetFilePath + ". Error message: " + ex.what());
     }
 }
 }

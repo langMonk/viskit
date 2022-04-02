@@ -29,7 +29,7 @@ namespace viskit::facade
 
 		// public methods
 	public:
-		void loadFile(std::string filePath, IParticleSystem& ps) override;
+		void loadFile(std::string datasetFilePath, std::string labelsFilePath, IParticleSystem& ps) override;
 
 		// private members
 	private:
