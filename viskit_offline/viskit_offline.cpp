@@ -66,9 +66,7 @@ void performVisualization(const std::string& datasetFilePath,
     auto graphHelper = viskit->resourceFactory().createGraph();
     auto randomGraphGenerator = viskit->resourceFactory().createGraphGenerator(
         viskit::GraphGeneratorType::Random);
-
     const auto caster = viskit->resourceFactory().createCaster(casterType, optimizerType);
-
     const auto casterRandom = viskit->resourceFactory().createCaster(
         viskit::CasterType::Random, viskit::OptimizerType::None);
 
@@ -76,7 +74,7 @@ void performVisualization(const std::string& datasetFilePath,
 
     graph->loadNearestNeighborsFromCache(graphFilePath, nearestNeighborsCount, binaryDistances);
 
-    if (reverseNeighborsSteps > 0) {
+    if (reverseNeighborsCount > 0) {
         graphHelper->loadNearestNeighborsFromCache(graphFilePath,
             reverseNeighborsCount, binaryDistances);
     }
@@ -127,7 +125,7 @@ void performVisualization(const std::string& datasetFilePath,
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
 
-    particleSystem->saveToFile(outputFilePath);
+    particleSystem->saveToFile(outputFilePath, *graph);
 }
 
 int main([[maybe_unused]] int argc, char** argv)
@@ -162,7 +160,7 @@ int main([[maybe_unused]] int argc, char** argv)
         casterType = viskit::CasterType::Random;
     else if (caster_name == "largevis")
         casterType = viskit::CasterType::LargeVis;
-    else if (caster_name == "tsne")
+    else if (caster_name == "t-sne")
         optimizerType = viskit::OptimizerType::tSNE;
 
     performVisualization(datasetFilePath, labelsFilePath, graphFilePath, outputFilePath,
