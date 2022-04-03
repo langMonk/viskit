@@ -73,7 +73,7 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
             std::getline(labelsInput, labelLine);
 
             std::vector<std::string> stringVector;
-            tokenize(datasetLine, ',', stringVector);
+            tokenize(datasetLine, stringVector);
 
             if (count == 0) {
                 dimensionality = stringVector.size();
@@ -101,7 +101,7 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
 
         while (std::getline(datasetInput, datasetLine)) {
             std::vector<std::string> stringVector;
-            tokenize(datasetLine, ',', stringVector);
+            tokenize(datasetLine, stringVector);
 
             if (count == 0) {
                 dimensionality = stringVector.size();
@@ -124,10 +124,11 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
     ps.calculationData()->generate(count);
 
     m_ext_system.logger().logInfo("[CSV Parser] Dataset size: " + std::to_string(info.count));
+    m_ext_system.logger().logInfo("[CSV Parser] Dataset dimensionality: " + std::to_string(info.dimensionality));
+
     if (!labelsFilePath.empty()) {
-        m_ext_system.logger().logInfo("[CSV Parser] Dataset dimensionality: " + std::to_string(info.dimensionality));
+        m_ext_system.logger().logInfo("[CSV Parser] Number of classes in dataset: " + std::to_string(labels.size()));
     }
-    m_ext_system.logger().logInfo("[CSV Parser] Number of classes in dataset: " + std::to_string(labels.size()));
 
     ps.setDataset(dataset, labels);
     ps.datasetInfo(info);
@@ -139,13 +140,13 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
     labelsInput.close();
 }
 
-void ParserCSV::tokenize(std::string& str, char delim, std::vector<std::string>& out)
+void ParserCSV::tokenize(std::string &str, std::vector<std::string> &out)
 {
     size_t start;
     size_t end = 0;
 
-    while ((start = str.find_first_not_of(delim, end)) != std::string::npos) {
-        end = str.find(delim, start);
+    while ((start = str.find_first_not_of(44, end)) != std::string::npos) {
+        end = str.find(44, start);
         out.push_back(str.substr(start, end - start));
     }
 }
