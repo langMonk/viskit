@@ -6,8 +6,8 @@ from pylab import *
 from sklearn.manifold import TSNE
 
 from viskit.embedding.ivhd import Ivhd
-from viskit.metrics.local_score import LocalMetric
-from viskit.metrics.global_score import GlobalMetric
+from viskit.scoring.local_score import LocalMetric
+from viskit.scoring.global_score import GlobalMetric
 from viskit.knn_graph.graph import Graph
 
 USE_GLOBAL_METRICS = True

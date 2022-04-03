@@ -55,12 +55,13 @@ class Ivhd:
         script_path = os.path.dirname(__file__)
         self.config.read(script_path + "/config.ini")
 
-    def fit_transform(self, X: pd.DataFrame):
+    def fit_transform(self, X: pd.DataFrame, labels: pd.DataFrame):
         """Fit X into an embedded space and return that transformed
         output.
         Parameters
         ----------
-        X : ndarray of shape (n_samples, n_features)
+        X : ndarray of shape (n_samples, n_features) containing feature vectors
+        labels : ndarray of shape (n_sample, 1) containing labels
         Returns
         -------
         X_new : ndarray of shape (n_samples, n_components)
@@ -73,6 +74,7 @@ class Ivhd:
         graph_path = self.config["Paths"]["GraphPath"]
 
         X.to_csv(input_dataset_path, index=False, header=False)
+        labels.to_csv(input_labels_path, index=False, header=False)
 
         if self.graph_path is None:
             print("Generating kNN graph...")
@@ -98,10 +100,10 @@ class Ivhd:
 
         run_command(args)
 
-        X, Y, labels = np.loadtxt(
+        X, Y, labels, nn, rn = np.loadtxt(
             output_path,
             delimiter=",",
             unpack=True,
         )
 
-        return np.column_stack((X, Y))
+        return [np.column_stack((X, Y)), np.column_stack((nn, rn))]
