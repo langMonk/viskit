@@ -32,7 +32,7 @@ namespace viskit::embed::cast::ivhd
 	private:
         float m_currentMaxVelocity[MAX_VELOCITY_BUFFER_LEN]{};
 
-		float m_speedFactor{ 1000.0f };
+		float m_speedFactor{ 100.0f };
 
 		float m_dtFactor{ 1.0f };
 
@@ -42,7 +42,7 @@ namespace viskit::embed::cast::ivhd
 
         int m_currentMaxVelocity_ptr { 0 };
 
-		bool m_autoAdaptStep{true};
+		bool m_autoAdaptStep{false};
 
         int m_sammonK{1};
 

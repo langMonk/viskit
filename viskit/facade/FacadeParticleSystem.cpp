@@ -89,6 +89,28 @@ bool FacadeParticleSystem::saveToFile(const std::string& fileName)
     }
 }
 
+bool FacadeParticleSystem::saveToFile(const std::string& fileName, IGraph& graph)
+{
+    std::ofstream file(fileName, std::ios::out);
+    auto facadeGraph = reinterpret_cast<FacadeGraph*>(&graph);
+
+    if (file.good()) {
+        auto positions = m_internalParticleSystem->calculationData()->m_pos;
+        auto labels = m_internalParticleSystem->labels();
+        for (auto i = 0; i < positions.size(); i++) {
+            auto neighbors = facadeGraph->getNeighbors(i);
+            int countNN = std::count_if(neighbors.begin(), neighbors.end(), [](Neighbors nn){return nn.type == NeighborsType::Near;});
+            int countRN = std::count_if(neighbors.begin(), neighbors.end(), [](Neighbors nn){return nn.type == NeighborsType::Random;});
+            file << positions[i].x << "," << positions[i].y << "," << labels[i] << "," << countNN << "," << countRN << std::endl;
+        }
+
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 DatasetInfo FacadeParticleSystem::datasetInfo()
 {
     return m_internalParticleSystem->datasetInfo();
