@@ -25,25 +25,31 @@ namespace viskit::graph
 
         std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
 
-        std::optional<std::vector<size_t>> getNeighborsIndexes(size_t index);
+        std::optional<std::vector<size_t>> getAllNeighborsIndexes(size_t index);
+
+        std::optional<std::vector<size_t>> getNearestNeighborsIndexes(size_t index);
 
 		void addNeighbors(const std::vector<Neighbors>& neighbors);
 		
 		void addNeighbors(Neighbors neighbor);
 
-		size_t overallNeighborsCount();
+        void removeNeighbors(size_t i, size_t j);
+
+        size_t overallNeighborsCount();
 
 		void sort();
-		
-		void clear();
+
+        void removeRandomNeighbors();
+
+        void clear();
 
 		[[nodiscard]] size_t size() const;
 
 		bool saveNearestNeighborsToCache(const std::string& fileName);
 
-		bool loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead);
+		bool loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead, bool binaryDistances);
 
-        NeighborsCounter neighborsCounter{0,0,0};
+        NeighborsCounter neighborsCounter{0,0};
 
         // private members
 	private:

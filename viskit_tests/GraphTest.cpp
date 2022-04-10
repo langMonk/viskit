@@ -27,12 +27,12 @@ TEST(Graph, SaveLoad) {
 
     auto csvFile = resourcesDirectory().string() + "/mnist_7k_pca30.csv";
     auto graphFile = resourcesDirectory().string() + "/mnist_7k_graph.bin";
-    parser.loadFile(csvFile, particleSystem);
+    parser.loadFile(csvFile, "", particleSystem);
 
     EXPECT_EQ(particleSystem.countParticles(), 7000);
     EXPECT_EQ(particleSystem.originalCoordinates().size(), 7000);
 
-    graph.loadNearestNeighborsFromCache(graphFile, 3);
+    graph.loadNearestNeighborsFromCache(graphFile, 3, false);
     EXPECT_EQ(graph.overallNeighborsCount(), 21000);
 
     graph.clear();

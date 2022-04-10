@@ -107,6 +107,7 @@ def viz_qa(
     lw=2,
     markevery=0.1,
     tit="",
+    folder_name="",
     xlabel="",
     ylabel="",
     alpha_plot=0.9,
@@ -253,14 +254,14 @@ def viz_qa(
 
     # Showing the figure
     fig.savefig(
-        "/home/bminch/Repositories/viskit/python/output_visualizations/metrics/{}.png".format(
+        "/Users/bartoszminch/Documents/Repositories/viskit/python/results/{}.png".format(
             tit
         ),
         dpi=fig.dpi,
     )
 
 
-class MetricCalculator:
+class LocalMetric:
     def __init__(self):
         self.L_rnx = []
         self.L_kg = []
@@ -269,7 +270,7 @@ class MetricCalculator:
         self.Lls = []
         self.number_of_methods = 0
 
-    def calculate(
+    def calculate_knn_gain_and_dr_quality(
         self,
         X_lds: np.ndarray,
         X_hds: np.ndarray,

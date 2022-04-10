@@ -16,7 +16,6 @@ namespace viskit::facade
 	/// </summary>
 	class FacadeGraphGenerator : public IGraphGenerator
 	{
-		// public construction and destruction methods
 	public:
 		explicit FacadeGraphGenerator(std::shared_ptr<core::Core> core);
 		~FacadeGraphGenerator() = default;
@@ -27,7 +26,10 @@ namespace viskit::facade
 		FacadeGraphGenerator& operator=(const FacadeGraphGenerator&) = delete;
 		FacadeGraphGenerator& operator=(FacadeGraphGenerator&&) = delete;
 
-		// protected members
+        void generate(IParticleSystem& ps, IGraph& graph, IGraph& helperGraph) override {};
+        void generate(IParticleSystem& ps, IGraph& graph, IGraph& helperGraph, size_t k, bool distancesEqualOne) override {};
+        void generate(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne) override {};
+
 	protected:
 		std::shared_ptr<core::Core> m_ext_core;
 	};

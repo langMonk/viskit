@@ -5,27 +5,24 @@
 
 #include <viskit/embed/cast/CasterRandom.h>
 
-namespace viskit::embed::cast
+namespace viskit::embed::cast {
+CasterRandom::CasterRandom(const core::System& system)
+    : Caster(system)
 {
-	CasterRandom::CasterRandom(const core::System& system)
-		: Caster(system)
-	{
+}
 
-	}
+void CasterRandom::calculatePositions(particles::ParticleSystem& ps)
+{
+    auto& positions = ps.calculationData()->m_pos;
 
-	void CasterRandom::calculatePositions(particles::ParticleSystem& ps)
-	{
-        auto& positions = ps.calculationData()->m_pos;
+    for (auto i = 0; i < ps.countParticles(); i++) {
+        positions[i].x = static_cast<float>(m_gen->gen());
+        positions[i].y = static_cast<float>(m_gen->gen());
+    }
+}
 
-        for (auto i = 0; i < ps.countParticles(); i++)
-        {
-            positions[i].x = static_cast<float>(m_gen->gen());
-            positions[i].y = static_cast<float>(m_gen->gen());
-        }
-	}
-
-	Dist::result_type CasterRandom::RandomGenerator::gen()
-	{
-		return m_dist(m_eng);
-	}
+Dist::result_type CasterRandom::RandomGenerator::gen()
+{
+    return m_dist(m_eng);
+}
 }

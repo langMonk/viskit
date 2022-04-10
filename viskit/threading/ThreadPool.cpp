@@ -5,42 +5,38 @@
 
 #include <viskit/threading/ThreadPool.h>
 
-namespace viskit::threading
+namespace viskit::threading {
+ThreadPool::ThreadPool(size_t threads)
+    : stop(false)
 {
-	ThreadPool::ThreadPool(size_t threads) : stop(false)
-	{
-		for (size_t i = 0; i < threads; ++i)
-		{ 
-			workers.emplace_back([&] 
-			{
-				for (;;) 
-				{
-					std::packaged_task<void()> task;
-					{
-						std::unique_lock<std::mutex> lock(queue_mutex);
-						condition.wait(lock, [this] { return stop || !tasks.empty(); });
-						if (stop && tasks.empty())
-							return;
-						task = std::move(tasks.front());
-						tasks.pop();
-					}
+    for (size_t i = 0; i < threads; ++i) {
+        workers.emplace_back([&] {
+            for (;;) {
+                std::packaged_task<void()> task;
+                {
+                    std::unique_lock<std::mutex> lock(queue_mutex);
+                    condition.wait(lock, [this] { return stop || !tasks.empty(); });
+                    if (stop && tasks.empty())
+                        return;
+                    task = std::move(tasks.front());
+                    tasks.pop();
+                }
 
-					task();
-				}
-			});
-		}
-	}
+                task();
+            }
+        });
+    }
+}
 
-	ThreadPool::~ThreadPool()
-	{
-		{
-			std::unique_lock<std::mutex> lock(queue_mutex);
-			stop = true;
-		}
-		condition.notify_all();
-		for (std::thread& worker : workers)
-		{
-			worker.join();
-		}
-	}
+ThreadPool::~ThreadPool()
+{
+    {
+        std::unique_lock<std::mutex> lock(queue_mutex);
+        stop = true;
+    }
+    condition.notify_all();
+    for (std::thread& worker : workers) {
+        worker.join();
+    }
+}
 }

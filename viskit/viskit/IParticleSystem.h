@@ -100,6 +100,14 @@ namespace viskit
         /// <returns> True if save operation succeed. </returns>
         virtual bool saveToFile(const std::string& fileName) = 0;
 
+        /// <summary>
+        /// Saves a particle system to file.
+        /// </summary>
+        /// <param name="fileName"> Filename, where ps file should be located.</param>
+        /// <param name="graph"> Graph used for saving number of neighbors for each particle.</param>
+        /// <returns> True if save operation succeed. </returns>
+        virtual bool saveToFile(const std::string& fileName, IGraph& graph) = 0;
+
 		virtual ~IParticleSystem() = default;
 	};
 }

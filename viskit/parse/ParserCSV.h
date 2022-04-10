@@ -23,9 +23,9 @@ namespace viskit::parse
 
 		// public methods
 	public:
-		void loadFile(const std::string& filePath, particles::ParticleSystem& ps);
+		void loadFile(const std::string& datasetFilePath, const std::string& labelsFilePath, particles::ParticleSystem& ps);
 
 	private:
-        static void tokenize(std::string &str, char delim, std::vector<std::string> &out);
+        static void tokenize(std::string &str, std::vector<std::string> &out);
 	};
 }
