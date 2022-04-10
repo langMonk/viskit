@@ -5,25 +5,20 @@
 
 #include <viskit/facade/FacadeParserCSV.h>
 
-namespace viskit::facade
+namespace viskit::facade {
+FacadeParserCSV::FacadeParserCSV(const std::shared_ptr<core::Core>& core)
+    : FacadeParser(core)
+    , m_internalParser(std::make_shared<viskit::parse::ParserCSV>(core->system()))
 {
-	FacadeParserCSV::FacadeParserCSV(const std::shared_ptr<core::Core>& core)
-		: FacadeParser(core)
-		, m_internalParser(std::make_shared<viskit::parse::ParserCSV>(core->system()))
-	{
-	}
+}
 
-	void FacadeParserCSV::loadFile(const std::string filePath, IParticleSystem& ps)
-	{
-		try
-		{
-			const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
-			m_internalParser->loadFile(filePath, facadePs->internalSystem());
-		}
-		catch (std::exception& ex)
-		{
-			m_ext_core->logger().logWarning("Failed to load data file: " + filePath + ". Error message: " + ex.what());
-		}
-	
-	}
+void FacadeParserCSV::loadFile(const std::string datasetFilePath, const std::string labelsFilePath, IParticleSystem& ps)
+{
+    try {
+        const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
+        m_internalParser->loadFile(datasetFilePath, labelsFilePath, facadePs->internalSystem());
+    } catch (std::exception& ex) {
+        m_ext_core->logger().logWarning("Failed to load data file: " + datasetFilePath + ". Error message: " + ex.what());
+    }
+}
 }

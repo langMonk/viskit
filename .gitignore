@@ -7,6 +7,9 @@
 *.bin
 *.txt
 *.csv
+*.DS_Store
+*.log
+**/__pycache__/
 
 /.idea
 /python/.idea
@@ -18,6 +21,7 @@
 /packages/
 /graphs/
 /python/viskit/__pycache__/
+/python/results
 
 # for clion and VS
 /viskit/cmake-build-*/

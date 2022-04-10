@@ -3,116 +3,151 @@
 /// \date 30.04.2019
 ///
 
-#include <viskit/parse/ParserCSV.h>
 #include <thread>
+#include <viskit/parse/ParserCSV.h>
 
-namespace viskit::parse
+namespace viskit::parse {
+namespace {
+    template <class T>
+    T remove_extension(T const& filename)
+    {
+        typename T::size_type const p(filename.find_last_of('.'));
+        return p > 0 && p != T::npos ? filename.substr(0, p) : filename;
+    }
+
+    std::string base_name(std::string const& path)
+    {
+        return path.substr(path.find_last_of("/\\") + 1);
+    }
+
+    std::string base_path(std::string const& path)
+    {
+        return path.substr(0, path.find_last_of("/\\") + 1);
+    }
+
+}
+
+ParserCSV::ParserCSV(core::System& system)
+    : Parser(system)
 {
-	namespace
-	{
-		template<class T>
-		T remove_extension(T const& filename)
-		{
-			typename T::size_type const p(filename.find_last_of('.'));
-			return p > 0 && p != T::npos ? filename.substr(0, p) : filename;
-		}
+}
 
-		std::string base_name(std::string const& path)
-		{
-			return path.substr(path.find_last_of("/\\") + 1);
-		}
+void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& labelsFilePath, particles::ParticleSystem& ps)
+{
+    auto datasetInput = std::ifstream(datasetFilePath.c_str());
+    auto labelsInput = std::ifstream(labelsFilePath.c_str());
 
-		std::string base_path(std::string const& path)
-		{
-			return path.substr(0, path.find_last_of("/\\") + 1);
-		}
+    viskit::DatasetInfo info;
+    info.fileName = remove_extension(base_name(datasetFilePath));
+    info.path = base_path(datasetFilePath);
 
-	}
+    datasetInput.clear();
+    datasetInput.seekg(0, std::ios::beg);
+    if (!datasetInput.good()) {
+        m_ext_system.logger().logError("[CSV Parser] Problems while opening the file : " + datasetFilePath);
+    } else {
+        m_ext_system.logger().logInfo("[CSV Parser] Loading dataset from file: " + datasetFilePath);
+    }
 
-	ParserCSV::ParserCSV(core::System& system)
-		: Parser(system)
-	{
+    labelsInput.clear();
+    labelsInput.seekg(0, std::ios::beg);
+    if (!labelsFilePath.empty() && !labelsInput.good()) {
+        m_ext_system.logger().logError("[CSV Parser] Problems while opening the file : " + labelsFilePath);
+    } else {
+        m_ext_system.logger().logInfo("[CSV Parser] Loading dataset from file: " + labelsFilePath);
+    }
 
-	}
+    std::string datasetLine;
+    std::string labelLine;
 
-	void ParserCSV::loadFile(const std::string& filePath, particles::ParticleSystem& ps)
-	{
-		auto input = std::ifstream(filePath.c_str());
+    particles::Dataset dataset;
+    std::vector<particles::DataPointLabel> labels;
 
-		viskit::DatasetInfo info;
-		info.fileName = remove_extension(base_name(filePath));
-		info.path = base_path(filePath);
+    size_t count = 0;
+    size_t dimensionality = 0;
 
-		input.clear();
-		input.seekg(0, std::ios::beg);
-		if (!input.good())
-		{
-			m_ext_system.logger().logError("[CSV Parser] Problems while opening the file : " + filePath);
-		}
-		else
-		{
-			m_ext_system.logger().logInfo("[CSV Parser] Loading dataset from file: " + filePath);
-		}
+    if (!labelsFilePath.empty()) {
+        m_ext_system.logger().logInfo("[CSV Parser] Labels file passed.");
 
-		std::string line;
+        while (std::getline(datasetInput, datasetLine)) {
+            std::getline(labelsInput, labelLine);
 
-		particles::Dataset dataset;
-		std::vector<particles::DataPointLabel> labels;
-					
-		size_t count = 0;
-        size_t dimensionality = 0;
-
-        while (std::getline(input, line))
-		{
             std::vector<std::string> stringVector;
-            tokenize(line, ',', stringVector);
+            tokenize(datasetLine, stringVector);
 
-            if (count == 0) { dimensionality = stringVector.size() - 1; }
+            if (count == 0) {
+                dimensionality = stringVector.size();
+            }
 
-            std::vector<float> floatVector(stringVector.size() - 1);
-            std::transform(stringVector.begin(), stringVector.end() - 1, floatVector.begin(), [&](const std::string& val)
-            {
-                return std::stof(val);
-            });
+            std::vector<float> floatVector(stringVector.size());
+            std::transform(stringVector.begin(), stringVector.end(), floatVector.begin(),
+                           [&](const std::string &val) {
+                               return std::stof(val);
+                           });
 
-            particles::DataPointLabel label = std::stoi(stringVector.back());
+            particles::DataPointLabel label = std::stoi(labelLine);
             dataset.push_back(std::make_pair(DataPoint(floatVector, count), label));
 
-            if (std::find(labels.begin(), labels.end(), label) == labels.end())
-            {
+            if (std::find(labels.begin(), labels.end(), label) == labels.end()) {
                 labels.emplace_back(label);
             }
 
             count++;
         }
-
-        ps.calculationData()->generate(count);
-
-        info.dimensionality = dimensionality;
-        info.count = count;
-
-        m_ext_system.logger().logInfo("[CSV Parser] Dataset size: " + std::to_string(info.count));
-        m_ext_system.logger().logInfo("[CSV Parser] Dataset dimensionality: " + std::to_string(info.dimensionality));
-        m_ext_system.logger().logInfo("[CSV Parser] Number of classes in dataset: " + std::to_string(labels.size()));
-
-        ps.setDataset(dataset, labels);
-		ps.datasetInfo(info);
-		finalize(ps);
-
-		m_ext_system.logger().logInfo("[CSV Parser] Finished.");
-
-		input.close();
-	}
-
-    void ParserCSV::tokenize(std::string &str, char delim, std::vector<std::string> &out)
+    }
+    else
     {
-        size_t start;
-        size_t end = 0;
+        m_ext_system.logger().logInfo("[CSV Parser] No labels file passed.");
 
-        while ((start = str.find_first_not_of(delim, end)) != std::string::npos)
-        {
-            end = str.find(delim, start);
-            out.push_back(str.substr(start, end - start));
+        while (std::getline(datasetInput, datasetLine)) {
+            std::vector<std::string> stringVector;
+            tokenize(datasetLine, stringVector);
+
+            if (count == 0) {
+                dimensionality = stringVector.size();
+            }
+
+            std::vector<float> floatVector(stringVector.size());
+            std::transform(stringVector.begin(), stringVector.end(), floatVector.begin(),
+                           [&](const std::string &val) {
+                               return std::stof(val);
+                           });
+
+            dataset.push_back(std::make_pair(DataPoint(floatVector, count), 0));
+
+            count++;
         }
     }
+
+    info.count = count;
+    info.dimensionality = dimensionality;
+    ps.calculationData()->generate(count);
+
+    m_ext_system.logger().logInfo("[CSV Parser] Dataset size: " + std::to_string(info.count));
+    m_ext_system.logger().logInfo("[CSV Parser] Dataset dimensionality: " + std::to_string(info.dimensionality));
+
+    if (!labelsFilePath.empty()) {
+        m_ext_system.logger().logInfo("[CSV Parser] Number of classes in dataset: " + std::to_string(labels.size()));
+    }
+
+    ps.setDataset(dataset, labels);
+    ps.datasetInfo(info);
+    finalize(ps);
+
+    m_ext_system.logger().logInfo("[CSV Parser] Finished.");
+
+    datasetInput.close();
+    labelsInput.close();
+}
+
+void ParserCSV::tokenize(std::string &str, std::vector<std::string> &out)
+{
+    size_t start;
+    size_t end = 0;
+
+    while ((start = str.find_first_not_of(44, end)) != std::string::npos) {
+        end = str.find(44, start);
+        out.push_back(str.substr(start, end - start));
+    }
+}
 }

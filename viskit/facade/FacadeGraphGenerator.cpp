@@ -5,10 +5,9 @@
 
 #include <viskit/facade/FacadeGraphGenerator.h>
 
-namespace viskit::facade
+namespace viskit::facade {
+FacadeGraphGenerator::FacadeGraphGenerator(std::shared_ptr<core::Core> core)
+    : m_ext_core(core)
 {
-	FacadeGraphGenerator::FacadeGraphGenerator(std::shared_ptr<core::Core> core)
-		: m_ext_core(core)
-	{
-	}
+}
 }
