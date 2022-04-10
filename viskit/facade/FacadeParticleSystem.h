@@ -58,7 +58,9 @@ namespace viskit::facade
 
 		bool empty() override;
 
-		bool saveToFile(const std::string& fileName) override;
+        bool saveToFile(const std::string& fileName) override;
+
+        bool saveToFile(const std::string& fileName, IGraph& graph) override;
 
 	private:
 		std::shared_ptr<core::Core> m_ext_core;

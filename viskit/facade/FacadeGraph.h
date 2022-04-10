@@ -46,9 +46,11 @@ namespace viskit::facade
 
 		void sort() override;
 
-		bool saveNearestNeighborsToCache(const std::string& fileName) override;
+        void removeRandomNeighbors() override;
 
-		bool loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead) override;
+        bool saveNearestNeighborsToCache(const std::string& fileName) override;
+
+		bool loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead, bool binaryDistances) override;
 		
 		void dump(std::string filePath, std::string fileName) override;
 
