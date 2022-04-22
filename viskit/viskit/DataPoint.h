@@ -14,18 +14,18 @@
 
 namespace viskit
 {
-	using DataPointId = size_t;
+    using DataPointId = size_t;
 
-	class DataPoint
-	{
-		// sub-types
-	public:
-		using iterator = float*;
-		using const_iterator = const float*;
+    class DataPoint
+    {
+        // sub-types
+    public:
+        using iterator = float*;
+        using const_iterator = const float*;
 
-		// construction and destruction methods
-	public: 
-		DataPoint(size_t size)
+        // construction and destruction methods
+    public:
+        DataPoint(size_t size)
                 : N(size)
                 , m_id(m_currentId++)
         {
@@ -46,8 +46,8 @@ namespace viskit
             m_id = id;
         }
 
-		// public methods
-	public:
+        // public methods
+    public:
         inline std::size_t size() const
         {
             return N;
@@ -83,36 +83,36 @@ namespace viskit
             return begin() + coords->size();
         }
 
-		DataPointId getId() { return m_id; }
-		DataPointId getId() const { return m_id; }
+        DataPointId getId() { return m_id; }
+        DataPointId getId() const { return m_id; }
 
-		// private members
-	private:
-		DataPointId m_id;
-		size_t N;
-		std::shared_ptr<std::vector<float>> coords;
-		static size_t m_currentId;
+        // private members
+    private:
+        DataPointId m_id;
+        size_t N;
+        std::shared_ptr<std::vector<float>> coords;
+        static size_t m_currentId;
 
-	};
+    };
 
-	inline float Distance(const DataPoint& one, const DataPoint& two)
-	{
-		assert(one.size() == two.size());
-		float result = 0.0;
-		for (std::size_t i = 0; i < one.size(); ++i)
-			result += (one[i] - two[i]) * (one[i] - two[i]);
-		return result;
-	}
+    inline float Distance(const DataPoint& one, const DataPoint& two)
+    {
+        assert(one.size() == two.size());
+        float result = 0.0;
+        for (std::size_t i = 0; i < one.size(); ++i)
+            result += (one[i] - two[i]) * (one[i] - two[i]);
+        return result;
+    }
 
-	inline bool operator==(const DataPoint& one, const DataPoint& two)
-	{
-		assert(one.size() == two.size());
-		return std::equal(one.begin(), one.end(), two.begin());
-	}
+    inline bool operator==(const DataPoint& one, const DataPoint& two)
+    {
+        assert(one.size() == two.size());
+        return std::equal(one.begin(), one.end(), two.begin());
+    }
 
-	inline bool operator!=(const DataPoint& one, const DataPoint& two)
-	{
-		assert(one.size() == two.size());
-		return !(one == two);
-	}
+    inline bool operator!=(const DataPoint& one, const DataPoint& two)
+    {
+        assert(one.size() == two.size());
+        return !(one == two);
+    }
 }
