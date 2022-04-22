@@ -341,17 +341,17 @@ void CasterLargeVis::calculatePositions(particles::ParticleSystem& ps)
     threading::ThreadPool threadPool(math::threads<>);
     std::vector<std::future<void>> results(math::threads<>);
 
-    visualize_thread(ps, 0);
-    //
-    //        for (int i = 0; i < math::threads<>; i++)
-    //        {
-    //            results[i] = threadPool.enqueue([this, &ps, i]()
-    //                                            {
-    //                                                visualize_thread(ps, i);
-    //                                            });
-    //        }
-    //        for (auto& result: results)
-    //            result.get();
+//    visualize_thread(ps, 0);
+
+    for (int i = 0; i < math::threads<>; i++)
+    {
+        results[i] = threadPool.enqueue([this, &ps, i]()
+        {
+            visualize_thread(ps, i);
+        });
+    }
+    for (auto& result: results)
+        result.get();
 }
 
 }
