@@ -73,6 +73,7 @@ class FaissGenerator:
                     if i != self.indexes[i][j]:
                         f.write(int(self.indexes[i][j]).to_bytes(8, byteorder="little"))
                         f.write(bytearray(struct.pack("f", self.distances[i][j])))
+            f.close()
 
     def save_to_text_file(self, output_file_path):
         with open(output_file_path, "w") as f:
@@ -90,9 +91,8 @@ class FaissGenerator:
 
 
 if __name__ == "__main__":
-    # dataset_path = "/Users/bartoszminch/Documents/Repositories/dataset_viskit/mnist_pca_100.csv"
-    dataset_path = "/Users/bartoszminch/Documents/Repositories/viskit/python/viskit/graph_generation/mnist_pca_100.csv"
-    generator = FaissGenerator(dataset_path, cosine_metric=True)
-    dist, ind = generator.run(nn=20)
-    generator.save_to_text_file("mnist_pca_100.csv")
-    generator.save_to_binary_file("mnist_pca_100.bin")
+    dataset_path = "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/smallnorb.csv"
+    generator = FaissGenerator(dataset_path, cosine_metric=False)
+    dist, ind = generator.run(nn=100)
+    generator.save_to_binary_file("smallnorb_euclidean.bin")
+    generator.save_to_text_file("smallnorb_euclidean.txt")
