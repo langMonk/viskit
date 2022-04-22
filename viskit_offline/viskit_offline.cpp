@@ -84,26 +84,27 @@ void performVisualization(const std::string& datasetFilePath,
 
     caster->initialize(*particleSystem, *graph);
     int i = 0;
-    viskit->subscribeOnCastingStepFinish([&i]  {
+    viskit->subscribeOnCastingStepFinish([&i] {
         if (i % 100 == 0) {
             std::cout << "Step: " << i << std::endl;
         }
         i++;
     });
-//    viskit->subscribeOnCastingStepFinish([&i, &randomGraphGenerator, &particleSystem, &graph, &graphHelper, &randomNeighborsCount, &binaryDistances]  {
-//        if (i % 100 == 0) {
-//            std::cout << "Step: " << i << std::endl;
-//        }
-//        if (i % 50 == 0)
-//        {
-//            graph->removeRandomNeighbors();
-//
-//            randomNeighborsCount > 0 ?
-//            randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances)
-//            : randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
-//        }
-//        i++;
-//    });
+
+    //    viskit->subscribeOnCastingStepFinish([&i, &randomGraphGenerator, &particleSystem, &graph, &graphHelper, &randomNeighborsCount, &binaryDistances]  {
+    //        if (i % 100 == 0) {
+    //            std::cout << "Step: " << i << std::endl;
+    //        }
+    //        if (i % 50 == 0)
+    //        {
+    //            graph->removeRandomNeighbors();
+    //
+    //            randomNeighborsCount > 0 ?
+    //            randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances)
+    //            : randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
+    //        }
+    //        i++;
+    //    });
 
     for (auto j = 0; j < iterations; j++) {
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
@@ -130,18 +131,59 @@ void performVisualization(const std::string& datasetFilePath,
 
 int main([[maybe_unused]] int argc, char** argv)
 {
-    const auto datasetFilePath = argv[1];
-    const auto labelsFilePath = argv[2];
-    const auto graphFilePath = argv[3];
-    const auto outputFilePath = argv[4];
-    const auto iterations = argv[5];
-    const auto nearestNeighborsCount = argv[6];
-    const auto randomNeighborsCount = argv[7];
-    const auto binaryDistances = argv[8];
-    const auto reverseNeighborsSteps = argv[9];
-    const auto reverseNeighborsCount = argv[10];
-    const auto l1Steps = argv[11];
-    std::string caster_name = argv[12];
+    std::string datasetFilePath;
+    std::string labelsFilePath;
+    std::string graphFilePath;
+    std::string outputFilePath;
+    int iterations;
+    int nearestNeighborsCount;
+    int randomNeighborsCount;
+    int binaryDistances;
+    int reverseNeighborsSteps;
+    int reverseNeighborsCount;
+    int l1Steps;
+    std::string caster_name;
+
+    switch (argc) {
+    case 5:
+        datasetFilePath = argv[1];
+        labelsFilePath = argv[2];
+        graphFilePath = argv[3];
+        outputFilePath = argv[4];
+        iterations = 2500;
+        nearestNeighborsCount = 2;
+        randomNeighborsCount = 1;
+        binaryDistances = true;
+        reverseNeighborsSteps = 0;
+        reverseNeighborsCount = 0;
+        l1Steps = 0;
+        caster_name = "force-directed";
+        break;
+
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+        throw std::invalid_argument("Invalid argument number. At least 4 paths are required: dataset, labels, graph, output or all 12 parameters");
+
+    case 13:
+        datasetFilePath = argv[1];
+        labelsFilePath = argv[2];
+        graphFilePath = argv[3];
+        outputFilePath = argv[4];
+        iterations = std::stoi(argv[5]);
+        nearestNeighborsCount = std::stoi(argv[6]);
+        randomNeighborsCount = std::stoi(argv[7]);
+        binaryDistances = boost::lexical_cast<bool>(argv[8]);
+        reverseNeighborsSteps = std::stoi(argv[9]);
+        reverseNeighborsCount = std::stoi(argv[10]);
+        l1Steps = std::stoi(argv[11]);
+        caster_name = argv[12];
+        break;
+
+    default:
+        throw std::invalid_argument("Invalid argument number. At least 4 paths are required: dataset, labels, graph, output or all 12 parameters");
+    }
 
     viskit::CasterType casterType = viskit::CasterType::IVHD;
     viskit::OptimizerType optimizerType = viskit::OptimizerType::None;
@@ -164,11 +206,15 @@ int main([[maybe_unused]] int argc, char** argv)
         optimizerType = viskit::OptimizerType::tSNE;
 
     performVisualization(datasetFilePath, labelsFilePath, graphFilePath, outputFilePath,
-        std::stoi(iterations), std::stoi(nearestNeighborsCount),
-        std::stoi(randomNeighborsCount),
-        boost::lexical_cast<bool>(binaryDistances),
-        std::stoi(reverseNeighborsSteps), std::stoi(reverseNeighborsCount), std::stoi(l1Steps),
+        iterations, nearestNeighborsCount,
+        randomNeighborsCount,
+        binaryDistances,
+        reverseNeighborsSteps, reverseNeighborsCount, l1Steps,
         casterType, optimizerType);
 
     return 0;
 }
+
+// Example usage:
+// viskit_offline "./datasets/mnist_data.csv" "./labels/mnist_labels.csv" "./graphs/mnist.bin" ./visualization.txt 2500 2 1 1 0 0 0 "force-directed"
+// viskit_offline "./datasets/mnist_data.csv" "./labels/mnist_labels.csv" "./graphs/mnist.bin" ./visualization.txt

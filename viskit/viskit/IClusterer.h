@@ -11,11 +11,11 @@
 
 namespace viskit
 {
-	class IClusterer : public virtual ITransformer
-	{
-		// public methods 
-	public:
+    class IClusterer : public virtual ITransformer
+    {
+        // public methods
+    public:
 
 
-	};
+    };
 }

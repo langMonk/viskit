@@ -10,13 +10,13 @@ namespace viskit
     class IParticleSystem;
     class IGraph;
 
-	/// <summary>
-	/// The public interface to objects, which will be able to transform between spaces.
-	/// </summary>
-	class ITransformer
-	{
-		// public methods
-	public:
+    /// <summary>
+    /// The public interface to objects, which will be able to transform between spaces.
+    /// </summary>
+    class ITransformer
+    {
+        // public methods
+    public:
         /// <summary>
         /// [Optional] Initialization process, which uses particle system and graph. Necessary for GPU casters.
         /// </summary>
@@ -36,9 +36,9 @@ namespace viskit
         /// <param name="graph"> Graph used for casting. </param>
         virtual void step(IParticleSystem& ps, IGraph& graph) = 0;
 
-		// protected construction and destruction methods
-	protected:
+        // protected construction and destruction methods
+    protected:
 
-		virtual ~ITransformer() = default;
-	};
+        virtual ~ITransformer() = default;
+    };
 }
