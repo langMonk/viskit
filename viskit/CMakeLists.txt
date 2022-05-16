@@ -131,8 +131,7 @@ set(VISKIT_SRC
     particles/ParticleSystem.cpp
     threading/ThreadPool.cpp
     utils/RandomColor.cpp
-    utils/TimeProfiler.cpp
-        )
+    utils/TimeProfiler.cpp)
 
 set(VISKIT_HEADERS ${VISKIT_HEADERS} PARENT_SCOPE)
 
@@ -193,6 +192,7 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/viskit-config.cmake.in
         ${PROJECT_BINARY_DIR}/cmake/viskit-config.cmake
         COPYONLY
         )
+
 install(FILES ${PROJECT_BINARY_DIR}/cmake/viskit-config.cmake
         ${PROJECT_BINARY_DIR}/cmake/viskit-config-version.cmake
         DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/viskit
