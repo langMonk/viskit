@@ -19,6 +19,7 @@ void FacadeParserCSV::loadFile(const std::string datasetFilePath, const std::str
         m_internalParser->loadFile(datasetFilePath, labelsFilePath, facadePs->internalSystem());
     } catch (std::exception& ex) {
         m_ext_core->logger().logWarning("Failed to load data file: " + datasetFilePath + ". Error message: " + ex.what());
+        throw std::ios_base::failure("Error: " + std::string(ex.what()));
     }
 }
 }

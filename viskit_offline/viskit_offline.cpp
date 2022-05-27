@@ -70,7 +70,12 @@ void performVisualization(const std::string& datasetFilePath,
     const auto casterRandom = viskit->resourceFactory().createCaster(
         viskit::CasterType::Random, viskit::OptimizerType::None);
 
-    parser->loadFile(datasetFilePath, labelsFilePath, *particleSystem);
+    try {
+        parser->loadFile(datasetFilePath, labelsFilePath, *particleSystem);
+    }
+    catch (std::exception& ex) {
+        return;
+    }
 
     graph->loadNearestNeighborsFromCache(graphFilePath, nearestNeighborsCount, binaryDistances);
 
