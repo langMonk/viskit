@@ -18,8 +18,9 @@ void FacadeParserCSV::loadFile(const std::string datasetFilePath, const std::str
         const auto facadePs = reinterpret_cast<FacadeParticleSystem*>(&ps);
         m_internalParser->loadFile(datasetFilePath, labelsFilePath, facadePs->internalSystem());
     } catch (std::exception& ex) {
-        m_ext_core->logger().logWarning("Failed to load data file: " + datasetFilePath + ". Error message: " + ex.what());
-        throw std::ios_base::failure("Error: " + std::string(ex.what()));
+        auto message = "Error message: " + std::string(ex.what());
+        m_ext_core->logger().logWarning(message);
+        throw std::ios_base::failure(message);
     }
 }
 }

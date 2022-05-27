@@ -38,16 +38,10 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
     viskit::DatasetInfo info;
 
     try{
-        std::basic_ifstream<char> datasetInput;
-        std::basic_ifstream<char> labelsInput;
-
-        datasetInput.exceptions(std::ifstream::failbit|std::ifstream::badbit);
-        labelsInput.exceptions(std::ifstream::failbit|std::ifstream::badbit);
-
         info.fileName = remove_extension(base_name(datasetFilePath));
         info.path = base_path(datasetFilePath);
 
-        datasetInput = std::ifstream(datasetFilePath.c_str());
+        auto datasetInput = std::ifstream(datasetFilePath.c_str());
         if (!datasetInput.is_open()) {
             throw std::invalid_argument("Could not open the dataset file");
         }
@@ -55,7 +49,7 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
         datasetInput.seekg(0, std::ios::beg);
         m_ext_system.logger().logInfo("[CSV Parser] Loading dataset from file: " + datasetFilePath);
 
-        labelsInput = std::ifstream(labelsFilePath.c_str());
+        auto labelsInput = std::ifstream(labelsFilePath.c_str());
         if (!labelsInput.is_open()) {
             throw std::invalid_argument("Could not open the labels file");
         }
