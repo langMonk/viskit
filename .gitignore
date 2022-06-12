@@ -5,7 +5,7 @@
 *.vcxproj.user
 *.knn
 *.bin
-*.txt
+# *.txt
 *.csv
 *.DS_Store
 *.log
@@ -33,3 +33,7 @@
 
 # for VSCode
 build/*
+
+# Additional ignores
+datasets/*
+labels/*

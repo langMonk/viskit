@@ -112,7 +112,7 @@ def print_matrix_info():
 
 def main():
     config = configparser.ConfigParser()
-    script_path = os.path.dirname(__file__)
+    script_path = os.path.dirname(os.path.abspath(__file__))
     config.read(script_path + "/config.ini")
 
     logging.basicConfig(level=logging.INFO, filename=config["Paths"]["LogsPath"])

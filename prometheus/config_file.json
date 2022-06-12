@@ -1,0 +1,45 @@
+{
+    "nodes": 1,
+    "ntasks": 12,
+    "time": "00:20:00",
+    "sockets-per-node": 2,
+    "partition": "plgrid-testing",
+    "account": "plgmpr22",
+
+    "download_image": false,
+    "verbose": true,
+    "image_name": "viskit_builder",
+    "docker_repo": "docker://maciejsikora2302/viskit",
+    "scriptFilePath": "/opt/viskit/viskit_offline/viskit_offline",
+
+    "common_parameters":
+    {
+        "datasetFilePath": "./data/datasets/mnist.csv" ,
+        "labelsFilePath": "./data/labels/mnist_label.txt" ,
+        "graphFilePath": "./data/graphs/mnist_cosine.bin" ,
+        "outputFilePath": "./visualization.txt",
+        "iterations": 200
+    },
+
+    "invocations": [
+        {
+            "iterations": 100 ,
+            "nearestNeighborsCount": 2,
+            "randomNeighborsCount": 1,
+            "binaryDistances": 1,
+            "reverseNeighborsSteps": 0,
+            "reverseNeighborsCount": 0,
+            "l1Steps": 0,
+            "casterType,": "adam"
+        },
+        {
+            "iterations": 300
+        },
+        {
+            "casterType,": "random"
+        },
+        {
+            
+        }
+    ]
+}
