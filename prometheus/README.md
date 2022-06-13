@@ -4,6 +4,8 @@ Following README file describes all assumptions made while creating this wrapper
 
 Wrapper created by Maciej Sikora for viskit library.
 
+I highly recommend reading through all of this readme. Step by step guide is avaiable [here](#step-by-step-commands).
+
 # How it works
 
 In main directory you can find a Docerfile containing formula for creating a docker image with all tools necesary for compilation and usage of viskit library. It is advised to run it for yourself and upload it to your public repository from which you will be able to download a docker image to a PROMETHEUS environment.
@@ -214,7 +216,37 @@ If they are not provided they will be taken from inside python code
     String  caster_name = "force-directed"
 
 
-# Singularity
+# Step by step commands
+
+Clone viskit 
+```sh
+git clone https://gitlab.com/bminch/viskit.git
+cd ./viskit
+```
+
+Build docker image
+```sh
+docker build --target builder -t your-repo-name/viskit_builder .
+```
+
+Push docker image to your remote repository
+```sh
+docker push your-repo-name/viskit_builder
+```
+Create _config.json_ file accoring to [tutorial](#json-config-structure) written above.  
+Create _start_script.sh_ file using _config.py_
+```sh
+cd ./prometheus
+python config.py -i ./config.json -o start_script.sh
+```
+
+Now login to prometheus cluster and using prefered method send data files to prometheus as well as _start_script.sh_.
+
+After that if it is your first run execute commands described in "[Singularity](#Singulariy)" chapter.
+
+When it is done, execute commands described in "[Running script on Prometheus](#running-script-on-prometheus)"
+
+## Singularity
 
 Docker is not avaiable on Prometheus, but singularity is, which is a framework that can work with docker images. For this script to work you will need to download viskit image from repo REPO LINK. You can provide it in script or run command youself.
 
@@ -229,7 +261,7 @@ srun -p plgrid-testing -N 1 --ntasks=2 -n 1 -A grant_name --time=01:00:00 --pty 
 srun -p plgrid -N 1 --ntasks=2 -n 1 -A grant_name --time=02:30:00 --pty /bin/bash -l
 ```
 After allocating run
-```
+```sh
 singularity pull img_name.sif repo_name
 ```
 For example:
@@ -237,7 +269,7 @@ For example:
 singularity pull viskit_builder.sif docker://maciejsikora2302/viskit
 ```
 
-# Running script on Prometheus
+## Running script on Prometheus
 After _.sif_ image has been create, and all datasets and start_script.sh have been copied to prometheus, run script created by config.py in batch mode and remember to add it executable permission.
 
 ```bash
@@ -245,6 +277,7 @@ chmod +x ./start_script.sh
 dos2unix ./start_script.sh
 sbatch start_script.sh
 ```
+
 
 ## Extra info
 
