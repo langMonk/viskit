@@ -20,9 +20,11 @@ set(INSTALL_GTEST CACHE BOOL OFF)
 FetchContent_MakeAvailable(googletest)
 
 find_package(OpenMP REQUIRED)
+find_package (Eigen3 3.3 REQUIRED)
 
 target_link_libraries(viskit_tests PRIVATE
         OpenMP::OpenMP_CXX
+        Eigen3::Eigen
         gtest_main
         )
 

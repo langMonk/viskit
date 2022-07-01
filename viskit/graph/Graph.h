@@ -55,7 +55,7 @@ namespace viskit::graph
 	private:
 		core::System& m_ext_system;
 
-		std::vector<std::vector<Neighbors>> m_data;
+        std::vector<std::vector<Neighbors>> m_data;
 
 	};
 }
