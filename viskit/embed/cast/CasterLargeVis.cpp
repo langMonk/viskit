@@ -7,15 +7,17 @@
 
 namespace viskit::embed::cast {
 CasterLargeVis::CasterLargeVis(const core::System& system)
-    : Caster(system)
+        : Caster(system)
 {
 }
+
+const gsl_rng_type *CasterLargeVis::gsl_T = nullptr;
+gsl_rng *CasterLargeVis::gsl_r = nullptr;
 
 CasterLargeVis::~CasterLargeVis()
 {
     delete[] vis;
     delete[] head;
-    delete[] neg_table;
     delete[] alias;
     delete[] prob;
 }
@@ -190,7 +192,7 @@ void CasterLargeVis::init_neg_table()
     std::vector<long long>(next).swap(next);
     delete[] head;
     head = nullptr;
-    neg_table = new int[NEGSIZE];
+
     dd = weights[0];
     for (i = x = 0; i < NEGSIZE; ++i) {
         neg_table[i] = x;
@@ -206,9 +208,9 @@ void CasterLargeVis::init_alias_table()
     alias = new long long[n_edge];
     prob = new float[n_edge];
 
-    float* norm_prob = new float[n_edge];
-    long long* large_block = new long long[n_edge];
-    long long* small_block = new long long[n_edge];
+    auto* norm_prob = new float[n_edge];
+    auto* large_block = new long long[n_edge];
+    auto* small_block = new long long[n_edge];
 
     float sum = 0;
     long long cur_small_block, cur_large_block;
@@ -248,52 +250,64 @@ void CasterLargeVis::init_alias_table()
     delete[] large_block;
 }
 
-long long CasterLargeVis::sample_an_edge(float rand_value1, float rand_value2)
+long long CasterLargeVis::sample_an_edge(double rand_value1, double rand_value2)
 {
     long long k = (long long)((n_edge - 0.1) * rand_value1);
     return rand_value2 <= prob[k] ? k : alias[k];
 }
 
-void CasterLargeVis::visualize_thread(particles::ParticleSystem& ps, int id)
+void CasterLargeVis::visualize_thread(particles::ParticleSystem& ps, unsigned int id)
 {
     auto& pos = ps.calculationData()->m_pos;
 
-    long long edge_count = 0, last_edge_count = 0;
     long long x, y, p, lx, ly, i, j;
     float f, g, gg, cur_alpha = INITIAL_ALPHA;
-    float* cur = new float[out_dim];
-    float* err = new float[out_dim];
+    std::vector<float> cur(out_dim);
+    std::vector<float> err(out_dim);
 
-    while (true) {
-        if (edge_count > N_SAMPLES / math::threads<> + 2)
-            break;
-        if (edge_count - last_edge_count > 10000) {
-            edge_count_actual += edge_count - last_edge_count;
-            last_edge_count = edge_count;
-            cur_alpha = INITIAL_ALPHA * (1 - edge_count_actual / (N_SAMPLES + 1.0));
+    std::vector<long long> ys(NEG_TABLE_CACHE_SIZE * N_NEGATIVES);
+    std::vector<long long> rs(NEG_TABLE_CACHE_SIZE * N_NEGATIVES);
+    int ys_counter = 0;
+
+    for (long long counter = 0; counter < n_samples/math::threads<> + 2; counter++) {
+        if (counter % 300000 == 0) {
+            edge_count_actual += 300000;
+            cur_alpha = INITIAL_ALPHA * (1 - edge_count_actual / (n_samples + 1.0));
             if (cur_alpha < INITIAL_ALPHA * 0.0001)
                 cur_alpha = INITIAL_ALPHA * 0.0001;
-            printf("%cFitting model\tAlpha: %f Progress: %.3lf%%", 13, cur_alpha,
-                (float)edge_count_actual / (float)(N_SAMPLES + 1) * 100);
-            fflush(stdout);
+            std::cout << "Fitting model\tAlpha: " << cur_alpha << " Progress: "
+                      << (float) edge_count_actual / (float) (n_samples + 1) * 100 << std::endl;
         }
 
-        float r1 = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-        float r2 = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        if(counter % NEG_TABLE_CACHE_SIZE == 0) {
+            ys_counter = 0;
 
-        p = sample_an_edge(r1, r2);
+            for (int idx = 0; idx < NEG_TABLE_CACHE_SIZE * N_NEGATIVES; ++idx) {
+                double r = gsl_rng_uniform(gsl_r);
+                rs[idx] = floor(r * (NEGSIZE - 0.1));
+            }
+            for (int idx = 0; idx < NEG_TABLE_CACHE_SIZE * N_NEGATIVES; ++idx) {
+                ys[idx] = neg_table[rs[idx]];
+            }
+        }
+        p = sample_an_edge(gsl_rng_uniform(gsl_r), gsl_rng_uniform(gsl_r));
         x = edge_from[p];
         y = edge_to[p];
         lx = x * out_dim;
-        for (i = 0; i < out_dim; ++i)
-            cur[i] = vis[lx + i], err[i] = 0;
+        for (i = 0; i < out_dim; ++i) {
+            cur[i] = vis[lx + i];
+            err[i] = 0;
+        }
+
         for (i = 0; i < N_NEGATIVES + 1; ++i) {
             if (i > 0) {
-                float r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-                y = neg_table[(unsigned long long)floor(r * (NEGSIZE - 0.1))];
+                y = ys[ys_counter];
+                ys_counter++;
+
                 if (y == edge_to[p])
                     continue;
             }
+
             ly = y * out_dim;
             for (j = 0, f = 0; j < out_dim; ++j)
                 f += A * (cur[j] - vis[ly + j]) * (cur[j] - vis[ly + j]);
@@ -305,25 +319,24 @@ void CasterLargeVis::visualize_thread(particles::ParticleSystem& ps, int id)
                 gg = g * (cur[j] - vis[ly + j]);
                 if (gg > grad_clip)
                     gg = grad_clip;
-                if (gg < -grad_clip)
+                else if (gg < -grad_clip)
                     gg = -grad_clip;
                 err[j] += gg * cur_alpha;
 
                 gg = g * (vis[ly + j] - cur[j]);
                 if (gg > grad_clip)
                     gg = grad_clip;
-                if (gg < -grad_clip)
+                else if (gg < -grad_clip)
                     gg = -grad_clip;
                 vis[ly + j] += gg * cur_alpha;
             }
         }
+
         for (j = 0; j < out_dim; ++j)
             vis[lx + j] += err[j];
 
-        ++edge_count;
-
-        glm::vec4& posX = pos[x];
-        glm::vec4& posY = pos[y];
+        glm::vec4 &posX = pos[x];
+        glm::vec4 &posY = pos[y];
 
         posX.x = vis[lx];
         posX.y = vis[lx + 1];
@@ -331,24 +344,29 @@ void CasterLargeVis::visualize_thread(particles::ParticleSystem& ps, int id)
         posY.x = vis[ly];
         posY.y = vis[ly + 1];
     }
-
-    delete[] cur;
-    delete[] err;
 }
 
 void CasterLargeVis::calculatePositions(particles::ParticleSystem& ps)
 {
+    gsl_rng_env_setup();
+    gsl_T = gsl_rng_rand48;
+    gsl_r = gsl_rng_alloc(gsl_T);
+    gsl_rng_set(gsl_r, 314159265);
+
+    if (n_vertices < 10000)
+        n_samples = 1000;
+    else if (n_vertices < 1000000)
+        n_samples = (n_vertices - 10000) * 9000 / (1000000 - 10000) + 1000;
+    else n_samples = n_vertices / 100;
+    n_samples *= 1000000;
+
     threading::ThreadPool threadPool(math::threads<>);
     std::vector<std::future<void>> results(math::threads<>);
-
-//    visualize_thread(ps, 0);
-
     for (int i = 0; i < math::threads<>; i++)
     {
-        results[i] = threadPool.enqueue([this, &ps, i]()
-        {
-            visualize_thread(ps, i);
-        });
+        results[i] = threadPool.enqueue(
+                [this, &ps, i](){visualize_thread(ps, i);}
+                );
     }
     for (auto& result: results)
         result.get();

@@ -8,7 +8,7 @@
 namespace viskit::math
 {
 	template<class T = size_t>
-	constexpr T threads = T(4);
+	constexpr T threads = T(8);
 
 	template<class T = float>
 	constexpr T pi = T(3.14159265358979323846);

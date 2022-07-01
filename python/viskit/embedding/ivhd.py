@@ -17,7 +17,7 @@ def run_command(command):
             break
         if output:
             msg = output.strip()
-            print(msg)
+            print(f"> {msg.decode()}")
             logging.info(msg)
 
     rc = process.poll()
@@ -26,16 +26,16 @@ def run_command(command):
 
 class Ivhd:
     def __init__(
-        self,
-        graph_path: str = None,
-        n_iter: int = 500,
-        nn: int = 2,
-        rn: int = 1,
-        binaryDistances: bool = True,
-        reverse_neighbors_steps: int = 0,
-        reverse_neighbors_count: int = 4,
-        l1_steps: int = 50,
-        optimizer: str = "force-directed",
+            self,
+            graph_path: str = None,
+            n_iter: int = 500,
+            nn: int = 2,
+            rn: int = 1,
+            binaryDistances: bool = True,
+            reverse_neighbors_steps: int = 0,
+            reverse_neighbors_count: int = 4,
+            l1_steps: int = 50,
+            optimizer: str = "force-directed",
     ):
         self.graph_path = graph_path
         self.n_iter = n_iter
@@ -97,8 +97,9 @@ class Ivhd:
             str(self.l1_steps),
             self.optimizer,
         )
-
-        run_command(args)
+        if (exit_code := run_command(args)) != 0:
+            print(f"EXIT CODE: {exit_code}")
+            return None
 
         X, Y, labels, nn, rn = np.loadtxt(
             output_path,

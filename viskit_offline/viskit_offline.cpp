@@ -110,7 +110,6 @@ void performVisualization(const std::string& datasetFilePath,
     //        }
     //        i++;
     //    });
-
     for (auto j = 0; j < iterations; j++) {
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
@@ -211,6 +210,8 @@ int main([[maybe_unused]] int argc, char** argv)
         optimizerType = viskit::OptimizerType::tSNE;
     else if (caster_name == "sgd")
         optimizerType = viskit::OptimizerType::SGD;
+    else
+        throw std::invalid_argument("Unknown caster type: " + caster_name);
 
     performVisualization(datasetFilePath, labelsFilePath, graphFilePath, outputFilePath,
         iterations, nearestNeighborsCount,

@@ -10,6 +10,9 @@
 #include <viskit/threading/ThreadPool.h>
 #include <viskit/math/IvhdMath.h>
 
+#include <gsl/gsl_rng.h>
+#include <array>
+
 namespace viskit::embed::cast
 {
     class CasterLargeVis final : public Caster
@@ -31,6 +34,9 @@ namespace viskit::embed::cast
         void calculatePositions(particles::ParticleSystem& ps) override;
 
     private:
+        static const gsl_rng_type * gsl_T;
+        static gsl_rng * gsl_r;
+
         /// number of neighbours.
         int knn;
 
@@ -61,12 +67,15 @@ namespace viskit::embed::cast
         /// for each edge 'i' store it`s weight 'w' as edge_weight[i] == w.
         std::vector<float> edge_weight;
 
+        /// size of negative samples table.
+        static const int NEGSIZE = 1e8;
+
         /// stores IDs of negative edges with repetitions. Number of repetitions is
         /// proportional to weight of the edge.
-        int* neg_table;
+        std::array<int, NEGSIZE> neg_table;
 
-        /// size of negative samples table.
-        int NEGSIZE = 1e8;
+        /// NEG_TABLE_CACHE_SIZE times N_NEGATIVES is the size of table that stores cached values from neg_table
+        int NEG_TABLE_CACHE_SIZE = 75000;
 
         /// for each edge 'i', it`s probability of being sampled (rather than it`s alias edge) 'pr' is prob[i] == pr.
         float* prob;
@@ -82,7 +91,7 @@ namespace viskit::embed::cast
         /// array storing embedding. (for smoother transitions, ParticleSystem is updated after sampling positive and
         /// all negatives edges of an iteration). For each vertice 'p', it`s embedding is stored in vis[out_dims * p + 0],
         /// vis[out_dims * p + 1], ... vis[out_dims * p + (out_dims - 1)]
-        float* vis;
+        float*  vis;
 
 
         // TUNABLE PARAMETERS:
@@ -91,7 +100,8 @@ namespace viskit::embed::cast
         #define INTERACTIVE
 
         /// number of total edges to be sampled.
-        int N_SAMPLES = 1600 * 1000000;
+        int n_samples;
+
 
         /// variable used to share total number of edges processed by all visualization threads.
         int edge_count_actual = 0;
@@ -164,11 +174,11 @@ namespace viskit::embed::cast
         /// <param name="rand_value2"> Uniformly distributed random value from (0, 1) indicating whether to use
         /// current edge or it`s alias based on edge probability. </param>
         /// <returns> ID of chosen edge. </returns>
-        long long sample_an_edge(float rand_value1, float rand_value2);
+        long long sample_an_edge(double rand_value1, double rand_value2);
 
         /// <summary>
         /// Worker thread computing embedding.
         /// </summary>
-        void visualize_thread(particles::ParticleSystem& ps, int id);
+        void visualize_thread(particles::ParticleSystem& ps, unsigned int id);
     };
 }
