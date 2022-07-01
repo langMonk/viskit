@@ -3,8 +3,8 @@
 namespace viskit::facade {
 FacadeCasterSGD::FacadeCasterSGD(const std::shared_ptr<core::Core>& core)
     : FacadeCaster(core)
-    , m_internalCaster(std::make_shared<viskit::embed::cast::ivhd::CasterSGD>(core->system()))
 {
+    m_internalCaster = std::make_shared<embed::cast::ivhd::CasterSGD>(core->system());
 }
 
 void FacadeCasterSGD::calculatePositions(IParticleSystem& ps)

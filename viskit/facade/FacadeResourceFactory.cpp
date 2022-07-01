@@ -19,6 +19,7 @@
 #include <viskit/facade/FacadeParserCSV.h>
 #include <viskit/facade/FacadeResourceFactory.h>
 #include <viskit/facade/metrics/FacadeKnnMetric.h>
+#include "FacadeCasterSGD.h"
 
 namespace viskit::facade {
 FacadeResourceFactory::FacadeResourceFactory(FacadeInteractiveVisualization& ivhd)
@@ -72,6 +73,8 @@ std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(const CasterType ty
         caster = std::make_shared<FacadeCasterLargeVis>(m_ext_viskit.core());
     } else if (type == CasterType::IVHD && optimizer == OptimizerType::tSNE) {
         caster = std::make_shared<FacadeCasterTSNE>(m_ext_viskit.core());
+    } else if (type == CasterType::IVHD && optimizer == OptimizerType::SGD) {
+        caster = std::make_shared<FacadeCasterSGD>(m_ext_viskit.core());
     }
 
     return caster;
