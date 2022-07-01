@@ -58,6 +58,7 @@ namespace viskit
         IVHD,
         LargeVis,
         tSNE,
+        UMAP,
         Random
     };
 

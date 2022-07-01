@@ -15,6 +15,14 @@ set(VISKIT_HEADERS
     embed/cast/CasterRandom.h
     embed/cast/CasterLargeVis.h
     embed/cast/ICaster.h
+    embed/cast/umap/CasterUMAP.h
+    embed/cast/umap/Umap.h
+    embed/cast/umap/combine_neighbor_sets.h
+    embed/cast/umap/find_ab.h
+    embed/cast/umap/neighbor_similarities.h
+    embed/cast/umap/NeighborList.h
+    embed/cast/umap/optimize_layout.h
+    embed/cast/umap/spectral_init.h
     facade/FacadeCaster.h
     facade/FacadeCasterAdadelta.h
     facade/FacadeCasterAdam.h
@@ -25,6 +33,7 @@ set(VISKIT_HEADERS
     facade/FacadeCasterTSNE.h
     facade/FacadeCasterSGD.h
     facade/FacadeCasterLargeVis.h
+    facade/FacadeCasterUMAP.h
     facade/FacadeGraph.h
     facade/FacadeGraphGenerator.h
     facade/FacadeGraphGeneratorBruteForce.h
@@ -94,6 +103,7 @@ set(VISKIT_SRC
     embed/cast/Caster.cpp
     embed/cast/CasterRandom.cpp
     embed/cast/CasterLargeVis.cpp
+    embed/cast/umap/CasterUMAP.cpp
     embed/cast/ivhd/CasterTSNE.cpp
     facade/FacadeCaster.cpp
     facade/FacadeCasterAdadelta.cpp
@@ -105,6 +115,7 @@ set(VISKIT_SRC
     facade/FacadeCasterTSNE.cpp
     facade/FacadeCasterSGD.cpp
     facade/FacadeCasterLargeVis.cpp
+    facade/FacadeCasterUMAP.cpp
     facade/FacadeGraph.cpp
     facade/FacadeGraphGenerator.cpp
     facade/FacadeGraphGeneratorBruteForce.cpp
@@ -137,7 +148,9 @@ set(VISKIT_HEADERS ${VISKIT_HEADERS} PARENT_SCOPE)
 
 add_library(viskit ${VISKIT_SRC})
 
-target_include_directories(viskit PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>)
+target_include_directories(viskit PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+    )
 
 set_target_properties(viskit PROPERTIES
     POSITION_INDEPENDENT_CODE ON
@@ -154,8 +167,10 @@ find_package(GSL REQUIRED)    # See below (2)
 target_link_libraries(viskit PRIVATE GSL::gsl GSL::gslcblas)
 
 find_package(OpenMP REQUIRED)
-target_link_libraries(viskit PRIVATE OpenMP::OpenMP_CXX)
+find_package (Eigen3 3.3 REQUIRED)
+target_link_libraries(viskit PRIVATE OpenMP::OpenMP_CXX Eigen3::Eigen)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
+
 
 find_package(MKL)
 if(MKL_FOUND)

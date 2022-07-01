@@ -84,8 +84,10 @@ void performVisualization(const std::string& datasetFilePath,
             reverseNeighborsCount, binaryDistances);
     }
 
-    randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
-    casterRandom->calculatePositions(*particleSystem);
+    if (casterType == viskit::CasterType::IVHD) {
+        randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
+        casterRandom->calculatePositions(*particleSystem);
+    }
 
     caster->initialize(*particleSystem, *graph);
     int i = 0;
@@ -130,7 +132,7 @@ void performVisualization(const std::string& datasetFilePath,
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
 
-    particleSystem->saveToFile(outputFilePath, *graph);
+    particleSystem->saveToFile(outputFilePath);
 }
 
 int main([[maybe_unused]] int argc, char** argv)
@@ -206,6 +208,8 @@ int main([[maybe_unused]] int argc, char** argv)
         casterType = viskit::CasterType::Random;
     else if (caster_name == "largevis")
         casterType = viskit::CasterType::LargeVis;
+    else if (caster_name == "umap")
+        casterType = viskit::CasterType::UMAP;
     else if (caster_name == "t-sne")
         optimizerType = viskit::OptimizerType::tSNE;
     else if (caster_name == "sgd")
