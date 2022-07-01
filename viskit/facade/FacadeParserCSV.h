@@ -30,7 +30,6 @@ namespace viskit::facade
 		// public methods
 	public:
 		void loadFile(std::string datasetFilePath, std::string labelsFilePath, IParticleSystem& ps) override;
-
 		// private members
 	private:
 		std::shared_ptr<viskit::parse::ParserCSV> m_internalParser;

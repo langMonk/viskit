@@ -20,24 +20,52 @@ std::vector<std::pair<DataPoint, size_t>> FacadeParticleSystem::originalCoordina
     return m_internalParticleSystem->originalCoordinates();
 }
 
-glm::vec4* FacadeParticleSystem::positions()
+std::vector<viskit::vec4> FacadeParticleSystem::positions()
 {
-    return m_internalParticleSystem->calculationData()->m_pos.data();
-};
+    auto data = m_internalParticleSystem->calculationData()->m_pos;
 
-glm::vec4* FacadeParticleSystem::forces()
-{
-    return m_internalParticleSystem->calculationData()->m_force.data();
-};
+    std::vector<viskit::vec4> temp;
+    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value){
+        temp.emplace_back(value.x, value.y, value.z, value.w);
+    });
 
-glm::vec4* FacadeParticleSystem::velocities()
-{
-    return m_internalParticleSystem->calculationData()->m_vel.data();
-};
+    return temp;
+}
 
-glm::vec4* FacadeParticleSystem::colors()
+std::vector<viskit::vec4> FacadeParticleSystem::forces()
 {
-    return m_internalParticleSystem->calculationData()->m_col.data();
+    auto data = m_internalParticleSystem->calculationData()->m_force;
+
+    std::vector<viskit::vec4> temp;
+    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value){
+        temp.emplace_back(value.x, value.y, value.z, value.w);
+    });
+
+    return temp;
+}
+
+std::vector<viskit::vec4> FacadeParticleSystem::velocities()
+{
+    auto data = m_internalParticleSystem->calculationData()->m_vel;
+
+    std::vector<viskit::vec4> temp;
+    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value){
+        temp.emplace_back(value.x, value.y, value.z, value.w);
+    });
+
+    return temp;
+}
+
+std::vector<viskit::vec4> FacadeParticleSystem::colors()
+{
+    auto data = m_internalParticleSystem->calculationData()->m_col;
+
+    std::vector<viskit::vec4> temp;
+    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value){
+        temp.emplace_back(value.x, value.y, value.z, value.w);
+    });
+
+    return temp;
 }
 
 std::vector<size_t> FacadeParticleSystem::labels()
@@ -109,7 +137,6 @@ bool FacadeParticleSystem::saveToFile(const std::string& fileName, IGraph& graph
         return false;
     }
 }
-
 
 DatasetInfo FacadeParticleSystem::datasetInfo()
 {

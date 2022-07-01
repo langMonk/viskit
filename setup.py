@@ -119,16 +119,15 @@ class CMakeBuild(build_ext):
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
-    name="pyviskit",
+    name="pyviskit_bindings",
     version="0.0.1",
-    author="Bartosz Minch",
+    author="Bartosz Minch, Dawid Dębowski, Radosław Szuma",
     author_email="minch@agh.edu.pl",
     description="A python bindings created with pybind11 for viskit library.",
     long_description="",
-    ext_modules=[CMakeExtension("pyviskit")],
+    ext_modules=[CMakeExtension("pyviskit_bindings")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     extras_require={"test": ["pytest>=6.0"]},
-    python_requires=">=3.6",
-
+    python_requires=">=3.6"
 )

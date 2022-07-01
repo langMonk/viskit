@@ -52,7 +52,7 @@ namespace viskit::facade
 
 		FacadeResourceFactory m_resourceFactory {*this};
 
-		CastingStepFinishedCallback m_onCastingStepFinished;
+		CastingStepFinishedCallback m_onCastingStepFinished = nullptr;
 		
 		bool m_castingRunning {false};
 		

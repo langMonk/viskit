@@ -22,6 +22,5 @@ namespace viskit
         /// <param name="labelsFilePath"> Path to file containing labels.</param>
         /// <param name="ps"> Particle system which should be casted by this caster.</param>
         virtual void loadFile(std::string datasetFilePath, std::string labelsFilePath, IParticleSystem& ps) = 0;
-
     };
 }

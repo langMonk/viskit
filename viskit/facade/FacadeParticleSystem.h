@@ -38,13 +38,13 @@ namespace viskit::facade
 
 		std::vector<std::pair<DataPoint, size_t>> originalCoordinates() override;
 
-        glm::vec4* positions() override;
+        std::vector<viskit::vec4> positions() override;
 
-        glm::vec4* velocities() override;
+        std::vector<viskit::vec4> velocities() override;
 
-        glm::vec4* forces() override;
+        std::vector<viskit::vec4> forces() override;
 
-        glm::vec4* colors() override;
+        std::vector<viskit::vec4> colors() override;
 
 		std::vector<size_t> labels() override;
 	

@@ -1,11 +1,14 @@
 //
-// Created by Dawid on 02.05.2022.
+// \author Dawid Dębowski <ddebowsk@student.agh.edu.pl>
+// \date 02.05.2022.
 //
 
 #include <pybind11/pybind11.h>
 
 #include "viskit/python/bindings/PyCasterBinding.h"
 #include "viskit/viskit/ICaster.h"
+#include "viskit/facade/FacadeCaster.h"
+#include "viskit/facade/FacadeCasterRandom.h"
 #include "viskit/viskit/IParticleSystem.h"
 #include "viskit/viskit/IGraph.h"
 
@@ -81,7 +84,7 @@ namespace viskit::python::bindings{
 
 
     void PyCasterBinding::bind(pybind11::module &m) {
-        py::class_<viskit::ICaster, viskit::ITransformer, python::bindings::PyCasterBinding>(m, "ICaster")
+        py::class_<viskit::ICaster, std::shared_ptr<viskit::ICaster>, viskit::ITransformer, python::bindings::PyCasterBinding>(m, "ICaster")
                 .def(py::init<>())
                 .def("calculatePositions", &viskit::ICaster::calculatePositions)
                 .def("calculateForces", &viskit::ICaster::calculateForces)

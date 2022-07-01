@@ -1,5 +1,6 @@
 //
-// Created by Dawid on 02.05.2022.
+// \author Dawid Dębowski <ddebowsk@student.agh.edu.pl>
+// \date 02.05.2022.
 //
 
 #include <pybind11/pybind11.h>
@@ -77,7 +78,13 @@ namespace viskit::python::bindings
                 .def("createMetricCalculator", &viskit::IResourceFactory::createMetricCalculator);
 
         py::class_<viskit::facade::FacadeResourceFactory, viskit::IResourceFactory>(m, "FacadeResourceFactory")
-                .def(py::init<viskit::facade::FacadeInteractiveVisualization&>());
+                .def(py::init<viskit::facade::FacadeInteractiveVisualization&>())
+                .def("createParser", &viskit::facade::FacadeResourceFactory::createParser)
+                .def("createParticleSystem", &viskit::facade::FacadeResourceFactory::createParticleSystem)
+                .def("createGraph", &viskit::facade::FacadeResourceFactory::createGraph)
+                .def("createGraphGenerator", &viskit::facade::FacadeResourceFactory::createGraphGenerator)
+                .def("createMetricCalculator", &viskit::facade::FacadeResourceFactory::createMetricCalculator)
+                .def("createCaster", &viskit::facade::FacadeResourceFactory::createCaster);
     }
 };
 

@@ -1,15 +1,19 @@
 //
-// Created by Dawid on 02.05.2022.
+// \author Dawid Dębowski <ddebowsk@student.agh.edu.pl>
+// \date 02.05.2022.
 //
 
 #include <pybind11/pybind11.h>
+#include <pybind11/functional.h>
 
 #include "viskit/python/bindings/PyInteractiveVisualizationBinding.h"
 #include "viskit/viskit/IInteractiveVisualization.h"
+#include "viskit/viskit/InteractiveVisualizationBuilder.h"
 #include "viskit/viskit/IResourceFactory.h"
 #include "viskit/viskit/IGraph.h"
 #include "viskit/viskit/ICaster.h"
 #include "viskit/viskit/IParticleSystem.h"
+#include "viskit/facade/FacadeInteractiveVisualization.h"
 
 namespace py = pybind11;
 using namespace py::literals;
@@ -58,12 +62,23 @@ namespace viskit::python::bindings
 
         py::class_<viskit::IInteractiveVisualization, std::unique_ptr<viskit::IInteractiveVisualization, py::nodelete>, PyInteractiveVisualizationBinding>(m, "IInteractiveVisualization")
                 .def(py::init<>())
-                .def("resourceFactory", &viskit::IInteractiveVisualization::resourceFactory)
+                .def("resourceFactory", &viskit::IInteractiveVisualization::resourceFactory,py::return_value_policy::reference)
                 .def("computeCastingStep", &viskit::IInteractiveVisualization::computeCastingStep)
                 .def("calculateBoundingBox", &viskit::IInteractiveVisualization::calculateBoundingBox)
                 .def("subscribeOnCastingStepFinish", &viskit::IInteractiveVisualization::subscribeOnCastingStepFinish);
 
-//        py::class_<viskit::facade::FacadeInteractiveVisualization, viskit::IInteractiveVisualization>(m, "FacadeInteractiveVisualization")
-//                .def(py::init<viskit::LogHandler>());
+        py::class_<viskit::facade::FacadeInteractiveVisualization, std::unique_ptr<viskit::facade::FacadeInteractiveVisualization, py::nodelete>, viskit::IInteractiveVisualization>(m, "FacadeInteractiveVisualization")
+                .def(py::init<const viskit::LogHandler&>())
+                .def("resourceFactory", &viskit::facade::FacadeInteractiveVisualization::resourceFactory, py::return_value_policy::reference)
+                .def("computeCastingStep", [](viskit::facade::FacadeInteractiveVisualization& self, viskit::IParticleSystem& ps, viskit::IGraph& graph, viskit::ICaster& caster) -> void {
+                    self.computeCastingStep(ps, graph, caster);
+                })
+                .def("calculateBoundingBox", &viskit::facade::FacadeInteractiveVisualization::calculateBoundingBox)
+                .def("subscribeOnCastingStepFinish", &viskit::facade::FacadeInteractiveVisualization::subscribeOnCastingStepFinish);
+
+        m.def("create_viskit", &viskit::createViskit, py::arg("logHandler") = viskit::LogHandler{});
     }
+
+
+
 }
