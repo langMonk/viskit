@@ -148,8 +148,10 @@ if(WIN32)
     target_compile_definitions(viskit PRIVATE VISKIT_MAIN_LIB)
 endif()
 
-
 target_compile_definitions(viskit PRIVATE FINTEGER=int)
+
+find_package(GSL REQUIRED)    # See below (2)
+target_link_libraries(viskit PRIVATE GSL::gsl GSL::gslcblas)
 
 find_package(OpenMP REQUIRED)
 target_link_libraries(viskit PRIVATE OpenMP::OpenMP_CXX)

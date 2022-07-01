@@ -9,7 +9,7 @@ project(viskit
 include(GNUInstallDirs)
 
 # set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++)
-
+set(CMAKE_CXX_FLAGS "-O2")
 set(VISKIT_VERSION 0.5.1)
 set(CMAKE_CXX_STANDARD 17)
 set( CMAKE_CXX_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden" )

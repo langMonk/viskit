@@ -119,9 +119,8 @@ def main():
 
     dataset_files = [
         {
-            "dataset": "/Users/bartoszminch/Documents/Repositories/viskit/python/viskit/knn_graph"
-            "/mnist_pca_100.csv",
-            "graph": "/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
+            "dataset": "/home/tmek1244/CLionProjects/viskit/assets/resources/mnist_2500.csv",
+            "graph": "/home/tmek1244/CLionProjects/viskit/assets/resources/mnist_7k_graph.bin",
         },
         # "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_50_2_all.csv",
         # "/Users/bartoszminch/Documents/Repositories/dataset_viskit/mnist.csv",
@@ -221,17 +220,30 @@ def main():
         #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
         #     ),
         # },
+        # {
+        #     "name": "Ivhd",
+        #     "object": Ivhd(
+        #         optimizer="force-directed",
+        #         n_iter=2500,
+        #         nn=3,
+        #         rn=1,
+        #         l1_steps=0,
+        #         reverse_neighbors_steps=500,
+        #         reverse_neighbors_count=6,
+        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
+        #     ),
+        # },
         {
-            "name": "Ivhd",
+            "name": "Largevis",
             "object": Ivhd(
-                optimizer="force-directed",
-                n_iter=2500,
+                optimizer="largevis",
+                n_iter=1,
                 nn=3,
                 rn=1,
                 l1_steps=0,
-                reverse_neighbors_steps=500,
+                reverse_neighbors_steps=0,
                 reverse_neighbors_count=6,
-                graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
+                # graph_path="/home/tmek1244/CLionProjects/viskit/assets/resources/mnist_7k_graph.bin",
             ),
         },
         # {
@@ -316,11 +328,12 @@ def main():
             )
 
             start = time.time()
-            X_embedded = method["object"].fit_transform(X)
+            X_embedded = method["object"].fit_transform(X, labels)
             end = time.time()
             logging.info("Embedding time: {}".format(end - start))
+            print("Embedding time: {}".format(end - start))
 
-            draw_2d_sns(X_embedded[:, 0], X_embedded[:, 1], labels)
+            draw_2d_sns(X_embedded[0][:, 0], X_embedded[0][:, 1], labels)
 
             # fig.legend(labels=labels, markerscale=4.0, loc="right", fontsize=20)
 
