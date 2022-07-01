@@ -38,7 +38,5 @@ namespace viskit::facade
 		OptimizerType optimizerType() override { return OptimizerType::SGD; }
 		
 		// private members
-	private:
-		std::shared_ptr<embed::cast::ivhd::CasterSGD> m_internalCaster;
 	};
 }

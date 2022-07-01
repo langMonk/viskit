@@ -209,6 +209,8 @@ int main([[maybe_unused]] int argc, char** argv)
         casterType = viskit::CasterType::LargeVis;
     else if (caster_name == "t-sne")
         optimizerType = viskit::OptimizerType::tSNE;
+    else if (caster_name == "sgd")
+        optimizerType = viskit::OptimizerType::SGD;
 
     performVisualization(datasetFilePath, labelsFilePath, graphFilePath, outputFilePath,
         iterations, nearestNeighborsCount,
