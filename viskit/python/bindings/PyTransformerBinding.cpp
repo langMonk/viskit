@@ -1,5 +1,6 @@
 //
-// Created by Dawid on 02.05.2022.
+// \author Dawid Dębowski <ddebowsk@student.agh.edu.pl>
+// \date 02.05.2022.
 //
 
 #include <pybind11/pybind11.h>
@@ -40,7 +41,7 @@ namespace viskit::python::bindings
 
     void PyTransformerBinding::bind(pybind11::module &m) {
 
-        py::class_<viskit::ITransformer, std::unique_ptr<viskit::ITransformer, py::nodelete>, PyTransformerBinding>(m, "ITransformer")
+        py::class_<viskit::ITransformer, std::shared_ptr<viskit::ITransformer>, PyTransformerBinding>(m, "ITransformer")
                 // according to documentation, fully virtual classes should also have constructors. It's possible to use them in python
                 // but then method invocations ends with errors. Without them however we cannot extend them in pure python classes.
                 .def(py::init<>())

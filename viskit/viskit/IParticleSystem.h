@@ -8,6 +8,7 @@
 #include <vector>
 #include <viskit/viskit/DataPoint.h>
 #include <viskit/viskit/Structures.h>
+#include <viskit/viskit/Math.h>
 #include <libraries/glm/glm/glm.hpp>
 
 namespace viskit
@@ -42,25 +43,25 @@ namespace viskit
         /// Returns current positions.
         /// </summary>
         /// <returns> Pointer to container with current particles positions.</returns>
-        virtual glm::vec4* positions() = 0;
+        virtual std::vector<viskit::vec4> positions() = 0;
 
         /// <summary>
         /// Returns current forces.
         /// </summary>
         /// <returns> Pointer to container with current particle forces.</returns>
-        virtual glm::vec4* forces() = 0;
+        virtual std::vector<viskit::vec4> forces() = 0;
 
         /// <summary>
         /// Returns current velocities.
         /// </summary>
         /// <returns> Pointer to container with current particle velocities.</returns>
-        virtual glm::vec4* velocities() = 0;
+        virtual std::vector<viskit::vec4> velocities() = 0;
 
         /// <summary>
         /// Returns colors associated with each particle.
         /// </summary>
         /// <returns> Pointer to container with colors.</returns>
-        virtual glm::vec4* colors() = 0;
+        virtual std::vector<viskit::vec4> colors() = 0;
 
         /// <summary>
         /// Sets the specified particle position.

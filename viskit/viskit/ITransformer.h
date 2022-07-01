@@ -37,7 +37,6 @@ namespace viskit
         virtual void step(IParticleSystem& ps, IGraph& graph) = 0;
 
         // protected construction and destruction methods
-    protected:
 
         virtual ~ITransformer() = default;
     };

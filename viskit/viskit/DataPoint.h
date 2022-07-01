@@ -86,12 +86,12 @@ namespace viskit
         DataPointId getId() { return m_id; }
         DataPointId getId() const { return m_id; }
 
+        static size_t m_currentId;
         // private members
     private:
         DataPointId m_id;
         size_t N;
         std::shared_ptr<std::vector<float>> coords;
-        static size_t m_currentId;
 
     };
 
