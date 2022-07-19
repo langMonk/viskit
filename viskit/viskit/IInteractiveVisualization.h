@@ -7,53 +7,50 @@
 
 #include <vector>
 
-namespace viskit
-{
-    class IResourceFactory;
-    class IParser;
-    class ICaster;
-    class IParticleSystem;
-    class IGraph;
+namespace viskit {
+class IResourceFactory;
+class IParser;
+class ICaster;
+class IParticleSystem;
+class IGraph;
+
+/// <summary>
+/// The main interface for controlling VisKit.
+/// </summary>
+class IInteractiveVisualization {
+    // public sub-types
+public:
+    using CasterEventHandler = std::function<void(void)>;
+
+    // public methods
+public:
+    /// <summary>
+    /// Obtains resource factory, that enables creation of VisKit objects.
+    /// </summary>
+    virtual IResourceFactory& resourceFactory() = 0;
 
     /// <summary>
-    /// The main interface for controlling VisKit.
+    /// Casts positions in the specified particle system (using specified caster and graph).
     /// </summary>
-    class IInteractiveVisualization
-    {
-        // public sub-types
-    public:
-        using CasterEventHandler = std::function<void(void)>;
+    /// <param name="ps"> Particle system to casting.</param>
+    /// <param name="graph"> Graph used for casting.</param>
+    /// <param name="caster"> Caster used for casting.</param>
+    [[maybe_unused]] virtual void computeCastingStep(IParticleSystem& ps, IGraph& graph, ICaster& caster) = 0;
 
-        // public methods
-    public:
-        /// <summary>
-        /// Obtains resource factory, that enables creation of VisKit objects.
-        /// </summary>
-        virtual IResourceFactory& resourceFactory() = 0;
+    /// <summary>
+    /// Calculate min and max values for Bounding Box.
+    /// </summary>
+    /// </return> Vector of pairs, where min x,y are first and max x,y second values
+    [[maybe_unused]] virtual std::vector<std::pair<float, float>> calculateBoundingBox() = 0;
 
-        /// <summary>
-        /// Casts positions in the specified particle system (using specified caster and graph).
-        /// </summary>
-        /// <param name="ps"> Particle system to casting.</param>
-        /// <param name="graph"> Graph used for casting.</param>
-        /// <param name="caster"> Caster used for casting.</param>
-        [[maybe_unused]] virtual void computeCastingStep(IParticleSystem& ps, IGraph& graph, ICaster& caster) = 0;
+    /// <summary>
+    /// Subscribe to event fired, when casting step finishes.
+    /// </summary>
+    /// <param name="handler"> Handler for the event. </param>
+    [[maybe_unused]] virtual void subscribeOnCastingStepFinish(CasterEventHandler handler) = 0;
 
-        /// <summary>
-        /// Calculate min and max values for Bounding Box.
-        /// </summary>
-        /// </return> Vector of pairs, where min x,y are first and max x,y second values
-        [[maybe_unused]] virtual std::vector<std::pair<float, float>> calculateBoundingBox() = 0;
-
-        /// <summary>
-        /// Subscribe to event fired, when casting step finishes.
-        /// </summary>
-        /// <param name="handler"> Handler for the event. </param>
-        [[maybe_unused]] virtual void subscribeOnCastingStepFinish(CasterEventHandler handler) = 0;
-
-        // protected construction and destruction methods
-    protected:
-        virtual ~IInteractiveVisualization() = default;
-
-    };
+    // protected construction and destruction methods
+protected:
+    virtual ~IInteractiveVisualization() = default;
+};
 }

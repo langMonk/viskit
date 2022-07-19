@@ -3,9 +3,9 @@
 /// \date 30.04.2019
 ///
 
+#include <exception>
 #include <thread>
 #include <viskit/parse/ParserCSV.h>
-#include <exception>
 
 namespace viskit::parse {
 namespace {
@@ -37,7 +37,7 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
 {
     viskit::DatasetInfo info;
 
-    try{
+    try {
         info.fileName = remove_extension(base_name(datasetFilePath));
         info.path = base_path(datasetFilePath);
 
@@ -81,9 +81,9 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
 
                 std::vector<float> floatVector(stringVector.size());
                 std::transform(stringVector.begin(), stringVector.end(), floatVector.begin(),
-                               [&](const std::string &val) {
-                                   return std::stof(val);
-                               });
+                    [&](const std::string& val) {
+                        return std::stof(val);
+                    });
 
                 particles::DataPointLabel label = std::stoi(labelLine);
                 dataset.push_back(std::make_pair(DataPoint(floatVector, count), label));
@@ -94,9 +94,7 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
 
                 count++;
             }
-        }
-        else
-        {
+        } else {
             m_ext_system.logger().logInfo("[CSV Parser] No labels file passed.");
 
             while (std::getline(datasetInput, datasetLine)) {
@@ -109,9 +107,9 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
 
                 std::vector<float> floatVector(stringVector.size());
                 std::transform(stringVector.begin(), stringVector.end(), floatVector.begin(),
-                               [&](const std::string &val) {
-                                   return std::stof(val);
-                               });
+                    [&](const std::string& val) {
+                        return std::stof(val);
+                    });
 
                 dataset.push_back(std::make_pair(DataPoint(floatVector, count), 0));
 
@@ -138,14 +136,13 @@ void ParserCSV::loadFile(const std::string& datasetFilePath, const std::string& 
 
         datasetInput.close();
         labelsInput.close();
-    }
-    catch (std::ios_base::failure& e) {
+    } catch (std::ios_base::failure& e) {
         std::cerr << e.what() << '\n';
         throw std::ios_base::failure(std::string(e.what()));
     }
 }
 
-void ParserCSV::tokenize(std::string &str, std::vector<std::string> &out)
+void ParserCSV::tokenize(std::string& str, std::vector<std::string>& out)
 {
     size_t start;
     size_t end = 0;

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <viskit/embed/cast/umap/irlba/irlba.h>
 #include <Eigen/Sparse>
+#include <viskit/embed/cast/umap/irlba/irlba.h>
 
-#include <vector>
-#include <random>
 #include <algorithm>
+#include <random>
+#include <vector>
 
 #include "NeighborList.h"
 
@@ -14,8 +14,9 @@ namespace viskit::embed::cast::umap {
 /* Peeled from the function of the same name in the uwot package,
  * see https://github.com/jlmelville/uwot/blob/master/R/init.R for details.
  */
-template<typename Float>
-bool normalized_laplacian(const NeighborList<Float>& edges, int ndim, Float* Y) {
+template <typename Float>
+bool normalized_laplacian(const NeighborList<Float>& edges, int ndim, Float* Y)
+{
     std::vector<double> sums(edges.size());
     std::vector<int> sizes(edges.size());
 
@@ -35,7 +36,7 @@ bool normalized_laplacian(const NeighborList<Float>& edges, int ndim, Float* Y) 
     mat.reserve(sizes);
 
     for (size_t c = 0; c < edges.size(); ++c) {
-        const auto& current = edges[c]; 
+        const auto& current = edges[c];
         size_t i = 0;
 
         for (; i < current.size() && current[i].first < c; ++i) {
@@ -55,8 +56,8 @@ bool normalized_laplacian(const NeighborList<Float>& edges, int ndim, Float* Y) 
     /* We want to find the eigenvectors corresponding to the 'ndim' smallest
      * positive eigenvalues, as these define a nice initial partition of the
      * observations (i.e., weak-to-no edges = small eigenvalues). Unfortunately,
-     * the best algorithms are designed to find the largest eigenvalues/vectors. 
-     * 
+     * the best algorithms are designed to find the largest eigenvalues/vectors.
+     *
      * So, we observe that the normalized laplacian is positive semi-definite
      * where the smallest eigenvalue is zero and the largest _possible_
      * eigenvalue is 2. Thus, we shift the matrix (i.e., '2 * I - L') and then
@@ -76,7 +77,7 @@ bool normalized_laplacian(const NeighborList<Float>& edges, int ndim, Float* Y) 
 
     irlba::Irlba runner;
     auto actual = runner.set_number(ndim + 1).run(mat);
-    auto ev = actual.U.rightCols(ndim); 
+    auto ev = actual.U.rightCols(ndim);
 
     // Getting the maximum value; this is assumed to be non-zero,
     // otherwise this entire thing is futile.
@@ -92,8 +93,9 @@ bool normalized_laplacian(const NeighborList<Float>& edges, int ndim, Float* Y) 
     return true;
 }
 
-template<typename Float>
-bool has_multiple_components(const NeighborList<Float>& edges) {
+template <typename Float>
+bool has_multiple_components(const NeighborList<Float>& edges)
+{
     if (!edges.size()) {
         return false;
     }
@@ -119,8 +121,9 @@ bool has_multiple_components(const NeighborList<Float>& edges) {
     return in_component != edges.size();
 }
 
-template<typename Float>
-bool spectral_init(const NeighborList<Float>& edges, int ndim, Float* vals) {
+template <typename Float>
+bool spectral_init(const NeighborList<Float>& edges, int ndim, Float* vals)
+{
     if (!has_multiple_components(edges)) {
         if (normalized_laplacian(edges, ndim, vals)) {
             return true;
@@ -129,8 +132,9 @@ bool spectral_init(const NeighborList<Float>& edges, int ndim, Float* vals) {
     return false;
 }
 
-template<typename Float>
-void random_init(size_t nobs, int ndim, Float * vals) {
+template <typename Float>
+void random_init(size_t nobs, int ndim, Float* vals)
+{
     std::mt19937_64 rng(nobs * ndim); // for a bit of deterministic variety.
     for (size_t i = 0; i < nobs * ndim; ++i) {
         vals[i] = std::uniform_int_distribution(-10, 10)(rng);

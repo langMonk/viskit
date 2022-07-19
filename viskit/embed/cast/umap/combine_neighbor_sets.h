@@ -1,16 +1,17 @@
 #pragma once
 
-#include <limits>
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <limits>
 #include <numeric>
 
 #include "NeighborList.h"
 
 namespace viskit::embed::cast::umap {
 
-template<typename Float>
-void combine_neighbor_sets(NeighborList<Float>& x, Float mix_ratio = 1) {
+template <typename Float>
+void combine_neighbor_sets(NeighborList<Float>& x, Float mix_ratio = 1)
+{
     std::vector<size_t> last(x.size());
     std::vector<size_t> original(x.size());
 

@@ -239,7 +239,8 @@ bool Graph::loadNearestNeighborsFromCache(const std::string& fileName, size_t ne
             assert(input_file.gcount() == 8 || input_file.gcount() == longSize / 2);
 
             if (j < nearestNeighborsCountToRead) {
-                if (binaryDistances) distance = 0.0f;
+                if (binaryDistances)
+                    distance = 0.0f;
                 m_data[i][j] = Neighbors(i, data, distance, NeighborsType::Near);
             }
         }
@@ -252,13 +253,14 @@ bool Graph::loadNearestNeighborsFromCache(const std::string& fileName, size_t ne
     return true;
 }
 
-    void Graph::removeRandomNeighbors() {
-        for (const auto& neighbors : m_data) {
-            for (auto neighbor : neighbors){
-                if (neighbor.type == NeighborsType::Random){
-                    removeNeighbors(neighbor.i, neighbor.j);
-                }
+void Graph::removeRandomNeighbors()
+{
+    for (const auto& neighbors : m_data) {
+        for (auto neighbor : neighbors) {
+            if (neighbor.type == NeighborsType::Random) {
+                removeNeighbors(neighbor.i, neighbor.j);
             }
         }
     }
+}
 }

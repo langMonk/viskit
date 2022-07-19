@@ -5,102 +5,100 @@
 
 #pragma once
 
-#include <utility>
-#include <vector>
 #include <map>
 #include <mutex>
+#include <utility>
+#include <vector>
 
 #include <viskit/core/System.h>
-#include <viskit/particles/ParticleData.h>
 #include <viskit/graph/Graph.h>
-#include <viskit/viskit/DataPoint.h>
+#include <viskit/particles/ParticleData.h>
 #include <viskit/utils/RandomColor.h>
+#include <viskit/viskit/DataPoint.h>
 
 using namespace viskit::graph;
 
-namespace viskit::particles
-{
-	// public sub-types
-	using DataPointLabel = size_t;
-	using Color = glm::vec4;
-	using Dataset = std::vector<std::pair<DataPoint, DataPointLabel>>;
+namespace viskit::particles {
+// public sub-types
+using DataPointLabel = size_t;
+using Color = glm::vec4;
+using Dataset = std::vector<std::pair<DataPoint, DataPointLabel>>;
 
-	class ParticleSystem
-	{
-		// public construction and destruction methods
-	public:
-		explicit ParticleSystem(core::System& system);
-		~ParticleSystem() = default;
+class ParticleSystem {
+    // public construction and destruction methods
+public:
+    explicit ParticleSystem(core::System& system);
+    ~ParticleSystem() = default;
 
-		ParticleSystem(const ParticleSystem&) = delete;
-		ParticleSystem& operator=(const ParticleSystem&) = delete;
+    ParticleSystem(const ParticleSystem&) = delete;
+    ParticleSystem& operator=(const ParticleSystem&) = delete;
 
-		// public methods
-	public:
-		virtual size_t countParticles();
+    // public methods
+public:
+    virtual size_t countParticles();
 
-		virtual size_t countAwakeParticles();
+    virtual size_t countAwakeParticles();
 
-		void setDataset(Dataset dataset, const std::vector<DataPointLabel>& labels);
+    void setDataset(Dataset dataset, const std::vector<DataPointLabel>& labels);
 
-		std::vector<DataPointLabel> labels();
+    std::vector<DataPointLabel> labels();
 
-		void resetForces();
+    void resetForces();
 
-		void resetVelocities();
+    void resetVelocities();
 
-		void clear();
+    void clear();
 
-		bool empty();
+    bool empty();
 
-		// public getters and setters
-	public:
-		Dataset& originalCoordinates() { return m_originalDataset; }
+    // public getters and setters
+public:
+    Dataset& originalCoordinates() { return m_originalDataset; }
 
-		MetricType* currentMetric() { return &m_currentMetric; };
+    MetricType* currentMetric() { return &m_currentMetric; };
 
-		ParticleData* calculationData();
+    ParticleData* calculationData();
 
-		void setMetric(MetricType type) { m_currentMetric = type; };
+    void setMetric(MetricType type) { m_currentMetric = type; };
 
-		[[nodiscard]] size_t step() const { return m_step; }
+    [[nodiscard]] size_t step() const { return m_step; }
 
-		void increaseStep() { m_step++; }
+    void increaseStep() { m_step++; }
 
-		[[nodiscard]] DatasetInfo datasetInfo() const { return m_datasetFileName; }
+    [[nodiscard]] DatasetInfo datasetInfo() const { return m_datasetFileName; }
 
-		void datasetInfo(DatasetInfo info) { m_datasetFileName = std::move(info); }
+    void datasetInfo(DatasetInfo info) { m_datasetFileName = std::move(info); }
 
-		// public helpers
-	public:
-		template<class T>
-		struct DiffSquared
-		{
-			T operator()(T x, T y) const {
-				return (x - y) * (x - y);
-			}
-		};
+    // public helpers
+public:
+    template <class T>
+    struct DiffSquared {
+        T operator()(T x, T y) const
+        {
+            return (x - y) * (x - y);
+        }
+    };
 
-		float vectorDistance(size_t i, size_t j);
+    float vectorDistance(size_t i, size_t j);
 
-		// private members
-	private:
-		core::System& m_ext_system;
+    // private members
+private:
+    core::System& m_ext_system;
 
-		Dataset m_originalDataset;
+    Dataset m_originalDataset;
 
-		ParticleData m_particles;
+    ParticleData m_particles;
 
-		std::vector<DataPointLabel> m_labels;
+    std::vector<DataPointLabel> m_labels;
 
-		std::map<DataPointLabel, Color> m_colorsMap;
+    std::map<DataPointLabel, Color> m_colorsMap;
 
-		DatasetInfo m_datasetFileName;
+    DatasetInfo m_datasetFileName;
 
-		MetricType m_currentMetric;
+    MetricType m_currentMetric;
 
-		size_t m_step{ 0 };
+    size_t m_step { 0 };
 
-		std::mutex m_lock;
-	};
+    std::mutex m_lock;
+};
 }

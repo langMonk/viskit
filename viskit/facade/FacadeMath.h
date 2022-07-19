@@ -5,18 +5,17 @@
 
 #pragma once
 
-#include <viskit/viskit/Math.h>
 #include <viskit/math/glm_adapter.h>
+#include <viskit/viskit/Math.h>
 
-namespace viskit::facade
+namespace viskit::facade {
+inline vec3 toVec3(const glm::vec3& vector)
 {
-	inline vec3 toVec3(const glm::vec3& vector)
-	{
-		return vec3(vector.x, vector.y, vector.z);
-	}
+    return vec3(vector.x, vector.y, vector.z);
+}
 
-	inline glm::vec3 toFloat3(const vec3& vector)
-	{
-		return glm::vec3(vector.x, vector.y, vector.z);
-	}
+inline glm::vec3 toFloat3(const vec3& vector)
+{
+    return glm::vec3(vector.x, vector.y, vector.z);
+}
 }

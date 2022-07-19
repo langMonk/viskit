@@ -5,60 +5,56 @@
 
 #pragma once
 
-#include <viskit/graph/Graph.h>
 #include <viskit/core/Core.h>
+#include <viskit/graph/Graph.h>
 #include <viskit/viskit/IGraph.h>
 
-namespace viskit::facade
-{
-	/// <summary>
-	/// Implementation of IGraph interface.
-	/// </summary>
-	class FacadeGraph : public IGraph
-	{
-		// public construction and destruction methods
-	public:
+namespace viskit::facade {
+/// <summary>
+/// Implementation of IGraph interface.
+/// </summary>
+class FacadeGraph : public IGraph {
+    // public construction and destruction methods
+public:
+    explicit FacadeGraph(const std::shared_ptr<core::Core>& core);
 
-		explicit FacadeGraph(const std::shared_ptr<core::Core>& core);
+    FacadeGraph(const FacadeGraph&) = delete;
+    FacadeGraph(FacadeGraph&&) = delete;
 
-		FacadeGraph(const FacadeGraph&) = delete;
-		FacadeGraph(FacadeGraph&&) = delete;
+    FacadeGraph& operator=(const FacadeGraph&) = delete;
+    FacadeGraph& operator=(FacadeGraph&&) = delete;
 
-		FacadeGraph& operator=(const FacadeGraph&) = delete;
-		FacadeGraph& operator=(FacadeGraph&&) = delete;
+    [[nodiscard]] graph::Graph& internalGraph() const { return *m_internalGraph; }
 
-		[[nodiscard]] graph::Graph& internalGraph() const { return *m_internalGraph; }
+public:
+    void initialize(size_t size) override;
 
-	public:
-	    void initialize(size_t size) override;
+    std::vector<Neighbors> getNeighbors(size_t idx) override;
 
-		std::vector<Neighbors> getNeighbors(size_t idx) override;
-	
-		void addNeighbors(Neighbors neighbor) override;
-		
-		void addNeighbors(std::vector<Neighbors> neighbors) override;
+    void addNeighbors(Neighbors neighbor) override;
 
-		size_t overallNeighborsCount() override;
+    void addNeighbors(std::vector<Neighbors> neighbors) override;
 
-		NeighborsCounter neighborsCounter()override;
+    size_t overallNeighborsCount() override;
 
-		size_t size() override;
+    NeighborsCounter neighborsCounter() override;
 
-		void sort() override;
+    size_t size() override;
 
-        void removeRandomNeighbors() override;
+    void sort() override;
 
-        bool saveNearestNeighborsToCache(const std::string& fileName) override;
+    void removeRandomNeighbors() override;
 
-		bool loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead, bool binaryDistances) override;
-		
-		void dump(std::string filePath, std::string fileName) override;
+    bool saveNearestNeighborsToCache(const std::string& fileName) override;
 
-		// private members
-	private:
-		std::shared_ptr<core::Core> m_ext_core;
+    bool loadNearestNeighborsFromCache(const std::string& fileName, size_t nearestNeighborsCountToRead, bool binaryDistances) override;
 
-		std::shared_ptr<graph::Graph> m_internalGraph;
-		
-	};
+    void dump(std::string filePath, std::string fileName) override;
+
+    // private members
+private:
+    std::shared_ptr<core::Core> m_ext_core;
+
+    std::shared_ptr<graph::Graph> m_internalGraph;
+};
 }

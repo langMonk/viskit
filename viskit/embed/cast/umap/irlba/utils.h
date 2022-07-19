@@ -7,14 +7,14 @@
 
 /**
  * @file utils.hpp
- * 
+ *
  * @brief Various utility functions.
  */
 
 namespace irlba {
 
 /**
- * Orthogonalize a vector against a set of orthonormal column vectors. 
+ * Orthogonalize a vector against a set of orthonormal column vectors.
  *
  * @param mat A matrix where the left-most `ncols` columns are orthonormal vectors.
  * @param vec The vector of interest, of length equal to the number of rows in `mat`.
@@ -24,12 +24,13 @@ namespace irlba {
  * @return `vec` is modified to contain `vec - mat0 * t(mat0) * vec`, where `mat0` is defined as the first `ncols` columns of `mat`.
  * This ensures that it is orthogonal to each column of `mat0`.
  */
-inline void orthogonalize_vector(const Eigen::MatrixXd& mat, Eigen::VectorXd& vec, size_t ncols, Eigen::VectorXd& tmp) {
+inline void orthogonalize_vector(const Eigen::MatrixXd& mat, Eigen::VectorXd& vec, size_t ncols, Eigen::VectorXd& tmp)
+{
     tmp.head(ncols).noalias() = mat.leftCols(ncols).adjoint() * vec;
     vec.noalias() -= mat.leftCols(ncols) * tmp.head(ncols);
 }
 
-/** 
+/**
  * Fill an **Eigen** vector with random normals via **aarand**.
  *
  * @param Vec Any **Eigen** vector class or equivalent proxy object.
@@ -40,8 +41,9 @@ inline void orthogonalize_vector(const Eigen::MatrixXd& mat, Eigen::VectorXd& ve
  *
  * @return `vec` is filled with random draws from a standard normal distribution.
  */
-template<class Vec, class Engine>
-void fill_with_random_normals(Vec& vec, Engine& eng) {
+template <class Vec, class Engine>
+void fill_with_random_normals(Vec& vec, Engine& eng)
+{
     Eigen::Index i = 0;
     while (i < vec.size() - 1) {
         auto paired = aarand::standard_normal(eng);
@@ -59,10 +61,14 @@ void fill_with_random_normals(Vec& vec, Engine& eng) {
 /**
  * @cond
  */
-template<class M>
+template <class M>
 struct ColumnVectorProxy {
-    ColumnVectorProxy(M& m, int c) : mat(m), col(c) {}
-    auto size () { return mat.rows(); }
+    ColumnVectorProxy(M& m, int c)
+        : mat(m)
+        , col(c)
+    {
+    }
+    auto size() { return mat.rows(); }
     auto& operator[](int r) { return mat(r, col); }
     M& mat;
     int col;
@@ -70,8 +76,8 @@ struct ColumnVectorProxy {
 /**
  * @endcond
  */
- 
-/** 
+
+/**
  * Fill a column of an **Eigen** matrix with random normals via **aarand**.
  *
  * @param Matrix Any **Eigen** matrix class or equivalent proxy object.
@@ -82,8 +88,9 @@ struct ColumnVectorProxy {
  *
  * @return The `column` column of `mat` is filled with random draws from a standard normal distribution.
  */
-template<class Matrix, class Engine>
-void fill_with_random_normals(Matrix& mat, int column, Engine& eng) {
+template <class Matrix, class Engine>
+void fill_with_random_normals(Matrix& mat, int column, Engine& eng)
+{
     ColumnVectorProxy proxy(mat, column);
     fill_with_random_normals(proxy, eng);
 }
@@ -117,7 +124,8 @@ public:
      *
      * @return A reference to this `ConvergenceTest` instance.
      */
-    ConvergenceTest& set_tol(double t = Defaults::tol) {
+    ConvergenceTest& set_tol(double t = Defaults::tol)
+    {
         tol = t;
         return *this;
     }
@@ -130,7 +138,8 @@ public:
      *
      * @return A reference to this `ConvergenceTest` instance.
      */
-    ConvergenceTest& set_svtol(double s = Defaults::svtol) {
+    ConvergenceTest& set_svtol(double s = Defaults::svtol)
+    {
         svtol = s;
         return *this;
     }
@@ -144,7 +153,8 @@ public:
      *
      * @return The number of singular values/vectors that have achieved convergence.
      */
-    int run(const Eigen::VectorXd& sv, const Eigen::VectorXd& residuals, const Eigen::VectorXd& last) {
+    int run(const Eigen::VectorXd& sv, const Eigen::VectorXd& residuals, const Eigen::VectorXd& last)
+    {
         int counter = 0;
         double Smax = *std::max_element(sv.begin(), sv.end());
         double svtol_actual = (svtol >= 0 ? svtol : tol);
@@ -152,7 +162,7 @@ public:
         for (int j = 0; j < sv.size(); ++j) {
             double ratio = std::abs(sv[j] - last[j]) / sv[j];
             if (std::abs(residuals[j]) < tol * Smax && // see the RHS of Equation 2.13 in Baglama and Reichel.
-                    ratio < svtol_actual) {
+                ratio < svtol_actual) {
                 ++counter;
             }
         }
@@ -164,33 +174,33 @@ public:
 /**
  * @cond
  */
-template<class M, typename = int>
+template <class M, typename = int>
 struct has_multiply_method {
     static constexpr bool value = false;
 };
 
-template<class M>
-struct has_multiply_method<M, decltype((void) (std::declval<M>() * std::declval<Eigen::VectorXd>()), 0)> {
+template <class M>
+struct has_multiply_method<M, decltype((void)(std::declval<M>() * std::declval<Eigen::VectorXd>()), 0)> {
     static constexpr bool value = true;
 };
 
-template<class M, typename = int>
+template <class M, typename = int>
 struct has_adjoint_multiply_method {
     static constexpr bool value = false;
 };
 
-template<class M>
-struct has_adjoint_multiply_method<M, decltype((void) (std::declval<M>().adjoint() * std::declval<Eigen::VectorXd>()), 0)> {
+template <class M>
+struct has_adjoint_multiply_method<M, decltype((void)(std::declval<M>().adjoint() * std::declval<Eigen::VectorXd>()), 0)> {
     static constexpr bool value = true;
 };
 
-template<class M, typename = int>
+template <class M, typename = int>
 struct has_realize_method {
     static constexpr bool value = false;
 };
 
-template<class M>
-struct has_realize_method<M, decltype((void) std::declval<M>().realize(), 0)> {
+template <class M>
+struct has_realize_method<M, decltype((void)std::declval<M>().realize(), 0)> {
     static constexpr bool value = std::is_same<decltype(std::declval<M>().realize()), Eigen::MatrixXd>::value;
 };
 /**

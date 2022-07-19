@@ -204,6 +204,8 @@ int main([[maybe_unused]] int argc, char** argv)
         optimizerType = viskit::OptimizerType::Momentum;
     else if (caster_name == "nesterov")
         optimizerType = viskit::OptimizerType::Nesterov;
+    else if (caster_name == "sgd")
+        optimizerType = viskit::OptimizerType::SGD;
     else if (caster_name == "random")
         casterType = viskit::CasterType::Random;
     else if (caster_name == "largevis")
@@ -211,9 +213,7 @@ int main([[maybe_unused]] int argc, char** argv)
     else if (caster_name == "umap")
         casterType = viskit::CasterType::UMAP;
     else if (caster_name == "t-sne")
-        optimizerType = viskit::OptimizerType::tSNE;
-    else if (caster_name == "sgd")
-        optimizerType = viskit::OptimizerType::SGD;
+        casterType = viskit::CasterType::tSNE;
     else
         throw std::invalid_argument("Unknown caster type: " + caster_name);
 

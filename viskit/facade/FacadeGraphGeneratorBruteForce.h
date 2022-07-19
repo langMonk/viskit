@@ -9,20 +9,17 @@
 #include <viskit/facade/FacadeParticleSystem.h>
 #include <viskit/graph/generate/BruteForce.h>
 
-namespace viskit::facade
-{
-	/// <summary>
-	/// Implementation of IGraphGenerator interface.
-	/// </summary>
-	class FacadeGraphGeneratorBruteForce : public FacadeGraphGenerator
-	{
-	public:
-		explicit FacadeGraphGeneratorBruteForce(const std::shared_ptr<core::Core>& core);
+namespace viskit::facade {
+/// <summary>
+/// Implementation of IGraphGenerator interface.
+/// </summary>
+class FacadeGraphGeneratorBruteForce : public FacadeGraphGenerator {
+public:
+    explicit FacadeGraphGeneratorBruteForce(const std::shared_ptr<core::Core>& core);
 
-		void generate(IParticleSystem& ps, IGraph& graph, size_t k , bool distancesEqualOne) override;
+    void generate(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne) override;
 
-	private:
-		std::shared_ptr<generate::BruteForce> m_graphGenerator {nullptr};
-
-	};
+private:
+    std::shared_ptr<generate::BruteForce> m_graphGenerator { nullptr };
+};
 }

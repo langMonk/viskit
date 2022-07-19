@@ -10,7 +10,9 @@
 #include <viskit/facade/FacadeCasterMomentum.h>
 #include <viskit/facade/FacadeCasterNesterov.h>
 #include <viskit/facade/FacadeCasterRandom.h>
+#include <viskit/facade/FacadeCasterSGD.h>
 #include <viskit/facade/FacadeCasterTSNE.h>
+#include <viskit/facade/FacadeCasterUMAP.h>
 #include <viskit/facade/FacadeGraphGeneratorBruteForce.h>
 #include <viskit/facade/FacadeGraphGeneratorKDTree.h>
 #include <viskit/facade/FacadeGraphGeneratorRandom.h>
@@ -19,8 +21,6 @@
 #include <viskit/facade/FacadeParserCSV.h>
 #include <viskit/facade/FacadeResourceFactory.h>
 #include <viskit/facade/metrics/FacadeKnnMetric.h>
-#include <viskit/facade/FacadeCasterUMAP.h>
-#include <viskit/facade/FacadeCasterSGD.h>
 
 namespace viskit::facade {
 FacadeResourceFactory::FacadeResourceFactory(FacadeInteractiveVisualization& ivhd)
@@ -74,7 +74,7 @@ std::shared_ptr<ICaster> FacadeResourceFactory::createCaster(const CasterType ty
         caster = std::make_shared<FacadeCasterUMAP>(m_ext_viskit.core());
     } else if (type == CasterType::LargeVis) {
         caster = std::make_shared<FacadeCasterLargeVis>(m_ext_viskit.core());
-    } else if (type == CasterType::IVHD && optimizer == OptimizerType::tSNE) {
+    } else if (type == CasterType::tSNE) {
         caster = std::make_shared<FacadeCasterTSNE>(m_ext_viskit.core());
     } else if (type == CasterType::IVHD && optimizer == OptimizerType::SGD) {
         caster = std::make_shared<FacadeCasterSGD>(m_ext_viskit.core());

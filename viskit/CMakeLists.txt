@@ -10,10 +10,13 @@ set(VISKIT_HEADERS
     embed/cast/ivhd/CasterMomentum.h
     embed/cast/ivhd/CasterNesterov.h
     embed/cast/ivhd/CasterSGD.h
-    embed/cast/ivhd/CasterTSNE.h
+    embed/cast/tsne/tsne.h
+    embed/cast/tsne/sptree.h
+    embed/cast/tsne/vptree.h.h
     embed/cast/Caster.h
     embed/cast/CasterRandom.h
     embed/cast/CasterLargeVis.h
+    embed/cast/CasterTSNE.h
     embed/cast/ICaster.h
     embed/cast/umap/CasterUMAP.h
     embed/cast/umap/Umap.h
@@ -102,9 +105,11 @@ set(VISKIT_SRC
     embed/cast/ivhd/CasterSGD.cpp
     embed/cast/Caster.cpp
     embed/cast/CasterRandom.cpp
+    embed/cast/CasterTSNE.cpp
     embed/cast/CasterLargeVis.cpp
     embed/cast/umap/CasterUMAP.cpp
-    embed/cast/ivhd/CasterTSNE.cpp
+    embed/cast/tsne/tsne.cpp
+    embed/cast/tsne/sptree.cpp
     facade/FacadeCaster.cpp
     facade/FacadeCasterAdadelta.cpp
     facade/FacadeCasterAdam.cpp
@@ -171,7 +176,6 @@ find_package (Eigen3 3.3 REQUIRED)
 target_link_libraries(viskit PRIVATE OpenMP::OpenMP_CXX Eigen3::Eigen)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../libraries)
 
-
 find_package(MKL)
 if(MKL_FOUND)
     target_link_libraries(viskit PRIVATE ${MKL_LIBRARIES})
@@ -181,6 +185,12 @@ else()
 
     find_package(LAPACK REQUIRED)
     target_link_libraries(viskit PRIVATE ${LAPACK_LIBRARIES})
+endif()
+
+find_package(Boost REQUIRED)
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+    target_link_libraries(viskit ${Boost_LIBRARIES})
 endif()
 
 install(TARGETS viskit

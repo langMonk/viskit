@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Eigen/Dense>
-#include "utils.h"
 #include "lanczos.h"
+#include "utils.h"
+#include <Eigen/Dense>
 
 #include <cmath>
 #include <cstdint>
@@ -50,10 +50,11 @@ public:
          */
         static constexpr uint64_t seed = std::mt19937_64::default_seed;
     };
+
 private:
     LanczosBidiagonalization lp;
 
-    int number = Defaults::number; 
+    int number = Defaults::number;
     int extra_work = Defaults::extra_work;
     int maxit = Defaults::maxit;
     uint64_t seed = Defaults::seed;
@@ -69,7 +70,8 @@ public:
      *
      * @return A reference to the `Irlba` instance.
      */
-    Irlba& set_number(int n = Defaults::number) {
+    Irlba& set_number(int n = Defaults::number)
+    {
         number = n;
         return *this;
     }
@@ -82,7 +84,8 @@ public:
      *
      * @return A reference to the `Irlba` instance.
      */
-    Irlba& set_maxit(int m = Defaults::maxit) {
+    Irlba& set_maxit(int m = Defaults::maxit)
+    {
         maxit = m;
         return *this;
     }
@@ -95,7 +98,8 @@ public:
      *
      * @return A reference to the `Irlba` instance.
      */
-    Irlba& set_seed(uint64_t s = Defaults::seed) {
+    Irlba& set_seed(uint64_t s = Defaults::seed)
+    {
         seed = s;
         return *this;
     }
@@ -108,7 +112,8 @@ public:
      *
      * @return A reference to the `Irlba` instance.
      */
-    Irlba& set_work(int w = Defaults::extra_work) {
+    Irlba& set_work(int w = Defaults::extra_work)
+    {
         extra_work = w;
         return *this;
     }
@@ -120,9 +125,10 @@ public:
      *
      * @return A reference to the `Irlba` instance.
      */
-    Irlba& set_invariant_tolerance(double e = LanczosBidiagonalization::Defaults::epsilon) {
-         lp.set_epsilon(e);
-         return *this;
+    Irlba& set_invariant_tolerance(double e = LanczosBidiagonalization::Defaults::epsilon)
+    {
+        lp.set_epsilon(e);
+        return *this;
     }
 
     /**
@@ -132,7 +138,8 @@ public:
      *
      * @return A reference to the `Irlba` instance.
      */
-    Irlba& set_convergence_tolerance(double t = ConvergenceTest::Defaults::tol) {
+    Irlba& set_convergence_tolerance(double t = ConvergenceTest::Defaults::tol)
+    {
         convtest.set_tol(t);
         return *this;
     }
@@ -144,13 +151,14 @@ public:
      *
      * @return A reference to the `Irlba` instance.
      */
-    Irlba& set_singular_value_ratio_tolerance(double t = ConvergenceTest::Defaults::svtol) {
+    Irlba& set_singular_value_ratio_tolerance(double t = ConvergenceTest::Defaults::svtol)
+    {
         convtest.set_svtol(t);
         return *this;
     }
 
 public:
-    /** 
+    /**
      * Run IRLBA on an input matrix to perform an approximate SVD, with arbitrary centering and scaling operations.
      *
      * @tparam M Matrix class, typically from the **Eigen** matrix manipulation library.
@@ -169,7 +177,7 @@ public:
      * @param[out] outD Vector to store the first singular values.
      * The length is set automatically as defined by `set_number()`.
      * @param eng Pointer to an instance of a random number generator.
-     * If set to `NULL`, a Mersenne Twister is used internally with the seed defined by `set_seed()`. 
+     * If set to `NULL`, a Mersenne Twister is used internally with the seed defined by `set_seed()`.
      * @param[in] init Pointer to a vector of length equal to the number of columns of `mat`,
      * containing the initial values of the first right singular vector.
      *
@@ -178,17 +186,17 @@ public:
      *
      * Centering is performed by subtracting each element of `center` from the corresponding column of `mat`.
      * Scaling is performed by dividing each column of `mat` by the corresponding element of `scale` (after any centering has been applied).
-     * Note that `scale=true` requires `center=true` to guarantee unit variance along each column. 
-     * No scaling is performed when the variance of a column is zero, so as to avoid divide-by-zero errors. 
+     * Note that `scale=true` requires `center=true` to guarantee unit variance along each column.
+     * No scaling is performed when the variance of a column is zero, so as to avoid divide-by-zero errors.
      */
-    template<class M, class Engine = std::mt19937_64>
+    template <class M, class Engine = std::mt19937_64>
     std::pair<bool, int> run(
-        const M& mat, 
-        bool center, 
-        bool scale, 
-        Eigen::MatrixXd& outU, 
-        Eigen::MatrixXd& outV, 
-        Eigen::VectorXd& outD, 
+        const M& mat,
+        bool center,
+        bool scale,
+        Eigen::MatrixXd& outU,
+        Eigen::MatrixXd& outV,
+        Eigen::VectorXd& outD,
         Engine* eng = nullptr,
         Eigen::VectorXd* init = nullptr)
     {
@@ -197,14 +205,14 @@ public:
 
             if (center) {
                 if (mat.rows() < 1) {
-                    throw std::runtime_error("cannot center with no observations");    
+                    throw std::runtime_error("cannot center with no observations");
                 }
                 center0.resize(mat.cols());
             }
 
             if (scale) {
                 if (mat.rows() < 2) {
-                    throw std::runtime_error("cannot scale with fewer than two observations");    
+                    throw std::runtime_error("cannot scale with fewer than two observations");
                 }
                 scale0.resize(mat.cols());
             }
@@ -219,11 +227,11 @@ public:
                     Eigen::VectorXd current = mat.col(i); // force it to be a VectorXd, even if it's a sparse matrix.
                     double var = 0;
                     for (auto x : current) {
-                        var += (x - mean)*(x - mean);
+                        var += (x - mean) * (x - mean);
                     }
 
                     if (var) {
-                        scale0[i] = std::sqrt(var/(mat.rows() - 1));
+                        scale0[i] = std::sqrt(var / (mat.rows() - 1));
                     } else {
                         scale0[i] = 1;
                     }
@@ -247,7 +255,7 @@ public:
         }
     }
 
-    /** 
+    /**
      * Run IRLBA on an input matrix to perform an approximate SVD.
      *
      * @tparam M Matrix class, most typically from the **Eigen** matrix manipulation library.
@@ -264,7 +272,7 @@ public:
      * @param[out] outD Vector to store the first singular values.
      * The length is set automatically as defined by `set_number()`.
      * @param eng Pointer to an instance of a random number generator.
-     * If set to `NULL`, a Mersenne Twister is used internally with the seed defined by `set_seed()`. 
+     * If set to `NULL`, a Mersenne Twister is used internally with the seed defined by `set_seed()`.
      * @param[in] init Pointer to a vector of length equal to the number of columns of `mat`,
      * containing the initial values of the first right singular vector.
      *
@@ -293,12 +301,12 @@ public:
      *
      * If the smallest dimension of `mat` is below 6, this method falls back to performing an exact SVD.
      */
-    template<class Matrix, class Engine = std::mt19937_64>
+    template <class Matrix, class Engine = std::mt19937_64>
     std::pair<bool, int> run(
-        const Matrix& mat, 
-        Eigen::MatrixXd& outU, 
-        Eigen::MatrixXd& outV, 
-        Eigen::VectorXd& outD, 
+        const Matrix& mat,
+        Eigen::MatrixXd& outU,
+        Eigen::MatrixXd& outV,
+        Eigen::VectorXd& outD,
         Engine* eng = nullptr,
         Eigen::VectorXd* init = nullptr)
     {
@@ -311,13 +319,13 @@ public:
     }
 
 private:
-    template<class M, class Engine>
+    template <class M, class Engine>
     std::pair<bool, int> run_internal(
-        const M& mat, 
-        Engine& eng, 
-        Eigen::MatrixXd& outU, 
-        Eigen::MatrixXd& outV, 
-        Eigen::VectorXd& outD, 
+        const M& mat,
+        Engine& eng,
+        Eigen::MatrixXd& outU,
+        Eigen::MatrixXd& outV,
+        Eigen::VectorXd& outD,
         Eigen::VectorXd* init)
     {
         const int smaller = std::min(mat.rows(), mat.cols());
@@ -345,7 +353,7 @@ private:
         V.col(0) /= V.col(0).norm();
 
         bool converged = false;
-        int iter = 0, k =0;
+        int iter = 0, k = 0;
         Eigen::JacobiSVD<Eigen::MatrixXd> svd(work, work, Eigen::ComputeThinU | Eigen::ComputeThinV);
         auto lptmp = lp.initialize(mat);
 
@@ -366,11 +374,11 @@ private:
             // see the text below Equation 3.11 in Baglama and Reichel.
             lp.run(mat, W, V, B, eng, lptmp, k);
 
-//            if (iter < 2) {
-//                std::cout << "B is currently:\n" << B << std::endl;
-//                std::cout << "W is currently:\n" << W << std::endl;
-//                std::cout << "V is currently:\n" << V << std::endl;
-//            }
+            //            if (iter < 2) {
+            //                std::cout << "B is currently:\n" << B << std::endl;
+            //                std::cout << "W is currently:\n" << W << std::endl;
+            //                std::cout << "V is currently:\n" << V << std::endl;
+            //            }
 
             svd.compute(B);
             const auto& BS = svd.singularValues();
@@ -378,7 +386,7 @@ private:
             const auto& BV = svd.matrixV();
 
             // Checking for convergence.
-            if (B(work-1, work-1) == 0) { // a.k.a. the final value of 'S' from the Lanczos iterations.
+            if (B(work - 1, work - 1) == 0) { // a.k.a. the final value of 'S' from the Lanczos iterations.
                 converged = true;
                 break;
             }
@@ -453,14 +461,15 @@ private:
     }
 
 private:
-    template<class M>
-    void exact(const M& mat, Eigen::MatrixXd& outU, Eigen::MatrixXd& outV, Eigen::VectorXd& outD) {
+    template <class M>
+    void exact(const M& mat, Eigen::MatrixXd& outU, Eigen::MatrixXd& outV, Eigen::VectorXd& outD)
+    {
         Eigen::BDCSVD<Eigen::MatrixXd> svd(mat.rows(), mat.cols(), Eigen::ComputeThinU | Eigen::ComputeThinV);
 
-        if constexpr(std::is_same<M, Eigen::MatrixXd>::value) {
+        if constexpr (std::is_same<M, Eigen::MatrixXd>::value) {
             svd.compute(mat);
         } else {
-            if constexpr(has_realize_method<M>::value) {
+            if constexpr (has_realize_method<M>::value) {
                 Eigen::MatrixXd adjusted = mat.realize();
                 svd.compute(adjusted);
             } else {
@@ -515,9 +524,9 @@ public:
         bool converged;
     };
 
-    /** 
+    /**
      * Run IRLBA on an input matrix to perform an approximate SVD with centering and scaling.
-     * 
+     *
      * @tparam M Matrix class, most typically from the **Eigen** matrix manipulation library.
      * However, other classes are also supported, see the other `run()` methods for details.
      * @tparam Engine A (pseudo-)random number generator class, returning a randomly sampled value when called as a functor with no arguments.
@@ -526,14 +535,15 @@ public:
      * @param center Should the matrix be centered by column?
      * @param scale Should the matrix be scaled to unit variance for each column?
      * @param eng Pointer to an instance of a random number generator.
-     * If set to `NULL`, a Mersenne Twister is used internally with the seed defined by `set_seed()`. 
+     * If set to `NULL`, a Mersenne Twister is used internally with the seed defined by `set_seed()`.
      * @param[in] init Pointer to a vector of length equal to the number of columns of `mat`,
      * containing the initial values of the first right singular vector.
      *
      * @return A `Results` object containing the singular vectors and values, as well as some statistics on convergence.
      */
-    template<class M, class Engine = std::mt19937_64>
-    Results run(const M& mat, bool center, bool scale, Engine* eng = nullptr, Eigen::VectorXd* init = nullptr) {
+    template <class M, class Engine = std::mt19937_64>
+    Results run(const M& mat, bool center, bool scale, Engine* eng = nullptr, Eigen::VectorXd* init = nullptr)
+    {
         Results output;
         auto stats = run(mat, center, scale, output.U, output.V, output.D, eng, init);
         output.converged = stats.first;
@@ -541,7 +551,7 @@ public:
         return output;
     }
 
-    /** 
+    /**
      * Run IRLBA on an input matrix to perform an approximate SVD, see the `run()` method for more details.
      *
      * @tparam M Matrix class,  most typically from the **Eigen** matrix manipulation library.
@@ -550,14 +560,15 @@ public:
      *
      * @param[in] mat Input matrix.
      * @param eng Pointer to an instance of a random number generator.
-     * If set to `NULL`, a Mersenne Twister is used internally with the seed defined by `set_seed()`. 
+     * If set to `NULL`, a Mersenne Twister is used internally with the seed defined by `set_seed()`.
      * @param[in] init Pointer to a vector of length equal to the number of columns of `mat`,
      * containing the initial values of the first right singular vector.
      *
      * @return A `Results` object containing the singular vectors and values, as well as some statistics on convergence.
      */
-    template<class M, class Engine = std::mt19937_64>
-    Results run(const M& mat, Engine* eng = nullptr, Eigen::VectorXd* init = nullptr) {
+    template <class M, class Engine = std::mt19937_64>
+    Results run(const M& mat, Engine* eng = nullptr, Eigen::VectorXd* init = nullptr)
+    {
         Results output;
         auto stats = run(mat, output.U, output.V, output.D, eng, init);
         output.converged = stats.first;

@@ -5,42 +5,38 @@
 
 #pragma once
 
-#include <viskit/facade/FacadeCaster.h>
 #include <viskit/embed/cast/ivhd/CasterAdadelta.h>
+#include <viskit/facade/FacadeCaster.h>
 
-namespace viskit::facade
-{
-	/// <summary>
-	/// Implementation of ICaster interface.
-	/// </summary>
-	class FacadeCasterAdadelta : public FacadeCaster
-	{
-		// public construction and destruction methods
-	public:
+namespace viskit::facade {
+/// <summary>
+/// Implementation of ICaster interface.
+/// </summary>
+class FacadeCasterAdadelta : public FacadeCaster {
+    // public construction and destruction methods
+public:
+    explicit FacadeCasterAdadelta(const std::shared_ptr<core::Core>& core);
+    ~FacadeCasterAdadelta() = default;
 
-		explicit FacadeCasterAdadelta(const std::shared_ptr<core::Core>& core);
-		~FacadeCasterAdadelta() = default;
+    FacadeCasterAdadelta(const FacadeCasterAdadelta&) = delete;
+    FacadeCasterAdadelta(FacadeCasterAdadelta&&) = delete;
 
-		FacadeCasterAdadelta(const FacadeCasterAdadelta&) = delete;
-		FacadeCasterAdadelta(FacadeCasterAdadelta&&) = delete;
+    FacadeCasterAdadelta& operator=(const FacadeCasterAdadelta&) = delete;
+    FacadeCasterAdadelta& operator=(FacadeCasterAdadelta&&) = delete;
 
-		FacadeCasterAdadelta& operator=(const FacadeCasterAdadelta&) = delete;
-		FacadeCasterAdadelta& operator=(FacadeCasterAdadelta&&) = delete;
+    // public methods
+public:
+    void calculatePositions(IParticleSystem& ps) override;
 
-		// public methods
-	public:
-		void calculatePositions(IParticleSystem& ps) override;
+    void calculateForces(IParticleSystem& ps, IGraph& graph) override;
 
-		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
+    CasterType type() override { return CasterType::IVHD; }
 
-		CasterType type() override { return CasterType::IVHD; }
+    OptimizerType optimizerType() override { return OptimizerType::Adadelta; }
 
-		OptimizerType optimizerType() override { return OptimizerType::Adadelta; }
-		
-	private:
-		float energy{ 0.1f };
+private:
+    float energy { 0.1f };
 
-        size_t interactions{0};
-
-	};
+    size_t interactions { 0 };
+};
 }
