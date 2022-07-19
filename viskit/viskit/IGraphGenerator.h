@@ -17,6 +17,8 @@ class IGraph;
 class IGraphGenerator {
     // public methods
 public:
+    virtual ~IGraphGenerator() = default;
+
     /// <summary>
     /// Generates a neighbors for specified graph.
     /// </summary>

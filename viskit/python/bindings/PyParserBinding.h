@@ -3,20 +3,15 @@
 // \date 17.05.2022
 //
 
-
-
 #include "viskit/viskit/IParser.h"
 
 namespace viskit::python::bindings {
-    class PyParserBinding: public IParser{
-    public:
-        using IParser::IParser;
+class PyParserBinding : public IParser {
+public:
+    using IParser::IParser;
 
-        void loadFile(std::string datasetFilePath, std::string labelsFilePath, IParticleSystem& ps) override;
+    void loadFile(std::string datasetFilePath, std::string labelsFilePath, IParticleSystem& ps) override;
 
-        void static bind(pybind11::module &m);
-
-    };
+    void static bind(pybind11::module& m);
+};
 }
-
-

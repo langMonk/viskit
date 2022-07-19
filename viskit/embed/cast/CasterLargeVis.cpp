@@ -7,12 +7,12 @@
 
 namespace viskit::embed::cast {
 CasterLargeVis::CasterLargeVis(const core::System& system)
-        : Caster(system)
+    : Caster(system)
 {
 }
 
-const gsl_rng_type *CasterLargeVis::gsl_T = nullptr;
-gsl_rng *CasterLargeVis::gsl_r = nullptr;
+const gsl_rng_type* CasterLargeVis::gsl_T = nullptr;
+gsl_rng* CasterLargeVis::gsl_r = nullptr;
 
 CasterLargeVis::~CasterLargeVis()
 {
@@ -269,17 +269,17 @@ void CasterLargeVis::visualize_thread(particles::ParticleSystem& ps, unsigned in
     std::vector<long long> rs(NEG_TABLE_CACHE_SIZE * N_NEGATIVES);
     int ys_counter = 0;
 
-    for (long long counter = 0; counter < n_samples/math::threads<> + 2; counter++) {
+    for (long long counter = 0; counter < n_samples / math::threads<> + 2; counter++) {
         if (counter % 300000 == 0) {
             edge_count_actual += 300000;
             cur_alpha = INITIAL_ALPHA * (1 - edge_count_actual / (n_samples + 1.0));
             if (cur_alpha < INITIAL_ALPHA * 0.0001)
                 cur_alpha = INITIAL_ALPHA * 0.0001;
             std::cout << "Fitting model\tAlpha: " << cur_alpha << " Progress: "
-                      << (float) edge_count_actual / (float) (n_samples + 1) * 100 << std::endl;
+                      << (float)edge_count_actual / (float)(n_samples + 1) * 100 << std::endl;
         }
 
-        if(counter % NEG_TABLE_CACHE_SIZE == 0) {
+        if (counter % NEG_TABLE_CACHE_SIZE == 0) {
             ys_counter = 0;
 
             for (int idx = 0; idx < NEG_TABLE_CACHE_SIZE * N_NEGATIVES; ++idx) {
@@ -335,8 +335,8 @@ void CasterLargeVis::visualize_thread(particles::ParticleSystem& ps, unsigned in
         for (j = 0; j < out_dim; ++j)
             vis[lx + j] += err[j];
 
-        glm::vec4 &posX = pos[x];
-        glm::vec4 &posY = pos[y];
+        glm::vec4& posX = pos[x];
+        glm::vec4& posY = pos[y];
 
         posX.x = vis[lx];
         posX.y = vis[lx + 1];
@@ -357,18 +357,17 @@ void CasterLargeVis::calculatePositions(particles::ParticleSystem& ps)
         n_samples = 1000;
     else if (n_vertices < 1000000)
         n_samples = (n_vertices - 10000) * 9000 / (1000000 - 10000) + 1000;
-    else n_samples = n_vertices / 100;
+    else
+        n_samples = n_vertices / 100;
     n_samples *= 1000000;
 
     threading::ThreadPool threadPool(math::threads<>);
     std::vector<std::future<void>> results(math::threads<>);
-    for (int i = 0; i < math::threads<>; i++)
-    {
+    for (int i = 0; i < math::threads<>; i++) {
         results[i] = threadPool.enqueue(
-                [this, &ps, i](){visualize_thread(ps, i);}
-                );
+            [this, &ps, i]() { visualize_thread(ps, i); });
     }
-    for (auto& result: results)
+    for (auto& result : results)
         result.get();
 }
 

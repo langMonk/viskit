@@ -6,22 +6,21 @@
 
 #include "viskit/viskit/IInteractiveVisualization.h"
 
-namespace viskit::python::bindings
-{
-    class PyInteractiveVisualizationBinding: public IInteractiveVisualization {
-    public:
-        using IInteractiveVisualization::IInteractiveVisualization;
+namespace viskit::python::bindings {
+class PyInteractiveVisualizationBinding : public IInteractiveVisualization {
+public:
+    using IInteractiveVisualization::IInteractiveVisualization;
 
-        viskit::IResourceFactory& resourceFactory() override;
+    viskit::IResourceFactory& resourceFactory() override;
 
-        void computeCastingStep(viskit::IParticleSystem& ps, viskit::IGraph& graph, viskit::ICaster& caster) override;
+    void computeCastingStep(viskit::IParticleSystem& ps, viskit::IGraph& graph, viskit::ICaster& caster) override;
 
-        typedef std::vector<std::pair<float, float>> vector_of_pairs;
+    typedef std::vector<std::pair<float, float>> vector_of_pairs;
 
-        std::vector<std::pair<float, float>> calculateBoundingBox() override;
+    std::vector<std::pair<float, float>> calculateBoundingBox() override;
 
-        void subscribeOnCastingStepFinish(viskit::IInteractiveVisualization::CasterEventHandler handler) override;
+    void subscribeOnCastingStepFinish(viskit::IInteractiveVisualization::CasterEventHandler handler) override;
 
-        void static bind(pybind11::module &m);
-    };
+    void static bind(pybind11::module& m);
+};
 }

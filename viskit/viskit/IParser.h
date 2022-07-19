@@ -13,6 +13,8 @@ class IParticleSystem;
 class IParser {
     // public methods
 public:
+    virtual ~IParser() = default;
+
     /// <summary>
     /// Load specified file into particle system structure
     /// </summary>
