@@ -5,53 +5,49 @@
 
 #pragma once
 
-namespace viskit
-{
-    struct vec2
+namespace viskit {
+struct vec2 {
+public:
+    explicit vec2(float x = 0.0f, float y = 0.0f)
+        : x { x }
+        , y { y }
     {
-    public:
-        explicit vec2(float x = 0.0f, float y = 0.0f)
-            : x{ x }
-            , y{ y }
-        {
-        }
+    }
 
-    public:
-        float x;
-        float y;
-    };
+public:
+    float x;
+    float y;
+};
 
-    struct vec3
+struct vec3 {
+public:
+    explicit vec3(float x = 0.0f, float y = 0.0f, float z = 0.0f)
+        : x { x }
+        , y { y }
+        , z { z }
     {
-    public:
-        explicit vec3(float x = 0.0f, float y = 0.0f, float z = 0.0f)
-            : x{ x }
-            , y{ y }
-            , z{ z }
-        {
-        }
+    }
 
-    public:
-        float x;
-        float y;
-        float z;
-    };
+public:
+    float x;
+    float y;
+    float z;
+};
 
-    struct vec4
+struct vec4 {
+public:
+    explicit vec4(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f)
+        : x { x }
+        , y { y }
+        , z { z }
+        , w { w }
     {
-    public:
-        explicit vec4(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f)
-            : x{ x }
-            , y{ y }
-            , z{ z }
-            , w{ w }
-        {
-        }
+    }
 
-    public:
-        float x;
-        float y;
-        float z;
-        float w;
-    };
+public:
+    float x;
+    float y;
+    float z;
+    float w;
+};
 }

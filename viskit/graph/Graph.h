@@ -11,52 +11,48 @@
 #include <viskit/core/System.h>
 #include <viskit/viskit/Structures.h>
 
-namespace viskit::graph
-{
-	class Graph
-	{
-		// public construction and destruction methods
-	public:
-		explicit Graph(core::System& system);
+namespace viskit::graph {
+class Graph {
+    // public construction and destruction methods
+public:
+    explicit Graph(core::System& system);
 
-		// public methods
-	public:
-		void initialize(size_t elements);
+    // public methods
+public:
+    void initialize(size_t elements);
 
-        std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
+    std::optional<std::vector<Neighbors>> getNeighbors(size_t index);
 
-        std::optional<std::vector<size_t>> getAllNeighborsIndexes(size_t index);
+    std::optional<std::vector<size_t>> getAllNeighborsIndexes(size_t index);
 
-        std::optional<std::vector<size_t>> getNearestNeighborsIndexes(size_t index);
+    std::optional<std::vector<size_t>> getNearestNeighborsIndexes(size_t index);
 
-		void addNeighbors(const std::vector<Neighbors>& neighbors);
-		
-		void addNeighbors(Neighbors neighbor);
+    void addNeighbors(const std::vector<Neighbors>& neighbors);
 
-        void removeNeighbors(size_t i, size_t j);
+    void addNeighbors(Neighbors neighbor);
 
-        size_t overallNeighborsCount();
+    void removeNeighbors(size_t i, size_t j);
 
-		void sort();
+    size_t overallNeighborsCount();
 
-        void removeRandomNeighbors();
+    void sort();
 
-        void clear();
+    void removeRandomNeighbors();
 
-		[[nodiscard]] size_t size() const;
+    void clear();
 
-		bool saveNearestNeighborsToCache(const std::string& fileName);
+    [[nodiscard]] size_t size() const;
 
-		bool loadNearestNeighborsFromCache(const std::string &fileName, size_t nearestNeighborsCountToRead, bool binaryDistances);
+    bool saveNearestNeighborsToCache(const std::string& fileName);
 
-        NeighborsCounter neighborsCounter{0,0};
+    bool loadNearestNeighborsFromCache(const std::string& fileName, size_t nearestNeighborsCountToRead, bool binaryDistances);
 
-        // private members
-	private:
-		core::System& m_ext_system;
+    NeighborsCounter neighborsCounter { 0, 0 };
 
-        std::vector<std::vector<Neighbors>> m_data;
+    // private members
+private:
+    core::System& m_ext_system;
 
-	};
+    std::vector<std::vector<Neighbors>> m_data;
+};
 }
-

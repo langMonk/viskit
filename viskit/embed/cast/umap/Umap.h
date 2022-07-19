@@ -7,8 +7,8 @@
 #include "optimize_layout.h"
 #include "spectral_init.h"
 
-#include <random>
 #include <cstdint>
+#include <random>
 
 namespace viskit::embed::cast::umap {
 
@@ -22,7 +22,10 @@ namespace viskit::embed::cast::umap {
  * - `RANDOM`: fills the embedding with random draws from a normal distribution.
  * - `NONE`: uses the existing values in the supplied embedding array.
  */
-enum InitMethod { SPECTRAL, SPECTRAL_ONLY, RANDOM, NONE };
+enum InitMethod { SPECTRAL,
+    SPECTRAL_ONLY,
+    RANDOM,
+    NONE };
 
 /**
  * @brief Wrapper class to run UMAP.
@@ -41,7 +44,7 @@ enum InitMethod { SPECTRAL, SPECTRAL_ONLY, RANDOM, NONE };
  * UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction.
  * _arXiv_, https://arxiv.org/abs/1802.03426
  */
-template<typename Float = double>
+template <typename Float = double>
 class Umap {
 public:
     /**
@@ -101,7 +104,7 @@ public:
         /**
          * See `set_learning_rate()`.
          */
-        static constexpr Float learning_rate = 1; 
+        static constexpr Float learning_rate = 1;
 
         /**
          * See `set_negative_sample_rate()`.
@@ -162,18 +165,20 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_local_connectivity(Float l = Defaults::local_connectivity) {
+    Umap& set_local_connectivity(Float l = Defaults::local_connectivity)
+    {
         local_connectivity = l;
         return *this;
     }
 
     /**
      * @param b Effective bandwidth of the kernel when converting the distance to a neighbor into a fuzzy set membership confidence.
-     * Larger values reduce the decay in confidence with respect to distance, increasing connectivity and favoring global structure. 
+     * Larger values reduce the decay in confidence with respect to distance, increasing connectivity and favoring global structure.
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_bandwidth(Float b = Defaults::bandwidth) {
+    Umap& set_bandwidth(Float b = Defaults::bandwidth)
+    {
         bandwidth = b;
         return *this;
     }
@@ -186,7 +191,8 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_mix_ratio(Float m = Defaults::mix_ratio) {
+    Umap& set_mix_ratio(Float m = Defaults::mix_ratio)
+    {
         mix_ratio = m;
         return *this;
     }
@@ -196,7 +202,8 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_spread(Float s = Defaults::spread) {
+    Umap& set_spread(Float s = Defaults::spread)
+    {
         spread = s;
         return *this;
     }
@@ -208,7 +215,8 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_min_dist(Float m = Defaults::min_dist) {
+    Umap& set_min_dist(Float m = Defaults::min_dist)
+    {
         min_dist = m;
         return *this;
     }
@@ -221,7 +229,8 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_a(Float a = Defaults::a) {
+    Umap& set_a(Float a = Defaults::a)
+    {
         this->a = a;
         return *this;
     }
@@ -234,29 +243,32 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_b(Float b = Defaults::b) {
+    Umap& set_b(Float b = Defaults::b)
+    {
         this->b = b;
         return *this;
     }
 
-    /** 
+    /**
      * @param r Modifier for the repulsive force.
      * Larger values increase repulsion and favor local structure.
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_repulsion_strength(Float r = Defaults::repulsion_strength) {
+    Umap& set_repulsion_strength(Float r = Defaults::repulsion_strength)
+    {
         repulsion_strength = r;
         return *this;
     }
 
-    /** 
+    /**
      * @param i How to initialize the embedding, see `InitMethod` for more details.
      * Some choices may use the existing coordinates provided to `run()` via the `embedding` argument.
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_initialize(InitMethod i = Defaults::initialize) {
+    Umap& set_initialize(InitMethod i = Defaults::initialize)
+    {
         init = i;
         return *this;
     }
@@ -267,7 +279,8 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_num_epochs(int n = Defaults::num_epochs) {
+    Umap& set_num_epochs(int n = Defaults::num_epochs)
+    {
         num_epochs = n;
         return *this;
     }
@@ -278,7 +291,8 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_learning_rate(Float l = Defaults::learning_rate) {
+    Umap& set_learning_rate(Float l = Defaults::learning_rate)
+    {
         learning_rate = l;
         return *this;
     }
@@ -290,7 +304,8 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_negative_sample_rate(Float n = Defaults::negative_sample_rate) {
+    Umap& set_negative_sample_rate(Float n = Defaults::negative_sample_rate)
+    {
         negative_sample_rate = n;
         return *this;
     }
@@ -298,11 +313,12 @@ public:
     /**
      * @param n Number of neighbors to use to define the fuzzy sets.
      * Larger values improve connectivity and favor preservation of global structure, at the cost of increased computational work.
-     * This argument is only used in certain `run()` and `initialize()` methods that perform identification of the nearest neighbors. 
+     * This argument is only used in certain `run()` and `initialize()` methods that perform identification of the nearest neighbors.
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_num_neighbors(Float n = Defaults::num_neighbors) {
+    Umap& set_num_neighbors(Float n = Defaults::num_neighbors)
+    {
         num_neighbors = n;
         return *this;
     }
@@ -312,14 +328,15 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_seed(uint64_t s = Defaults::seed) {
+    Umap& set_seed(uint64_t s = Defaults::seed)
+    {
         seed = s;
         return *this;
     }
 
     /**
-     * @param b Whether to optimize in batch mode. 
-     * Batch mode is required for effective parallelization via OpenMP but may reduce the stability of the gradient descent. 
+     * @param b Whether to optimize in batch mode.
+     * Batch mode is required for effective parallelization via OpenMP but may reduce the stability of the gradient descent.
      *
      * Batch mode involves computing forces for all observations and applying them simultaneously.
      * This is in contrast to the default where the location of observation is updated before the forces are computed for the next observation.
@@ -328,7 +345,8 @@ public:
      *
      * @return A reference to this `Umap` object.
      */
-    Umap& set_batch(bool b = Defaults::batch) {
+    Umap& set_batch(bool b = Defaults::batch)
+    {
         batch = b;
         return *this;
     }
@@ -341,7 +359,13 @@ public:
         /**
          * @cond
          */
-        Status(EpochData<Float> e, uint64_t seed, Float a_, Float b_) : epochs(std::move(e)), engine(seed), a(a_), b(b_) {}
+        Status(EpochData<Float> e, uint64_t seed, Float a_, Float b_)
+            : epochs(std::move(e))
+            , engine(seed)
+            , a(a_)
+            , b(b_)
+        {
+        }
         EpochData<Float> epochs;
         std::mt19937_64 engine;
         Float a;
@@ -353,7 +377,8 @@ public:
         /**
          * @return Current epoch.
          */
-        int epoch() const {
+        int epoch() const
+        {
             return epochs.current_epoch;
         }
 
@@ -361,29 +386,32 @@ public:
          * @return Total number of epochs.
          * This is equal to the value set by `set_num_epochs()` when the `Status` object is created.
          */
-        int num_epochs() const {
+        int num_epochs() const
+        {
             return epochs.total_epochs;
         }
 
         /**
          * @return The number of observations in the dataset.
          */
-       size_t nobs() const {
-           return epochs.head.size();
-       }
+        size_t nobs() const
+        {
+            return epochs.head.size();
+        }
     };
 
-    /** 
+    /**
      * @param x Indices and distances to the nearest neighbors for each observation.
      * @param ndim Number of dimensions of the embedding.
-     * @param[in, out] embedding Two-dimensional array to store the embedding, 
+     * @param[in, out] embedding Two-dimensional array to store the embedding,
      * where rows are dimensions (`ndim`) and columns are observations (`x.size()`).
      *
      * @return A `Status` object containing the initial state of the UMAP algorithm, to be used in `run()`.
      * If `set_initialize()` is `NONE` or if spectral initialization fails with `SPECTRAL_ONLY`, `embedding` should contain the initial coordinates and will not be altered;
      * otherwise, it is filled with initial coordinates.
      */
-    Status initialize(NeighborList<Float> x, int ndim, Float* embedding) const {
+    Status initialize(NeighborList<Float> x, int ndim, Float* embedding) const
+    {
         neighbor_similarities(x, local_connectivity, bandwidth);
         combine_neighbor_sets(x, mix_ratio);
 
@@ -409,13 +437,12 @@ public:
         return Status(
             similarities_to_epochs(x, num_epochs, negative_sample_rate),
             seed,
-            a_, 
-            b_
-        );
+            a_,
+            b_);
     }
 
 public:
-    /** 
+    /**
      * @param s The status of the algorithm, typically generated by `initialize()`.
      * @param ndim Number of dimensions of the embedding.
      * @param[in, out] embedding Two-dimensional array where rows are dimensions (`ndim`) and columns are observations.
@@ -423,9 +450,10 @@ public:
      * @param epoch_limit Number of epochs to run to, from the current number of epochs in `s.epoch()`.
      * If zero, defaults to the maximum number of epochs in `set_num_epochs()`.
      *
-     * @return `s` and `embedding` are updated for the given number of epochs. 
+     * @return `s` and `embedding` are updated for the given number of epochs.
      */
-    void run(Status& s, int ndim, Float* embedding, int epoch_limit = 0) const {
+    void run(Status& s, int ndim, Float* embedding, int epoch_limit = 0) const
+    {
         if (!batch) {
             optimize_layout(
                 ndim,
@@ -436,8 +464,7 @@ public:
                 repulsion_strength,
                 learning_rate,
                 s.engine,
-                epoch_limit
-            );
+                epoch_limit);
         } else {
             optimize_layout_batched(
                 ndim,
@@ -449,13 +476,11 @@ public:
                 learning_rate,
                 [&]() -> auto { return s.engine(); },
                 [](decltype(s.engine()) s) -> auto { return std::mt19937_64(s); },
-                epoch_limit
-            );
-
+                epoch_limit);
         }
     }
 
-    /** 
+    /**
      * @param x Indices and distances to the nearest neighbors for each observation.
      * @param ndim Number of dimensions of the embedding.
      * @param[in, out] embedding Two-dimensional array where rows are dimensions (`ndim`) and columns are observations.
@@ -467,7 +492,8 @@ public:
      * @return The status of the algorithm is returned after running up to `epoch_limit`, for re-use in `run()`.
      * `embedding` is updated with the embedding at that point.
      */
-    Status run(NeighborList<Float> x, int ndim, Float* embedding, int epoch_limit = 0) const {
+    Status run(NeighborList<Float> x, int ndim, Float* embedding, int epoch_limit = 0) const
+    {
         auto status = initialize(std::move(x), ndim, embedding);
         run(status, ndim, embedding, epoch_limit);
         return status;

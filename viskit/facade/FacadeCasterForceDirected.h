@@ -5,38 +5,35 @@
 
 #pragma once
 
-#include <viskit/facade/FacadeCaster.h>
 #include <viskit/embed/cast/ivhd/CasterForceDirected.h>
+#include <viskit/facade/FacadeCaster.h>
 
-namespace viskit::facade
-{
-	/// <summary>
-	/// Implementation of ICaster interface.
-	/// </summary>
-	class FacadeCasterForceDirected : public FacadeCaster
-	{
-		// public construction and destruction methods
-	public:
+namespace viskit::facade {
+/// <summary>
+/// Implementation of ICaster interface.
+/// </summary>
+class FacadeCasterForceDirected : public FacadeCaster {
+    // public construction and destruction methods
+public:
+    explicit FacadeCasterForceDirected(const std::shared_ptr<core::Core>& core);
+    ~FacadeCasterForceDirected() override = default;
 
-		explicit FacadeCasterForceDirected(const std::shared_ptr<core::Core>& core);
-		~FacadeCasterForceDirected() override = default;
+    FacadeCasterForceDirected(const FacadeCasterForceDirected&) = delete;
+    FacadeCasterForceDirected(FacadeCasterForceDirected&&) = delete;
 
-		FacadeCasterForceDirected(const FacadeCasterForceDirected&) = delete;
-		FacadeCasterForceDirected(FacadeCasterForceDirected&&) = delete;
+    FacadeCasterForceDirected& operator=(const FacadeCasterForceDirected&) = delete;
+    FacadeCasterForceDirected& operator=(FacadeCasterForceDirected&&) = delete;
 
-		FacadeCasterForceDirected& operator=(const FacadeCasterForceDirected&) = delete;
-		FacadeCasterForceDirected& operator=(FacadeCasterForceDirected&&) = delete;
+    // public methods
+public:
+    void calculatePositions(IParticleSystem& ps) override;
 
-		// public methods
-	public:
-		void calculatePositions(IParticleSystem& ps) override;
+    void calculateForces(IParticleSystem& ps, IGraph& graph) override;
 
-		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
+    void finalize() override;
 
-		void finalize() override;
+    CasterType type() override { return CasterType::IVHD; }
 
-		CasterType type() override { return CasterType::IVHD; }
-
-		OptimizerType optimizerType() override { return OptimizerType::ForceDirected; }
-	};
+    OptimizerType optimizerType() override { return OptimizerType::ForceDirected; }
+};
 }

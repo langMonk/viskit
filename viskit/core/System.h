@@ -7,22 +7,19 @@
 
 #include "Logger.h"
 
-namespace viskit::core
-{
-	class System
-	{
-		// public construction and destruction methods
-	public:
-		explicit System(OnLogAdded logHandler);
+namespace viskit::core {
+class System {
+    // public construction and destruction methods
+public:
+    explicit System(OnLogAdded logHandler);
 
-		// public methods
-	public:
-		[[nodiscard]] const Logger& logger() const { return m_logger; }
-		Logger& logger() { return m_logger; }
+    // public methods
+public:
+    [[nodiscard]] const Logger& logger() const { return m_logger; }
+    Logger& logger() { return m_logger; }
 
-		// private properties
-	private:
-		Logger m_logger;
-
-	};
+    // private properties
+private:
+    Logger m_logger;
+};
 }

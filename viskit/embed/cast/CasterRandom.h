@@ -5,48 +5,42 @@
 
 #pragma once
 
-
 #include <viskit/embed/cast/Caster.h>
 #include <viskit/particles/ParticleSystem.h>
 
 using Engine = std::mt19937;
 using Dist = std::uniform_real_distribution<>;
 
-namespace viskit::embed::cast
-{ 
-	class CasterRandom final : public Caster
-	{
-		// public construction and destruction methods
-	public:
-		explicit CasterRandom(const core::System& system);
+namespace viskit::embed::cast {
+class CasterRandom final : public Caster {
+    // public construction and destruction methods
+public:
+    explicit CasterRandom(const core::System& system);
 
-		// public methods
-	public:		
-		void calculatePositions(particles::ParticleSystem& ps) override;
+    // public methods
+public:
+    void calculatePositions(particles::ParticleSystem& ps) override;
 
-		[[nodiscard]] int maxEdge() const { return m_maxEdge; };
-		
-		// Helper structures
-	private:
-		class RandomGenerator
-		{
-		public:
-			explicit RandomGenerator(float min = -0.5f, float max = 0.5f) : m_dist(min, max)
-			{
-			};
+    [[nodiscard]] int maxEdge() const { return m_maxEdge; };
 
-			Dist::result_type gen();
+    // Helper structures
+private:
+    class RandomGenerator {
+    public:
+        explicit RandomGenerator(float min = -0.5f, float max = 0.5f)
+            : m_dist(min, max) {};
 
-		private:
-			Engine m_eng;
-			Dist m_dist;
-		};
+        Dist::result_type gen();
 
-		// private members
-	private:
-		int m_maxEdge {1000};
+    private:
+        Engine m_eng;
+        Dist m_dist;
+    };
 
-		std::shared_ptr<RandomGenerator> m_gen {new RandomGenerator()};
-		
-	};
+    // private members
+private:
+    int m_maxEdge { 1000 };
+
+    std::shared_ptr<RandomGenerator> m_gen { new RandomGenerator() };
+};
 }

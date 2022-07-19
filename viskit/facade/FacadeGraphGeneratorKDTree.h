@@ -11,25 +11,22 @@
 #include <viskit/facade/FacadeParticleSystem.h>
 #include <viskit/graph/generate/KDTree.h>
 
-namespace viskit::facade
-{
-	/// <summary>
-	/// Implementation of IGraphGenerator interface.
-	/// </summary>
-	class FacadeGraphGeneratorKDTree : public FacadeGraphGenerator
-	{
-	public:
-		explicit FacadeGraphGeneratorKDTree(std::shared_ptr<core::Core> core);
-		
-		void generate(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne) override {};
+namespace viskit::facade {
+/// <summary>
+/// Implementation of IGraphGenerator interface.
+/// </summary>
+class FacadeGraphGeneratorKDTree : public FacadeGraphGenerator {
+public:
+    explicit FacadeGraphGeneratorKDTree(std::shared_ptr<core::Core> core);
 
-	private:
-		static void kNNQueryThread(int start, int end, bool setDistancesToOne, const graph::generate::KDTree& kd, size_t k, const particles::Dataset& data, graph::Graph& graph);
+    void generate(IParticleSystem& ps, IGraph& graph, size_t k, bool distancesEqualOne) override {};
 
-		static std::mutex m_generationMutex;
+private:
+    static void kNNQueryThread(int start, int end, bool setDistancesToOne, const graph::generate::KDTree& kd, size_t k, const particles::Dataset& data, graph::Graph& graph);
 
-	private:
-		std::shared_ptr<graph::generate::KDTree> m_graphGenerator;
-		
-	};
+    static std::mutex m_generationMutex;
+
+private:
+    std::shared_ptr<graph::generate::KDTree> m_graphGenerator;
+};
 }

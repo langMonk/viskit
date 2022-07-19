@@ -5,66 +5,64 @@
 
 #pragma once
 
-#include <viskit/viskit/IParticleSystem.h>
-#include <viskit/viskit/IGraph.h>
 #include <viskit/core/Core.h>
-#include <viskit/viskit/DataPoint.h>
 #include <viskit/particles/ParticleSystem.h>
+#include <viskit/viskit/DataPoint.h>
+#include <viskit/viskit/IGraph.h>
+#include <viskit/viskit/IParticleSystem.h>
 
-namespace viskit::facade
-{
-	class FacadeInteractiveVizualization;
+namespace viskit::facade {
+class FacadeInteractiveVizualization;
 
-	/// <summary>
-	/// Implementation of ParticleSystem interface.
-	/// </summary>
-	class FacadeParticleSystem final : public IParticleSystem
-	{
-		// public construction and destruction methods
-	public:
-		explicit FacadeParticleSystem(const std::shared_ptr<core::Core>& core);
+/// <summary>
+/// Implementation of ParticleSystem interface.
+/// </summary>
+class FacadeParticleSystem final : public IParticleSystem {
+    // public construction and destruction methods
+public:
+    explicit FacadeParticleSystem(const std::shared_ptr<core::Core>& core);
 
-		FacadeParticleSystem(const FacadeParticleSystem&) = delete;
-		FacadeParticleSystem(FacadeParticleSystem&&) = delete;
+    FacadeParticleSystem(const FacadeParticleSystem&) = delete;
+    FacadeParticleSystem(FacadeParticleSystem&&) = delete;
 
-		FacadeParticleSystem& operator=(const FacadeParticleSystem&) = delete;
-		FacadeParticleSystem& operator=(FacadeParticleSystem&&) = delete;
+    FacadeParticleSystem& operator=(const FacadeParticleSystem&) = delete;
+    FacadeParticleSystem& operator=(FacadeParticleSystem&&) = delete;
 
-		[[nodiscard]] particles::ParticleSystem& internalSystem() const { return *m_internalParticleSystem; }
+    [[nodiscard]] particles::ParticleSystem& internalSystem() const { return *m_internalParticleSystem; }
 
-		// public methods
-	public:
-        DatasetInfo datasetInfo() override;
+    // public methods
+public:
+    DatasetInfo datasetInfo() override;
 
-		std::vector<std::pair<DataPoint, size_t>> originalCoordinates() override;
+    std::vector<std::pair<DataPoint, size_t>> originalCoordinates() override;
 
-        std::vector<viskit::vec4> positions() override;
+    std::vector<viskit::vec4> positions() override;
 
-        std::vector<viskit::vec4> velocities() override;
+    std::vector<viskit::vec4> velocities() override;
 
-        std::vector<viskit::vec4> forces() override;
+    std::vector<viskit::vec4> forces() override;
 
-        std::vector<viskit::vec4> colors() override;
+    std::vector<viskit::vec4> colors() override;
 
-		std::vector<size_t> labels() override;
-	
-		void setPosition(size_t index, float x, float y) override;
+    std::vector<size_t> labels() override;
 
-		size_t countAlive() override;
+    void setPosition(size_t index, float x, float y) override;
 
-		size_t countParticles() override;
+    size_t countAlive() override;
 
-		void clear() override;
+    size_t countParticles() override;
 
-		bool empty() override;
+    void clear() override;
 
-        bool saveToFile(const std::string& fileName) override;
+    bool empty() override;
 
-        bool saveToFile(const std::string& fileName, IGraph& graph) override;
+    bool saveToFile(const std::string& fileName) override;
 
-	private:
-		std::shared_ptr<core::Core> m_ext_core;
+    bool saveToFile(const std::string& fileName, IGraph& graph) override;
 
-		std::shared_ptr<particles::ParticleSystem> m_internalParticleSystem;
-	};
+private:
+    std::shared_ptr<core::Core> m_ext_core;
+
+    std::shared_ptr<particles::ParticleSystem> m_internalParticleSystem;
+};
 }

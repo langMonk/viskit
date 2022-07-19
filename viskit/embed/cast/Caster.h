@@ -8,23 +8,21 @@
 #include <viskit/core/System.h>
 #include <viskit/particles/ParticleSystem.h>
 
-namespace viskit::embed::cast
-{
-	class Caster
-	{
-		// public construction and destruction methods
-	public:
-		explicit Caster(const core::System& system);
-		virtual ~Caster() = default;
+namespace viskit::embed::cast {
+class Caster {
+    // public construction and destruction methods
+public:
+    explicit Caster(const core::System& system);
+    virtual ~Caster() = default;
 
-		Caster(const Caster&) = delete;
-		Caster& operator=(const Caster&) = delete;
+    Caster(const Caster&) = delete;
+    Caster& operator=(const Caster&) = delete;
 
-		virtual void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) {};
+    virtual void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) {};
 
-		virtual void calculatePositions(particles::ParticleSystem& ps) {};
-		
-	protected:
-        const core::System& m_ext_system;
-	};
+    virtual void calculatePositions(particles::ParticleSystem& ps) {};
+
+protected:
+    const core::System& m_ext_system;
+};
 }

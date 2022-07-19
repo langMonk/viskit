@@ -1,18 +1,21 @@
 #pragma once
 
-#include <vector>
-#include <limits>
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <random>
+#include <vector>
 
 #include "NeighborList.h"
 
 namespace viskit::embed::cast::umap {
 
-template<typename Float>
+template <typename Float>
 struct EpochData {
-    explicit EpochData(size_t nobs) : head(nobs) {}
+    explicit EpochData(size_t nobs)
+        : head(nobs)
+    {
+    }
 
     int total_epochs = 0;
     int current_epoch = 0;
@@ -26,8 +29,9 @@ struct EpochData {
     Float negative_sample_rate;
 };
 
-template<typename Float>
-EpochData<Float> similarities_to_epochs(const NeighborList<Float>& p, int num_epochs, Float negative_sample_rate) {
+template <typename Float>
+EpochData<Float> similarities_to_epochs(const NeighborList<Float>& p, int num_epochs, Float negative_sample_rate)
+{
     Float maxed = 0;
     size_t count = 0;
     for (const auto& x : p) {
@@ -64,11 +68,12 @@ EpochData<Float> similarities_to_epochs(const NeighborList<Float>& p, int num_ep
     }
     output.negative_sample_rate = negative_sample_rate;
 
-    return output;       
+    return output;
 }
 
-template<typename Float>
-Float quick_squared_distance(const Float* left, const Float* right, int ndim) {
+template <typename Float>
+Float quick_squared_distance(const Float* left, const Float* right, int ndim)
+{
     Float dist2 = 0;
     for (int d = 0; d < ndim; ++d, ++left, ++right) {
         dist2 += (*left - *right) * (*left - *right);
@@ -77,14 +82,15 @@ Float quick_squared_distance(const Float* left, const Float* right, int ndim) {
     return std::max(dist_eps, dist2);
 }
 
-template<typename Float>
-Float clamp(Float input) {
+template <typename Float>
+Float clamp(Float input)
+{
     constexpr Float min_gradient = -4;
     constexpr Float max_gradient = 4;
     return std::min(std::max(input, min_gradient), max_gradient);
 }
 
-template<bool batch, typename Float, class Setup, class Rng> 
+template <bool batch, typename Float, class Setup, class Rng>
 void optimize_sample(
     size_t i,
     int ndim,
@@ -96,18 +102,18 @@ void optimize_sample(
     Float gamma,
     Float alpha,
     Rng& rng,
-    Float epoch
-) {
+    Float epoch)
+{
     const auto& head = setup.head;
     const auto& tail = setup.tail;
     const auto& epochs_per_sample = setup.epochs_per_sample;
     auto& epoch_of_next_sample = setup.epoch_of_next_sample;
     auto& epoch_of_next_negative_sample = setup.epoch_of_next_negative_sample;
-   
-    const size_t num_obs = head.size(); 
+
+    const size_t num_obs = head.size();
     const Float negative_sample_rate = setup.negative_sample_rate;
 
-    size_t start = (i == 0 ? 0 : setup.head[i-1]), end = setup.head[i];
+    size_t start = (i == 0 ? 0 : setup.head[i - 1]), end = setup.head[i];
     Float* left = embedding + i * ndim;
 
     for (size_t j = start; j < end; ++j) {
@@ -125,7 +131,7 @@ void optimize_sample(
 
             for (int d = 0; d < ndim; ++d, ++lcopy, ++rcopy) {
                 Float gradient = alpha * clamp(grad_coef * (*lcopy - *rcopy));
-                if constexpr(!batch) {
+                if constexpr (!batch) {
                     *lcopy += gradient;
                     *rcopy -= gradient;
                 } else {
@@ -156,7 +162,7 @@ void optimize_sample(
                 const Float* rcopy = right;
                 for (int d = 0; d < ndim; ++d, ++lcopy, ++rcopy) {
                     Float gradient = alpha * clamp(grad_coef * (*lcopy - *rcopy));
-                    if constexpr(!batch) {
+                    if constexpr (!batch) {
                         *lcopy += gradient;
                     } else {
                         buffer[d] += gradient;
@@ -173,22 +179,22 @@ void optimize_sample(
     }
 }
 
-template<typename Float, class Setup, class Rng>
+template <typename Float, class Setup, class Rng>
 void optimize_layout(
     int ndim,
-    Float* embedding, 
+    Float* embedding,
     Setup& setup,
-    Float a, 
-    Float b, 
+    Float a,
+    Float b,
     Float gamma,
     Float initial_alpha,
     Rng& rng,
-    int epoch_limit
-) {
+    int epoch_limit)
+{
     auto& n = setup.current_epoch;
     auto num_epochs = setup.total_epochs;
     auto limit_epochs = num_epochs;
-    if (epoch_limit> 0) {
+    if (epoch_limit > 0) {
         limit_epochs = std::min(epoch_limit, num_epochs);
     }
 
@@ -201,19 +207,19 @@ void optimize_layout(
     }
 }
 
-template<typename Float, class Setup, class SeedFunction, class EngineFunction>
+template <typename Float, class Setup, class SeedFunction, class EngineFunction>
 inline void optimize_layout_batched(
     int ndim,
-    Float* embedding, 
+    Float* embedding,
     Setup& setup,
-    Float a, 
-    Float b, 
+    Float a,
+    Float b,
     Float gamma,
     Float initial_alpha,
     SeedFunction seeder,
     EngineFunction creator,
-    int epoch_limit
-) {
+    int epoch_limit)
+{
     auto& n = setup.current_epoch;
     auto num_epochs = setup.total_epochs;
     auto limit_epochs = num_epochs;
@@ -221,7 +227,7 @@ inline void optimize_layout_batched(
         limit_epochs = std::min(epoch_limit, num_epochs);
     }
 
-    const size_t num_obs = setup.head.size(); 
+    const size_t num_obs = setup.head.size();
     std::vector<decltype(seeder())> seeds(num_obs);
     std::vector<Float> replace_buffer(num_obs * ndim);
     Float* replacement = replace_buffer.data();
@@ -238,15 +244,15 @@ inline void optimize_layout_batched(
 
         // Input and output alternate between epochs, to avoid the need for a
         // copy operation on the entire embedding at the end of each epoch.
-        Float* reference = (using_replacement ? replacement : embedding); 
+        Float* reference = (using_replacement ? replacement : embedding);
         Float* output = (using_replacement ? embedding : replacement);
         using_replacement = !using_replacement;
 
-        #pragma omp parallel
+#pragma omp parallel
         {
             std::vector<Float> buffer(ndim);
 
-            #pragma omp for
+#pragma omp for
             for (size_t i = 0; i < setup.head.size(); ++i) {
                 size_t shift = i * ndim;
                 std::copy(reference + shift, reference + shift + ndim, buffer.data());

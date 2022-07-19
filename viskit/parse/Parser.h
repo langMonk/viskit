@@ -9,22 +9,20 @@
 #include <viskit/core/System.h>
 #include <viskit/particles/ParticleSystem.h>
 
-namespace viskit::parse
-{
-	class Parser
-	{
-		// public construction and destruction methods
-	public:
-		explicit Parser(core::System& system);
+namespace viskit::parse {
+class Parser {
+    // public construction and destruction methods
+public:
+    explicit Parser(core::System& system);
 
-		Parser(const Parser&) = delete;
-		Parser& operator=(const Parser&) = delete;
+    Parser(const Parser&) = delete;
+    Parser& operator=(const Parser&) = delete;
 
-		// public methods
-	public:
-		virtual void finalize(particles::ParticleSystem& ps);
+    // public methods
+public:
+    virtual void finalize(particles::ParticleSystem& ps);
 
-	protected:
-		core::System& m_ext_system;
-	};
+protected:
+    core::System& m_ext_system;
+};
 }

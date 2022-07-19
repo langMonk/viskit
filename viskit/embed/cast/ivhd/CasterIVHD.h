@@ -6,30 +6,28 @@
 #pragma once
 
 #include <viskit/core/System.h>
-#include <viskit/particles/ParticleSystem.h>
 #include <viskit/embed/cast/Caster.h>
+#include <viskit/particles/ParticleSystem.h>
 
-namespace viskit::embed::cast
-{
-	class CasterIVHD : public Caster
-	{
-		// public construction and destruction methods
-	public:
-		explicit CasterIVHD(const core::System& system);
+namespace viskit::embed::cast {
+class CasterIVHD : public Caster {
+    // public construction and destruction methods
+public:
+    explicit CasterIVHD(const core::System& system);
 
-		void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) override;
-			
-		virtual void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph, size_t& interactions);
+    void castParticleSystem(particles::ParticleSystem& ps, Graph& graph) override;
 
-		void setFinalizing(bool val) { m_finalizing = val; }
+    virtual void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph, size_t& interactions);
 
-	protected:
-        float w_random{ 0.01f };
+    void setFinalizing(bool val) { m_finalizing = val; }
 
-        float w_near{ 1.0f };
+protected:
+    float w_random { 0.01f };
 
-        float w_reverse{ 1.0f };
+    float w_near { 1.0f };
 
-		bool m_finalizing{ false };
-	};
+    float w_reverse { 1.0f };
+
+    bool m_finalizing { false };
+};
 }

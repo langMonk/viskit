@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Eigen/Dense>
 #include "utils.h"
 #include "wrappers.h"
+#include <Eigen/Dense>
 #include <cmath>
 #include <limits>
 
@@ -25,6 +25,7 @@ public:
          */
         static constexpr double epsilon = -1;
     };
+
 public:
     /**
      * Set the tolerance to use to define invariant subspaces.
@@ -36,7 +37,8 @@ public:
      *
      * @return A reference to the `LanczosBidiagonalization` instance.
      */
-    LanczosBidiagonalization& set_epsilon(double e = Defaults::epsilon) {
+    LanczosBidiagonalization& set_epsilon(double e = Defaults::epsilon)
+    {
         epsilon = e;
         return *this;
     }
@@ -51,22 +53,28 @@ public:
          *
          * @param mat Instance of a matrix class `M`.
          */
-        template<class M>
-        Intermediates(const M& mat) : F(mat.cols()), W_next(mat.rows()), orthog_tmp(mat.cols()) {}
+        template <class M>
+        Intermediates(const M& mat)
+            : F(mat.cols())
+            , W_next(mat.rows())
+            , orthog_tmp(mat.cols())
+        {
+        }
 
         /**
          * Obtain the residual vector, see algorithm 2.1 of Baglama and Reichel (2005).
          *
          * @return Vector of residuals of length equal to the number of columns of `mat` in `run()`.
          */
-        const Eigen::VectorXd& residuals() const {
+        const Eigen::VectorXd& residuals() const
+        {
             return F;
         }
 
         /**
          * @cond
          */
-        Eigen::VectorXd F; 
+        Eigen::VectorXd F;
         Eigen::VectorXd W_next;
         Eigen::VectorXd orthog_tmp;
         /**
@@ -74,8 +82,9 @@ public:
          */
     };
 
-    template<class M>
-    Intermediates initialize(const M& mat) {
+    template <class M>
+    Intermediates initialize(const M& mat)
+    {
         return Intermediates(mat);
     }
 
@@ -106,15 +115,15 @@ public:
      * `W` is filled with orthonormal vectors, as is `V`.
      * `B` is filled with upper diagonal entries.
      */
-    template<class M, class Engine>
+    template <class M, class Engine>
     void run(
-        const M& mat, 
-        Eigen::MatrixXd& W, 
-        Eigen::MatrixXd& V, 
-        Eigen::MatrixXd& B, 
-        Engine& eng, 
-        Intermediates& inter, 
-        int start = 0) 
+        const M& mat,
+        Eigen::MatrixXd& W,
+        Eigen::MatrixXd& V,
+        Eigen::MatrixXd& B,
+        Engine& eng,
+        Intermediates& inter,
+        int start = 0)
     {
         const double eps = (epsilon < 0 ? std::pow(std::numeric_limits<double>::epsilon(), 0.8) : epsilon);
 
@@ -124,7 +133,7 @@ public:
         auto& otmp = inter.orthog_tmp;
 
         F = V.col(start);
-        if constexpr(has_multiply_method<M>::value) {
+        if constexpr (has_multiply_method<M>::value) {
             W_next.noalias() = mat * F;
         } else {
             mat.multiply(F, W_next);
@@ -144,7 +153,7 @@ public:
 
         // The Lanczos iterations themselves.
         for (int j = start; j < work; ++j) {
-            if constexpr(has_adjoint_multiply_method<M>::value) {
+            if constexpr (has_adjoint_multiply_method<M>::value) {
                 F.noalias() = mat.adjoint() * W.col(j);
             } else {
                 mat.adjoint_multiply(W.col(j), F);
@@ -171,7 +180,7 @@ public:
                 B(j, j) = S;
                 B(j, j + 1) = R_F;
 
-                if constexpr(has_multiply_method<M>::value) {
+                if constexpr (has_multiply_method<M>::value) {
                     W_next.noalias() = mat * F;
                 } else {
                     mat.multiply(F, W_next);
@@ -198,7 +207,6 @@ public:
                 B(j, j) = S;
             }
         }
-
     }
 
 private:

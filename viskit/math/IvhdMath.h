@@ -5,14 +5,13 @@
 
 #pragma once
 
-namespace viskit::math
-{
-	template<class T = size_t>
-	constexpr T threads = T(8);
+namespace viskit::math {
+template <class T = size_t>
+constexpr T threads = T(4);
 
-	template<class T = float>
-	constexpr T pi = T(3.14159265358979323846);
+template <class T = float>
+constexpr T pi = T(3.14159265358979323846);
 
-	template<class T = float>
-	constexpr T e = T(2.71828182845904523536);
+template <class T = float>
+constexpr T e = T(2.71828182845904523536);
 }

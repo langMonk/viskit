@@ -5,16 +5,14 @@
 
 #pragma once
 
-namespace viskit
-{
-    /// <summary>
-    /// Levels of logs: Info, Warning (viskit can operate), Error (viskit crush), Debug (only in debug mode)
-    /// <!summary>
-    enum class LogLevel
-    {
-        Debug,
-        Info,
-        Warning,
-        Error,
-    };
+namespace viskit {
+/// <summary>
+/// Levels of logs: Info, Warning (viskit can operate), Error (viskit crush), Debug (only in debug mode)
+/// <!summary>
+enum class LogLevel {
+    Debug,
+    Info,
+    Warning,
+    Error,
+};
 }

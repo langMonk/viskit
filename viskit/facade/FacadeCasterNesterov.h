@@ -5,36 +5,33 @@
 
 #pragma once
 
-#include <viskit/facade/FacadeCaster.h>
 #include <viskit/embed/cast/ivhd/CasterNesterov.h>
+#include <viskit/facade/FacadeCaster.h>
 
-namespace viskit::facade
-{
-	/// <summary>
-	/// Implementation of ICaster interface.
-	/// </summary>
-	class FacadeCasterNesterov : public FacadeCaster
-	{
-		// public construction and destruction methods
-	public:
+namespace viskit::facade {
+/// <summary>
+/// Implementation of ICaster interface.
+/// </summary>
+class FacadeCasterNesterov : public FacadeCaster {
+    // public construction and destruction methods
+public:
+    explicit FacadeCasterNesterov(const std::shared_ptr<core::Core>& core);
+    ~FacadeCasterNesterov() = default;
 
-		explicit FacadeCasterNesterov(const std::shared_ptr<core::Core>& core);
-		~FacadeCasterNesterov() = default;
+    FacadeCasterNesterov(const FacadeCasterNesterov&) = delete;
+    FacadeCasterNesterov(FacadeCasterNesterov&&) = delete;
 
-		FacadeCasterNesterov(const FacadeCasterNesterov&) = delete;
-		FacadeCasterNesterov(FacadeCasterNesterov&&) = delete;
+    FacadeCasterNesterov& operator=(const FacadeCasterNesterov&) = delete;
+    FacadeCasterNesterov& operator=(FacadeCasterNesterov&&) = delete;
 
-		FacadeCasterNesterov& operator=(const FacadeCasterNesterov&) = delete;
-		FacadeCasterNesterov& operator=(FacadeCasterNesterov&&) = delete;
+    // public methods
+public:
+    void calculatePositions(IParticleSystem& ps) override;
 
-		// public methods
-	public:
-		void calculatePositions(IParticleSystem& ps) override;
+    void calculateForces(IParticleSystem& ps, IGraph& graph) override;
 
-		void calculateForces(IParticleSystem& ps, IGraph& graph) override;
+    CasterType type() override { return CasterType::IVHD; }
 
-		CasterType type() override { return CasterType::IVHD; }
-
-		OptimizerType optimizerType() override { return OptimizerType::Nesterov; }
-	};
+    OptimizerType optimizerType() override { return OptimizerType::Nesterov; }
+};
 }

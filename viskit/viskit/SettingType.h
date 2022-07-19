@@ -5,12 +5,10 @@
 
 #pragma once
 
-namespace viskit
-{
-    enum class SettingType : int
-    {
-        Boolean = 0x01,
-        Integer = 0x02,
-        Float = 0x03,
-    };
+namespace viskit {
+enum class SettingType : int {
+    Boolean = 0x01,
+    Integer = 0x02,
+    Float = 0x03,
+};
 }

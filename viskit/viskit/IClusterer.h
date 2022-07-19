@@ -9,13 +9,9 @@
 
 #include <viskit/viskit/ITransformer.h>
 
-namespace viskit
-{
-    class IClusterer : public virtual ITransformer
-    {
-        // public methods
-    public:
-
-
-    };
+namespace viskit {
+class IClusterer : public virtual ITransformer {
+    // public methods
+public:
+};
 }

@@ -1,32 +1,32 @@
 #pragma once
 
-#include <vector>
-#include <limits>
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <limits>
 #include <numeric>
+#include <vector>
 
 #include "NeighborList.h"
 
 namespace viskit::embed::cast::umap {
 
-template<typename Float>
+template <typename Float>
 void neighbor_similarities(
-    NeighborList<Float>& x, 
-    Float local_connectivity = 1.0, 
+    NeighborList<Float>& x,
+    Float local_connectivity = 1.0,
     Float bandwidth = 1.0,
-    int max_iter = 64, 
-    Float tol = 1e-5, 
-    Float min_k_dist_scale = 1e-3
-) {
+    int max_iter = 64,
+    Float tol = 1e-5,
+    Float min_k_dist_scale = 1e-3)
+{
     Float grand_mean_dist = -1;
     constexpr Float max_val = std::numeric_limits<Float>::max();
 
-    #pragma omp parallel
+#pragma omp parallel
     {
         std::vector<Float> non_zero_distances;
-        
-        #pragma omp for
+
+#pragma omp for
         for (size_t i = 0; i < x.size(); ++i) {
             auto& all_neighbors = x[i];
             const int n_neighbors = all_neighbors.size();
@@ -72,10 +72,10 @@ void neighbor_similarities(
                 // 0. In which case, exp(-dist / sigma) is just 1 for each
                 // distance of zero, allowing us to just add these directly.
                 Float val = n_neighbors - non_zero_distances.size();
-                
+
                 for (auto d : non_zero_distances) {
                     if (d > rho) {
-                        val += std::exp(-(d - rho)/ sigma);
+                        val += std::exp(-(d - rho) / sigma);
                     } else {
                         val += 1;
                     }
@@ -113,7 +113,7 @@ void neighbor_similarities(
 
             // Quickly summing over the non-zero distances, then dividing
             // by the total number of neighbors to obtain the mean.
-            Float mean_dist = std::accumulate(non_zero_distances.begin(), non_zero_distances.end(), 0.0)/n_neighbors;
+            Float mean_dist = std::accumulate(non_zero_distances.begin(), non_zero_distances.end(), 0.0) / n_neighbors;
             sigma = std::max(min_k_dist_scale * mean_dist, sigma);
 
             for (int k = 0; k < n_neighbors; ++k) {

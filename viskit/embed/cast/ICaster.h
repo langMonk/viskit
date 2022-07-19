@@ -5,17 +5,15 @@
 
 #pragma once
 
-namespace viskit::embed::cast
-{
-	class ICaster
-	{
-		// public construction and destruction methods
-	public:
-		virtual void castParticle(size_t index) = 0;
+namespace viskit::embed::cast {
+class ICaster {
+    // public construction and destruction methods
+public:
+    virtual void castParticle(size_t index) = 0;
 
-		virtual void castParticleSystem() = 0;
+    virtual void castParticleSystem() = 0;
 
-	public:
-		virtual ~ICaster() = default;
-	};
+public:
+    virtual ~ICaster() = default;
+};
 }

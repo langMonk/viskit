@@ -25,7 +25,7 @@ std::vector<viskit::vec4> FacadeParticleSystem::positions()
     auto data = m_internalParticleSystem->calculationData()->m_pos;
 
     std::vector<viskit::vec4> temp;
-    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value){
+    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value) {
         temp.emplace_back(value.x, value.y, value.z, value.w);
     });
 
@@ -37,7 +37,7 @@ std::vector<viskit::vec4> FacadeParticleSystem::forces()
     auto data = m_internalParticleSystem->calculationData()->m_force;
 
     std::vector<viskit::vec4> temp;
-    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value){
+    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value) {
         temp.emplace_back(value.x, value.y, value.z, value.w);
     });
 
@@ -49,7 +49,7 @@ std::vector<viskit::vec4> FacadeParticleSystem::velocities()
     auto data = m_internalParticleSystem->calculationData()->m_vel;
 
     std::vector<viskit::vec4> temp;
-    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value){
+    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value) {
         temp.emplace_back(value.x, value.y, value.z, value.w);
     });
 
@@ -61,7 +61,7 @@ std::vector<viskit::vec4> FacadeParticleSystem::colors()
     auto data = m_internalParticleSystem->calculationData()->m_col;
 
     std::vector<viskit::vec4> temp;
-    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value){
+    std::for_each(std::begin(data), std::end(data), [&](glm::vec4 value) {
         temp.emplace_back(value.x, value.y, value.z, value.w);
     });
 
@@ -127,8 +127,8 @@ bool FacadeParticleSystem::saveToFile(const std::string& fileName, IGraph& graph
         auto labels = m_internalParticleSystem->labels();
         for (auto i = 0; i < positions.size(); i++) {
             auto neighbors = facadeGraph->getNeighbors(i);
-            int countNN = std::count_if(neighbors.begin(), neighbors.end(), [](Neighbors nn){return nn.type == NeighborsType::Near;});
-            int countRN = std::count_if(neighbors.begin(), neighbors.end(), [](Neighbors nn){return nn.type == NeighborsType::Random;});
+            int countNN = std::count_if(neighbors.begin(), neighbors.end(), [](Neighbors nn) { return nn.type == NeighborsType::Near; });
+            int countRN = std::count_if(neighbors.begin(), neighbors.end(), [](Neighbors nn) { return nn.type == NeighborsType::Random; });
             file << positions[i].x << "," << positions[i].y << "," << labels[i] << "," << countNN << "," << countRN << std::endl;
         }
 

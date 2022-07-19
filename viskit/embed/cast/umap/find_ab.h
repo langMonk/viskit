@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cmath>
-#include <vector>
 #include <iostream>
+#include <vector>
 
 namespace viskit::embed::cast::umap {
 
@@ -26,9 +26,10 @@ namespace viskit::embed::cast::umap {
  * > y <- pmin(1, exp(-(x - m)/s))
  * > sum(eval(delta))
  */
- 
-template<typename Float>
-std::pair<Float, Float> find_ab(Float spread, Float min_dist, Float grid = 300, Float limit = 0.5, int iter = 50, Float tol = 1e-6) {
+
+template <typename Float>
+std::pair<Float, Float> find_ab(Float spread, Float min_dist, Float grid = 300, Float limit = 0.5, int iter = 50, Float tol = 1e-6)
+{
     Float x_half = std::log(limit) * -spread + min_dist;
     Float d_half = limit / -spread;
 
@@ -38,11 +39,11 @@ std::pair<Float, Float> find_ab(Float spread, Float min_dist, Float grid = 300, 
     for (int g = 0; g < grid; ++g) {
         grid_x[g] = (g + 1) * delta; // +1 to avoid meaningless least squares result at x = 0, where both curves have y = 1 (and also the derivative w.r.t. b is not defined).
         log_x[g] = std::log(grid_x[g]);
-        grid_y[g] = (grid_x[g] <= min_dist ? 1 : std::exp(- (grid_x[g] - min_dist) / spread));
+        grid_y[g] = (grid_x[g] <= min_dist ? 1 : std::exp(-(grid_x[g] - min_dist) / spread));
     }
 
     // Starting estimates.
-    Float b = - d_half * x_half / (1 / limit - 1) / (2 * limit * limit);
+    Float b = -d_half * x_half / (1 / limit - 1) / (2 * limit * limit);
     Float a = (1 / limit - 1) / std::pow(x_half, 2 * b);
 
     std::vector<Float> observed_y(grid), xpow(grid);
@@ -80,55 +81,40 @@ std::pair<Float, Float> find_ab(Float spread, Float min_dist, Float grid = 300, 
             db += -2 * a * x2b * logx2 * oy * oy * delta;
 
             // 2 * (
-            //     x^(2 * b)/(1 + a * x^(2 * b))^2 * (x^(2 * b)/(1 + a * x^(2 * b))^2) 
+            //     x^(2 * b)/(1 + a * x^(2 * b))^2 * (x^(2 * b)/(1 + a * x^(2 * b))^2)
             //     + x^(2 * b) * (2 * (x^(2 * b) * (1 + a * x^(2 * b))))/((1 + a * x^(2 * b))^2)^2 * (1/(1 + a * x^(2 * b)) - y)
-            // ) 
-            daa += 2 * (
-                x2b * oy * oy * x2b * oy * oy
-                + x2b * 2 * x2b * oy * oy * oy * delta
-            );
+            // )
+            daa += 2 * (x2b * oy * oy * x2b * oy * oy + x2b * 2 * x2b * oy * oy * oy * delta);
 
-            //-(2 * 
+            //-(2 *
             //    (
             //        (
-            //            (x^(2 * b) * (log(x) * 2))/(1 + a * x^(2 * b))^2 
+            //            (x^(2 * b) * (log(x) * 2))/(1 + a * x^(2 * b))^2
             //            - a * (x^(2 * b) * (log(x) * 2)) * (2 * (x^(2 * b) * (1 + a * x^(2 * b))))/((1 + a * x^(2 * b))^2)^2
-            //        ) 
-            //        * (1/(1 + a * x^(2 * b)) - y) 
+            //        )
+            //        * (1/(1 + a * x^(2 * b)) - y)
             //        - a * (x^(2 * b) * (log(x) * 2))/(1 + a * x^(2 * b))^2 * (x^(2 * b)/(1 + a * x^(2 * b))^2)
             //    )
             //)
-            dab += -2 * (
-                (
-                    x2b * logx2 * oy * oy
-                    - a * x2b * logx2 * 2 * x2b * oy * oy * oy
-                ) * delta
-                - a * x2b * logx2 * oy * oy * x2b * oy * oy
-            );
+            dab += -2 * ((x2b * logx2 * oy * oy - a * x2b * logx2 * 2 * x2b * oy * oy * oy) * delta - a * x2b * logx2 * oy * oy * x2b * oy * oy);
 
-            // -(2 * 
+            // -(2 *
             //     (
             //         (
-            //             a * (x^(2 * b) * (log(x) * 2) * (log(x) * 2))/(1 + a * x^(2 * b))^2 
+            //             a * (x^(2 * b) * (log(x) * 2) * (log(x) * 2))/(1 + a * x^(2 * b))^2
             //             - a * (x^(2 * b) * (log(x) * 2)) * (2 * (a * (x^(2 * b) * (log(x) * 2)) * (1 + a * x^(2 * b))))/((1 + a * x^(2 * b))^2)^2
-            //         ) 
-            //         * (1/(1 + a * x^(2 * b)) - y) 
+            //         )
+            //         * (1/(1 + a * x^(2 * b)) - y)
             //         - a * (x^(2 * b) * (log(x) * 2))/(1 + a * x^(2 * b))^2 * (a * (x^(2 * b) * (log(x) * 2))/(1 + a * x^(2 * b))^2)
             //     )
-            // ) 
-            dbb += -2 * (
-                (
-                    (a * x2b * logx2 * logx2 * oy * oy)
-                    - (a * x2b * logx2 * 2 * a * x2b * logx2 * oy * oy * oy)
-                ) * delta 
-                - a * x2b * logx2 * oy * oy * a * x2b * logx2 * oy * oy
-            );
+            // )
+            dbb += -2 * (((a * x2b * logx2 * logx2 * oy * oy) - (a * x2b * logx2 * 2 * a * x2b * logx2 * oy * oy * oy)) * delta - a * x2b * logx2 * oy * oy * a * x2b * logx2 * oy * oy);
         }
 
         // Applying the Newton iterations with damping.
         Float determinant = daa * dbb - dab * dab;
         const Float delta_a = (da * dbb - dab * db) / determinant;
-        const Float delta_b = (- da * dab + daa * db) / determinant; 
+        const Float delta_b = (-da * dab + daa * db) / determinant;
 
         Float ss_next = 0;
         Float factor = 1;
@@ -139,7 +125,7 @@ std::pair<Float, Float> find_ab(Float spread, Float min_dist, Float grid = 300, 
             }
         }
 
-        if (ss && 1 - ss_next/ss > tol) {
+        if (ss && 1 - ss_next / ss > tol) {
             a -= factor * delta_a;
             b -= factor * delta_b;
             ss = ss_next;

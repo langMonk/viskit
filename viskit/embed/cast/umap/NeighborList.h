@@ -17,9 +17,9 @@ namespace viskit::embed::cast::umap {
  *
  * The index refers to the position of the neighboring observation in the dataset.
  * The statistic can store some statistic related to the neighbor, e.g., distance or probabilities.
- */ 
-template<typename Float = double>
-using Neighbor =  std::pair<int, Float>;
+ */
+template <typename Float = double>
+using Neighbor = std::pair<int, Float>;
 
 /**
  * @brief Lists of neighbors for each observation.
@@ -28,8 +28,7 @@ using Neighbor =  std::pair<int, Float>;
  *
  * Each inner vector corresponds to an observation and contains the list of nearest neighbors for that observation.
  */
-template<typename Float = double>
+template <typename Float = double>
 using NeighborList = std::vector<std::vector<Neighbor<Float>>>;
 
 }
-
