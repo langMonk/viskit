@@ -1,8 +1,10 @@
 import pyviskit_bindings
 
-DATASET_FILE_PATH = "./mnist_data.csv"
-LABELS_FILE_PATH = "./mnist_targets_2.csv"
-GRAPH_FILE_PATH = "./mnist_euclidean.bin"
+DATASET_FILE_PATH = (
+    "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_data.csv"
+)
+LABELS_FILE_PATH = "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_labels.csv"
+GRAPH_FILE_PATH = "/Users/bartoszminch/Documents/Repositories/dataset_viskit/graphs/mnist_euclidean.bin"
 OUTPUT_FILE_PATH = "./visualization.txt"
 
 ITERATIONS = 2500
@@ -16,48 +18,66 @@ CASTER_NAME = "force-directed"
 
 
 def perform_visualization(
-        dataset_file_path,
-        labels_file_path,
-        graph_file_path,
-        output_file_path,
-        iterations,
-        nearest_neighbors_count,
-        random_neighbors_count,
-        binary_distances,
-        reverse_neighbors_steps,
-        reverse_neighbors_count,
-        l1_steps,
-        caster_type,
-        optimizer_type
+    dataset_file_path,
+    labels_file_path,
+    graph_file_path,
+    output_file_path,
+    iterations,
+    nearest_neighbors_count,
+    random_neighbors_count,
+    binary_distances,
+    reverse_neighbors_steps,
+    reverse_neighbors_count,
+    l1_steps,
+    caster_type,
+    optimizer_type,
 ):
     print("creating viskit...")
     viskit = pyviskit_bindings.create_viskit()
     resource_factory = viskit.resourceFactory()
+
     print("creating parser...")
     parser = resource_factory.createParser(pyviskit_bindings.ParserType.Csv)
+
     print("creating particle system...")
     particle_system = resource_factory.createParticleSystem()
+
     print("creating graph...")
     graph = resource_factory.createGraph()
+
     print("creating graph_helper...")
     graph_helper = resource_factory.createGraph()
+
     print("creating random graph generator...")
-    random_graph_generator = resource_factory.createGraphGenerator(pyviskit_bindings.GraphGeneratorType.Random)
+    random_graph_generator = resource_factory.createGraphGenerator(
+        pyviskit_bindings.GraphGeneratorType.Random
+    )
+
     print("creating caster...")
     caster = resource_factory.createCaster(caster_type, optimizer_type)
+
     print("creating caster random...")
-    caster_random = resource_factory.createCaster(pyviskit_bindings.CasterType.Random, pyviskit_bindings.OptimizerType.NONE)
+    caster_random = resource_factory.createCaster(
+        pyviskit_bindings.CasterType.Random, pyviskit_bindings.OptimizerType.NONE
+    )
 
     print("loading file...")
     parser.loadFile(dataset_file_path, labels_file_path, particle_system)
+
     print("loading nearest neighbors from cache...")
-    graph.loadNearestNeighborsFromCache(graph_file_path, nearest_neighbors_count, binary_distances)
+    graph.loadNearestNeighborsFromCache(
+        graph_file_path, nearest_neighbors_count, binary_distances
+    )
 
     if reverse_neighbors_count > 0:
-        graph_helper.loadNearestNeighborsFromCache(graph_file_path, reverse_neighbors_count, binary_distances)
+        graph_helper.loadNearestNeighborsFromCache(
+            graph_file_path, reverse_neighbors_count, binary_distances
+        )
 
     print("generating random graph...")
-    random_graph_generator.generate(particle_system, graph, random_neighbors_count, binary_distances)
+    random_graph_generator.generate(
+        particle_system, graph, random_neighbors_count, binary_distances
+    )
     print("calculating positions...")
     caster_random.calculatePositions(particle_system)
 
@@ -70,10 +90,18 @@ def perform_visualization(
         viskit.computeCastingStep(particle_system, graph, caster)
 
     if reverse_neighbors_steps > 0:
-        reverse_graph_generator = resource_factory.createGraphGenerator(pyviskit_bindings.GraphGeneratorType.Reverse)
+        reverse_graph_generator = resource_factory.createGraphGenerator(
+            pyviskit_bindings.GraphGeneratorType.Reverse
+        )
         reverse_graph_generator.generate(particle_system, graph, graph_helper)
         graph.removeRandomNeighbors()
-        random_graph_generator.generate(particle_system, graph, graph_helper, random_neighbors_count, binary_distances)
+        random_graph_generator.generate(
+            particle_system,
+            graph,
+            graph_helper,
+            random_neighbors_count,
+            binary_distances,
+        )
         for i in range(reverse_neighbors_steps):
             viskit.computeCastingStep(particle_system, graph, caster)
 
@@ -109,7 +137,7 @@ if __name__ == "__main__":
         REVERSE_NEIGHBORS_COUNT,
         L1_STEPS,
         caster_type,
-        optimizer_type
+        optimizer_type,
     )
 
     perform_visualization(
@@ -125,5 +153,5 @@ if __name__ == "__main__":
         REVERSE_NEIGHBORS_COUNT,
         L1_STEPS,
         caster_type,
-        optimizer_type
+        optimizer_type,
     )
