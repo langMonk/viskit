@@ -91,8 +91,8 @@ class FaissGenerator:
 
 
 if __name__ == "__main__":
-    dataset_path = "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/smallnorb.csv"
-    generator = FaissGenerator(dataset_path, cosine_metric=False)
+    dataset_path = "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_data_7k.csv"
+    generator = FaissGenerator(dataset_path, cosine_metric=True)
     dist, ind = generator.run(nn=100)
-    generator.save_to_binary_file("smallnorb_euclidean.bin")
-    generator.save_to_text_file("smallnorb_euclidean.txt")
+    generator.save_to_binary_file("mnist_data_7k_cosine.bin")
+    generator.save_to_text_file("mnist_data_7k_cosine.txt")

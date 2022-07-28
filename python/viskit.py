@@ -11,7 +11,7 @@ from viskit.scoring.global_score import GlobalMetric
 from viskit.knn_graph.graph import Graph
 
 USE_GLOBAL_METRICS = True
-USE_LOCAL_METRICS = False
+USE_LOCAL_METRICS = True
 
 if USE_GLOBAL_METRICS:
     global_metrics = GlobalMetric()
@@ -78,7 +78,7 @@ def format_title(dataset_name: str, method) -> str:
         generated_title = "{}_{}".format(dataset_name, method["name"])
     else:
         ivhd = method["object"]
-        generated_title = "{}_{}_opt={}_iter={}_nn={}_rn={}_l1steps={}_reverse_neighbors_steps={}_reverse_neighbors_count={}".format(
+        generated_title = "{}_{}_opt={}_iter={}_nn={}_rn={}_l1steps={}_reverse_neighbors_steps={}_reverse_neighbors_count={}_binary_distances={}".format(
             dataset_name,
             method["name"],
             ivhd.optimizer,
@@ -88,6 +88,7 @@ def format_title(dataset_name: str, method) -> str:
             ivhd.l1_steps,
             ivhd.reverse_neighbors_steps,
             ivhd.reverse_neighbors_count,
+            ivhd.binaryDistances
         )
     return generated_title
 
@@ -119,162 +120,47 @@ def main():
 
     dataset_files = [
         {
-            "dataset": "/home/tmek1244/CLionProjects/viskit/assets/resources/mnist_2500.csv",
-            "graph": "/home/tmek1244/CLionProjects/viskit/assets/resources/mnist_7k_graph.bin",
+            "dataset": "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_data.csv",
+            "labels": "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_labels.csv",
+            "graph": "/Users/bartoszminch/Documents/Repositories/dataset_viskit/graphs/mnist_euclidean.bin"
         },
-        # "/home/bminch/Repositories/centroids/output/mnist_70k_pca30_50_2_all.csv",
-        # "/Users/bartoszminch/Documents/Repositories/dataset_viskit/mnist.csv",
-        # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv",
-        # "/home/bminch/Repositories/dataset_viskit/mnist_7k.csv"
     ]
 
     methods = [
-        # {
-        #     "name": "Ivhd",
-        #     "object": Ivhd(
-        #         optimizer="force-directed",
-        #         n_iter=1000,
-        #         nn=2,
-        #         rn=1,
-        #         l1_steps=0,
-        #         reverse_neighbors_steps=0,
-        #         reverse_neighbors_count=0,
-        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
-        #     ),
-        # },
-        # {
-        #     "name": "Ivhd",
-        #     "object": Ivhd(
-        #         optimizer="force-directed",
-        #         n_iter=1000,
-        #         nn=2,
-        #         rn=1,
-        #         l1_steps=0,
-        #         reverse_neighbors_steps=500,
-        #         reverse_neighbors_count=3,
-        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
-        #     ),
-        # },
-        # {
-        #     "name": "Ivhd",
-        #     "object": Ivhd(
-        #         optimizer="force-directed",
-        #         n_iter=1000,
-        #         nn=2,
-        #         rn=1,
-        #         l1_steps=0,
-        #         reverse_neighbors_steps=500,
-        #         reverse_neighbors_count=4,
-        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
-        #     ),
-        # },
-        # {
-        #     "name": "Ivhd",
-        #     "object": Ivhd(
-        #         optimizer="force-directed",
-        #         n_iter=1000,
-        #         nn=2,
-        #         rn=1,
-        #         l1_steps=0,
-        #         reverse_neighbors_steps=500,
-        #         reverse_neighbors_count=6,
-        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
-        #     ),
-        # },
-        # {
-        #     "name": "Ivhd",
-        #     "object": Ivhd(
-        #         optimizer="force-directed",
-        #         n_iter=3000,
-        #         nn=2,
-        #         rn=1,
-        #         l1_steps=0,
-        #         reverse_neighbors_steps=0,
-        #         reverse_neighbors_count=0,
-        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
-        #     ),
-        # },
-        # {
-        #     "name": "Ivhd",
-        #     "object": Ivhd(
-        #         optimizer="nesterov",
-        #         n_iter=8000,
-        #         nn=2,
-        #         rn=1,
-        #         l1_steps=0,
-        #         reverse_neighbors_steps=0,
-        #         reverse_neighbors_count=0,
-        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
-        #     ),
-        # },
-        # {
-        #     "name": "Ivhd",
-        #     "object": Ivhd(
-        #         optimizer="adam",
-        #         n_iter=8000,
-        #         nn=2,
-        #         rn=1,
-        #         l1_steps=0,
-        #         reverse_neighbors_steps=0,
-        #         reverse_neighbors_count=0,
-        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
-        #     ),
-        # },
-        # {
-        #     "name": "Ivhd",
-        #     "object": Ivhd(
-        #         optimizer="force-directed",
-        #         n_iter=2500,
-        #         nn=3,
-        #         rn=1,
-        #         l1_steps=0,
-        #         reverse_neighbors_steps=500,
-        #         reverse_neighbors_count=6,
-        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
-        #     ),
-        # },
         {
-            "name": "Largevis",
+            "name": "t-sne binary",
             "object": Ivhd(
-                optimizer="largevis",
-                n_iter=1,
-                nn=3,
+                optimizer="t-sne",
+                n_iter=3500,
+                nn=2,
                 rn=1,
-                l1_steps=0,
-                reverse_neighbors_steps=0,
-                reverse_neighbors_count=6,
-                # graph_path="/home/tmek1244/CLionProjects/viskit/assets/resources/mnist_7k_graph.bin",
+                binaryDistances=True,
+                graph_path="/Users/bartoszminch/Documents/Repositories/dataset_viskit/graphs/mnist_euclidean.bin",
+            ),
+        },
+        {
+            "name": "t-sne",
+            "object": Ivhd(
+                optimizer="t-sne",
+                n_iter=3500,
+                nn=2,
+                rn=1,
+                binaryDistances=False,
+                graph_path="/Users/bartoszminch/Documents/Repositories/dataset_viskit/graphs/mnist_euclidean.bin",
             ),
         },
         # {
-        #     "name": "Ivhd",
+        #     "name": "Largevis",
         #     "object": Ivhd(
-        #         optimizer="nesterov",
-        #         n_iter=7500,
-        #         nn=2,
+        #         optimizer="largevis",
+        #         n_iter=1,
+        #         nn=3,
         #         rn=1,
         #         l1_steps=0,
-        #         reverse_neighbors_steps=500,
+        #         reverse_neighbors_steps=0,
         #         reverse_neighbors_count=6,
-        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
         #     ),
         # },
-        # {
-        #     "name": "Ivhd",
-        #     "object": Ivhd(
-        #         optimizer="adam",
-        #         n_iter=7500,
-        #         nn=2,
-        #         rn=1,
-        #         l1_steps=0,
-        #         reverse_neighbors_steps=500,
-        #         reverse_neighbors_count=6,
-        #         graph_path="/Users/bartoszminch/Documents/Repositories/viskit/python/graphs/mnist_pca_100.bin",
-        #     ),
-        # },
-        # {"name": "UMAP", "object": UMAP()},
-        # {"name": "t-SNE (distance variant)", "object": Ivhd(optimizer="tsne", nn=5)},
-        # {"name": "bh t-SNE", "object": TSNE(n_components=2, n_iter=2000)},
     ]
 
     if not os.path.exists("results"):
@@ -283,6 +169,7 @@ def main():
 
     for element in dataset_files:
         dataset = element["dataset"]
+        labels = element["labels"]
 
         graph = Graph()
         graph.load_from_binary_file(element["graph"], 2)
@@ -293,18 +180,9 @@ def main():
         os.chdir(dataset_name)
 
         X = pd.read_csv(dataset, delimiter=",", header=None, index_col=False)
+        labels = pd.read_csv(labels, delimiter=",", header=None, index_col=False)
+
         set_dataframe_columns(X)
-
-        labels = X["label"]
-        X = X.drop(labels=["label"], axis=1)
-
-        # indexes_of_points_with_conflicting_neighbors = graph.get_conflicting_neighbors(labels)
-        # logging.info("Borderline points: {0}".format(len(indexes_of_points_with_conflicting_neighbors)))
-        # print("Borderline points: {0}".format(len(indexes_of_points_with_conflicting_neighbors)))
-
-        # label_to_append = len(unique(labels))
-        # for index in indexes_of_points_with_conflicting_neighbors:
-        #     labels[index] = label_to_append
 
         created = False
         for method in methods:
@@ -333,11 +211,11 @@ def main():
             logging.info("Embedding time: {}".format(end - start))
             print("Embedding time: {}".format(end - start))
 
-            draw_2d_sns(X_embedded[0][:, 0], X_embedded[0][:, 1], labels)
-
-            # fig.legend(labels=labels, markerscale=4.0, loc="right", fontsize=20)
+            draw_2d_sns(X_embedded[:, 0], X_embedded[:, 1], labels)
 
             if USE_LOCAL_METRICS:
+                print("Calculate metrics...")
+
                 local_metrics.calculate_knn_gain_and_dr_quality(
                     X_lds=X_embedded,
                     X_hds=X.values,
@@ -345,8 +223,7 @@ def main():
                     method_name="{} {}".format(dataset_name, method["name"]),
                 )
 
-                global_metrics.calculate_embedding_confusion_matrix(X_embedded, labels)
-                # print_matrix_info()
+                # global_metrics.calculate_embedding_confusion_matrix(X_embedded, labels)
 
             plt.savefig(format_title(dataset_name=dataset_name, method=method))
             plt.show()

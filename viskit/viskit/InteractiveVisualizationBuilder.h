@@ -26,9 +26,4 @@ using LogHandler = std::function<void(LogLevel level, std::string message)>;
 /// <returns>The created VisKit resource or nullptr in case of an error.</returns>
 std::shared_ptr<IInteractiveVisualization> createViskit(const LogHandler& logHandler = LogHandler {});
 
-/// <summary>
-/// Creates the VisKit, which utilize GPU.
-/// </summary>
-/// <returns>The created VisKit resource or nullptr in case of an error.</returns>
-std::shared_ptr<IInteractiveVisualization> createGpuViskit(const LogHandler& logHandler = LogHandler {});
 }

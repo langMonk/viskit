@@ -23,7 +23,7 @@ void CasterTSNE::initialize(particles::ParticleSystem& ps, Graph& graph)
     params = prepare_params(ps, graph);
     auto data = prepare_data(ps, *params);
 
-    state = tsne::initialize(*params, data, graph);
+    state = tsne::initialize(*params, data, graph, m_ext_system);
 }
 
 void CasterTSNE::calculatePositions(particles::ParticleSystem& ps)
@@ -32,7 +32,7 @@ void CasterTSNE::calculatePositions(particles::ParticleSystem& ps)
         return;
     }
 
-    tsne::loop(*params, *state);
+    tsne::loop(*params, *state, m_ext_system);
 
     if (state->iter >= params->max_iter) {
         tsne::finalize(*state);

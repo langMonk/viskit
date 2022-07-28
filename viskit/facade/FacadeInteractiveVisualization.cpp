@@ -25,12 +25,6 @@ void FacadeInteractiveVisualization::subscribeOnCastingStepFinish(CasterEventHan
 void FacadeInteractiveVisualization::computeCastingStep(IParticleSystem& ps, IGraph& graph, ICaster& caster)
 {
     caster.step(ps, graph);
-    if (m_onCastingStepFinished != nullptr) {
-        try {
-            // m_onCastingStepFinished();
-        } catch (...) {
-        }
-    }
 }
 
 std::vector<std::pair<float, float>> FacadeInteractiveVisualization::calculateBoundingBox()

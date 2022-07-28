@@ -28,13 +28,13 @@ class Ivhd:
     def __init__(
             self,
             graph_path: str = None,
-            n_iter: int = 500,
+            n_iter: int = 2500,
             nn: int = 2,
             rn: int = 1,
             binaryDistances: bool = True,
+            l1_steps: int = 0,
             reverse_neighbors_steps: int = 0,
-            reverse_neighbors_count: int = 4,
-            l1_steps: int = 50,
+            reverse_neighbors_count: int = 0,
             optimizer: str = "force-directed",
     ):
         self.graph_path = graph_path
@@ -101,10 +101,10 @@ class Ivhd:
             print(f"EXIT CODE: {exit_code}")
             return None
 
-        X, Y, labels, nn, rn = np.loadtxt(
+        X, Y, labels = np.loadtxt(
             output_path,
             delimiter=",",
             unpack=True,
         )
 
-        return [np.column_stack((X, Y)), np.column_stack((nn, rn))]
+        return np.column_stack((X, Y))

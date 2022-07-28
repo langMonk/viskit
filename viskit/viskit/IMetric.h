@@ -11,5 +11,7 @@ class IParticleSystem;
 class IMetric {
 public:
     virtual float calculate(viskit::IParticleSystem& ps, int k) = 0;
+
+    virtual ~IMetric() = default;
 };
 }

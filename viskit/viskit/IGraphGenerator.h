@@ -17,8 +17,6 @@ class IGraph;
 class IGraphGenerator {
     // public methods
 public:
-    virtual ~IGraphGenerator() = default;
-
     /// <summary>
     /// Generates a neighbors for specified graph.
     /// </summary>
@@ -45,5 +43,7 @@ public:
     /// <param name="graph"> Graph used for generation. </param>
     /// <param name="graphHelper"> Graph used as helper graph (for reverse neighbors).</param>
     virtual void generate(IParticleSystem& ps, IGraph& graph, IGraph& graphHelper) = 0;
+
+    virtual ~IGraphGenerator() = default;
 };
 }

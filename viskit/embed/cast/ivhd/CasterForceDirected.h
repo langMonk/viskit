@@ -24,6 +24,8 @@ public:
 
     void calculateForces(float& energy, particles::ParticleSystem& ps, Graph& graph, size_t& interactions) override;
 
+    void setAutoAdaptation(bool autoAdaptStep) { m_autoAdaptStep = autoAdaptStep;}
+
 private:
     glm::vec4 force_2D(particles::ParticleSystem& ps, Neighbors neighbor, float& energy);
 

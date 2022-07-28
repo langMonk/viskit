@@ -59,7 +59,6 @@ public:
     /// <returns>The created calculator.</returns>
     virtual std::shared_ptr<IMetric> createMetricCalculator() = 0;
 
-public:
     virtual ~IResourceFactory() = default;
 };
 }

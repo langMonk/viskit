@@ -36,11 +36,11 @@
 #include "viskit/embed/cast/CasterTSNE.h"
 
 namespace viskit::embed::cast::tsne {
-void loop(const TSNEParams& params, TSNEState& state);
+void loop(const TSNEParams& params, TSNEState& state, const core::System& system);
 
 void finalize(TSNEState& state);
 
-std::unique_ptr<viskit::embed::cast::TSNEState> initialize(const viskit::embed::cast::TSNEParams& params, std::vector<double>& X, Graph& graph);
+std::unique_ptr<viskit::embed::cast::TSNEState> initialize(const viskit::embed::cast::TSNEParams& params, std::vector<double>& X, Graph& graph, const core::System& m_ext_system);
 };
 
 #endif

@@ -38,6 +38,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <format>
 
 using namespace std;
 
@@ -58,7 +59,7 @@ static void computeGradient(std::vector<unsigned int>& inp_row_P, std::vector<un
 static double evaluateError(vector<double>& P, std::vector<double>& Y, int N, int D);
 static double evaluateError(std::vector<unsigned int>& row_P, std::vector<unsigned int>& col_P, std::vector<double>& val_P, std::vector<double>& Y, int N, int D, double theta);
 
-std::unique_ptr<viskit::embed::cast::TSNEState> viskit::embed::cast::tsne::initialize(const viskit::embed::cast::TSNEParams& params, std::vector<double>& X, Graph& graph)
+std::unique_ptr<viskit::embed::cast::TSNEState> viskit::embed::cast::tsne::initialize(const viskit::embed::cast::TSNEParams& params, std::vector<double>& X, Graph& graph, const core::System& m_ext_system)
 {
     int N = params.N;
     int D = params.input_dims;
@@ -83,26 +84,28 @@ std::unique_ptr<viskit::embed::cast::TSNEState> viskit::embed::cast::tsne::initi
     vector<double> Y(N * params.output_dims);
 
     if (exact && params.use_nn_graph) {
-        printf("Graph mode can be used with non exact, sparse table mode (theta > 0.0)\n");
+        m_ext_system.logger().logInfo("Graph mode can be used with non exact, sparse table mode (theta > 0.0)");
         exit(1);
     }
 
     if (!skip_random_init) {
         if (rand_seed >= 0) {
-            printf("Using random seed: %d\n", rand_seed);
+            m_ext_system.logger().logInfo("Using random seed: " + std::to_string(rand_seed));
             srand((unsigned int)rand_seed);
         } else {
-            printf("Using current time as random seed...\n");
+            m_ext_system.logger().logInfo("[t-SNE Caster] Using current time as random seed...");
             srand(time(nullptr));
         }
     }
 
     // Determine whether we are using an exact algorithm
     if (N - 1 < 3 * perplexity) {
-        printf("Perplexity too large for the number of data points!\n");
+        m_ext_system.logger().logInfo("Perplexity too large for the number of data points!");
         exit(1);
     }
-    printf("Using no_dims = %d, perplexity = %f, and theta = %f\n", no_dims, perplexity, theta); // Set learning parameters
+
+    m_ext_system.logger().logInfo("Using no_dims = " + std::to_string(no_dims) +
+    ", perplexity = " + std::to_string(perplexity) +", and theta = " + std::to_string(theta));
 
     for (int i = 0; i < N * no_dims; i++)
         uY[i] = .0;
@@ -110,7 +113,7 @@ std::unique_ptr<viskit::embed::cast::TSNEState> viskit::embed::cast::tsne::initi
         gains[i] = 1.0;
 
     // Normalize input data (to prevent numerical problems)
-    printf("Computing input similarities...\n");
+    m_ext_system.logger().logInfo("Computing input similarities...");
     start = clock();
     zeroMean(X, N, D);
     double max_X = .0;
@@ -124,12 +127,12 @@ std::unique_ptr<viskit::embed::cast::TSNEState> viskit::embed::cast::tsne::initi
     // Compute input similarities for exact t-SNE
     if (exact) {
         // Compute similarities
-        printf("Exact?");
+        m_ext_system.logger().logInfo("Exact?");
         P.resize(N * N);
         computeGaussianPerplexity(X, N, D, P, perplexity);
 
         // Symmetrize input similarities
-        printf("Symmetrizing...\n");
+        m_ext_system.logger().logInfo("Symmetrizing...");
         int nN = 0;
         for (int n = 0; n < N; n++) {
             int mN = (n + 1) * N;
@@ -183,15 +186,21 @@ std::unique_ptr<viskit::embed::cast::TSNEState> viskit::embed::cast::tsne::initi
     }
 
     if (exact)
-        printf("Input similarities computed in %4.2f seconds!\nLearning embedding...\n", (float)(end - start) / CLOCKS_PER_SEC);
-    else
-        printf("Input similarities computed in %4.2f seconds (sparsity = %f)!\nLearning embedding...\n", (float)(end - start) / CLOCKS_PER_SEC, (double)row_P[N] / ((double)N * (double)N));
+    {
+        m_ext_system.logger().logInfo("Input similarities computed in " + std::to_string((float)(end - start) / CLOCKS_PER_SEC) + "seconds.");
+        m_ext_system.logger().logInfo("Learning embedding...");
+    }
+    else {
+        m_ext_system.logger().logInfo("Input similarities computed in " + std::to_string((float)(end - start) / CLOCKS_PER_SEC) + "seconds, "
+        + "sparsity=" + std::to_string((double) row_P[N] / ((double) N * (double) N)));
+        m_ext_system.logger().logInfo("Learning embedding...");
+    }
     start = clock();
 
     return std::make_unique<TSNEState>(start, momentum, final_momentum, eta, dY, uY, gains, P, row_P, col_P, val_P, Y, 0);
 }
 
-void viskit::embed::cast::tsne::loop(const TSNEParams& params, TSNEState& state)
+void viskit::embed::cast::tsne::loop(const TSNEParams& params, TSNEState& state, const core::System& m_ext_system)
 {
     int stop_lying_iter = params.stop_lying_iter;
     int mom_switch_iter = params.mom_switch_iter;
@@ -247,7 +256,7 @@ void viskit::embed::cast::tsne::loop(const TSNEParams& params, TSNEState& state)
         else
             C = evaluateError(state.row_P, state.col_P, state.val_P, state.Y, N, no_dims, theta); // doing approximate computation here!
         if (iter == 0)
-            printf("Iteration %d: error is %f\n", iter + 1, C);
+            m_ext_system.logger().logInfo("[t-SNE Caster] Iteration: " + std::to_string(iter + 1) + ", error is" + std::to_string(C) + "\n");
         else {
             printf("Iteration %d: error is %f (50 iterations in approx %4.2f seconds)\n", iter, C, 50 * (float)(end - start) / CLOCKS_PER_SEC);
         }

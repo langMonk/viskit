@@ -42,7 +42,6 @@ void performVisualization(const std::string& datasetFilePath,
     auto handler = [&](viskit::LogLevel level, const std::string& message) {
         logs.emplace_back(level, message);
         switch (level) {
-
         case viskit::LogLevel::Debug:
             std::cout << "[Debug] " << message << std::endl;
             break;
@@ -84,7 +83,7 @@ void performVisualization(const std::string& datasetFilePath,
             reverseNeighborsCount, binaryDistances);
     }
 
-    if (casterType == viskit::CasterType::IVHD) {
+    if (casterType == viskit::CasterType::IVHD || casterType == viskit::CasterType::tSNE) {
         randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
         casterRandom->calculatePositions(*particleSystem);
     }
@@ -159,11 +158,11 @@ int main([[maybe_unused]] int argc, char** argv)
         iterations = 2500;
         nearestNeighborsCount = 2;
         randomNeighborsCount = 1;
-        binaryDistances = true;
+        binaryDistances = false;
         reverseNeighborsSteps = 0;
         reverseNeighborsCount = 0;
         l1Steps = 0;
-        caster_name = "force-directed";
+        caster_name = "t-sne";
         break;
 
     case 1:

@@ -1,14 +1,13 @@
 import numba
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 import random
 
 from scipy.spatial.distance import squareform, pdist
 from sklearn.model_selection import train_test_split
 
-markers = ["x", "o", "s", "*", "^", ".", "X"]
-colors = ["red", "blue", "green", "brown", "orange", "cyan", "grey", "purple"]
+markers = ["x", "o", "s", "*", "^", ".", "X", "+", "D", "|", "d"]
+colors = ["red", "blue", "green", "brown", "orange", "cyan", "grey", "purple", "yellow", "pink"]
 
 
 @numba.jit(nopython=True)
@@ -129,6 +128,7 @@ def viz_qa(
     grid_col="lightgrey",
     grid_alpha=0.7,
     xlog=True,
+    save_fig_path=""
 ):
     # Number of curves
     nc = len(Ly)
@@ -254,9 +254,7 @@ def viz_qa(
 
     # Showing the figure
     fig.savefig(
-        "/Users/bartoszminch/Documents/Repositories/viskit/python/results/{}.png".format(
-            tit
-        ),
+        save_fig_path,
         dpi=fig.dpi,
     )
 
@@ -306,7 +304,7 @@ class LocalMetric:
         self.Lls.append("solid")
         self.number_of_methods = self.number_of_methods + 1
 
-    def visualize(self):
+    def visualize(self, save_fig_path=""):
         Lmarkers = random.sample(markers, self.number_of_methods)
         Lcols = random.sample(colors, self.number_of_methods)
         Lmedw = [1.0] * self.number_of_methods
@@ -323,6 +321,7 @@ class LocalMetric:
             tit="DR quality",
             xlabel="Neighborhood size $K$",
             ylabel="$R_{NX}(K)$",
+            save_fig_path="{}{}".format(save_fig_path, "dr_quality.png")
         )
 
         viz_qa(
@@ -336,6 +335,7 @@ class LocalMetric:
             tit="KNN gain",
             xlabel="Neighborhood size $K$",
             ylabel="$G_{NN}(K)$",
+            save_fig_path="{}{}".format(save_fig_path, "knn_grain.png")
         )
 
         print("Finished.")

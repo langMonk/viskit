@@ -60,7 +60,6 @@ set(VISKIT_HEADERS
     graph/generate/Reverse.h
     graph/Graph.h
     viskit/ICaster.h
-    viskit/IClusterer.h
     viskit/IGraph.h
     viskit/IGraphGenerator.h
     viskit/IInteractiveVisualization.h

@@ -18,9 +18,9 @@ def visualize(df, type):
 def invoke_fit_transform(caster, idx=None):
     output_file = None if idx is None else f"visualization{idx}.csv"
     return caster.fit_transform(
-        "../mnist_data.csv",
-        "../mnist_targets_2.csv",
-        "../mnist_euclidean.bin",
+        "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_data.csv",
+        "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_labels.csv",
+        "/Users/bartoszminch/Documents/Repositories/dataset_viskit/graphs/mnist_euclidean.bin",
         output_file,
     )
 

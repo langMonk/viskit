@@ -94,7 +94,6 @@ public:
     /// <param name="fileName"> Filename.</param>
     virtual void dump(std::string filePath, std::string fileName) = 0;
 
-public:
     virtual ~IGraph() = default;
 };
 }
