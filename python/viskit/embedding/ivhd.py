@@ -97,6 +97,7 @@ class Ivhd:
             str(self.l1_steps),
             self.optimizer,
         )
+
         if (exit_code := run_command(args)) != 0:
             print(f"EXIT CODE: {exit_code}")
             return None

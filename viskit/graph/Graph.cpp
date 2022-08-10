@@ -205,6 +205,12 @@ bool Graph::loadNearestNeighborsFromCache(const std::string& fileName, size_t ne
         return false;
     }
 
+    if (binaryDistances){
+        m_ext_system.logger().logInfo("[Graph] Using binary distances...");
+    } else {
+        m_ext_system.logger().logInfo("[Graph] Using regular distances...");
+    }
+
     // read header
     long firstLineMaxSize = 64;
     char firstLine[64];

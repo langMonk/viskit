@@ -83,7 +83,7 @@ void performVisualization(const std::string& datasetFilePath,
             reverseNeighborsCount, binaryDistances);
     }
 
-    if (casterType == viskit::CasterType::IVHD || casterType == viskit::CasterType::tSNE) {
+    if (casterType == viskit::CasterType::IVHD || casterType == viskit::CasterType::tSNE || casterType == viskit::CasterType::LargeVis) {
         randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
         casterRandom->calculatePositions(*particleSystem);
     }
@@ -155,14 +155,14 @@ int main([[maybe_unused]] int argc, char** argv)
         labelsFilePath = argv[2];
         graphFilePath = argv[3];
         outputFilePath = argv[4];
-        iterations = 2500;
-        nearestNeighborsCount = 2;
+        iterations = 1;
+        nearestNeighborsCount = 3;
         randomNeighborsCount = 1;
-        binaryDistances = false;
+        binaryDistances = true;
         reverseNeighborsSteps = 0;
         reverseNeighborsCount = 0;
         l1Steps = 0;
-        caster_name = "t-sne";
+        caster_name = "largevis";
         break;
 
     case 1:
