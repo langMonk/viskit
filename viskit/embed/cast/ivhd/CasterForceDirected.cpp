@@ -68,6 +68,7 @@ glm::vec4 CasterForceDirected::force_2D(particles::ParticleSystem& ps, Neighbors
     } else {
         energy = r == 0 ? 0 : (2.0f / r) * (r - D);
     }
+
     return glm::vec4 { rv.x * energy, rv.y * energy, 0.0f, 0.0f };
 }
 

@@ -32,7 +32,7 @@ private:
 private:
     float m_currentMaxVelocity[MAX_VELOCITY_BUFFER_LEN] {};
 
-    float m_speedFactor { 100.0f };
+    float m_speedFactor { 300.0f };
 
     float m_dtFactor { 1.0f };
 
@@ -43,12 +43,6 @@ private:
     int m_currentMaxVelocity_ptr { 0 };
 
     bool m_autoAdaptStep { false };
-
-    int m_sammonK { 1 };
-
-    int m_sammonM { 2 };
-
-    int m_sammonW { 0 };
 
     float v_max {};
 };
