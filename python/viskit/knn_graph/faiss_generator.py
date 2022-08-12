@@ -91,8 +91,8 @@ class FaissGenerator:
 
 
 if __name__ == "__main__":
-    dataset_path = "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/emnist_letters_data_pca_100.csv"
-    generator = FaissGenerator(dataset_path, cosine_metric=True)
+    dataset_path = "/Users/bartoszminch/Documents/Repositories/viskit/python/experiments/data/10k_ball_10d.csv"
+    generator = FaissGenerator(dataset_path, cosine_metric=False)
     dist, ind = generator.run(nn=100)
-    generator.save_to_binary_file("emnist_letters_data_pca_100_cosine.bin")
+    generator.save_to_binary_file("10k_ball_10d_euclidean.bin")
     # generator.save_to_text_file("mnist_pca_100_euclidean.txt")
