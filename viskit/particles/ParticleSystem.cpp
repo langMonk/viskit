@@ -5,6 +5,7 @@
 
 #include <numeric>
 #include <viskit/particles/ParticleSystem.h>
+#include <viskit/utils/npy.h>
 
 namespace viskit::particles {
 ParticleSystem::ParticleSystem(core::System& system)
@@ -96,5 +97,26 @@ float ParticleSystem::vectorDistance(size_t i, size_t j)
         DiffSquared<float>());
 
     return ret > 0.0f ? static_cast<float>(sqrt(ret)) : 0.0f;
+}
+
+void ParticleSystem::loadParticlesPositions(const std::string& filePath) {
+    std::vector<unsigned long> shape {};
+    bool fortran_order;
+    std::vector<double> data;
+
+    npy::LoadArrayFromNumpy(filePath, shape, fortran_order, data);
+
+    if(fortran_order) {
+        auto& positions = m_particles.m_pos;
+        for (auto i = 0; i < data.size() / 2; i++)
+        {
+            positions[i].x = data[i];
+            positions[i].y = data[i+ data.size()/2];
+        }
+    }
+    else
+    {
+        throw std::runtime_error("Loading not fortran bit order is not supported.");
+    }
 }
 }

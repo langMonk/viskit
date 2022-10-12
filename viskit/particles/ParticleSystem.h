@@ -41,6 +41,8 @@ public:
 
     void setDataset(Dataset dataset, const std::vector<DataPointLabel>& labels);
 
+    void loadParticlesPositions(const std::string& filePath);
+
     std::vector<DataPointLabel> labels();
 
     void resetForces();

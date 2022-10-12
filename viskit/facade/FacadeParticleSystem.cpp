@@ -142,4 +142,9 @@ DatasetInfo FacadeParticleSystem::datasetInfo()
 {
     return m_internalParticleSystem->datasetInfo();
 }
+
+void FacadeParticleSystem::loadParticlesPositions(const std::string &filePath)
+{
+    return m_internalParticleSystem->loadParticlesPositions(filePath);
+}
 }

@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <utility>
+#include <chrono>
 
 #include <viskit/viskit/ICaster.h>
 #include <viskit/viskit/IGraph.h>
@@ -34,7 +35,8 @@ void performVisualization(const std::string& datasetFilePath,
     int reverseNeighborsCount,
     int l1Steps,
     viskit::CasterType casterType,
-    viskit::OptimizerType optimizerType)
+    viskit::OptimizerType optimizerType,
+    const std::string& init)
 {
     auto logsCount = 0;
     std::vector<Logs> logs {};
@@ -63,11 +65,9 @@ void performVisualization(const std::string& datasetFilePath,
     auto particleSystem = viskit->resourceFactory().createParticleSystem();
     auto graph = viskit->resourceFactory().createGraph();
     auto graphHelper = viskit->resourceFactory().createGraph();
-    auto randomGraphGenerator = viskit->resourceFactory().createGraphGenerator(
-        viskit::GraphGeneratorType::Random);
+    auto randomNeighborsGenerator = viskit->resourceFactory().createGraphGenerator(
+            viskit::GraphGeneratorType::Random);
     const auto caster = viskit->resourceFactory().createCaster(casterType, optimizerType);
-    const auto casterRandom = viskit->resourceFactory().createCaster(
-        viskit::CasterType::Random, viskit::OptimizerType::None);
 
     try {
         parser->loadFile(datasetFilePath, labelsFilePath, *particleSystem);
@@ -77,15 +77,20 @@ void performVisualization(const std::string& datasetFilePath,
     }
 
     graph->loadNearestNeighborsFromCache(graphFilePath, nearestNeighborsCount, binaryDistances);
-
-    if (reverseNeighborsCount > 0) {
-        graphHelper->loadNearestNeighborsFromCache(graphFilePath,
-            reverseNeighborsCount, binaryDistances);
-    }
+    randomNeighborsGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
 
     if (casterType == viskit::CasterType::IVHD || casterType == viskit::CasterType::tSNE || casterType == viskit::CasterType::LargeVis) {
-        randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
-        casterRandom->calculatePositions(*particleSystem);
+        if (init == "random") {
+            const auto casterRandom = viskit->resourceFactory().createCaster(viskit::CasterType::Random,
+                                                                  viskit::OptimizerType::None);
+            casterRandom->calculatePositions(*particleSystem);
+        } else {
+            particleSystem->loadParticlesPositions(init);
+        }
+    }
+
+    if (reverseNeighborsCount > 0) {
+        graphHelper->loadNearestNeighborsFromCache(graphFilePath, reverseNeighborsCount, binaryDistances);
     }
 
     caster->initialize(*particleSystem, *graph);
@@ -97,30 +102,19 @@ void performVisualization(const std::string& datasetFilePath,
         i++;
     });
 
-    //    viskit->subscribeOnCastingStepFinish([&i, &randomGraphGenerator, &particleSystem, &graph, &graphHelper, &randomNeighborsCount, &binaryDistances]  {
-    //        if (i % 100 == 0) {
-    //            std::cout << "Step: " << i << std::endl;
-    //        }
-    //        if (i % 50 == 0)
-    //        {
-    //            graph->removeRandomNeighbors();
-    //
-    //            randomNeighborsCount > 0 ?
-    //            randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances)
-    //            : randomGraphGenerator->generate(*particleSystem, *graph, randomNeighborsCount, binaryDistances);
-    //        }
-    //        i++;
-    //    });
+    auto start = std::chrono::high_resolution_clock::now();
     for (auto j = 0; j < iterations; j++) {
         viskit->computeCastingStep(*particleSystem, *graph, *caster);
     }
+    auto stop = std::chrono::high_resolution_clock::now();
+
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+    std::cout << "Casting time [s]: " << std::to_string(duration.count()) << std::endl;
 
     if (reverseNeighborsSteps > 0) {
-        auto reverseGraphGenerator = viskit->resourceFactory().createGraphGenerator(
+        auto reverseNeighborsGenerator = viskit->resourceFactory().createGraphGenerator(
             viskit::GraphGeneratorType::Reverse);
-        reverseGraphGenerator->generate(*particleSystem, *graph, *graphHelper);
-        graph->removeRandomNeighbors();
-        randomGraphGenerator->generate(*particleSystem, *graph, *graphHelper, randomNeighborsCount, binaryDistances);
+        reverseNeighborsGenerator->generate(*particleSystem, *graph, *graphHelper);
         for (auto j = 0; j < reverseNeighborsSteps; j++) {
             viskit->computeCastingStep(*particleSystem, *graph, *caster);
         }
@@ -148,6 +142,7 @@ int main([[maybe_unused]] int argc, char** argv)
     int reverseNeighborsCount;
     int l1Steps;
     std::string caster_name;
+    std::string init;
 
     switch (argc) {
     case 5:
@@ -155,14 +150,15 @@ int main([[maybe_unused]] int argc, char** argv)
         labelsFilePath = argv[2];
         graphFilePath = argv[3];
         outputFilePath = argv[4];
-        iterations = 1;
-        nearestNeighborsCount = 3;
+        iterations = 3000;
+        nearestNeighborsCount = 2;
         randomNeighborsCount = 1;
         binaryDistances = true;
         reverseNeighborsSteps = 0;
         reverseNeighborsCount = 0;
         l1Steps = 0;
-        caster_name = "largevis";
+        caster_name = "force-directed";
+        init = "/Users/bartoszminch/Documents/AGH/PhD/Results/ann_visualization/generated/ivhd/points_mnist_mlp_100.npy";
         break;
 
     case 1:
@@ -171,7 +167,7 @@ int main([[maybe_unused]] int argc, char** argv)
     case 4:
         throw std::invalid_argument("Invalid argument number. At least 4 paths are required: dataset, labels, graph, output or all 12 parameters");
 
-    case 13:
+    case 14:
         datasetFilePath = argv[1];
         labelsFilePath = argv[2];
         graphFilePath = argv[3];
@@ -184,10 +180,11 @@ int main([[maybe_unused]] int argc, char** argv)
         reverseNeighborsCount = std::stoi(argv[10]);
         l1Steps = std::stoi(argv[11]);
         caster_name = argv[12];
+        init = argv[13];
         break;
 
     default:
-        throw std::invalid_argument("Invalid argument number. At least 4 paths are required: dataset, labels, graph, output or all 12 parameters");
+        throw std::invalid_argument("Invalid argument number. At least 4 paths are required: dataset, labels, graph, output or all 13 parameters");
     }
 
     viskit::CasterType casterType = viskit::CasterType::IVHD;
@@ -221,7 +218,7 @@ int main([[maybe_unused]] int argc, char** argv)
         randomNeighborsCount,
         binaryDistances,
         reverseNeighborsSteps, reverseNeighborsCount, l1Steps,
-        casterType, optimizerType);
+        casterType, optimizerType, init);
 
     return 0;
 }

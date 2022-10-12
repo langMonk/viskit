@@ -20,9 +20,4 @@ void CasterRandom::calculatePositions(particles::ParticleSystem& ps)
         positions[i].y = static_cast<float>(m_gen->gen());
     }
 }
-
-Dist::result_type CasterRandom::RandomGenerator::gen()
-{
-    return m_dist(m_eng);
-}
 }

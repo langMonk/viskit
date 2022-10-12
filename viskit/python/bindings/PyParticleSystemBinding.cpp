@@ -173,7 +173,8 @@ void PyParticleSystemBinding::bind(pybind11::module& m)
         .def("clear", &viskit::IParticleSystem::clear)
         .def("empty", &viskit::IParticleSystem::empty)
         .def("saveToFile", static_cast<bool (viskit::IParticleSystem::*)(const std::string&)>(&viskit::IParticleSystem::saveToFile))
-        .def("saveToFile", static_cast<bool (viskit::IParticleSystem::*)(const std::string&, IGraph&)>(&viskit::IParticleSystem::saveToFile));
+        .def("saveToFile", static_cast<bool (viskit::IParticleSystem::*)(const std::string&, IGraph&)>(&viskit::IParticleSystem::saveToFile))
+        .def("loadParticlesPositions", &viskit::IParticleSystem::loadParticlesPositions);
 
     py::class_<viskit::facade::FacadeParticleSystem, std::shared_ptr<viskit::facade::FacadeParticleSystem>, viskit::IParticleSystem>(m, "FacadeParticleSystem")
         .def(py::init<const std::shared_ptr<core::Core>&>())
@@ -190,6 +191,7 @@ void PyParticleSystemBinding::bind(pybind11::module& m)
         .def("clear", &viskit::facade::FacadeParticleSystem::clear)
         .def("empty", &viskit::facade::FacadeParticleSystem::empty)
         .def("saveToFile", static_cast<bool (viskit::facade::FacadeParticleSystem::*)(const std::string&)>(&viskit::facade::FacadeParticleSystem::saveToFile))
-        .def("saveToFile", static_cast<bool (viskit::facade::FacadeParticleSystem::*)(const std::string&, IGraph&)>(&viskit::facade::FacadeParticleSystem::saveToFile));
+        .def("saveToFile", static_cast<bool (viskit::facade::FacadeParticleSystem::*)(const std::string&, IGraph&)>(&viskit::facade::FacadeParticleSystem::saveToFile))
+        .def("loadParticlesPositions", &viskit::facade::FacadeParticleSystem::loadParticlesPositions);
 }
 }
