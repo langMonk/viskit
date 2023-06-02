@@ -19,14 +19,14 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 # maybe in future there will be some next optimization level (e.g. "avx")
 option(VISKIT_OPT_LEVEL "" "generic")
-option(VISKIT_ENABLE_PYTHON "Build Python extension." ON)
+# option(VISKIT_ENABLE_PYTHON "Build Python extension." ON)
 
 add_subdirectory(viskit)
 add_subdirectory(viskit_offline)
 
-if(VISKIT_ENABLE_PYTHON)
-    add_subdirectory(viskit/python)
-endif()
+# if(VISKIT_ENABLE_PYTHON)
+#     add_subdirectory(viskit/python)
+# endif()
 
 # CTest must be included in the top level to enable `make test` target.
 include(CTest)
