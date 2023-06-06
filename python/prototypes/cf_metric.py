@@ -4,7 +4,7 @@ import csv
 
 X = []
 Y = []
-M = 300
+M = 783
 kNN = np.empty(2, dtype=int)
 
 with open(sys.argv[1]) as csv_file:

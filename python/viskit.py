@@ -11,7 +11,7 @@ from viskit.scoring.global_score import GlobalMetric
 from viskit.knn_graph.graph import Graph
 
 USE_GLOBAL_METRICS = True
-USE_LOCAL_METRICS = True
+USE_LOCAL_METRICS = False
 
 if USE_GLOBAL_METRICS:
     global_metrics = GlobalMetric()
@@ -21,13 +21,9 @@ if USE_LOCAL_METRICS:
 
 
 def draw_2d(X, Y, labels):
+    labels = labels.to_numpy().flatten()
     unique = list(set(labels))
-    colors = []
-    for i in unique:
-        if i == 10:
-            colors.append((0.0, 0.0, 0.0, 1.0))
-        else:
-            colors.append(plt.cm.jet(float(i) / max(unique)))
+    colors = [plt.cm.jet(float(i) / max(unique)) for i in unique]
 
     for i, u in enumerate(unique):
         xi = [X[j] for j in range(len(X)) if labels[j] == u]
@@ -41,36 +37,24 @@ def draw_2d_sns(X, Y, labels):
     df["Y"] = Y
     df["labels"] = labels
 
-    df_main = df[df["labels"] != 10]
-    color_palette = sns.color_palette("muted", len(df_main["labels"].unique()))
+    color_palette = sns.color_palette("muted", len(df["labels"].unique()))
+
+    fig, ax = plt.subplots()
+    fig.set_figheight(16)
+    fig.set_figwidth(16)
+    fig.patch.set_visible(False)
+    ax.axis("off")
 
     sns.scatterplot(
         x="X",
         y="Y",
         hue="labels",
         palette=color_palette,
-        data=df_main,
-        legend="full",
+        data=df,
+        legend=False,
         alpha=0.8,
         edgecolor=None,
     )
-
-    df_border = df[df["labels"] == 10]
-    color_palette = sns.color_palette("muted", 1)
-    color_palette[-1] = (0.0, 0.0, 0.0)
-
-    sns.scatterplot(
-        x="X",
-        y="Y",
-        hue="labels",
-        palette=color_palette,
-        data=df_border,
-        legend="full",
-        alpha=0.8,
-        edgecolor=None,
-    )
-
-    plt.legend(loc="right", markerscale=3.0, fontsize=16)
 
 
 def format_title(dataset_name: str, method) -> str:
@@ -120,47 +104,48 @@ def main():
 
     dataset_files = [
         {
-            "dataset": "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_data.csv",
-            "labels": "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_labels.csv",
-            "graph": "/Users/bartoszminch/Documents/Repositories/dataset_viskit/graphs/mnist_euclidean.bin"
+            "dataset": "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_7k_data.csv",
+            "labels": "/Users/bartoszminch/Documents/Repositories/dataset_viskit/datasets/mnist_7k_labels.csv"
         },
     ]
 
     methods = [
-        {
-            "name": "t-sne binary",
-            "object": Ivhd(
-                optimizer="t-sne",
-                n_iter=3500,
-                nn=2,
-                rn=1,
-                binaryDistances=True,
-                graph_path="/Users/bartoszminch/Documents/Repositories/dataset_viskit/graphs/mnist_euclidean.bin",
-            ),
-        },
-        {
-            "name": "t-sne",
-            "object": Ivhd(
-                optimizer="t-sne",
-                n_iter=3500,
-                nn=2,
-                rn=1,
-                binaryDistances=False,
-                graph_path="/Users/bartoszminch/Documents/Repositories/dataset_viskit/graphs/mnist_euclidean.bin",
-            ),
-        },
         # {
-        #     "name": "Largevis",
+        #     "name": "IVHD_binary_distances",
         #     "object": Ivhd(
-        #         optimizer="largevis",
-        #         n_iter=1,
-        #         nn=3,
+        #         optimizer="force-directed",
+        #         n_iter=4000,
+        #         nn=2,
         #         rn=1,
-        #         l1_steps=0,
-        #         reverse_neighbors_steps=0,
-        #         reverse_neighbors_count=6,
+        #         binaryDistances=True,
+        #         graph_path="/Users/bartoszminch/Documents/Repositories/dataset_viskit/graphs/mnist_7k_euclidean.bin",
+        #         l1_steps=5
         #     ),
         # },
+        # {
+        #     "name": "IVHD_euclidean_distances",
+        #     "object": Ivhd(
+        #         optimizer="force-directed",
+        #         n_iter=4000,
+        #         nn=2,
+        #         rn=1,
+        #         binaryDistances=False,
+        #         l1_steps=20,
+        #         graph_path="/Users/bartoszminch/Documents/Repositories/dataset_viskit/graphs/mnist_7k_euclidean.bin",
+        #     ),
+        # },
+        {
+            "name": "Largevis",
+            "object": Ivhd(
+                optimizer="largevis",
+                n_iter=1,
+                nn=3,
+                rn=1,
+                l1_steps=0,
+                reverse_neighbors_steps=0,
+                reverse_neighbors_count=0,
+            ),
+        },
     ]
 
     if not os.path.exists("results"):
@@ -171,8 +156,8 @@ def main():
         dataset = element["dataset"]
         labels = element["labels"]
 
-        graph = Graph()
-        graph.load_from_binary_file(element["graph"], 2)
+        # graph = Graph()
+        # graph.load_from_binary_file(element["graph"], 2)
         dataset_name = dataset.split("/")[-1].strip(".csv")
 
         if not os.path.exists(dataset_name):
@@ -211,7 +196,7 @@ def main():
             logging.info("Embedding time: {}".format(end - start))
             print("Embedding time: {}".format(end - start))
 
-            draw_2d_sns(X_embedded[:, 0], X_embedded[:, 1], labels)
+            draw_2d(X_embedded[:, 0], X_embedded[:, 1], labels)
 
             if USE_LOCAL_METRICS:
                 print("Calculate metrics...")
@@ -224,6 +209,9 @@ def main():
                 )
 
                 # global_metrics.calculate_embedding_confusion_matrix(X_embedded, labels)
+
+            os.system('pwd')
+            os.system('cp ./../../../viskit/output.csv ./'.format(dataset_name))
 
             plt.savefig(format_title(dataset_name=dataset_name, method=method))
             plt.show()

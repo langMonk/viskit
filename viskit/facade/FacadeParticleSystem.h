@@ -58,6 +58,8 @@ public:
 
     bool saveToFile(const std::string& fileName) override;
 
+    void loadParticlesPositions(const std::string& filePath) override;
+
     bool saveToFile(const std::string& fileName, IGraph& graph) override;
 
 private:

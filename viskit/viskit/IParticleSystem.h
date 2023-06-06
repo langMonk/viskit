@@ -107,6 +107,13 @@ public:
     /// <returns> True if save operation succeed. </returns>
     virtual bool saveToFile(const std::string& fileName, IGraph& graph) = 0;
 
+    /// <summary>
+    /// Loads positions from the file into particle system, when initializing particle system.
+    /// Currently supported formats: .npy.
+    /// </summary>
+    /// <param name="filePath"> Filepath, where data is located.</param>
+    virtual void loadParticlesPositions(const std::string& filePath) = 0;
+
     virtual ~IParticleSystem() = default;
 };
 }

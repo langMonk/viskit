@@ -30,10 +30,10 @@ private:
         explicit RandomGenerator(float min = -0.5f, float max = 0.5f)
             : m_dist(min, max) {};
 
-        Dist::result_type gen();
+        Dist::result_type gen() { return m_dist(m_eng); };
 
     private:
-        Engine m_eng;
+        Engine m_eng {0};
         Dist m_dist;
     };
 

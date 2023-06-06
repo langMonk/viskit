@@ -1,6 +1,6 @@
 ///
 /// \author Bartosz Minch <minch@agh.edu.pl>
-/// \date 18.05.2010
+/// \date 18.05.2020
 ///
 
 #include <viskit/utils/RandomColor.h>

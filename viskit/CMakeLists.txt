@@ -146,7 +146,8 @@ set(VISKIT_SRC
     particles/ParticleSystem.cpp
     threading/ThreadPool.cpp
     utils/RandomColor.cpp
-    utils/TimeProfiler.cpp)
+    utils/TimeProfiler.cpp
+    utils/npy.h)
 
 set(VISKIT_HEADERS ${VISKIT_HEADERS} PARENT_SCOPE)
 
